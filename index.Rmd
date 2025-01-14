@@ -1,7 +1,7 @@
 --- 
-title: "A Minimal Book Example"
-author: "John Doe"
-date: "`r Sys.Date()`"
+title: "PSY 607 Bayesian Analysis"
+author: "Sara Weston"
+date: "Spring 2025"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
@@ -15,42 +15,55 @@ link-citations: yes
 github-repo: rstudio/bookdown-demo
 ---
 
-# About
+# Course description
 
-This is a _sample_ book written in **Markdown**. You can use anything that Pandoc's Markdown supports; for example, a math equation $a^2 + b^2 = c^2$.
+## Structure
 
-## Usage 
+## Materials
 
-Each **bookdown** chapter is an .Rmd file, and each .Rmd file can contain one (and only one) chapter. A chapter *must* start with a first-level heading: `# A good chapter`, and can contain one (and only one) first-level heading.
+## Schedule
 
-Use second-level and higher headings within chapters like: `## A short section` or `### An even shorter section`.
+## Grades
 
-The `index.Rmd` file is required, and is also your first book chapter. It will be the homepage when you render the book.
+## Policies
 
-## Render book
+### Abscences
 
-You can render the HTML version of this example book without changing anything:
+### Communication
 
-1. Find the **Build** pane in the RStudio IDE, and
+If you have questions about course policies, have trouble submitting an assignment, or want to schedule a meeting, please email. I will make an effort to respond to emails within one business day. Note that I neither plan nor commit to checking email outside of normal business hours (9am-5pm, Mon-Fri). 
 
-1. Click on **Build Book**, then select your output format, or select "All formats" if you'd like to use multiple formats from the same book source files.
+If you are having trouble understanding a concept covered in class, please come to office hours, schedule a meeting with me, or ask for clarification during class periods. I will not explain course concepts over email.  
 
-Or build the book from the R console:
+Occasionally, I will send out announcements to the entire class via Canvas announcements. These will typically appear when you open Canvas, but you can update your Canvas settings to receive these announcements as emails. It is strongly recommended that you do so.
 
-```{r, eval=FALSE}
-bookdown::render_book()
-```
+### Classroom
 
-To render this example to PDF as a `bookdown::pdf_book`, you'll need to install XeLaTeX. You are recommended to install TinyTeX (which includes XeLaTeX): <https://yihui.org/tinytex/>.
+All members of the class (students and instructor) can expect to:
 
-## Preview book
+_Participate and Contribute:_ All students are expected to participate by sharing ideas and contributing to the learning environment. This entails preparing, following instructions, and engaging respectfully and thoughtfully with others. 
 
-As you work, you may start a local server to live preview this HTML book. This preview will update as you edit the book when you save individual .Rmd files. You can start the server in a work session by using the RStudio add-in "Preview book", or from the R console:
+While all students should participate, participation is not just talking, and a range of participation activities support learning. Participation might look like speaking aloud in the full class and in small groups and collaborating on homework assignments.
 
-```{r eval=FALSE}
-bookdown::serve_book()
-```
+_Expect and Respect Diversity:_ All classes at the University of Oregon welcome and respect diverse experiences, perspectives, and approaches. What is not welcome are behaviors or contributions that undermine, demean, or marginalize others based on race, ethnicity, gender, sex, age, sexual orientation, religion, ability, or socioeconomic status. We will value differences and communicate disagreements with respect.  
 
+_Help Everyone Learn:_ Part of how we learn together is by learning from one another. To do this effectively, we need to be patient with each other, identify ways we can assist others, and be open-minded to receiving help and feedback from others. Don’t hesitate to contact me to ask for assistance or offer suggestions that might help us learn better.
+
+### Workload
+
+This is a 3-credit hour course, so you should expect to complete 120 hours of work for the course—an average of about 12 hours each week (this includes time in-class). 
+
+### Generative AI
+
+### Plagiarism
+
+### Accessibility
+
+### Basic needs
+
+### Reporting obligations
+
+### Campus emergencies
 
 ```{r include=FALSE}
 # automatically create a bib database for R packages

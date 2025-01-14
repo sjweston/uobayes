@@ -1,5 +1,17 @@
-h1:about About
-h2:usage Usage
-h2:render-book Render book
-h2:preview-book Preview book
+h1:course-description Course description
+h2:structure Structure
+h2:materials Materials
+h2:schedule Schedule
+h2:grades Grades
+h2:policies Policies
+h3:abscences Abscences
+h3:communication Communication
+h3:classroom Classroom
+h3:workload Workload
+h3:generative-ai Generative AI
+h3:plagiarism Plagiarism
+h3:accessibility Accessibility
+h3:basic-needs Basic needs
+h3:reporting-obligations Reporting obligations
+h3:campus-emergencies Campus emergencies
 
