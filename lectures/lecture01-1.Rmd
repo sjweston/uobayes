@@ -8,6 +8,7 @@ output:
       highlightStyle: solarized-dark
       highlightLines: true
       countIncrementalSlides: false
+      mathjax: "default"
     self_contained: true
 ---
 
@@ -389,23 +390,29 @@ Diagram this example (similar to the rain/no rain diagram).
   ![](images/image1-1/Slide3.png)
 ---
 
-Suppose, however, that Trelawney knows that Professor Sprout’s diagnosis $(D_S)$ is statistically independent from the diagnosis of her talented research associate Neville Longbottom $(D_L)$ — meaning that for any given state of nature $M$ or $\neg M$, Longbottom’s diagnosis does not depend on Sprout’s. Further suppose that both Sprout and Longbottom return the mutant diagnosis (and for simplicity we also assume Longbottom’s spells are equally as accurate as Sprout’s). To find the posterior probability the plant is a mutant after two independent mutant diagnoses, $P (M|D_S, D_L)$, Trelawney can apply a fundamental principle in Bayesian inference: Yesterday’s posterior is today’s prior.
+## Exercise
+
+Suppose, however, that Trelawney knows that Professor Sprout’s diagnosis $(H_S)$ is statistically independent from the diagnosis of her talented research associate Neville Longbottom $(D_L)$ — meaning that for any given state of nature $M$ or $\neg M$, Longbottom’s diagnosis does not depend on Sprout’s. Further suppose that both Sprout and Longbottom return the mutant diagnosis (and for simplicity we also assume Longbottom’s spells are equally as accurate as Sprout’s). To find the posterior probability the plant is a mutant after two independent mutant diagnoses, $P (M|H_S, D_L)$, Trelawney can apply a fundamental principle in Bayesian inference: Yesterday’s posterior is today’s prior.
+
+**What is the probability the plant is mutant after two independent mutant diagnoses?**
 
 ---
 
-Because diagnosis $D_S$ and diagnosis $D_L$ are independent, we know that:
+## Exercise: Solution
+
+Because diagnosis $H_S$ and diagnosis $D_L$ are independent, we know that:
 $$
-P(D_L|M, D_S) = P(D_L|M)
+P(D_L|M, H_S) = P(D_L|M)
 $$
 and 
 $$
-P(D_L|\neg M, D_S) = P(D_L|\neg M)
+P(D_L|\neg M, H_S) = P(D_L|\neg M)
 $$
 therefore 
 
 
 $$
-P(M|D_S, D_L) = \frac{P(M|D_S)P(D_L|M)}{P(M|D_S)P(D_L|M) + P(\neg M|D_S)P(D_L|\neg M)}
+P(M|H_S, D_L) = \frac{P(M|H_S)P(D_L|M)}{P(M|H_S)P(D_L|M) + P(\neg M|H_S)P(D_L|\neg M)}
 $$
 $$
 = \frac{.047 \times .99}{.047 \times .99 + .953 \times .02} \approx .71
@@ -442,3 +449,496 @@ $$
 - Bayesian reasoning ensures careful interpretation of probabilities based on:
   - Test accuracy.
   - Base rates of the condition.
+
+---
+
+# Example: Sorting Hat
+
+  - Hogwarts' Sorting Hat was damaged by a curse.
+  - It now assigns students to **Slytherin** 40% of the time, regardless of their true house.
+
+---
+
+# Scenario
+
+- **Sorting Hat Error**:
+  - True house assignments: Gryffindor, Ravenclaw, Hufflepuff, Slytherin.
+  - After the curse:
+    - 40% of students are assigned to Slytherin.
+    - Only 20% each to Gryffindor, Ravenclaw, and Hufflepuff.
+
+- **Diagnostic Test**:
+  - PARSEL test (Placement Accuracy Remedy for Students Erroneously Labeled):
+    - Scores predict true house:
+      - Excellent (E): Likely Slytherin.
+      - Other scores (Outstanding, Acceptable, Poor) indicate other houses.
+
+---
+
+# Data from the PARSEL Test
+
+- **Benchmark results** from undamaged Sorting Hat:
+  - Probability of test scores by true house:
+
+| Score       | Slytherin | Gryffindor | Ravenclaw | Hufflepuff |
+|-------------|-----------|------------|-----------|------------|
+| Excellent   | 0.80      | 0.05       | 0.05      | 0.00       |
+| Outstanding | 0.10      | 0.20       | 0.80      | 0.10       |
+| Acceptable  | 0.05      | 0.70       | 0.15      | 0.25       |
+| Poor        | 0.05      | 0.05       | 0.00      | 0.65       |
+
+---
+
+# Question: Is the Student a Gryffindor?
+
+- **Scenario**:
+  - A student is sorted into Slytherin by the damaged Hat.
+  - They score Excellent on the PARSEL test.
+
+- **Goal**:
+  - Calculate $P(\text{Gryffindor}|H_S, S_E)$.
+
+---
+
+# Step 1: Bayes' Rule for Gryffindor
+
+$$
+P(\text{Gryffindor}|H_S, S_E) = \frac{P(\text{Gryffindor})P(H_S|\text{Gryffindor})P(S_E|\text{Gryffindor})}{P(H_S, S_E)}
+$$
+
+- Known probabilities:
+
+  - $P(\text{Gryffindor}) = 0.25$ (prior probability of Gryffindor).
+  - $P(H_S|\text{Gryffindor}) = 0.20$ (damaged Hat assigns 20% of Gryffindors to Slytherin).
+  - $P(S_E|\text{Gryffindor}) = 0.05$.
+
+---
+
+# Step 2: Calculate Marginal Probability
+
+What is the probability a student is sorted into Slytherin and also scores Excellent?
+
+$P(H_S, S_E) = \sum_{i} P(\text{House}_i)P(H_S|\text{House}_i)P(S_E|\text{House}_i)$
+
+- Contribution from all houses:
+
+| House       | Prior $P(\text{House})$ | $P(H_S \text{given House})$ | $P(S_E\text{given House})$  | Joint $P(H_S, S_E)$ |
+|-------------|-----------|------------|-----------|------------|
+| Slytherin   | 0.25      | 1.00       | 0.80      | 0.2000      |
+| Gryffindor  | 0.25      | 0.20       | 0.05      | 0.0025      |
+| Ravenclaw   | 0.25      | 0.20       | 0.05      | 0.0025      |
+| Hufflepuff  | 0.25      | 0.20       | 0.00      | 0.0000      |
+
+---
+
+# Step 3: Calculate Posterior for Gryffindor
+
+- Marginal probability:
+  $$
+  P(\text{Slytherin, Excellent}) = 0.2000 + 0.0025 + 0.0025 + 0.0000 = 0.2050
+  $$
+
+- Posterior probability:
+  $$
+  P(\text{Gryffindor}|(H_S, S_E)) = \frac{P(\text{Gryffindor})P(H_S|\text{Gryffindor})P(S_E|\text{Gryffindor})}{P(H_S, S_E)}
+  $$
+
+- Calculation:
+  $$
+  P(\text{Gryffindor}|(H_S, S_E)) = \frac{0.25 \times 0.20 \times 0.05}{0.2050} = \frac{0.0025}{0.2050} \approx 0.0122
+  $$
+
+---
+
+# Interpretation
+
+- The student has only about a **1.2% probability** of being a true Gryffindor.
+- Most students sorted into Slytherin with an Excellent PARSEL score are true Slytherins:
+  - $P(\text{Slytherin}|(H_S, S_E)) \approx 0.975$.
+
+---
+
+# Bayes in the continuous case
+
+.pull-left[
+
+Most of our research questions are about parameters in the continuous case. For this, we make use of probability _density_ functions. Densities:
+
+- express how much a probability exists "near" _a_ particular value of _a_, while the probability of any particular value is zero.
+- probability is the integral of the density function over a certain interval:
+
+$P(a_1 < A < a_2) = \int_{a_1}^{a_2}p(a)da$
+
+- the total area under the density curve is 1. 
+
+$P(-\ < A < a_2) = \int_{a_1}^{a_2}p(a)da$
+
+]
+
+.pull-right[
+
+```{r, echo = F}
+# Load required library
+library(ggplot2)
+
+# Define the parameters for the normal distribution
+mean_iq <- 100
+sd_iq <- 15
+
+# Create a sequence of IQ scores to evaluate the density
+x <- seq(50, 150, length.out = 1000)
+
+# Calculate the density for the normal distribution
+y <- dnorm(x, mean = mean_iq, sd = sd_iq)
+
+# Define the regions to shade
+region1 <- x < 81  # IQ < 81
+region2 <- x >= 108 & x <= 113  # IQ between 108 and 113
+
+# Create a data frame for plotting
+data <- data.frame(x = x, y = y, region1 = region1, region2 = region2)
+
+# Create the plot
+ggplot(data, aes(x, y)) +
+  geom_area(data = subset(data, region1), aes(y = y), fill = "#1C5253", alpha = 0.5) +  # Shade region IQ < 81
+  geom_area(data = subset(data, region2), aes(y = y), fill = "#1C5253", alpha = 0.5) +  # Shade region 108 <= IQ <= 113
+  geom_line(color = "orange", linewidth = 1) +  # Normal distribution curve
+
+  labs(
+    title = "Probability Density Function of IQ",
+    x = "IQ",
+    y = "Density"
+  ) +
+  theme_minimal(base_size = 20) 
+```
+
+]
+
+???
+
+Area in both is .10 or 10%
+Below 81
+between 108 and 113
+
+---
+
+The product and sum rules have continuous analogues:
+
+* Product rule:
+
+$$
+p(a,b) = p(a)p(b|a)
+$$
+
+Where $p(a)$ is the density of the continuous parameter _a_, and $p(b|a)$ is the conditional density of _b_ (assuming a value of _a_).
+
+* Sum rule:
+
+$$
+p(a) = \int_Bp(a,b)db
+$$
+
+$db$ -- the _differential_ -- represents an infinitesimally small interval of the variable $b$. It is part of the integral that sums (or integrates) the joint probability $p(a, b)$  over all possible values of $b$ within the range  $B$.
+- In other words, the $db$ indicates that we're integrating over values of $b$ (not values of $a$).
+
+
+---
+
+# Bayes' Rule in Continuous Case
+
+- Derived from the product rule:
+  $$
+  p(a | b) = \frac{p(a, b)}{p(b)} = \frac{p(a)p(b | a)}{p(b)}
+  $$
+
+- **Numerator**:
+  - Combines prior $p(a)$ and likelihood $p(b | a)$.
+
+- **Denominator**:
+  - Marginal likelihood $p(b)$, ensuring the posterior is a proper probability density:
+  
+    $$
+    p(b) = \int_A p(a)p(b | a) da
+    $$
+
+---
+
+# Bayesian Parameter Estimation
+
+- Posterior density:
+
+  $$
+  p(\theta | x) = \frac{p(\theta) p(x | \theta)}{\int_\Theta p(\theta) p(x | \theta) \, d\theta}
+  $$
+  
+  - $\theta$: Parameter of interest.
+  - $p(\theta)$: Prior belief.
+  - $p(x | \theta)$: Likelihood based on data $x$.
+
+- **Numerator**:
+  - $p(\theta)p(x | \theta)$: Unnormalized posterior.
+- **Denominator**:
+  - Normalizing constant (ensures posterior sums to 1).
+  
+---
+
+
+# Example: Puking pastilles
+
+- **Context**:
+  - George Weasley is developing a new gag product: Puking Pastilles.
+  - The pastilles cause multiple "expulsion events" (vomiting) over time.
+  - George wants to estimate the **expulsion rate** ($\lambda$) more precisely.
+
+- **Objective**:
+  - Use Bayesian parameter estimation to determine the most plausible values of $\lambda$.
+  - Incorporate prior beliefs and observed data.
+
+---
+
+# Model: Poisson Distribution
+
+- Expulsion events are modeled with a **Poisson distribution** \* :
+
+$$
+p(x | \lambda) = \frac{1}{x!} \lambda^x \text{exp}(-\lambda)
+$$
+  - $\lambda$: The expected number of events per time interval.
+  - $x$: Observed number of events in an interval.
+
+- **Key property**:
+  - The Poisson distribution is parameterized by $\lambda$, representing the **rate**.
+
+.footnote[
+\* $\text{exp}(-\lambda)$ is a clearer way to write $e^{-\lambda}$
+]
+
+---
+
+## Example Poisson distributions
+
+```{r, echo = F, fig.retina = 3}
+library(tidyverse)
+
+# Create data frame with all combinations
+df <- expand.grid(x = 0:10,
+                  lambda = 1:5) %>%
+  mutate(probability = dpois(x, lambda),
+         lambda = str_c("λ =", lambda))
+
+# Create plot
+ggplot(df, aes(x = x, y = probability)) +
+  geom_bar(stat = "identity", fill = "#1c5253") +
+  labs(title = "Poisson Distribution",
+       x = "x",
+       y = "Probability") +
+  facet_wrap(~lambda, ncol = 1, strip.position = "right") +
+  guides(fill = "none") +
+  theme_minimal(base_size = 15) +
+  theme(legend.position = "right")
+
+```
+
+
+---
+
+# Prior Belief
+
+- George's prior belief about $\lambda$:
+  - Based on customer feedback, expulsion rates likely range between **3 and 5** events/hour.
+  - Chosen prior distribution: **Gamma distribution**:
+  
+$$
+p(\lambda | a, b) = \frac{b^a}{\Gamma(a)} \text{exp}(-b \lambda)\lambda^{a - 1}
+$$
+
+```{r, echo = F, fig.width = 10, fig.height = 4.5, fig.retina = 2}
+expand.grid(lambda = 0:15,
+                  shape = 1:5,
+                  rate = c(.05, .4, .6, 1)) %>%
+  mutate(probability = dgamma(lambda, shape = shape, rate = rate),
+         rate = str_c("rate = ", rate),
+         shape = as.factor(shape)) %>% 
+  ggplot(aes(x = lambda, y = probability)) +
+  geom_line(aes(color = shape)) + 
+  facet_wrap(~rate, scales = "free") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+---
+
+## Prior distribution 
+
+- Parameters: $a = 2$, $b = 0.2$.
+      - How were these chosen? Some knowledge about the gamma distribution and some trial and error.
+  - The Gamma distribution ensures $\lambda > 0$ and is conjugate to the Poisson likelihood.
+  
+.pull-left[
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.retina=3}
+# Plot the prior distribution (Gamma(2, 0.2))
+lambda <- seq(0, 15, length.out = 1000)
+prior <- dgamma(lambda, shape = 2, rate = 0.2)
+
+data_prior <- data.frame(lambda = lambda, density = prior)
+
+ggplot(data_prior, aes(x = lambda, y = density)) +
+  geom_line(color = "#1c5253", size = 1) +
+  labs(title = "Prior Distribution of Lambda",
+       x = expression(lambda), 
+       y = "Density") +
+  theme_minimal(base_size = 15)
+```
+
+]
+
+.pull-right[
+- priors are not point estimates. 
+    - "I think lambda is 5." -- this is _not_ a prior.
+
+- priors are distributions: the relatively likelihood of every single possible value of the parameter.
+  - lambda is most likely between 3 and 7, unlikely to be 1 or 2, possibly above 10...
+
+]
+
+
+
+---
+
+George collects data from three experiments:
+
+- $x_1 = 7$, $x_2 = 8$, $x_3 = 19$.
+
+Likelihood for the data:
+
+$p(X_n | \lambda) = \prod^n_{i=1} \frac{1}{x_i!} \lambda^{x_i} \text{exp}(-\lambda)$
+
+```{r, echo = F, fig.width = 10, fig.retina=3, fig.height = 4}
+# Define the parameter range for lambda
+lambda <- seq(0, 30, length.out = 1000)
+
+# Define the observed data points
+observed_data <- c(7, 8, 19)
+
+# Define the base color
+base_color <- "#1c5253"
+
+# Create a color palette (shades of the base color)
+palette_colors <- c(
+  base_color,
+  adjustcolor(base_color, alpha.f = 0.7),  # Lighter shade
+  adjustcolor(base_color, alpha.f = 0.5)   # Even lighter shade
+)
+
+# Function to calculate Poisson likelihood
+poisson_likelihood <- function(lambda, x) {
+  (lambda^x * exp(-lambda)) / factorial(x)
+}
+
+# Create a data frame to store likelihoods for each data point
+likelihood_data <- data.frame(
+  lambda = rep(lambda, times = length(observed_data)),
+  likelihood = unlist(lapply(observed_data, function(x) poisson_likelihood(lambda, x))),
+  observed = rep(observed_data, each = length(lambda))
+)
+
+# Plot likelihood functions for each observed data point
+ggplot(likelihood_data, aes(x = lambda, y = likelihood, color = as.factor(observed))) +
+  geom_line(size = 1.2) +
+  facet_wrap(~ observed, scales = "free_y", labeller = label_bquote(cols = x == .(observed))) +
+  scale_color_manual(
+    values = palette_colors
+  ) +
+  guides(color = "none") +
+  labs(
+    title = "Poisson Likelihoods for Different Observed Counts",
+    x = expression(lambda),
+    y = "Likelihood"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    strip.text = element_text(size = 14, color = base_color),
+    axis.title = element_text(color = base_color),
+    axis.text = element_text(color = base_color),
+    plot.title = element_text(hjust = 0.5, color = base_color, size = 16)
+  )
+```
+
+
+---
+
+
+**Posterior Distribution**
+
+Bayes’ Rule:
+
+$$
+p(\lambda | X_n) \propto p(\lambda) p(X_n | \lambda)
+$$
+
+Conjugacy simplifies the posterior to another Gamma distribution:
+
+$$
+p(\lambda | X_n) = \text{Gamma}\left(a + \sum x_i, b + n \right)
+$$
+
+-	Parameters of the posterior:
+
+-	$a_{\text{post}} = a + \sum x_i = 2 + (7 + 8 + 19) = 36$
+
+-	$b_{\text{post}} = b + n = 0.2 + 3 = 3.2$
+	
+---
+
+**Results**
+
+.pull-left[
+
+```{r, echo = F, fig.retina=3}
+# Plot the posterior distribution
+posterior <- dgamma(lambda, shape = 36, rate = 3.2)
+
+data_posterior <- data.frame(lambda = lambda, density = posterior)
+
+ggplot(data_posterior, aes(x = lambda, y = density)) +
+  geom_line(color = "#1c5253", size = 1) +
+  labs(title = "Posterior Distribution of Lambda",
+       x = expression(lambda), 
+       y = "Density") +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+Posterior Mean:
+
+$\mathbb{E}[\lambda | X_n] = \frac{a_{\text{post}}}{b_{\text{post}}} = \frac{36}{3.2} \approx 11.25$
+
+**Posterior Mode:**
+
+$\lambda_{\text{mode}} = \frac{a_{\text{post}} - 1}{b_{\text{post}}} = \frac{36 - 1}{3.2} \approx 10.94$
+
+  -	90% credible interval:
+  -	Calculated from the Gamma distribution:
+  -	Lower bound: $8.3$
+  -	Upper bound: $14.5$
+  
+]
+
+---
+
+## Formulas and equations
+
+Bayesian analysis is the act of applying product and sum rules to probability. 
+
+Is that not your cup of tea?
+
+Don't worry! Most of this term, we'll be abandoning the formulas altogheter -- there are easier and more intuitive ways to fit and use these models. 
+
+So why did we just go through all of this?
+  - So you can appreciate the work done by others to make this more approachable. 
+  - Because you will need to get familiar with different probability distributions (Poisson, gamma, Cauchy, etc). These form the basis of your prior distributions, so knowing what they look like and how to set good priors using them is essesntial.
+

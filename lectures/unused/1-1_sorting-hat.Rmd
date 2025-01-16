@@ -1,0 +1,126 @@
+# Example: Sorting Hat
+
+  - Hogwarts' Sorting Hat was damaged by a curse.
+  - It now assigns students to **Slytherin** 40% of the time, regardless of their true house.
+
+---
+
+# Scenario
+
+- **Sorting Hat Error**:
+  - True house assignments: Gryffindor, Ravenclaw, Hufflepuff, Slytherin.
+  - After the curse:
+    - 40% of students are assigned to Slytherin.
+    - Only 20% each to Gryffindor, Ravenclaw, and Hufflepuff.
+
+- **Diagnostic Test**:
+  - PARSEL test (Placement Accuracy Remedy for Students Erroneously Labeled):
+    - Scores predict true house:
+      - Excellent (E): Likely Slytherin.
+      - Other scores (Outstanding, Acceptable, Poor) indicate other houses.
+
+---
+
+# Data from the PARSEL Test
+
+- **Benchmark results** from undamaged Sorting Hat:
+  - Probability of test scores by true house:
+
+| Score       | Slytherin | Gryffindor | Ravenclaw | Hufflepuff |
+|-------------|-----------|------------|-----------|------------|
+| Excellent   | 0.80      | 0.05       | 0.05      | 0.00       |
+| Outstanding | 0.10      | 0.20       | 0.80      | 0.10       |
+| Acceptable  | 0.05      | 0.70       | 0.15      | 0.25       |
+| Poor        | 0.05      | 0.05       | 0.00      | 0.65       |
+
+---
+
+# Question: Is the Student a Gryffindor?
+
+- **Scenario**:
+  - A student is sorted into Slytherin by the damaged Hat.
+  - They score Excellent on the PARSEL test.
+
+- **Goal**:
+  - Calculate $P(\text{Gryffindor}|D_S, S_E)$.
+
+---
+
+# Step 1: Bayes' Rule for Gryffindor
+
+$$
+P(\text{Gryffindor}|D_S, S_E) = \frac{P(\text{Gryffindor})P(D_S|\text{Gryffindor})P(S_E|\text{Gryffindor})}{P(D_S, S_E)}
+$$
+
+- Known probabilities:
+
+  - $P(\text{Gryffindor}) = 0.25$ (prior probability of Gryffindor).
+  - $P(D_S|\text{Gryffindor}) = 0.20$ (damaged Hat assigns 20% of Gryffindors to Slytherin).
+  - $P(S_E|\text{Gryffindor}) = 0.05$.
+
+---
+
+# Step 2: Calculate Marginal Probability of $P(\text{Slytherin, Excellent})$
+
+$$
+P(\text{D_S, S_E}) = \sum_{i} P(\text{House}_i)P(D_S|\text{House}_i)P(S_E|\text{House}_i)
+$$
+
+- Contribution from all houses:
+
+| House       | Prior $P(\text{House})$ | $P(D_S \text{|House})$ | $P(S_E\text{|House})$  | Joint $P(D_S, S_E)$ |
+|-------------|-----------|------------|-----------|------------|
+| Slytherin   | 0.25      | 1.00       | 0.80      | 0.2000      |
+| Gryffindor  | 0.25      | 0.20       | 0.05      | 0.0025      |
+| Ravenclaw   | 0.25      | 0.20       | 0.05      | 0.0025      |
+| Hufflepuff  | 0.25      | 0.20       | 0.00      | 0.0000      |
+
+---
+
+# Step 3: Calculate Posterior for Gryffindor
+
+- Marginal probability:
+  $$
+  P(\text{Slytherin, Excellent}) = 0.2000 + 0.0025 + 0.0025 + 0.0000 = 0.2050
+  $$
+
+- Posterior probability:
+  $$
+  P(\text{Gryffindor}|\text{Slytherin, Excellent}) = \frac{P(\text{Gryffindor})P(\text{Slytherin}|\text{Gryffindor})P(\text{Excellent}|\text{Gryffindor})}{P(\text{Slytherin, Excellent})}
+  $$
+
+- Calculation:
+  $$
+  P(\text{Gryffindor}|\text{Slytherin, Excellent}) = \frac{0.25 \times 0.20 \times 0.05}{0.2050} = \frac{0.0025}{0.2050} \approx 0.0122
+  $$
+
+---
+
+# Interpretation
+
+- The student has only about a **1.2% probability** of being a true Gryffindor.
+- Most students sorted into Slytherin with an Excellent PARSEL score are true Slytherins:
+  - $P(\text{Slytherin}|\text{Slytherin, Excellent}) \approx 0.975$.
+
+---
+
+# Key Takeaways
+
+1. **Multi-Hypothesis Bayesian Reasoning**:
+   - Prior probabilities, test results, and sorting errors combine to produce posterior probabilities.
+
+2. **Power of Diagnostics**:
+   - Combining test scores with initial sorting significantly improves accuracy.
+
+3. **Real-World Analogy**:
+   - Similar to diagnostics combining prior knowledge (e.g., family history) with test results.
+
+---
+
+# Applications in Real Life
+
+- This example mirrors real-world scenarios:
+  - Medical tests: Combine prior probabilities (base rates) with test results.
+  - Risk assessment: Use multiple sources of evidence for better decision-making.
+
+- Bayesian reasoning ensures all available information is integrated effectively.

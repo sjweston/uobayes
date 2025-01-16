@@ -12,3 +12,9 @@ pre {
 pre code {
   white-space: inherit;
 }
+
+body {
+  font-family: "Georgia", serif;
+  line-height: 1.6;
+  color: #333333;
+}
