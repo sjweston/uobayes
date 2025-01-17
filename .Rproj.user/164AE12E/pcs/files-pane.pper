@@ -1,9 +1,17 @@
 {
     "sortOrder": [
         {
+            "columnIndex": 4,
+            "ascending": false
+        },
+        {
+            "columnIndex": 3,
+            "ascending": false
+        },
+        {
             "columnIndex": 2,
             "ascending": true
         }
     ],
-    "path": "~/Library/CloudStorage/GoogleDrive-weston.sara@gmail.com/My Drive/Work (google drive)/teaching/uobayes/lecture-scripts"
+    "path": "~/Library/CloudStorage/GoogleDrive-weston.sara@gmail.com/My Drive/Work (google drive)/teaching/uobayes"
 }

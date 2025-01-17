@@ -28,19 +28,6 @@ Welcome to Week 1!
 
 ---
 
-# What is Bayesian Analysis?
-
-- A framework for reasoning with uncertainty.
-- Combines prior beliefs and observed data.
-
----
-
-1. **Prior**: Initial beliefs.
-2. **Likelihood**: Connects data to the model.
-3. **Posterior**: Updated beliefs after data.
-
----
-
 # Probability 
 
 For today, we'll build a foundation by reviewing probability (covered in PSY 611 -- remember?) and connecting these ideas to Bayesian frameworks for calculating and thinking about probability. 
@@ -213,7 +200,7 @@ Construct the equivalent path diagram starting on the left with a fork that depe
 Bayesian inference is the application of the product and sum rules to real problems of inference. 
 
 - Consider $H$ to be a hypothesis and $\neg H$ to be the competing hypothesis.
-- Before any data are collected, the research has some belief in these hypotheses. These are priors or **prior probabilities**, $P(H)$ and $P(\neg H)$.
+- Before any data are collected, the researcher has some belief in these hypotheses. These are priors or **prior probabilities**, $P(H)$ and $P(\neg H)$.
 - These hypotheses are well-defined if they make a specific prediction about each experimental outcome (D) through a _likelihood function_ like $P(D|H)$ and $P(D|\neg H)$.
   - Likelihoods are how strongly data (D) are implied by a hypothesis. 
   - Think NHST: $P(D|H_0)$.
@@ -221,6 +208,30 @@ Bayesian inference is the application of the product and sum rules to real probl
 ---
 
 ## Bayes' Rule
+
+If
+
+$$
+P(H, D) = P(D)P(H|D) = P(H)P(D|H)
+$$
+then: 
+$$
+P(H|D) = \frac{P(H)P(D|H)}{P(D)}
+$$
+
+
+This is Bayes' Rule!
+
+**prior probability**: $P(H)$
+
+**likelihood function**: $P(D|H)$
+
+**posterior probabilities**: $P(H|D)$
+
+
+???
+
+On the board
 
 The Product Rule states that
 $$
@@ -239,9 +250,6 @@ $$
 P(H|D) = \frac{P(H)P(D|H)}{P(D)}
 $$
 
-This is Bayes' Rule!
-
-$P(H|D)$ and $P(\neg H|D)$ are _posterior probabilities_.
 
 ---
 
@@ -310,9 +318,11 @@ Bayes factors are **not** the same as posterior probabilities.
 
 # Example: Professor Sprout
 
-At Hogwarts School of Witchcraft and Wizardry, professor Sprout leads the Herbology Department. In the Department’s greenhouses, she cultivates crops of a magical plant called green codacle — a flowering plant that when consumed causes a witch or wizard to feel euphoric and relaxed. Professor Trelawney, the professor of Divination, is an avid user of green codacle and frequently visits Professor Sprout’s laboratory to sample the latest harvest. However, it has turned out that one in a thousand codacle plants is afflicted with a mutation that changes its effects:
+At Hogwarts, professor Sprout leads the Herbology Department. In the Department’s greenhouses, she cultivates a magical plant that when consumed causes a witch or wizard to feel euphoric and relaxed. Professor Trelawney, the professor of Divination, is an avid user of this plant and frequently visits Professor Sprout’s laboratory to sample the latest harvest. 
 
-Consuming those rare plants causes unpleasant side effects such as paranoia, anxiety, and spontaneous levitation. In order to evaluate the quality of her crops, Professor Sprout has developed a mutation-detecting spell. The new spell has a 99% chance to accurately detect an existing mutation, but also has a 2% chance to falsely indicate that a healthy plant is a mutant. When Professor Sprout presents her results at a School colloquium, Trelawney asks two questions: What is the probability that a codacle plant is a mutant, when your spell says that it is? And what is the probability the plant is a mutant, when your spell says that it is healthy? Trelawney’s interest is in knowing how much trust to put into Professor Sprout’s spell.
+However, it has turned out that one in a thousand codacle plants is afflicted with a mutation that changes its effects: Consuming mutated plants causes unpleasant side effects such as paranoia, anxiety, and spontaneous levitation. 
+
+In order to evaluate the quality of her crops, Professor Sprout has developed a mutation-detecting spell. The new spell has a 99% chance to accurately detect an existing mutation, but also has a 2% chance to falsely indicate that a healthy plant is a mutant. When Professor Sprout presents her results at a School colloquium, Trelawney asks two questions: What is the probability that a plant is a mutant, when your spell says that it is? And what is the probability the plant is a mutant, when your spell says that it is healthy? 
 
 ---
 
@@ -440,34 +450,14 @@ $$
 
 ---
 
-# Applications in Real Life
-
-- Similar to medical testing scenarios:
-  - **Rare disease** with diagnostic tests.
-  - Even highly accurate tests may produce many **false positives**.
-
-- Bayesian reasoning ensures careful interpretation of probabilities based on:
-  - Test accuracy.
-  - Base rates of the condition.
-
----
-
 # Example: Sorting Hat
 
-  - Hogwarts' Sorting Hat was damaged by a curse.
+  - Hogwarts' Sorting Hat was damaged by a curse during the battle against You-Know-Who.
   - It now assigns students to **Slytherin** 40% of the time, regardless of their true house.
-
----
-
-# Scenario
-
-- **Sorting Hat Error**:
-  - True house assignments: Gryffindor, Ravenclaw, Hufflepuff, Slytherin.
-  - After the curse:
     - 40% of students are assigned to Slytherin.
     - Only 20% each to Gryffindor, Ravenclaw, and Hufflepuff.
 
-- **Diagnostic Test**:
+- Professor Binns develops a **Diagnostic Test**:
   - PARSEL test (Placement Accuracy Remedy for Students Erroneously Labeled):
     - Scores predict true house:
       - Excellent (E): Likely Slytherin.
@@ -477,7 +467,7 @@ $$
 
 # Data from the PARSEL Test
 
-- **Benchmark results** from undamaged Sorting Hat:
+- **Benchmark results** from students sorted before the Battle of Hogwarts:
   - Probability of test scores by true house:
 
 | Score       | Slytherin | Gryffindor | Ravenclaw | Hufflepuff |
@@ -491,9 +481,7 @@ $$
 
 # Question: Is the Student a Gryffindor?
 
-- **Scenario**:
-  - A student is sorted into Slytherin by the damaged Hat.
-  - They score Excellent on the PARSEL test.
+Professor McGonigall wants to know how likely it would be that a true Gryffindor will end up in Slytherin after taking this test.
 
 - **Goal**:
   - Calculate $P(\text{Gryffindor}|H_S, S_E)$.
@@ -812,7 +800,7 @@ George collects data from three experiments:
 
 Likelihood for the data:
 
-$p(X_n | \lambda) = \prod^n_{i=1} \frac{1}{x_i!} \lambda^{x_i} \text{exp}(-\lambda)$
+$p(X_n | \lambda) = \prod^n_I \frac{1}{x_i!} \lambda^{x_i} \text{exp}(-\lambda)$
 
 ```{r, echo = F, fig.width = 10, fig.retina=3, fig.height = 4}
 # Define the parameter range for lambda

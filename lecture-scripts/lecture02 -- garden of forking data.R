@@ -73,4 +73,34 @@ compute_posterior(sample)
 # 1:05:53 -- sampling the posterior ---------------------------------------
 
 post_samples <- rbeta(1000, 6+1, 3+1)
-dens( post_samples, lwd=4)
+dens( post_samples, lwd=4, col="#1C525380", xlab = "proportion water", adj = .1)
+curve( dbeta(x, 6+1, 3+1), add = T, lty = 2, lwd = 3)
+
+
+# 1:11:46 -- sampling for prediction --------------------------------------
+
+# simulate posterior PREDICTIVE distribution
+post_samples <- rbeta(1000, 6+1, 3+1) # posterior distribution for p
+pred_post <- sapply(post_samples, 
+                    function(p) sum( sim_globe(p, 10) == "W") )
+tab_post = table(pred_post)
+as.data.frame(tab_post) %>% 
+  ggplot(aes(x = pred_post, y = Freq)) +
+  geom_segment(aes(x = pred_post, xend = pred_post,
+                   y = 0, yend = Freq),
+               linewidth = 3,
+               color = "#1c5253") +
+  labs(x = "Number of W's",
+       y = "Count") +
+  theme_minimal()
+
+
+# 1:24:00 -- bonus misclassification --------------------------------------
+
+sim_globe2 = function( p=0.7 , N=9, x=0.1 ){
+  true_sample <- sample(x=c("W", "L"), size=N, prob=c(p, 1-p), replace=TRUE)
+  obs_sample <- ifelse( runif(N) < x, 
+                        ifelse( true_sample == "W", "L", "W"), #error
+                        true_sample) # no error
+  return(obs_sample)
+}

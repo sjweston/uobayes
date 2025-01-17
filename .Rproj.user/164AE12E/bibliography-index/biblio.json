@@ -289,10 +289,250 @@
             "publisher-place": "Boca Raton, Florida",
             "title": "R markdown cookbook",
             "type": "book"
+        },
+        {
+            "DOI": "10.1177/25152459241235875",
+            "ISSN": "2515-2459, 2515-2467",
+            "URL": "https://journals.sagepub.com/doi/10.1177/25152459241235875",
+            "abstract": "In this tutorial, we introduce the reader to analyzing ecological momentary assessment (EMA) data as applied in psychological sciences with the use of Bayesian (generalized) linear mixed-effects models. We discuss practical advantages of the Bayesian approach over frequentist methods and conceptual differences. We demonstrate how Bayesian statistics can help EMA researchers to (a) incorporate prior knowledge and beliefs in analyses, (b) fit models with a large variety of outcome distributions that reflect likely data-generating processes, (c) quantify the uncertainty of effect-size estimates, and (d) quantify the evidence for or against an informative hypothesis. We present a workflow for Bayesian analyses and provide illustrative examples based on EMA data, which we analyze using (generalized) linear mixed-effects models to test whether daily self-control demands predict three different alcohol outcomes. All examples are reproducible, and data and code are available at https://osf.io/rh2sw/ . Having worked through this tutorial, readers should be able to adopt a Bayesian workflow to their own analysis of EMA data.",
+            "accessed": {
+                "date-parts": [
+                    [
+                        2024,
+                        11,
+                        22
+                    ]
+                ]
+            },
+            "author": [
+                {
+                    "family": "Dora",
+                    "given": "Jonas"
+                },
+                {
+                    "family": "McCabe",
+                    "given": "Connor J."
+                },
+                {
+                    "family": "Van Lissa",
+                    "given": "Caspar J."
+                },
+                {
+                    "family": "Witkiewitz",
+                    "given": "Katie"
+                },
+                {
+                    "family": "King",
+                    "given": "Kevin M."
+                }
+            ],
+            "container-title": "Advances in Methods and Practices in Psychological Science",
+            "id": "dora_tutorial_2024",
+            "issue": "1",
+            "issued": {
+                "date-parts": [
+                    [
+                        2024,
+                        1
+                    ]
+                ]
+            },
+            "keyword": "required-reading",
+            "page": "25152459241235875",
+            "title": "A Tutorial on Analyzing Ecological Momentary Assessment Data in Psychological Research With Bayesian (Generalized) Mixed-Effects Models",
+            "type": "article-journal",
+            "volume": "7"
+        },
+        {
+            "URL": "https://www.cairn.info/revue-l-annee-psychologique-2020-1-page-73.htm",
+            "accessed": {
+                "date-parts": [
+                    [
+                        2024,
+                        11,
+                        22
+                    ]
+                ]
+            },
+            "author": [
+                {
+                    "dropping-particle": "van den",
+                    "family": "Bergh",
+                    "given": "Don"
+                },
+                {
+                    "family": "Van Doorn",
+                    "given": "Johnny"
+                },
+                {
+                    "family": "Marsman",
+                    "given": "Maarten"
+                },
+                {
+                    "family": "Draws",
+                    "given": "Tim"
+                },
+                {
+                    "family": "Van Kesteren",
+                    "given": "Erik-Jan"
+                },
+                {
+                    "family": "Derks",
+                    "given": "Koen"
+                },
+                {
+                    "family": "Dablander",
+                    "given": "Fabian"
+                },
+                {
+                    "family": "Gronau",
+                    "given": "Quentin F."
+                },
+                {
+                    "family": "Kucharskỳ",
+                    "given": "Šimon"
+                },
+                {
+                    "family": "Gupta",
+                    "given": "Akash R. Komarlu Narendra"
+                }
+            ],
+            "container-title": "L’Année psychologique",
+            "id": "van_den_bergh_tutorial_2020",
+            "issue": "1",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "note": "Publisher: Cairn/Softwin",
+            "page": "73-96",
+            "title": "A tutorial on conducting and interpreting a Bayesian ANOVA in JASP",
+            "type": "article-journal",
+            "volume": "120"
+        },
+        {
+            "DOI": "10.1037/met0000714",
+            "ISSN": "1939-1463, 1082-989X",
+            "URL": "https://doi.apa.org/doi/10.1037/met0000714",
+            "abstract": "In psychology, we often want to know whether or not an effect exists. The traditional way of answering this question is to use frequentist statistics. However, a signiﬁcance test against a null hypothesis of no effect cannot distinguish between two states of affairs: evidence of absence of an effect and the absence of evidence for or against an effect. Bayes factors can make this distinction; however, uptake of Bayes factors in psychology has so far been low for two reasons. First, they require researchers to specify the range of effect sizes their theory predicts. Researchers are often unsure about how to do this, leading to the use of inappropriate default values which may give misleading results. Second, many implementations of Bayes factors have a substantial technical learning curve. We present a case study and simulations demonstrating a simple method for generating a range of plausible effect sizes, that is, a model of Hypothesis 1, for treatment effects where there is a binary-dependent variable. We illustrate this using mainly the estimates from frequentist logistic mixed-effects models (because of their widespread adoption) but also using Bayesian model comparison with Bayesian hierarchical models (which have increased ﬂexibility). Bayes factors calculated using these estimates provide intuitively reasonable results across a range of real effect sizes.",
+            "accessed": {
+                "date-parts": [
+                    [
+                        2024,
+                        12,
+                        13
+                    ]
+                ]
+            },
+            "author": [
+                {
+                    "family": "Silvey",
+                    "given": "Catriona"
+                },
+                {
+                    "family": "Dienes",
+                    "given": "Zoltan"
+                },
+                {
+                    "family": "Wonnacott",
+                    "given": "Elizabeth"
+                }
+            ],
+            "container-title": "Psychological Methods",
+            "id": "silvey_bayes_2024",
+            "issued": {
+                "date-parts": [
+                    [
+                        2024,
+                        12
+                    ]
+                ]
+            },
+            "title": "Bayes factors for logistic (mixed-effect) models.",
+            "type": "article-journal"
+        },
+        {
+            "DOI": "10.1177/2515245917744314",
+            "ISSN": "2515-2459, 2515-2467",
+            "URL": "https://journals.sagepub.com/doi/10.1177/2515245917744314",
+            "abstract": "We introduce the statistical concept known as likelihood and discuss how it underlies common Frequentist and Bayesian statistical methods. This article is suitable for researchers interested in understanding the basis of their statistical tools, and is also ideal for teachers to use in their classrooms to introduce the topic to students at a conceptual level.",
+            "accessed": {
+                "date-parts": [
+                    [
+                        2025,
+                        1,
+                        7
+                    ]
+                ]
+            },
+            "author": [
+                {
+                    "family": "Etz",
+                    "given": "Alexander"
+                }
+            ],
+            "container-title": "Advances in Methods and Practices in Psychological Science",
+            "id": "etz_introduction_2018",
+            "issue": "1",
+            "issued": {
+                "date-parts": [
+                    [
+                        2018,
+                        3
+                    ]
+                ]
+            },
+            "page": "60-69",
+            "title": "Introduction to the Concept of Likelihood and Its Applications",
+            "type": "article-journal",
+            "volume": "1"
+        },
+        {
+            "DOI": "10.3758/s13423-017-1262-3",
+            "ISSN": "1069-9384, 1531-5320",
+            "URL": "http://link.springer.com/10.3758/s13423-017-1262-3",
+            "accessed": {
+                "date-parts": [
+                    [
+                        2025,
+                        1,
+                        7
+                    ]
+                ]
+            },
+            "author": [
+                {
+                    "family": "Etz",
+                    "given": "Alexander"
+                },
+                {
+                    "family": "Vandekerckhove",
+                    "given": "Joachim"
+                }
+            ],
+            "container-title": "Psychonomic Bulletin & Review",
+            "id": "etz_introduction_2018-1",
+            "issue": "1",
+            "issued": {
+                "date-parts": [
+                    [
+                        2018,
+                        2
+                    ]
+                ]
+            },
+            "page": "5-34",
+            "title": "Introduction to Bayesian Inference for Psychology",
+            "type": "article-journal",
+            "volume": "25"
         }
     ],
     "project_biblios": [
         "book.bib",
-        "packages.bib"
+        "packages.bib",
+        "articles.bib"
     ]
 }

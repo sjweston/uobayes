@@ -17,4 +17,3 @@ campus-emergencies
 week-1-introduction-to-bayesian-analysis
 lecture-1-probability
 slides
-url-your-book-url-like-httpsbookdown.orgyihuibookdown
