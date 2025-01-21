@@ -3,7 +3,7 @@ library(rethinking)
 
 # 35:56 -- probability distribution ---------------------------------------
 
-## here, we visualise the likelihood of a particular sample under 5 possible hypotheses. 
+## here, we visualize the likelihood of a particular sample under 5 possible hypotheses. 
 ## the sample
 sample <- c("W", "L", "W", "W", "W", "L", "W", "L", "W")
 

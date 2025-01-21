@@ -17,3 +17,4 @@ campus-emergencies
 week-1-introduction-to-bayesian-analysis
 lecture-1-probability
 slides
+lecture-2-bayes-as-counting

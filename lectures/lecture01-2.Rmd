@@ -1,0 +1,1005 @@
+---
+title: "Week 1: Forking paths and sampling"
+output:
+  xaringan::moon_reader:
+    css: ["xaringan-themer.css"]
+    nature:
+      highlightStyle: solarized-dark
+      highlightLines: true
+      countIncrementalSlides: false
+      mathjax: "default"
+    self_contained: true
+---
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
+```
+
+```{r, echo = F}
+library(tidyverse)
+library(cowplot)
+library(flextable)
+```
+
+
+# Counting possibilities
+
+Suppose we have a bag that contains 4 marbles, and these marbles come in two colors: blue and white. We don't know how many of the marbles are blue and how many are white. There are therefore five possibilities:
+
+```{r, echo = F, fig.retina = 3, fig.height = 5}
+d <-
+  tibble(p1 = 0,
+         p2 = rep(1:0, times = c(1, 3)),
+         p3 = rep(1:0, times = c(2, 2)),
+         p4 = rep(1:0, times = c(3, 1)),
+         p5 = 1)
+
+d %>% 
+  set_names(1:5) %>% 
+  mutate(x = 1:4) %>% 
+  pivot_longer(-x, names_to = "possibility") %>% 
+  mutate(value = value %>% as.character(),
+         possibility = as.numeric(possibility)) %>% 
+  
+  ggplot(aes(x = x, y = possibility, fill = value)) +
+  geom_point(shape = 21, size = 10) +
+  scale_fill_manual(values = c("white", "navy")) +
+  scale_x_discrete(NULL, breaks = NULL) +
+  scale_y_reverse() +
+  labs(y = NULL,
+       title = "Possible combinations") +
+  theme_cowplot(font_size = 20) +
+  theme(legend.position = "none", 
+        axis.line = element_blank(),
+        axis.ticks = element_blank())
+```
+
+---
+
+Suppose we draw three marbles from the bag. What is every possible outcome?
+
+```{r, echo = F}
+d <-
+  tibble(position = c((1:4^1) / 4^0, 
+                      (1:4^2) / 4^1, 
+                      (1:4^3) / 4^2),
+         draw     = rep(1:3, times = c(4^1, 4^2, 4^3)),
+         fill     = rep(c("b", "w"), times = c(1, 3)) %>% 
+           rep(., times = c(4^0 + 4^1 + 4^2)))
+
+# these will connect the dots from the first and second draws
+lines_1 <-
+  tibble(x    = rep(1:4, each = 4),
+         xend = ((1:4^2) / 4),
+         y    = 1,
+         yend = 2)
+# these will connect the dots from the second and third draws
+lines_2 <-
+  tibble(x    = rep((1:4^2) / 4, each = 4),
+         xend = (1:4^3) / (4^2),
+         y    = 2,
+         yend = 3)
+d <- d %>% 
+  mutate(denominator = ifelse(draw == 1, .5,
+                              ifelse(draw == 2, .5 / 4,
+                                     .5 / 4^2))) %>% 
+  mutate(position = position - denominator)
+
+lines_1 <- lines_1 %>% 
+  mutate(x    = x - 0.5,
+         xend = xend - 0.5 / 4^1)
+lines_2 <- lines_2 %>% 
+  mutate(x    = x - 0.5 / 4^1,
+         xend = xend - 0.5 / 4^2)
+
+d %>% 
+  ggplot(aes(x = position, y = draw)) +
+  geom_segment(data = lines_1,
+               aes(x = x, xend = xend,
+                   y = y, yend = yend),
+               linewidth = 1/3) +
+  geom_segment(data = lines_2,
+               aes(x = x, xend = xend,
+                   y = y, yend = yend),
+               linewidth = 1/3) +
+  geom_point(aes(fill = fill),
+             shape = 21, size = 4) +
+  scale_fill_manual(values = c("navy", "white")) +
+  scale_x_continuous(NULL, limits = c(0, 4), breaks = NULL) +
+  scale_y_continuous(NULL, limits = c(0.75, 3), breaks = NULL) +
+  coord_polar() +
+  theme_cowplot() +
+  theme(legend.position = "none",
+        panel.grid = element_blank(),
+        axis.line = element_blank())
+
+```
+
+---
+
+We draw three marbles from the bag: 
+
+```{r, fig.retina=3, fig.height=3, echo = F}
+draw <-
+  tibble(p1 = c(1,0,1))
+
+draw %>% 
+  set_names(1) %>% 
+  mutate(x = 1:3) %>% 
+  pivot_longer(-x, names_to = "possibility") %>% 
+  mutate(value = value %>% as.character(),
+         possibility = as.numeric(possibility)) %>% 
+  
+  ggplot(aes(x = x, y = possibility, fill = value)) +
+  geom_point(shape = 21, size = 10) +
+  scale_fill_manual(values = c("white", "navy")) +
+  scale_x_discrete(NULL, breaks = NULL, labels = NULL) +
+  scale_y_continuous() +
+  labs(y = NULL) +
+  theme_cowplot(font_size = 20) +
+  theme(legend.position = "none", 
+        axis.line = element_blank(),
+        axis.ticks = element_blank(), 
+        axis.text = element_blank())
+```
+
+---
+
+Now we count how frequently this exact sequence arises:
+
+```{r, fig.retina=3, fig.height=8, echo = F}
+lines_1 <-
+  lines_1 %>% 
+  mutate(remain = c(rep(0:1, times = c(1, 3)),
+                    rep(0,   times = 4 * 3)))
+lines_2 <-
+  lines_2 %>% 
+  mutate(remain = c(rep(0,   times = 4),
+                    rep(1:0, times = c(1, 3)) %>% rep(., times = 3),
+                    rep(0,   times = 12 * 4)))
+d <-
+  d %>% 
+  mutate(remain = c(rep(1:0, times = c(1, 3)),
+                    rep(0:1, times = c(1, 3)),
+                    rep(0,   times = 4 * 4),
+                    rep(1:0, times = c(1, 3)) %>% rep(., times = 3),
+                    rep(0,   times = 12 * 4))) 
+# finally, the plot:
+d %>% 
+  ggplot(aes(x = position, y = draw)) +
+  geom_segment(data = lines_1,
+               aes(x = x, xend = xend,
+                   y = y, yend = yend,
+                   alpha = remain %>% as.character()),
+               linewidth = 1/3) +
+  geom_segment(data = lines_2,
+               aes(x = x, xend = xend,
+                   y = y, yend = yend,
+                   alpha = remain %>% as.character()),
+               linewidth = 1/3) +
+  geom_point(aes(fill = fill, alpha = remain %>% as.character()),
+             shape = 21, size = 4) +
+  # it's the alpha parameter that makes elements semitransparent
+scale_fill_manual(values = c("navy", "white")) +
+  scale_alpha_manual(values = c(1/5, 1)) +
+  scale_x_continuous(NULL, limits = c(0, 4), breaks = NULL) +
+  scale_y_continuous(NULL, limits = c(0.75, 3), breaks = NULL) +
+  coord_polar() +
+  theme_cowplot(font_size = 20) +
+  theme(legend.position = "none", 
+        axis.line = element_blank(),
+        axis.ticks = element_blank(), 
+        axis.text = element_blank())
+```
+
+---
+  
+  This is only one of the possible combinations of white and blue marbles in the bag, so we need to recreate this for all possibilities. Because there's at least one blue and at least one white marble, we can rule out the possibilities that are all white and all blue, leaving us with three possible combinations of white and blue marbles.
+
+.pull-left[
+
+```{r,echo = F, fig.retina=3, fig.height=8}
+d <-
+  tibble(position = c((1:4^1) / 4^0, 
+                      (1:4^2) / 4^1, 
+                      (1:4^3) / 4^2),
+         draw     = rep(1:3, times = c(4^1, 4^2, 4^3)))
+
+
+  d <-
+  d %>% 
+  bind_rows(
+    d, d
+  ) %>% 
+  # here are the fill colors
+  mutate(fill = c(rep(c("w", "b"), times = c(1, 3)) %>% rep(., times = c(4^0 + 4^1 + 4^2)),
+                  rep(c("w", "b"), each  = 2)       %>% rep(., times = c(4^0 + 4^1 + 4^2)),
+                  rep(c("w", "b"), times = c(3, 1)) %>% rep(., times = c(4^0 + 4^1 + 4^2)))) %>% 
+  # now we need to shift the positions over in accordance with draw, like before
+  mutate(denominator = ifelse(draw == 1, .5,
+                              ifelse(draw == 2, .5 / 4,
+                                     .5 / 4^2))) %>% 
+  mutate(position = position - denominator) %>% 
+  # here we'll add an index for which pie wedge we're working with
+  mutate(pie_index = rep(letters[1:3], each = n()/3)) %>% 
+  # to get the position axis correct for pie_index == "b" or "c", we'll need to offset
+mutate(position = ifelse(pie_index == "a", position,
+                         ifelse(pie_index == "b", position + 4,
+                                position + 4 * 2)))
+
+move_over <- function(position, index) {
+  ifelse(
+    index == "a", position,
+    ifelse(
+      index == "b", position + 4, position + 4 * 2
+    )
+  )
+}
+
+lines_1 <-
+  tibble(x    = rep(1:4, each = 4) %>% rep(., times = 3),
+         xend = ((1:4^2) / 4)      %>% rep(., times = 3),
+         y    = 1,
+         yend = 2) %>% 
+  mutate(x    = x - .5,
+         xend = xend - .5 / 4^1) %>% 
+  # here we'll add an index for which pie wedge we're working with
+  mutate(pie_index = rep(letters[1:3], each = n()/3)) %>% 
+  # to get the position axis correct for `pie_index == "b"` or `"c"`, we'll need to offset
+  mutate(x    = move_over(position = x,    index = pie_index),
+         xend = move_over(position = xend, index = pie_index))
+
+
+lines_2 <-
+  tibble(x    = rep((1:4^2) / 4, each = 4) %>% rep(., times = 3),
+         xend = (1:4^3 / 4^2)              %>% rep(., times = 3),
+         y    = 2,
+         yend = 3) %>% 
+  mutate(x    = x - .5 / 4^1,
+         xend = xend - .5 / 4^2) %>% 
+  # here we'll add an index for which pie wedge we're working with
+  mutate(pie_index = rep(letters[1:3], each = n()/3)) %>% 
+  # to get the position axis correct for `pie_index == "b"` or `"c"`, we'll need to offset
+  mutate(x    = move_over(position = x,    index = pie_index),
+         xend = move_over(position = xend, index = pie_index))
+
+d <- 
+  d %>% 
+  mutate(remain = c(# pie_index == "a"
+    rep(0:1, times = c(1, 3)),
+    rep(0,   times = 4),
+    rep(1:0, times = c(1, 3)) %>% rep(., times = 3),
+    rep(0,   times = 4 * 4),
+    rep(c(0, 1, 0), times = c(1, 3, 4 * 3)) %>% rep(., times = 3),
+    # pie_index == "b"
+    rep(0:1, each = 2),
+    rep(0,   times = 4 * 2),
+    rep(1:0, each = 2) %>% rep(., times = 2),
+    rep(0,   times = 4 * 4 * 2),
+    rep(c(0, 1, 0, 1, 0), times = c(2, 2, 2, 2, 8)) %>% rep(., times = 2),
+    # pie_index == "c",
+    rep(0:1, times = c(3, 1)),
+    rep(0,   times = 4 * 3),
+    rep(1:0, times = c(3, 1)), 
+    rep(0,   times = 4 * 4 * 3),
+    rep(0:1, times = c(3, 1)) %>% rep(., times = 3),
+    rep(0,   times = 4)
+  )
+  )
+
+lines_1 <-
+  lines_1 %>% 
+  mutate(remain = c(rep(0,   times = 4),
+                    rep(1:0, times = c(1, 3)) %>% rep(., times = 3),
+                    rep(0,   times = 4 * 2),
+                    rep(1:0, each  = 2) %>% rep(., times = 2),
+                    rep(0,   times = 4 * 3),
+                    rep(1:0, times = c(3, 1))
+  )
+  )
+
+lines_2 <-
+  lines_2 %>% 
+  mutate(remain = c(rep(0,   times = 4 * 4),
+                    rep(c(0, 1, 0), times = c(1, 3, 4 * 3)) %>% rep(., times = 3),
+                    rep(0,   times = 4 * 8),
+                    rep(c(0, 1, 0, 1, 0), times = c(2, 2, 2, 2, 8)) %>% rep(., times = 2),
+                    rep(0,   times = 4 * 4 * 3),
+                    rep(0:1, times = c(3, 1)) %>% rep(., times = 3),
+                    rep(0,   times = 4)
+  )
+  )
+d %>% 
+  ggplot(aes(x = position, y = draw)) +
+  geom_vline(xintercept = c(0, 4, 8), color = "red", linewidth = 2/3) +
+  geom_segment(data = lines_1,
+               aes(x = x, xend = xend,
+                   y = y, yend = yend,
+                   alpha = remain %>% as.character()),
+               linewidth = 1/3) +
+  geom_segment(data = lines_2,
+               aes(x = x, xend = xend,
+                   y = y, yend = yend,
+                   alpha = remain %>% as.character()),
+               linewidth = 1/3) +
+  geom_point(aes(fill = fill, size = draw, alpha = remain %>% as.character()),
+             shape = 21) +
+  scale_fill_manual(values = c("navy", "white")) +
+  scale_size_continuous(range = c(3, 1.5)) +
+  scale_alpha_manual(values = c(0.2, 1)) +
+  scale_x_continuous(NULL, limits = c(0, 12), breaks = NULL) +
+  scale_y_continuous(NULL, limits = c(0.75, 3.5), breaks = NULL) +
+  coord_polar() +
+  theme_cowplot(font_size = 20) +
+  theme(legend.position = "none", 
+        axis.line = element_blank(),
+        axis.ticks = element_blank(), 
+        axis.text = element_blank())
+```
+
+]
+
+.pull-right[
+  
+```{r, echo = F, results = 'asis'}
+  # if we make two custom functions, here, 
+  # it will simplify the `mutate()` code, below
+  n_blue  <- function(x) rowSums(x == "b")
+  n_white <- function(x) rowSums(x == "w")
+  
+  # make the data
+  t <-
+    tibble(d1 = rep(c("w", "b"), times = c(1, 4)),
+           d2 = rep(c("w", "b"), times = c(2, 3)),
+           d3 = rep(c("w", "b"), times = c(3, 2)),
+           d4 = rep(c("w", "b"), times = c(4, 1))) %>% 
+    mutate(blue1 = n_blue(.),
+           white = n_white(.),
+           blue2 = n_blue(.)) %>% 
+    mutate(product = blue1 * white * blue2)
+  
+  # format the table
+  t %>%
+    transmute(conjecture = str_c("[", d1, " ", d2, " ", d3, " ", d4, "]"),
+              `Ways to produce [w b w]` = str_c(blue1, " * ", white, " * ", blue2, " = ", product)) %>% 
+    flextable() %>% 
+    width(j = 1:2, width = c(1, 2)) %>% 
+    align(align = "center", part = "all")
+```
+  
+]
+
+---
+  
+```{r, echo = F, results = 'asis'}
+# format the table
+t %>%
+  transmute(conjecture = str_c("[", d1, " ", d2, " ", d3, " ", d4, "]"),
+            `Ways to produce [w b w]` = str_c(blue1, " * ", white, " * ", blue2, " = ", product)) %>% 
+  flextable() %>% 
+  width(j = 1:2, width = c(1, 2)) %>% 
+  align(align = "center", part = "all")
+```
+
+From these counts, we can see intuitively that the sequence is more likely to occur when there are 3 blue and 1 white marble, although also likely to occur when there are 2 of each. Of course, this assumes what?
+
+Counts are nice, but they don't translate well across studies/data. 
+
+- Relative size matters (3, 8, and 9 are no different from 30, 80, and 90).
+- As the amount of data grows, counts will quickly become very very very large.
+
+
+
+???
+  
+  assumes that all the options are equally likely to begin with.
+
+---
+
+## From counts to probabilities.
+
+So let's transform these counts into **probabilities**:
+
+$$
+\text{probability of }p = \frac{\text{ways } p \text{ can produce D}}{\text{sum of all ways} }
+$$
+
+```{r, echo = F, results = 'asis'}
+# format the table
+t %>%
+  mutate(prob = product/sum(product),
+         p = seq(0,1, by=.25)) %>% 
+  transmute(
+    conjecture = str_c("[", d1, " ", d2, " ", d3, " ", d4, "]"),
+    `proportion W` = p,
+    `Ways to produce [w b w]` = str_c(blue1, " * ", white, " * ", blue2, " = ", product),
+    probability = prob
+    ) %>% 
+  flextable() %>% 
+  width(j = 1:4, width = c(1,1, 2,1)) %>% 
+  align(align = "center", part = "all")
+```
+
+---
+
+# Globe
+
+Let's recreate the 4-sided globe example from McElreath's lecture:
+
+W L W W W L W L W
+
+```{r}
+sample <- c("W", "L", "W", "W", "W", "L", "W", "L", "W")
+
+W <- sum(sample == "W") #number of W observed
+L <- sum(sample == "L") #number of L observed
+```
+
+We also specify some (small, discrete) number of possible hypotheses regarding the true proportion of water on the globe.
+
+```{r}
+p <- c(0, .25, .5, .75, 1) #hypothetical proportions of W
+```
+
+---
+
+Finally, we count the number ways to produce our sample within each of these proportions:
+
+$$
+\text{Ways} = 4p^W \times4(1-p)^L
+$$
+
+```{r}
+ways <- sapply(p, function(q) (q*4)^W * ((1-q)*4)^L )
+probability = ways/sum(ways)
+cbind( p, ways, probability )
+```
+
+---
+
+We can simulate many tosses of the globe with this function:
+
+```{r}
+# function to toss a globe covered p by water N times
+sim_globe = function( p=0.7 , N=9 ){
+  sample(
+    x = c("W", "L"),  # possible values
+    size = N,         # how many draws
+    prob = c(p, 1-p), # probability of each possibility
+    replace = TRUE    # the same value can be drawn multiple times
+  )
+}
+
+sim_globe()
+```
+
+---
+
+## Exercise: Write function
+
+Write this function in R. (Don't copy and paste.)
+
+```{r}
+sim_globe = function( p=0.7 , N=9 ){
+  sample(
+    x = c("W", "L"),  
+    size = N,         
+    prob = c(p, 1-p), 
+    replace = TRUE    
+  )
+}
+```
+
+Test it out.
+- Show that it produces all `W` if you set `p` to 0.
+- Show that when `N` is very large, the proportion of water is extremely close to `p`.
+
+---
+
+Now here is the function to compute the posterior:
+
+```{r}
+# function to compute posterior distribution
+compute_posterior = function( the_sample, poss = c(0, .25, .50, .75, 1) ){
+  
+  W = sum(the_sample == "W") # number of W observed
+  L = sum(the_sample == "L") # number of L observed
+  
+  num_sides = length(poss) - 1
+  
+  ways = sapply(
+    poss, 
+    function(q) (q*num_sides)^W * ((1-q)*num_sides)^L
+  )
+  
+  post = ways/sum(ways)
+  bars = sapply(post, function(q) make_bar(q)) # this is from the rethinking package
+  data.frame(poss, ways, post = round(post, 3), bars)
+}
+```
+
+---
+
+In the lecture, RM uses this function to determine that, of the possibilities for the 4-sided globe, it makes the most sense for 3 of them to be water.
+
+```{r}
+compute_posterior(sample)
+```
+
+## Exercise: Test compute posterior
+
+Test this sample on a dice with 10 sides. 
+
+Test this sample on a dice with 20 sides. 
+
+Test this sample on a dice with 100 sides. 
+
+---
+
+Test this sample on a dice with 10 sides. 
+
+```{r}
+compute_posterior(sample, poss = seq(0, 1, length.out = 11))
+```
+
+---
+
+Test this sample on a dice with 20 sides. 
+
+```{r}
+compute_posterior(sample, poss = seq(0, 1, length.out = 21))
+```
+
+---
+
+Test this sample on a dice with 100 sides. 
+
+```{r}
+compute_posterior(sample, poss = seq(0, 1, length.out = 101))
+```
+
+---
+
+.pull-left[
+
+This method is referred to as **grid approximation** -- approximating the continuous posterior distribution using a finite grid of parameter values. 
+
+```{r, fig.retina = 3, fig.height = 5}
+compute_posterior(sample, poss = seq(0, 1, length.out = 101)) %>% 
+  ggplot(aes(x = poss, y = ways)) +
+  geom_line() +
+  theme_minimal()
+```
+
+]
+
+.pull-right[
+
+This is the Beta distribution, which is the actual form of the posterior, if you were to perform the calculus.
+
+```{r}
+curve( dbeta(x, 6+1, 3+1), lty = 2, lwd = 3)
+```
+
+]
+
+---
+
+## Exercise
+
+Compute and plot the distribution for each of the following sets of observations:
+
+-  W W W
+-  W W W L
+-  L W W L W W W
+
+---
+
+W W W
+
+```{r, fig.retina=3, fig.height=5}
+c("W", "W", "W") %>% 
+  compute_posterior(poss = seq(0, 1, length.out = 101)) %>% 
+  ggplot(aes(x = poss, y = ways)) +
+  geom_line() +
+  theme_minimal()
+```
+
+---
+
+W W W L
+
+```{r, fig.retina=3, fig.height=5}
+c("W", "W", "W", "L") %>% 
+  compute_posterior(poss = seq(0, 1, length.out = 101)) %>% 
+  ggplot(aes(x = poss, y = ways)) +
+  geom_line() +
+  theme_minimal()
+```
+
+---
+
+L W W L W W W
+
+```{r, fig.retina=3, fig.height=5}
+c("L", "W", "W", "L", "W", "W", "W") %>% 
+  compute_posterior(poss = seq(0, 1, length.out = 101)) %>% 
+  ggplot(aes(x = poss, y = ways)) +
+  geom_line() +
+  theme_minimal()
+```
+
+---
+
+## Incorporating priors
+
+What is the prior distribution we used in this example? A uniform distribution. Let's go back to our marbles example.
+
+```{r, echo = F, results = 'asis'}
+# format the table
+t %>%
+  mutate(prob = product/sum(product),
+         p = seq(0,1, by=.25)) %>% 
+  transmute(
+    conjecture = str_c("[", d1, " ", d2, " ", d3, " ", d4, "]"),
+    p = p,
+    `Ways to produce [w b w]` = str_c(blue1, " * ", white, " * ", blue2, " = ", product),
+    plausibility = prob
+    ) %>% 
+  flextable() %>% 
+  width(j = 1:4, width = c(1,1, 2,1)) %>% 
+  align(align = "center", part = "all")
+```
+
+We draw one more marble (blue). We can start our garden of forking paths over with 4 levels, or we can use our old plausibilities as our priors.
+
+---
+
+
+```{r, echo = F, results = 'asis'}
+# format the table
+t %>%
+  mutate(prior = product/sum(product),
+         p = seq(0,1, by=.25)) %>% 
+  transmute(
+    conjecture = str_c("[", d1, " ", d2, " ", d3, " ", d4, "]"),
+    p = p,
+    prior = prior,
+    `Ways to produce [b]` = 0:4,
+    `prior * count` = prior*`Ways to produce [b]`,
+    posterior = round(`prior * count`/sum(`prior * count`),3)
+    ) %>% 
+  flextable() %>% 
+  #width(j = 1:4, width = c(1,1, 2,1)) %>% 
+  align(align = "center", part = "all")
+```
+
+The posterior is the product of the prior and the count divided by the sum of the products. Or in other words:
+
+$$
+P(H|D) = \frac{P(H)P(D|H)}{P(D)}
+$$
+
+---
+
+## Exercise: Globe priors
+
+Return to the globe example. Assume a prior for $p$ that is equal to zero when $p < 0.5$ and is a positive constant when p $≥ 0.5$. Again compute and plot the grid approximate posterior distribution for each of the following sets of observations:
+
+-  W W W
+-  W W W L
+-  L W W L W W W
+
+---
+
+```{r, fig.retina=3, fig.height=5}
+compute_posterior5 = function( the_sample, poss = c(0, .25, .50, .75, 1) ){
+  
+  W = sum(the_sample == "W") # number of W observed
+  L = sum(the_sample == "L") # number of L observed
+  
+  num_sides = length(poss) - 1
+  
+  ways = sapply(
+    poss, 
+    function(q) ifelse(
+      q < .5,
+      0,
+      (q*num_sides)^W * ((1-q)*num_sides)^L
+    )
+  )
+  
+  post = ways/sum(ways)
+  bars = sapply(post, function(q) make_bar(q)) # this is from the rethinking package
+  data.frame(poss, ways, post = round(post, 3), bars)
+}
+```
+
+---
+
+W W W
+
+```{r, fig.retina=3, fig.height=5}
+c("W", "W", "W") %>% 
+  compute_posterior5(poss = seq(0, 1, length.out = 101)) %>% 
+  ggplot(aes(x = poss, y = ways)) +
+  geom_line() +
+  theme_minimal()
+```
+
+---
+
+W W W L
+
+```{r, fig.retina=3, fig.height=5}
+c("W", "W", "W", "L") %>% 
+  compute_posterior5(poss = seq(0, 1, length.out = 101)) %>% 
+  ggplot(aes(x = poss, y = ways)) +
+  geom_line() +
+  theme_minimal()
+```
+
+---
+
+L W W L W W W
+
+```{r, fig.retina=3, fig.height=5}
+c("L", "W", "W", "L", "W", "W", "W") %>% 
+  compute_posterior5(poss = seq(0, 1, length.out = 101)) %>% 
+  ggplot(aes(x = poss, y = ways)) +
+  geom_line() +
+  theme_minimal()
+```
+
+---
+
+# Computing the posterior
+
+Our compute posterior function works because it writes out in formulas we see with our eyes. We wrote a function to express the counting of ways we can see _W_ water and _L_ land given a proportion, _p_, of water on a 4-sided die:
+
+$$
+\text{ways} = (p\times 4)^W( (1-p) \times4)^L
+$$
+We even showed we can extend this for a die with more sides by changing 4 to $N$ (number of sides).
+
+$$
+\text{ways} = (p\times N)^W( (1-p) \times N)^L
+$$
+Cool, but this is just a cute example. We're going to need more flexible ways of estimating posterior distributions for more complex examples, especially when we get into the multivariate parameter space. There are three main options for building the posterior:
+
+  1. Grid approximation (we'll use this today)
+  2. Quadratic approximation
+  3. MCMC
+  
+---
+
+## Grid approximation
+
+
+```{r}
+# define grid
+p.grid <- seq(0, 1, length.out = 100)
+
+# define prior
+prior <- rep(1, 100)
+
+# compute likelihood at each value in grid
+likelihood <- dbinom(6, size = 9, prob = p.grid)
+
+# compute product of prior and likelihood
+unstd.posterior <- prior * likelihood
+
+# standardize posterior
+posterior <- unstd.posterior / sum(unstd.posterior)
+```
+
+---
+
+## Sampling from the posterior
+
+Think of the posterior as a bucket of values of possible parameter values. The posterior distribution represents the proportion of the bucket that each value takes up.
+
+We can sample from the posterior distribution:
+
+.pull-left[
+
+```{r, eval = F, fig.retina = 3}
+sample_post = sample(x = p.grid, prob = posterior,
+                     size = 1e4, replace = T)
+
+plot(sample_post)
+```
+
+
+]
+
+.pull-right[
+```{r, echo = F, fig.retina = 3}
+sample_post = sample(x = p.grid, prob = posterior,
+                     size = 1e4, replace = T)
+
+plot(sample_post)
+```
+
+]
+
+---
+
+```{r,fig.retina=3}
+dens(sample_post)
+```
+
+---
+
+## Summarizing the posterior
+
+Now that we have a posterior, we can sample from it to ask questions. 
+
+> What is the probability that the true proportion of water is less than .5?
+
+```{r}
+sum(sample_post < .5)/1e4
+```
+
+
+> What is the probability that the true proportion of water is between .5 and .75?
+
+```{r}
+sum(sample_post > .5 & sample_post < .75)/1e4
+```
+
+---
+
+> What is 80 percentile interval?
+
+```{r}
+quantile( sample_post, c(.1, .9) )
+rethinking::PI(sample_post, prob = .80)
+```
+
+It's common in Bayesian statistics to report the **highest posterior density interval**, which is the narrowest interval containing the specified probability mass.
+
+```{r}
+rethinking::HPDI( sample_post, prob = .8)
+```
+
+---
+
+These intervals are a convenient way to summarize the posterior distribution. RM suggests providing 67%, 89% and 97% intervals for all parameters of interest. Why those?
+  - They are spaced enough to illustrate the shape of the distribution. 
+  - They are prime numbers. 
+  - Why not?
+  
+```{r}
+rethinking::PI(sample_post, prob = c(.67))
+rethinking::PI(sample_post, prob = c(.89))
+rethinking::PI(sample_post, prob = c(.97))
+```
+
+---
+
+## Sampling for prediction
+
+Sampling implied observations is great for the following reasons:
+
+  1. Test model design. Specifically, testing priors.
+  2. Model checking. Verify that the model worked as intended. 
+  3. Software validation. Can we verify that a known model is recovered?
+  4. Research design. Power analysis, but other things are possible.
+  5. Forecasting. Applied prediction but also model criticism are revision.
+  
+---
+
+### How to simulate observations. 
+
+Remember, `R` includes functions that can randomly simulate from known distributions. In the case of the globe tossing experiment, we have (1) two possible outcomes, (2) independent trials, (3) the same likelihood of Water on each trial, and (4) a known number of tosses. What kind of distribution describes all possible outcomes of our experiment?
+
+--
+
+The binomial.
+
+
+```{r}
+dbinom(0:2, size=2, prob=.7)
+```
+
+---
+
+We can random sample from a binomial distribution using `rbinom`:
+
+```{r}
+rbinom(n=1, size=2, prob=.7)
+rbinom(n=10, size=2, prob=.7)
+dummy <- rbinom(n=1e5, size=2, prob=.7)
+table(dummy)/1e5
+```
+
+---
+
+
+```{r, fig.retina = 3, fig.height =3}
+dummy_w <- dummy <- rbinom(n=1e5, size=9, prob=.7)
+simplehist( dummy_w, xlab="dummy water count" )
+```
+
+These simulations help us represent uncertainty in the observation. When we know $p=.7$, we know what the next toss will _probably_ be, but we don't know what it will be with certainty.
+
+But there is also uncertainty in our parameter estimate. We don't know that $p=.7$. In fact, our posterior distribution tells us that many values for the parameter $p$ are possible, albeit with varying degrees of likelihood. We want to carry forward this uncertainty.
+
+---
+
+Remember, we've sampled possible values of $p$ from our posterior distribution:
+
+```{r}
+sample_post = sample(x = p.grid, prob = posterior,
+                     size = 1e4, replace = T)
+```
+
+For each of these values of $p$, we can sample from the binomial distribution:
+
+```{r}
+w <- rbinom( 1e4, size=9, prob=sample_post)
+length(w)
+```
+
+For each value of $p$ we have sampled from the posterior, we have sampled one obsesrvation from the binomial distribution defined by this parameter.
+
+---
+
+.pull-left[
+
+Prediction distribution
+
+```{r, fig.retina=3}
+simplehist(w)
+```
+
+]
+.pull-right[
+
+Posterior distribution
+
+```{r, fig.retina=3}
+dens(sample_post)
+```
+
+]
+
+---
+
+What are some ways we can evaluate the model? Consider the original sample:
+
+W L W W W L W L W
+
+We might ask whether the observations are truly independent. That is, does landing on Water once make it more likely you land on Water the next time? For that question, we might consider calculating the longest run. In this case, our longest run is 3. Now we need only ask for the distribution of longest run in our sampled predictions.
+
+---
+
+```{r}
+(x <- rbinom(9, 1, prob=.7))
+rle(x)
+max(rle(x)$lengths)
+```
+
+---
+
+```{r, fig.retina=3}
+longest_run = function(p=.7){
+  max(rle(rbinom(9, 1, p))$lengths)
+}
+
+sample_run = sapply(sample_post, longest_run)
+simplehist(sample_run)
+```
+
+
+
+
+
+

@@ -356,6 +356,20 @@ In order to evaluate the quality of her crops, Professor Sprout has developed a 
 
 ---
 
+### An intuitive understanding
+
+Instead of reporting probabilities, let's summarize the problem another way:
+
+  1. In a greenhouse of 100,000 plants, 100 are mutants.
+  2. Of the 100 mutants, 99 will be detected. 
+  3. Of the 99,900 healthy plants, 1,998 will be falsely detected by the spell.
+  
+$$
+\frac{99}{99+1998} \approx .047
+$$
+
+---
+
 # Question 2: $$P(M|\neg D)$$
 
 - **Bayes' Rule**:
