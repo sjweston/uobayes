@@ -973,6 +973,42 @@ dens(sample_post)
 
 ---
 
+## Exercise 
+
+Build the prediction distribution for the example where our prior is 0 when $p$ is less than .5 and a uniform distribution otherwise.
+
+---
+
+```{r}
+# define grid
+p.grid <- seq(0, 1, length.out = 100)
+
+# define prior
+prior <- rep(1, 100)
+prior[p.grid < .5] = 0
+
+# compute likelihood at each value in grid
+likelihood <- dbinom(6, size = 9, prob = p.grid)
+
+# compute product of prior and likelihood
+unstd.posterior <- prior * likelihood
+
+# standardize posterior
+posterior <- unstd.posterior / sum(unstd.posterior)
+```
+
+---
+
+```{r}
+sample_post = sample(x = p.grid, prob = posterior,
+                     size = 1e4, replace = T)
+w <- rbinom( 1e4, size=9, prob=sample_post)
+simplehist(w)
+```
+
+
+---
+
 What are some ways we can evaluate the model? Consider the original sample:
 
 W L W W W L W L W
