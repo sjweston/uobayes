@@ -15,6 +15,9 @@ basic-needs
 reporting-obligations
 campus-emergencies
 week-1-introduction-to-bayesian-analysis
-lecture-1-probability
+class-1-probability
 slides
-lecture-2-bayes-as-counting
+class-2-bayes-as-counting
+week-2-geocentric-models
+class-1-geocentric-models-part-i
+slides-1

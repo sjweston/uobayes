@@ -1,6 +1,6 @@
 # Week 1: Introduction to Bayesian Analysis
 
-## Lecture 1: Probability
+## Class 1: Probability
 
 ### Slides
 
@@ -10,7 +10,11 @@ Download the slides [here](lectures/lecture01-1.html).
 
 This lecture is based on the following article: @etz_introduction_2018-1. [download here.](readings/Etz and Vandekerckhove - 2018 - Introduction to Bayesian Inference for Psychology.pdf)
 
-## Lecture 2: Bayes as counting
+## Class 2: Bayes as counting
+
+Before class, be sure to watch both of the following lectures by McElreath:
+  * [Science before statistics](Science Before Statistics)
+  * [Garden of forking data](https://www.youtube.com/watch?v=R1vcdhPBlXA&list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus&index=2)
 
 <iframe src="lectures/lecture01-2.html" width="100%" height="500px"></iframe>
 
