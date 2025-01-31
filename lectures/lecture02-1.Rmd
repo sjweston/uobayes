@@ -11,6 +11,9 @@ output:
     self_contained: true
 ---
 
+<!-- to do:  -->
+<!--  * don't center weight -->
+
 ```{r xaringan-themer, include=FALSE, warning=FALSE, results = 'hide'}
 library(xaringanthemer)
 style_mono_accent(
@@ -20,6 +23,7 @@ style_mono_accent(
   code_font_google   = google_font("Fira Mono")
 )
 knitr::opts_chunk$set(fig.retina=3)
+
 ```
 
 Workspace setup:
@@ -118,9 +122,10 @@ Look familiar?
 
 
 ---
+
 ### Simulating parameters from the prior
 
-```{r}
+```{r, fig.height = 5}
 nsims = 1e4
 sim_p <- runif( nsims, 0, 1)
 dens(sim_p)
@@ -505,9 +510,13 @@ precis( m2 )
 
 ---
 
-Simulate lines from this distribution.
+### Exercise
 
-```{r, fig.height = 3}
+Draw lines from the posterior distribution and plot with the data. 
+
+--
+
+```{r sim-post, fig.height = 3, eval = F}
 sample_post = extract.samples(m2, n = 100)
 plot(d2$weight, d2$height, cex = .5, pch = 16,
      xlim = range(d2$weight), ylim = c(-100, 400),
@@ -520,6 +529,43 @@ for(i in 1:nrow(sample_post)){
        add = T,
        col=col.alpha("#1c5253",0.1))  
 }
+```
+
+---
+
+```{r ref.label = "sim-post", fig.height = 8, fig.width = 8, echo = F}
+
+```
+
+---
+
+```{r , fig.height = 8, fig.width = 8, echo = F}
+plot(d2$weight, d2$height, cex = .5, pch = 16,
+     xlim = range(d2$weight),
+     xlab = "weight", ylab = "height")
+#plot each line
+for(i in 1:nrow(sample_post)){
+ curve(sample_post$a[i] +sample_post$b[i]*(x-xbar), 
+       add = T,
+       col=col.alpha("#1c5253",0.1))  
+}
+```
+
+---
+
+A side note: a major concern or critique of Bayesian analysis is that the subjectivity of the priors allow for nefarious behavior. "Putting our thumbs on the scale," so to speak. But priors are quickly overwhelmed by data. Case in point:
+
+```{r}
+flist <- alist(
+  height ~ dnorm( mu , sigma ) ,
+  mu <- a + b*(weight - mean(weight)),
+  a ~ dnorm( 170 , 50 ) ,
+  b ~ dnorm(-5, 1),  
+  sigma ~ dunif( 0 , 50 )
+)
+
+m2 <- quap( flist , data=d2 )
+precis( m2 )
 ```
 
 
