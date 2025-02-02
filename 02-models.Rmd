@@ -1,13 +1,21 @@
-# Week 2: Geocentric models
+# Week 2: Linear models and causal inference
 
-## Class 1: Geocentric models (Part I)
+## Class 1: Geocentric models 
 
-Before class, be sure to [watch the lecture by McElreath](https://www.youtube.com/watch?v=tNOu-SEacNU&list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus&index=4).
+Before class, be sure to [watch the lecture by McElreath](https://www.youtube.com/watch?v=tNOu-SEacNU&list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus&index=3).
 
 ### Slides
 
 <iframe src="lectures/lecture02-1.html" width="100%" height="500px"></iframe>
 
-Download the slides [here](lectures/lecture02-1.html).
-
 This lecture is based on Chapters 4 in _Statistical Rethinking_ by Richard McElreath.
+
+## Class 2: Categories and curves
+
+Before class, be sure to [watch the lecture by McElreath](https://www.youtube.com/watch?v=F0N4b7K_iYQ&list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus&index=4).
+
+### Slides
+
+<iframe src="lectures/lecture02-2.html" width="100%" height="500px"></iframe>
+
+This lecture is based on Chapters 4 and 5 in _Statistical Rethinking_ by Richard McElreath.

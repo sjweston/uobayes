@@ -6,8 +6,6 @@
 
 <iframe src="lectures/lecture01-1.html" width="100%" height="500px"></iframe>
 
-Download the slides [here](lectures/lecture01-1.html).
-
 This lecture is based on the following article: @etz_introduction_2018-1. [download here.](readings/Etz and Vandekerckhove - 2018 - Introduction to Bayesian Inference for Psychology.pdf)
 
 ## Class 2: Bayes as counting
@@ -17,7 +15,5 @@ Before class, be sure to watch both of the following lectures by McElreath:
   * [Garden of forking data](https://www.youtube.com/watch?v=R1vcdhPBlXA&list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus&index=2)
 
 <iframe src="lectures/lecture01-2.html" width="100%" height="500px"></iframe>
-
-Download the slides [here](lectures/lecture01-2.html).
 
 This lecture is based on Chapters 2 and 3 in _Statistical Rethinking_ by Richard McElreath.

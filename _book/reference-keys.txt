@@ -18,6 +18,8 @@ week-1-introduction-to-bayesian-analysis
 class-1-probability
 slides
 class-2-bayes-as-counting
-week-2-geocentric-models
-class-1-geocentric-models-part-i
+week-2-linear-models-and-causal-inference
+class-1-geocentric-models
 slides-1
+class-2-categories-and-curves
+slides-2

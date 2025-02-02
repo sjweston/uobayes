@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Week 2: Linear models and causal inference | PSY 607 Bayesian Analysis</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Week 2: Linear models and causal inference | PSY 607 Bayesian Analysis" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Week 2: Linear models and causal inference | PSY 607 Bayesian Analysis" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Sara Weston" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="week-1-introduction-to-bayesian-analysis.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Course description</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#structure"><i class="fa fa-check"></i><b>1.1</b> Structure</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#materials"><i class="fa fa-check"></i><b>1.2</b> Materials</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#schedule"><i class="fa fa-check"></i><b>1.3</b> Schedule</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#grades"><i class="fa fa-check"></i><b>1.4</b> Grades</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#policies"><i class="fa fa-check"></i><b>1.5</b> Policies</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="index.html"><a href="index.html#abscences"><i class="fa fa-check"></i><b>1.5.1</b> Abscences</a></li>
+<li class="chapter" data-level="1.5.2" data-path="index.html"><a href="index.html#communication"><i class="fa fa-check"></i><b>1.5.2</b> Communication</a></li>
+<li class="chapter" data-level="1.5.3" data-path="index.html"><a href="index.html#classroom"><i class="fa fa-check"></i><b>1.5.3</b> Classroom</a></li>
+<li class="chapter" data-level="1.5.4" data-path="index.html"><a href="index.html#workload"><i class="fa fa-check"></i><b>1.5.4</b> Workload</a></li>
+<li class="chapter" data-level="1.5.5" data-path="index.html"><a href="index.html#generative-ai"><i class="fa fa-check"></i><b>1.5.5</b> Generative AI</a></li>
+<li class="chapter" data-level="1.5.6" data-path="index.html"><a href="index.html#plagiarism"><i class="fa fa-check"></i><b>1.5.6</b> Plagiarism</a></li>
+<li class="chapter" data-level="1.5.7" data-path="index.html"><a href="index.html#accessibility"><i class="fa fa-check"></i><b>1.5.7</b> Accessibility</a></li>
+<li class="chapter" data-level="1.5.8" data-path="index.html"><a href="index.html#basic-needs"><i class="fa fa-check"></i><b>1.5.8</b> Basic needs</a></li>
+<li class="chapter" data-level="1.5.9" data-path="index.html"><a href="index.html#reporting-obligations"><i class="fa fa-check"></i><b>1.5.9</b> Reporting obligations</a></li>
+<li class="chapter" data-level="1.5.10" data-path="index.html"><a href="index.html#campus-emergencies"><i class="fa fa-check"></i><b>1.5.10</b> Campus emergencies</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="week-1-introduction-to-bayesian-analysis.html"><a href="week-1-introduction-to-bayesian-analysis.html"><i class="fa fa-check"></i><b>2</b> Week 1: Introduction to Bayesian Analysis</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="week-1-introduction-to-bayesian-analysis.html"><a href="week-1-introduction-to-bayesian-analysis.html#class-1-probability"><i class="fa fa-check"></i><b>2.1</b> Class 1: Probability</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="week-1-introduction-to-bayesian-analysis.html"><a href="week-1-introduction-to-bayesian-analysis.html#slides"><i class="fa fa-check"></i><b>2.1.1</b> Slides</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="week-1-introduction-to-bayesian-analysis.html"><a href="week-1-introduction-to-bayesian-analysis.html#class-2-bayes-as-counting"><i class="fa fa-check"></i><b>2.2</b> Class 2: Bayes as counting</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="week-2-linear-models-and-causal-inference.html"><a href="week-2-linear-models-and-causal-inference.html"><i class="fa fa-check"></i><b>3</b> Week 2: Linear models and causal inference</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="week-2-linear-models-and-causal-inference.html"><a href="week-2-linear-models-and-causal-inference.html#class-1-geocentric-models"><i class="fa fa-check"></i><b>3.1</b> Class 1: Geocentric models</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="week-2-linear-models-and-causal-inference.html"><a href="week-2-linear-models-and-causal-inference.html#slides-1"><i class="fa fa-check"></i><b>3.1.1</b> Slides</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="week-2-linear-models-and-causal-inference.html"><a href="week-2-linear-models-and-causal-inference.html#class-2-categories-and-curves"><i class="fa fa-check"></i><b>3.2</b> Class 2: Categories and curves</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="week-2-linear-models-and-causal-inference.html"><a href="week-2-linear-models-and-causal-inference.html#slides-2"><i class="fa fa-check"></i><b>3.2.1</b> Slides</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">PSY 607 Bayesian Analysis</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="week-2-linear-models-and-causal-inference" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Week 2: Linear models and causal inference<a href="week-2-linear-models-and-causal-inference.html#week-2-linear-models-and-causal-inference" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="class-1-geocentric-models" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Class 1: Geocentric models<a href="week-2-linear-models-and-causal-inference.html#class-1-geocentric-models" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Before class, be sure to <a href="https://www.youtube.com/watch?v=tNOu-SEacNU&amp;list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus&amp;index=3">watch the lecture by McElreath</a>.</p>
+<div id="slides-1" class="section level3 hasAnchor" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> Slides<a href="week-2-linear-models-and-causal-inference.html#slides-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<iframe src="lectures/lecture02-1.html" width="100%" height="500px">
+</iframe>
+<p>This lecture is based on Chapters 4 in <em>Statistical Rethinking</em> by Richard McElreath.</p>
+</div>
+</div>
+<div id="class-2-categories-and-curves" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Class 2: Categories and curves<a href="week-2-linear-models-and-causal-inference.html#class-2-categories-and-curves" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Before class, be sure to <a href="https://www.youtube.com/watch?v=F0N4b7K_iYQ&amp;list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus&amp;index=4">watch the lecture by McElreath</a>.</p>
+<div id="slides-2" class="section level3 hasAnchor" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> Slides<a href="week-2-linear-models-and-causal-inference.html#slides-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<iframe src="lectures/lecture02-2.html" width="100%" height="500px">
+</iframe>
+<p>This lecture is based on Chapters 4 and 5 in <em>Statistical Rethinking</em> by Richard McElreath.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="week-1-introduction-to-bayesian-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/02-models.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

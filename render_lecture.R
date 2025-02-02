@@ -1,1 +1,1 @@
-rmarkdown::render("lectures/lecture02-1.Rmd", output_format = "xaringan::moon_reader")
+rmarkdown::render("lectures/lecture02-2.Rmd", output_format = "xaringan::moon_reader")

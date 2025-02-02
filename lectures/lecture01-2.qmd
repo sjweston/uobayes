@@ -1,0 +1,300 @@
+---
+title: "Week 1: Introduction to Bayesian Analysis"
+subtitle: "Gardens of forking data"
+format: 
+  revealjs:
+    css: xaringan-themer2.css
+    nature:
+      highlightStyle: solarized-dark
+      highlightLines: true
+      countIncrementalSlides: false
+      mathjax: "default"
+    self-contained: false  # Ensures correct embedding
+    embed-resources: true  # Embeds required assets
+    slide-number: true
+execute:
+  echo: false  
+---
+
+Workspace setup:
+
+```{r, results='hide', echo =T, message = F, warning = F}
+library(tidyverse)
+library(cowplot)
+```
+
+```{r, echo = F}
+knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
+theme_set(theme_cowplot())
+default_palettes <- list(
+  c("#5e8485" , "#0f393a") ,
+  c("#1c5253" , "#5e8485" , "#0f393a") , 
+  # palette with 5 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" ) ,
+  # same palette interpolated to 8 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" ) 
+  
+)
+
+options(ggplot2.discrete.fill = default_palettes, 
+        ggplot2.discrete.colour = default_palettes)
+```
+
+# Bayes' Theorem
+
+Recall from last lecture, the probability that a specific hypothesis, H, is true given a set of data, D, is defined as:
+
+$$
+P(H|D) = \frac{P(H)P(D|H)}{P(D)}
+$$
+
+You can get there via some calculus, but there are other, more intuitive ways of getting to this value. Today, we're going to build up the intuition of this formula.
+
+---
+
+## Globe tossing experiment
+
+Suppose you have a globe representing the planet, and you want to estimate how much of the surface is covered in water. You adopt the following strategy: You toss the globe in the air, and when you catch it, you write down whether the surface under your right thumb is water or land.
+
+Write a function to simulate tosses of this globe. Make sure your function allows you to vary `N`, the number of tosses, and `p`, the true proportion of water on the globe. 
+
+---
+
+```{r}
+# function to toss a globe covered p by water N times
+sim_globe = function( p=0.7 , N=9 ){
+  sample(
+    x = c("W", "L"),  # possible values
+    size = N,         # how many draws
+    prob = c(p, 1-p), # probability of each possibility
+    replace = TRUE    # the same value can be drawn multiple times
+  )
+}
+
+sim_globe()
+```
+
+---
+
+$$
+P(H|D) = \frac{P(H)P(D|H)}{P(D)}
+$$
+
+  * $P(H)$ is the prior, and that is set by the researcher. 
+  * $P(D)$ is the probability of the data given all possible hypotheses, and is therefore the sum of all the $P(H) \times P(D|H)$.
+  * So we only need to find $P(D|H)$ or the probability of a sample given a specific, hypothetical value of $H$.
+  
+  What probability distribution would represent the likelihood of a specific sample of water and land given a known propotion of water?
+  
+--
+
+The **binomial distribution**.
+
+```{r}
+dbinom(x = 6, size = 9, prob = .7)
+```
+
+---
+
+## exercise
+
+
+Write a function that computes the posterior distribution of $p$, the true proportion of water, based on a given sample and a flat prior. 
+
+$$
+P(H|D) = \frac{P(H)P(D|H)}{P(D)}
+$$
+
+  * $P(H)$ is the prior, and that is set by the researcher. 
+  * $P(D)$ is the probability of the data given all possible hypotheses, and is therefore the sum of all the $P(H) \times P(D|H)$.
+  * So we only need to find $P(D|H)$ or the likelihood of a sample given a specific, hypothetical value of $H$.
+
+
+---
+
+## exercise: solution
+
+```{r}
+compute_posterior = function(sample, poss = seq(0,1,length.out=100)){
+  
+  W = sum(sample == "W")
+  L = sum(sample == "L")
+  
+  likelihood = sapply( poss, function(x) dbinom(x = W, size = W+L, prob = x))
+  
+  post = ( likelihood ) / sum( likelihood)
+  
+  return(post)
+}
+```
+
+Testing it out: 
+
+```{r}
+(sample = sim_globe())
+compute_posterior(sample)
+
+plot(seq(0,1,length.out=100), compute_posterior(sample), type = "l")
+
+```
+
+
+---
+
+## exercise
+
+
+Compute and plot the grid approximate posterior distribution for each of the following sets of observations. In each case, assume a uniform prior for $p$:
+
+  * W W W
+  * W W W L
+  * L W W L W W W
+  
+---
+
+## exercise: solution p1
+
+```{r, fig.retina = 3}
+sample = c("W", "W", "W")
+plot(seq(0,1,length.out=100), compute_posterior(sample), type = "l")
+```
+
+---
+
+## exercise: solution p2
+
+```{r, fig.retina = 3}
+sample = c("W", "W", "W", "L")
+plot(seq(0,1,length.out=100), compute_posterior(sample), type = "l")
+```
+
+---
+
+## exercise: solution p3
+
+```{r, fig.retina = 3}
+sample = c("L", "W", "W", "L", "W", "W", "W")
+plot(seq(0,1,length.out=100), compute_posterior(sample), type = "l")
+```
+
+---
+
+## exercise
+
+Now assume a prior for $p$ that is equal to zero when $p < 0.5$ and is a positive constant when $p ≥ 0.5$. Again compute and plot the grid approximate posterior distribution for each of the sets of observations in the prior problem.
+
+---
+
+## exercise: solution
+
+```{r}
+compute_posterior = function(sample, poss = seq(0,1,length.out=100)){
+  
+  W = sum(sample == "W")
+  L = sum(sample == "L")
+  
+  prior = ifelse(poss < .5, 0, 1)
+  
+  likelihood = sapply( poss, function(x) dbinom(x = W, size = W+L, prob = x))
+  
+  post = ( prior*likelihood ) / sum( prior*likelihood)
+  
+  return(post)
+}
+```
+
+---
+
+```{r, fig.retina = 3}
+sample = c("W", "W", "W")
+plot(seq(0,1,length.out=100), compute_posterior(sample), type = "l")
+```
+
+---
+
+```{r, fig.retina = 3}
+sample = c("W", "W", "W", "L")
+plot(seq(0,1,length.out=100), compute_posterior(sample), type = "l")
+```
+
+---
+
+```{r, fig.retina = 3}
+sample = c("L", "W", "W", "L", "W", "W", "W")
+plot(seq(0,1,length.out=100), compute_posterior(sample), type = "l")
+```
+
+---
+
+## exercise
+
+Suppose the globe tossing data had turned out to be 8 water in 15 tosses. Construct the posterior distribution, using grid approximation. Use the same flat prior as before.
+
+Draw 10,000 samples from the grid approximation from above. Then use the samples to calculate the 90% HPDI for $p$.
+
+---
+
+## exercise: solution
+
+```{r}
+p_grid <- seq( from=0 , to=1 , length.out=1000 )
+prior <- rep( 1 , 1000 )
+likelihood <- dbinom( 8 , size=15 , prob=p_grid )
+posterior <- likelihood * prior
+posterior <- posterior / sum(posterior)
+set.seed(100)
+samples <- sample( p_grid , prob=posterior , size=1e4 , replace=TRUE )
+rethinking::HPDI(samples, prob = .90)
+```
+
+---
+
+## exercise
+
+
+Construct a posterior predictive check for this model and data. This means simulate the distribution of samples, averaging over the posterior uncertainty in $p$. What is the probability of observing 8 water in 15 tosses?
+
+---
+
+## exercise: solution
+
+```{r}
+dummy_w <- rbinom(1e4, 15, prob = samples)
+table(dummy_w)
+sum(dummy_w == 8)/1e4
+```
+
+---
+
+## exercise
+
+
+Now use a prior that is zero below $p <.5$ and a positive constant otherwise. Repeat each problem above and compare the inferences. What difference does the better prior make? 
+
+  * Calculate the 90% HDPI. 
+  * What is the probability of observing 8 water in 15 tosses?
+  
+---
+
+## exercise: solution
+
+```{r}
+p_grid <- seq( from=0 , to=1 , length.out=1000 )
+prior <- ifelse(p_grid < .5, 0, 1)
+likelihood <- dbinom( 8 , size=15 , prob=p_grid )
+posterior <- likelihood * prior
+posterior <- posterior / sum(posterior)
+set.seed(100)
+samples <- sample( p_grid , prob=posterior , size=1e4 , replace=TRUE )
+rethinking::HPDI(samples, prob = .90)
+```
+
+---
+
+## exercise: solution
+
+```{r}
+dummy_w <- rbinom(1e4, 15, prob = samples)
+table(dummy_w)
+sum(dummy_w == 8)/1e4
+```
