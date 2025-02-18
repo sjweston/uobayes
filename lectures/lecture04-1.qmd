@@ -1,6 +1,6 @@
 ---
 title: "Week 3: Causes, Confounds, and Colliders"
-subtitle: "Good and bad controls"
+subtitle: "Elemental confounds"
 format: 
   revealjs:
     css: xaringan-themer2.css
