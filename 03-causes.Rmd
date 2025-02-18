@@ -1,0 +1,98 @@
+# Week 3: Causes, Confounds, and Colliders
+
+## Class 1: Elemental confounds
+
+Before class, be sure to [watch the lecture by McElreath](https://www.youtube.com/watch?v=mBEA7PKDmiY&list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus&index=5).
+
+### Slides
+
+<iframe src="lectures/lecture03-1.html" width="100%" height="500px"></iframe>
+
+This lecture is based on Chapters 5 and 6 in _Statistical Rethinking_ by Richard McElreath.
+
+You'll also want this code to simulate some fake plant data in class.
+
+```{r}
+set.seed(71)
+# number of plants
+N <- 100
+# simulate initial heights
+h0 <- rnorm(N,10,2)
+# assign treatments and simulate fungus and growth
+treatment <- rep( 0:1 , each=N/2 )
+fungus <- rbinom( N , size=1 , prob=0.5 - treatment*0.4 )
+h1 <- h0 + rnorm(N, 5 - 3*fungus)
+# compose a clean data frame
+d <- data.frame( h0=h0 , h1=h1 , treatment=treatment , fungus=fungus )
+```
+
+
+## Class 2: Categories (and curves)
+
+Before class, be sure to [watch the lecture by McElreath](https://www.youtube.com/watch?v=F0N4b7K_iYQ&list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus&index=6).
+
+### Slides
+
+<iframe src="lectures/lecture03-2.html" width="100%" height="500px"></iframe>
+
+This lecture is based on Chapter 6 in _Statistical Rethinking_ by Richard McElreath.
+
+### Simulation Code
+
+#### Simulation 1: Simple Confounding
+
+In this code, the true causal effect of X on Y is 0, but confounded by U.
+
+```{r, eval = F}
+
+#number of sims
+N = 1000
+# Generate data
+U <- rnorm(N)  # Unobserved confounder
+X <- rnorm(N, mean = 0.5 * U)  # Treatment affected by U
+Y <- rnorm(N, mean = 0.8 * U)  # Outcome affected by U
+Z <- rnorm(N, mean = 0.6 * U)  # Observed variable that captures U
+
+d <- data.frame(X, Y, Z)
+
+# Fit models
+flist1 <- alist(
+  Y ~ dnorm(mu, sigma),
+  mu <- a + bX*X,
+  a ~ dnorm(0, .5),
+  bX ~ dnorm(0, .25),
+  sigma ~ dexp(1)
+)
+
+m32.1 <- quap(flist1, d)
+precis(m32.1)
+
+# Fit models
+flist2 <- alist(
+  Y ~ dnorm(mu, sigma),
+  mu <- a + bX*X +bZ*Z,
+  a ~ dnorm(0, .5),
+  bX ~ dnorm(0, .25),
+  bZ ~ dnorm(0, .25),
+  sigma ~ dexp(1)
+)
+
+m32.2 <- quap(flist2, d)
+precis(m32.2)
+
+post.1 <- extract.samples(m32.1)
+post.2 <- extract.samples(m32.2)
+
+results_df = data.frame(naive = post.1$bX,
+                        adjusted = post.2$bX)
+results_df %>% 
+  pivot_longer(everything()) %>% 
+  ggplot(aes(x = value, fill = name)) +
+  geom_density(alpha = .5) +
+  geom_vline(aes(xintercept = 0), linetype = "dashed")
+```
+
+#### Simulation 2: Collider Bias
+
+In this code, the true causal effect of X on Y is 0, but controlling for Z (collider) creates bias.
+

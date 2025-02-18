@@ -1,0 +1,534 @@
+---
+title: "Week 3: Causes, Confounds, and Colliders"
+subtitle: "Elemental confounds"
+format: 
+  revealjs:
+    css: xaringan-themer2.css
+    nature:
+      highlightStyle: solarized-dark
+      highlightLines: true
+      countIncrementalSlides: false
+      mathjax: "default"
+    self-contained: false  # Ensures correct embedding
+    embed-resources: true  # Embeds required assets
+    slide-number: true
+execute:
+  echo: false  
+---
+
+```{r, message = F, warning = F}
+library(tidyverse)
+library(cowplot)
+library(rethinking)
+library(patchwork)
+```
+
+
+```{r, echo = F}
+knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
+theme_set(theme_cowplot())
+default_palettes <- list(
+  c("#5e8485" , "#0f393a") ,
+  c("#1c5253" , "#5e8485" , "#0f393a") , 
+  # palette with 5 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" ) ,
+  # same palette interpolated to 8 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" ) 
+  
+)
+
+options(ggplot2.discrete.fill = default_palettes, 
+        ggplot2.discrete.colour = default_palettes)
+```
+
+---
+
+Four elemental confounds
+
+![](images/Lecture_05-waffles.jpg)
+
+---
+
+## Forks
+
+```{r, fig.width=8, fig.height = 2}
+library(dagitty)
+dag3.1 <- dagitty( "dag{ Z -> X; Z -> Y }" )
+coordinates(dag3.1) <- list( x=c(X=-1,Z=0,Y=1) , y=c(X=0,Z=-1,Y=0) )
+drawdag( dag3.1 )
+```
+
+True confounds.
+
+Not stratifying on (controlling for) Z will yield a spurious relationship between X and Y. That is, a correlation of X and Y (or regression) will be non-zero, even though there is no causal relationship from one to another. 
+
+---
+
+## Marriage example
+
+```{r}
+data(WaffleDivorce, package = "rethinking")
+d <- WaffleDivorce
+```
+
+### exercise
+
+Create two plots, one showing the relationship between marriage rate and divorce rate and another showing the relationship between median age at marriage and divorce rate. 
+
+---
+
+### solution
+
+```{r}
+#| code-fold: true
+
+p1 <- d %>% ggplot(aes(x = Marriage, y = Divorce)) +
+  geom_point(color = "#1c5253") +
+  geom_smooth(method = "lm", color = "black") +
+  labs(x = "marriage rate", y = "divorce rate")
+
+p2 <- d %>% ggplot(aes(x = MedianAgeMarriage, y = Divorce)) +
+  geom_point(color = "#1c5253") +
+  geom_smooth(method = "lm", color = "black") +
+  labs(x = "median age at marriage", y = "divorce rate")
+
+(p1 | p2)
+```
+
+---
+
+### exercise
+
+Model the relationship between Divorce Rate (D) and Marriage Rate (M). (Standardize both first.) Be sure to do the following:
+
+* Write a mathematical model expressing this relationship including priors. 
+* Sample from your priors to evaluate them. 
+* Calculate your posterior predictions for the relationship between D and M. 
+---
+
+### solution
+
+\begin{align*}
+D_i &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \alpha + \beta_MM_i \\
+\alpha &\sim \text{Normal}(0, 0.2) \\
+\beta_M &\sim \text{Normal}(0, 0.5) \\
+\sigma &\sim \text{Exponential}(1) \\
+\end{align*}
+
+```{r}
+d$D <- standardize(d$Divorce)
+d$M <- standardize(d$Marriage)
+```
+
+
+---
+
+### solution
+
+```{r}
+flist <- alist(
+  D ~ dnorm( mu, sigma),
+  mu <- a + bM * M,
+  a ~ dnorm(0, 0.2),
+  bM ~ dnorm(0, 0.5),
+  sigma ~ dexp(1)
+)
+
+m3.1 <- quap(flist = flist, data = d)
+```
+
+---
+
+### solution
+
+```{r}
+priors <- extract.prior(m3.1)
+mu <- link( m3.1 , post=priors , data=list( M=c(-2,2) ) )
+plot( D ~ M , data=d, xlab = "marriage rate", ylab = "divorce rate" )
+for ( i in 1:50 ) lines( c(-2.5,3) , mu[i,] , col=col.alpha("#1c5253",0.4) )
+```
+
+---
+
+### solution
+
+```{r}
+# compute percentile interval of mean
+M_seq <- seq( from=-3 , to=3.2 , length.out=30 )
+mu <- link( m3.1 , data=list(M=M_seq) )
+mu.mean <- apply( mu , 2, mean )
+mu.PI <- apply( mu , 2 , PI )
+
+
+# plot it all
+plot( D ~ M , data=d , col= "#1c5253", xlab = "marriage rate", ylab = "divorce rate" )
+lines( M_seq , mu.mean , lwd=2 )
+shade( mu.PI , M_seq )
+
+precis(m3.1)
+```
+
+---
+
+Now we're going to incorporate state age (median age at marriage) into our model. This is the DAG proposed by RM. What does this DAG represent?
+
+```{r}
+dag3.2 <- dagitty( "dag{ A -> D; A -> M; M -> D }" )
+coordinates(dag3.2) <- list( x=c(A=0,D=1,M=2) , y=c(A=0,D=1,M=0) )
+drawdag( dag3.2 )
+```
+
+---
+
+### forks
+
+DAG models help us to see **conditional independencies**.
+
+  * statements of which variables should be associated with each other (or not) in the data.
+  * statements of which variables become disassociated when we condition on some other set of variables.
+
+```{r}
+impliedConditionalIndependencies( dag3.2 ) #none
+```
+
+:::{.notes}
+
+implication is that if we find any of these three variables are uncorrelated, our DAG is wrong.
+
+:::
+
+---
+
+
+How does this change with a new DAG?
+```{r}
+dag3.3 <- dagitty( "dag{ A -> D; A -> M }" )
+coordinates(dag3.3) <- list( x=c(A=0,D=1,M=2) , y=c(A=0,D=1,M=0) )
+drawdag( dag3.3 )
+impliedConditionalIndependencies( dag3.3 ) 
+```
+
+::: {.notes}
+
+implication that D and M will be independent after stratifying on A. We can test this.
+
+:::
+
+---
+
+\begin{align*}
+D_i &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \alpha + \beta_AA_i + \beta_MM_i\\
+\alpha &\sim \text{Normal}(0, 0.2) \\
+\beta_A &\sim \text{Normal}(0, 0.5) \\
+\beta_M &\sim \text{Normal}(0, 0.5) \\
+\sigma &\sim \text{Exponential}(1) \\
+\end{align*}
+
+```{r}
+d$A <- standardize(d$MedianAgeMarriage)
+```
+
+---
+
+
+```{r}
+flist <- alist(
+  D ~ dnorm( mu, sigma),
+  mu <- a + bA * A + bM * M,
+  a ~ dnorm(0, 0.2),
+  bA ~ dnorm(0, 0.5),
+  bM ~ dnorm(0, 0.5),
+  sigma ~ dexp(1)
+)
+
+m3.2 <- quap(flist = flist, data = d)
+precis(m3.2)
+```
+
+---
+
+```{r}
+plot( coeftab(m3.1,m3.2), par=c("bA","bM") )
+```
+
+---
+
+If we want to simulate the effect of manipulating marriage, we use "do calculus." We do this by effectively "deleting" the arrows going into our manipulation variable (M).
+
+```{r}
+post <- extract.samples(m3.2) # get 10k samples of all parameters
+n <- 1e3
+As <- sample(d$A, size=n, replace=T) #sample from original data
+
+# simulate D for M=0
+DM0 <- with( post ,
+             rnorm(n, a + bM*0 + bA*As, sigma))
+# simulate D for M=1 -- SAME A values
+DM1 <- with( post ,
+             rnorm(n, a + bM*1 + bA*As, sigma))
+
+#contrast
+M10_con <- DM1 - DM0
+dens(M10_con, lwd=4, col = "#1c5253", xlab="effect of 1SD increase in M")
+```
+
+
+---
+
+### Pipes
+
+A pipe in a DAG model represents a situation where a variable acts as a mediator between two other variables. In this context, the effect of one variable on another is transmitted through the mediator.
+
+```{r}
+dag_pipe <- dagitty("dag{ X -> M -> Y }")
+coordinates(dag_pipe) <- list(x=c(X=0, M=1, Y=2), y=c(X=0, M=1, Y=0))
+drawdag(dag_pipe)
+```
+
+One place that pipes show up is in **post-treatment bias.**
+
+---
+
+Suppose you are studying plants in a greenhouse, and you want to know how effective a particular fungal treatment is. Fungus on plants tends to reduce their growth. You plant a bunch of plants, measure them, then apply one of two different treatments. After some time, you measure the plants again, and you measure the amount of fungus on the plants. 
+
+Simulate some fake plant data. 
+
+```{r}
+set.seed(71)
+# number of plants
+N <- 100
+# simulate initial heights
+h0 <- rnorm(N,10,2)
+# assign treatments and simulate fungus and growth
+treatment <- rep( 0:1 , each=N/2 )
+fungus <- rbinom( N , size=1 , prob=0.5 - treatment*0.4 )
+h1 <- h0 + rnorm(N, 5 - 3*fungus)
+# compose a clean data frame
+d <- data.frame( h0=h0 , h1=h1 , treatment=treatment , fungus=fungus )
+precis(d)
+```
+
+---
+
+## exercise
+
+Draw the dag that describes the relationships between these 4 variables. 
+
+What are the implied conditional independences?
+
+---
+
+### solution
+
+```{r}
+plant_dag <- dagitty( "dag {
+  H_0 -> H_1
+  F -> H_1
+  T -> F}" )
+
+coordinates( plant_dag ) <- list( x=c(H_0=1.0,T=0,F=0.5,H_1=1),
+                                  y=c(H_0=-.5,T=0,F=0.5,H_1=0) )
+
+drawdag( plant_dag )
+impliedConditionalIndependencies(plant_dag)
+```
+
+---
+
+Let's start by just modeling growth using our two height variables. 
+
+\begin{align*}
+h_{1,i} &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= h_{0,i} \times p \\
+p &\sim \text{Log Normal}(0, .25) \\
+\sigma &\sim \text{Exponential}(1)
+\end{align*}
+
+```{r}
+flist <- alist(
+  h1 ~ dnorm(mu, sigma),
+  mu <- h0*p,
+  p ~ dlnorm(0, .25),
+  sigma ~ dexp(1)
+)
+
+m3.3 <- quap(flist, d)
+precis(m3.3)
+```
+
+---
+
+Now add treatment to this model.
+
+\begin{align*}
+h_{1,i} &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= h_{0,i} \times p \\
+p &= \alpha + \beta_TT_i \\
+\alpha &\sim \text{Log Normal}(0, .25) \\
+\beta_T &\sim \text{Normal}(0, .5) \\
+\sigma &\sim \text{Exponential}(1)
+\end{align*}
+
+```{r}
+flist <- alist(
+  h1 ~ dnorm(mu, sigma),
+  mu <- h0*p,
+  p <- a + bT * treatment,
+  a ~ dlnorm(0, .25),
+  bT ~ dnorm(0, .5),
+  sigma ~ dexp(1)
+)
+
+m3.4 <- quap(flist, d)
+precis(m3.4)
+```
+
+---
+
+### exercise
+
+Now add in both treatment and fungus to this model.
+
+---
+
+### solution
+
+\begin{align*}
+h_{1,i} &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= h_{0,i} \times p \\
+p &= \alpha + \beta_TT_i + \beta_FF_i \\
+\alpha &\sim \text{Log Normal}(0, .25) \\
+\beta_T &\sim \text{Normal}(0, .5) \\
+\beta_F &\sim \text{Normal}(0, .5) \\
+\sigma &\sim \text{Exponential}(1)
+\end{align*}
+
+```{r}
+flist <- alist(
+  h1 ~ dnorm(mu, sigma),
+  mu <- h0*p,
+  p <- a + bT * treatment + bF * fungus,
+  a ~ dlnorm(0, .25),
+  bT ~ dnorm(0, .5),
+  bF ~ dnorm(0, .5),
+  sigma ~ dexp(1)
+)
+
+m3.4 <- quap(flist, d)
+precis(m3.4)
+```
+
+---
+
+## colliders
+
+
+```{r, fig.height=2, fig.width=8}
+dag3.4 <- dagitty( "dag{ X -> Z; Y -> Z }" )
+coordinates(dag3.4) <- list( x=c(X=-1,Z=0,Y=1) , y=c(X=0,Z=1,Y=0) )
+drawdag( dag3.4 )
+```
+
+Stratifying on Z opens up the association between X and Y. We do *not* want to stratify on Z. 
+
+---
+
+### collider of false sorrow
+
+We'll use the `rethinking` package to simulate data:
+
+  * Each year, 20 people are born with uniformly distributed happiness values.
+  * Each year, each person ages one year. Happiness does not change.
+  * At age 18, individuals can become married. The odds of marriage each year are proportional to an individual’s happiness.
+  * Once married, an individual remains married.
+  * After age 65, individuals leave the sample. (They move to Spain.)
+  
+```{r}
+d <- sim_happiness(seed = 1990, N_years = 1000)
+precis(d)
+```
+
+---
+
+```{r, fig.width=9, fig.height=5}
+#| code-fold: true
+
+d %>% 
+  mutate(married = factor(married, labels = c("unmarried", "married"))) %>% 
+  ggplot(aes( x = age, y = happiness)) +
+  geom_point( aes( color = married), size = 3) +
+  scale_color_manual("",
+                       values = c("unmarried" = "lightgrey",
+                                  "married" = "#1c5253")) +
+  theme(legend.position = "top")
+```
+
+---
+
+### exercise
+
+Filter out people who are younger than 18. Then fit two models:
+
+  (1) a model in which happiness is influenced by both marriage and age. 
+  (2) a model in which happiness is influenced only by age. 
+  
+(You may want to center or standardize age in some way.)
+  
+---
+
+### solution
+
+```{r}
+d2 <- d[d$age >= 18, ]
+d2$A <- standardize(d2$age)
+d2$mid <- d2$married + 1
+precis(d2)
+```
+
+---
+
+### solution
+
+```{r}
+flist <- alist(
+  happiness ~ dnorm( mu, sigma ),
+  mu <- a[mid] + bA*A,
+  a[mid] ~ dnorm( 0, 0.5),
+  bA ~ dnorm( 0, 0.25),
+  sigma ~ dexp(1)
+)
+
+m3.5 <- quap(flist, d2)
+precis(m3.5, depth=2)
+```
+
+---
+
+### solution
+
+```{r}
+flist <- alist(
+  happiness ~ dnorm( mu, sigma ),
+  mu <- a + bA*A,
+  a ~ dnorm( 0, 0.5),
+  bA ~ dnorm( 0, 0.25),
+  sigma ~ dexp(1)
+)
+
+m3.6 <- quap(flist, d2)
+precis(m3.6, depth=2)
+```
+
+---
+
+## testing DAG assumptions
+
+* Causal DAGs make strong assumptions about unobserved confounders, but analyzing them can still provide valuable insights about where our models might be wrong through testing implied relationships.
+
+* Conditional independencies are key testable implications of a DAG, representing pairs of variables that should show no association after controlling for specific sets of other variables.
+
+* We can identify conditional independencies using the same path analysis techniques used for finding backdoor paths - examining all paths between two variables and determining if there exists a conditioning set that blocks all paths.
+
+* While manually deriving conditional independencies in large graphs is complex due to the many variable pairs and paths to consider, computational tools can efficiently perform these calculations.

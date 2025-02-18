@@ -1,0 +1,264 @@
+---
+title: "Week 3: Causes, Confounds, and Colliders"
+subtitle: "Elemental confounds"
+format: 
+  revealjs:
+    css: xaringan-themer2.css
+    nature:
+      highlightStyle: solarized-dark
+      highlightLines: true
+      countIncrementalSlides: false
+      mathjax: "default"
+    self-contained: false  # Ensures correct embedding
+    embed-resources: true  # Embeds required assets
+    slide-number: true
+execute:
+  echo: false  
+---
+
+```{r, message = F, warning = F}
+library(tidyverse)
+library(cowplot)
+library(rethinking)
+library(patchwork)
+```
+
+```{r, echo = F}
+knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
+theme_set(theme_cowplot())
+default_palettes <- list(
+  c("#5e8485" , "#0f393a") ,
+  c("#1c5253" , "#5e8485" , "#0f393a") , 
+  # palette with 5 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" ) ,
+  # same palette interpolated to 8 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" ) 
+  
+)
+
+options(ggplot2.discrete.fill = default_palettes, 
+        ggplot2.discrete.colour = default_palettes)
+```
+
+------------------------------------------------------------------------
+
+Four elemental confounds
+
+![](images/Lecture_05-waffles.jpg)
+
+---
+
+### finding backdoor paths
+
+::::: columns
+::: {.column width="50%"}
+1.  Start at treatment (X)
+
+2.  Look for any arrows coming INTO X
+
+3.  Follow all possible paths to outcome (Y)
+
+4.  A valid adjustment set blocks all backdoor paths
+
+5.  But be careful not to control for colliders!
+:::
+
+::: {.column width="50%"}
+
+### exercise
+
+Go to [dagitty.net](https://dagitty.net/) and create this DAG:
+
+```{r, fig.width=4, fig.height = 2, echo = F}
+library(dagitty)
+dag4.1 <- dagitty( "dag{    
+    Exercise -> Health 
+    Diet -> Health
+    Motivation -> Exercise
+    Motivation -> Health
+    Age -> Diet
+    Age -> Health }" )
+coordinates(dag4.1) <- list( 
+  x=c(Exercise=0, Health=1, Diet=2, Motivation=0, Age=1) ,
+  y=c(Exercise=0, Health=0, Diet=0, Motivation=1, Age=1) )
+drawdag( dag4.1 )
+```
+
+:::
+:::::
+
+---
+
+### exercise
+
+```{r, fig.width=4, fig.height = 2, echo = F}
+drawdag( dag4.1 )
+```
+
+1. List all paths between Exercise and Health
+2. Identify which paths are backdoor paths
+3. Find all valid adjustment sets if we want to estimate the effect of Exercise on Health
+4. BONUS: What happens if we control for Motivation? Why?
+
+:::{.notes}
+
+Paths:
+
+Exercise → Health (direct/front-door)
+Exercise ← Motivation → Health (backdoor)
+Exercise ← Motivation → Diet ← Age → Health (backdoor)
+
+
+Valid adjustment sets:
+
+* Motivation
+* Motivation, Age
+
+:::
+
+---
+
+### exercise: simulate simple confounding
+
+Copy this code from the slides or the class book (Simulation 1: Simple Confounding).
+
+1. Run the base simulation and observe results
+
+2. Modify the simulation parameters:
+  * Change the strength of the confounding (modify the 0.5, 0.8, and 0.6 coefficients)
+  * Change the sample size (N)
+  * Add a true causal effect (modify Y calculation to include X)
+
+3. Answer these questions:
+  * What happens to the bias in the naive estimate as you increase the strength of confounding?
+  * How does sample size affect the precision of your estimates?
+  * When does controlling for Z fail to recover the true causal effect?
+
+```{r}
+#| code-fold: true
+#number of sims
+N = 1000
+# Generate data
+U <- rnorm(N)  # Unobserved confounder
+X <- rnorm(N, mean = 0.5 * U)  # Treatment affected by U
+Y <- rnorm(N, mean = 0.8 * U)  # Outcome affected by U
+Z <- rnorm(N, mean = 0.6 * U)  # Observed variable that captures U
+
+d <- data.frame(X, Y, Z)
+
+# Fit models
+flist1 <- alist(
+  Y ~ dnorm(mu, sigma),
+  mu <- a + bX*X,
+  a ~ dnorm(0, .5),
+  bX ~ dnorm(0, .25),
+  sigma ~ dexp(1)
+)
+
+m32.1 <- quap(flist1, d)
+precis(m32.1)
+
+# Fit models
+flist2 <- alist(
+  Y ~ dnorm(mu, sigma),
+  mu <- a + bX*X +bZ*Z,
+  a ~ dnorm(0, .5),
+  bX ~ dnorm(0, .25),
+  bZ ~ dnorm(0, .25),
+  sigma ~ dexp(1)
+)
+
+m32.2 <- quap(flist2, d)
+precis(m32.2)
+
+post.1 <- extract.samples(m32.1)
+post.2 <- extract.samples(m32.2)
+
+results_df = data.frame(naive = post.1$bX,
+                        adjusted = post.2$bX)
+results_df %>% 
+  pivot_longer(everything()) %>% 
+  ggplot(aes(x = value, fill = name)) +
+  geom_density(alpha = .5) +
+  geom_vline(aes(xintercept = 0), linetype = "dashed")
+```
+
+---
+
+### bad controls
+
+"Bad controls" can create bias in three main ways:
+
+* Collider bias (as we saw in the previous exercise)
+* Precision parasites (reduce precision without addressing confounding)
+* Bias amplification (making existing bias worse)
+
+Warning signs of bad controls:
+
+* Post-treatment variables
+* Variables affected by both treatment and outcome
+* Variables that don't address actual confounding paths
+
+---
+
+### exercise
+
+Modify your code for this new simulation (precision parasite):
+
+```{r}
+n = 100
+# Z affects X but is not a confounder
+Z <- rnorm(n)
+X <- rnorm(n, mean = Z)
+Y <- rnorm(n, mean = X)  # True effect of X on Y is 1
+```
+
+
+Test your previous models with these new data, using different sample sizes (n = 50, 100, 1000). For each sample size, compare:
+
+  * Standard errors without controlling for Z
+  * Standard errors when controlling for Z
+
+How does sample size affect the impact of the precision parasite?
+Under what conditions is the precision loss most severe?
+
+
+---
+
+### exercise
+
+Modify your code for this new simulation (bias amplification):
+
+```{r}
+n = 100
+conf_strength = 1
+# U is unmeasured confounder
+U <- rnorm(n)
+Z <- rnorm(n)
+X <- rnorm(n, mean = Z + conf_strength * U)
+Y <- rnorm(n, mean = conf_strength * U)  # No true effect of X
+```
+
+Compare different confounder strengths (0.5, 1, 2).
+
+Questions:
+  * What happens to the bias when you control for Z?
+  * How does the strength of the confounding affect the amount of bias amplification?
+  * Can you explain why this happens using the DAG?
+
+---
+
+### exercise
+
+Modify your code to create a scenario with both a precision parasite variable and a bias amplification variable. 
+
+Questions: 
+  * What happens to our estimates when we control for both variables?
+  * Is it better to:
+      * Control for neither
+      * Control for just one (which one?)
+      *Control for both
+* How can we use DAGs to decide which controls to include?
+
+
+

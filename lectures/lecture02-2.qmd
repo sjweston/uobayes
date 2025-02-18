@@ -42,14 +42,13 @@ options(ggplot2.discrete.fill = default_palettes,
         ggplot2.discrete.colour = default_palettes)
 ```
 
-
 As we develop more useful models, we'll begin to practice the art of generating models with multiple estimands. An *estimand* is a quantity we want to estimate from the data. Our models may not themselves produce the answer to our central question, so we need to know how to calculate these values from the posterior distributions.
 
----
+------------------------------------------------------------------------
 
 ## Categories
 
-Forget dummy codes. From here on out, we will incorporate categorical causes into our models by using index variables. An **index variable** contains integers that correspond to different categories. The numbers have no inherent meaning -- rather, they stand as placeholders or shorthand for categories. 
+Forget dummy codes. From here on out, we will incorporate categorical causes into our models by using index variables. An **index variable** contains integers that correspond to different categories. The numbers have no inherent meaning -- rather, they stand as placeholders or shorthand for categories.
 
 ```{r}
 data("Howell1")
@@ -58,11 +57,11 @@ d$sex <- ifelse(d$male == 1, 2, 1) # 1 = female, 2 = male
 head(d[, c("male", "sex")])
 ```
 
----
+------------------------------------------------------------------------
 
 ### Mathematical model
 
-Let's write a mathematical model to express height in terms of sex. 
+Let's write a mathematical model to express height in terms of sex.
 
 \begin{align*}
 h_i &\sim \text{Normal}(\mu_i, \sigma) \\
@@ -80,8 +79,7 @@ flist <- alist(
 )
 ```
 
-
----
+------------------------------------------------------------------------
 
 ### Fitting the model using `quap()`
 
@@ -93,9 +91,9 @@ m1 <- quap(
 precis(m1, depth=2)
 ```
 
-Here, we are given the estimates of the parameters specified in our model: the average height of women (`a[1]`) and the average height of men (`a[2]`).  But our question is whether these average heights are different. How do we get that?
+Here, we are given the estimates of the parameters specified in our model: the average height of women (`a[1]`) and the average height of men (`a[2]`). But our question is whether these average heights are different. How do we get that?
 
----
+------------------------------------------------------------------------
 
 ```{r}
 post <- extract.samples( m1 )
@@ -105,9 +103,11 @@ post$diff_fm <- post$a[,1] - post$a[,2]
 precis(post, depth=2 )
 ```
 
----
+------------------------------------------------------------------------
 
-We can create two plots. One is the posterior distributions of average female and male heights and one is the average difference. 
+### Calculate the contrast
+
+We can create two plots. One is the posterior distributions of average female and male heights and one is the average difference.
 
 ```{r post-sex, eval = F}
 
@@ -126,17 +126,17 @@ p2 <- post %>% as.data.frame() %>%
 ( p1 | p2)
 ```
 
----
+------------------------------------------------------------------------
 
 ```{r ref.label="post-sex", fig.height=5, fig.width=8,  fig.align="center", echo =F}
 
 ```
 
+------------------------------------------------------------------------
 
+### Expected values vs predicted values
 
----
-
-A note that the distributions of the _mean_ heights is not the same as the distribution of heights period. For that, we need the posterior predictive distributions. 
+A note that the distributions of the *mean* heights is not the same as the distribution of heights period. For that, we need the posterior predictive distributions.
 
 ```{r post-sex2, eval = F}
 
@@ -174,27 +174,25 @@ p2 <- ggplot(density_df, aes(x = x, y = y, fill = fill_group)) +
 (p1 | p2)
 ```
 
----
+------------------------------------------------------------------------
 
 ```{r ref.label="post-sex2", fig.height=5, fig.width=8, fig.align = "center", ,echo =F}
 
 ```
 
+------------------------------------------------------------------------
 
----
-
-## Exercise
+## exercise
 
 In the `rethinking` package, the dataset `milk` contains information about the composition of milk across primate species, as well as some other facts about those species. The taxonomic membership of each species is included in the variable `clade`; there are four categories.
 
-  1. Create variable in the dataset to assign an index value to each of the 4 categories. 
-  2. Standardize the milk energy variable (`kcal.per.g`). [^1]
-  3. Write a mathematical model to express the average milk energy (in standardized kilocalories) in each clade. 
+1.  Create variable in the dataset to assign an index value to each of the 4 categories.
+2.  Standardize the milk energy variable (`kcal.per.g`). [^lecture02-2-1]
+3.  Write a mathematical model to express the average milk energy (in standardized kilocalories) in each clade.
 
-[^1]: You don't need to be an expert in primate biology to have a sense of what is reasonable for these values after we standardize.
+------------------------------------------------------------------------
 
-
----
+### solution
 
 ```{r}
 data("milk")
@@ -203,7 +201,6 @@ milk$clade_id <- as.integer(milk$clade)
 milk$K <- standardize(milk$kcal.per.g)
 ```
 
-
 \begin{align*}
 K_i &\sim \text{Normal}(\mu_i, \sigma) \\
 \mu_i &= \alpha_{\text{CLAUDE}[i]} \\
@@ -211,10 +208,11 @@ K_i &\sim \text{Normal}(\mu_i, \sigma) \\
 \sigma &\sim \text{Exponential}(1) \\
 \end{align*}
 
-
 **Exercise:** Now fit your model using `quap()`. It's ok if your mathematical model is a bit different from mine.
 
----
+------------------------------------------------------------------------
+
+### solution
 
 ```{r}
 flist <- alist(
@@ -231,8 +229,7 @@ m2 <- quap(
 precis( m2, depth=2 )
 ```
 
-
----
+------------------------------------------------------------------------
 
 ### Plotting with `rethinking`
 
@@ -245,16 +242,18 @@ plot(
 )
 ```
 
----
+------------------------------------------------------------------------
 
-### Exercise
+### exercise
 
 Plot the following distributions:
 
- * Posterior distribution of average milk energy by clade. 
- * Posterior distribution of predicted milk energy values by clade. 
- 
----
+-   Posterior distribution of average milk energy by clade.
+-   Posterior distribution of predicted milk energy values by clade.
+
+------------------------------------------------------------------------
+
+### solution
 
 ```{r}
 post <- extract.samples( m2 )
@@ -263,10 +262,13 @@ post %>% as.data.frame() %>%
   pivot_longer(starts_with("a")) %>% 
   mutate(name = recode(name, !!!labels)) %>% 
   ggplot(aes(x = value, color = name)) +
-  geom_density(linewidth = 2)
+  geom_density(linewidth = 2) +
+  labs(title = "Posterior distribution of expected milk energy")
 ```
 
----
+------------------------------------------------------------------------
+
+### solution
 
 ```{r}
 post <- extract.samples( m2 )
@@ -278,8 +280,250 @@ data.frame(a.1, a.2, a.3, a.4) %>%
   pivot_longer(everything()) %>% 
   mutate(name = recode(name, !!!labels)) %>% 
   ggplot(aes(x = value, color = name)) +
-  geom_density(linewidth = 2)
+  geom_density(linewidth = 2) +
+  labs(title = "Posterior distribution of predicted milk energy")
 ```
 
+------------------------------------------------------------------------
 
+## Combining index variables and slopes
+
+Let's return to the height example. What if we want to control for weight?
+
+\begin{align*}
+h_i &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \alpha_{S[i]} + \beta_{S[i]}(W_i-\bar{W})\\
+\alpha_j &\sim \text{Normal}(178, 20)\text{ for }j = 1..2 \\
+\beta_j &\sim \text{Normal}(0, 5)\text{ for }j = 1..2 \\
+\sigma &\sim \text{Uniform}(0, 50)
+\end{align*}
+
+::: fragment
+```{r}
+dat <- list(
+  height = d$height,
+  weight = d$weight,
+  Wbar <- mean(d$weight),
+  sex = d$male + 1
+)
+
+flist <- alist(
+  height ~ dnorm( mu , sigma) ,
+  mu <- a[sex] + b[sex]*(weight-Wbar),
+  a[sex] ~ dnorm( 178, 20 ) ,
+  b[sex] ~ dnorm( 0, 20 ) ,
+  sigma ~ dunif(0, 50)
+)
+
+m3 <- quap(flist, data=dat)
+```
+:::
+
+------------------------------------------------------------------------
+
+```{r}
+precis(m3, depth=3)
+post <- extract.samples(m3)
+str(post)
+```
+
+------------------------------------------------------------------------
+
+Plot the slopes using `extract.samples()`
+
+```{r}
+xbar = mean(d$weight)
+plot(NULL, xlim = range(d$weight), ylim = c(0, 200),
+     xlab = "weight", ylab = "height")
+#plot each line
+for(i in 1:50){
+ curve(post$a[i, 1] +post$b[i, 1]*(x-xbar), 
+       add = T,
+       col=col.alpha("#1c5253",0.1))  
+  curve(post$a[i, 2] +post$b[i, 2]*(x-xbar), 
+       add = T,
+       col=col.alpha("#e07a5f",0.1))  
+}
+```
+
+------------------------------------------------------------------------
+
+Plot the slopes using `link()`
+
+```{r}
+xseq <- seq( min(d$weight), max(d$weight), len=100)
+plot(NULL, xlim = range(d$weight), ylim = range(d$height), xlab = "weight", ylab = "height")
+muF <- 
+  link(m3, data=list(sex=rep(1,100), weight=xseq, Wbar = mean(d$weight)))
+lines(xseq, apply(muF, 2, mean), lwd = 2, col = "#1c5253" )
+muM <- 
+  link(m3, data=list(sex=rep(2,100), weight=xseq, Wbar = mean(d$weight)))
+lines(xseq, apply(muM, 2, mean), lwd = 2, col =  "#e07a5f")
+```
+
+------------------------------------------------------------------------
+
+### exercise
+
+Return to the `milk` data. Write a mathematical model expressing the energy of milk as a function of the species body mass (`mass`) and clade category. Be sure to include priors. Fit your model using `quap()`.
+
+------------------------------------------------------------------------
+
+### solution
+
+\begin{align*}
+K_i &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \alpha_{\text{CLAUDE}[i]} + \beta_{\text{CLAUDE}[i]}(M-\bar{M})\\
+\alpha_i &\sim \text{Normal}(0, 0.5) \text{ for }j=1..4 \\
+\beta_i &\sim \text{Normal}(0, 0.5) \text{ for }j=1..4 \\
+\sigma &\sim \text{Exponential}(1) \\
+\end{align*}
+
+::: fragment
+```{r}
+dat <- list(
+  K        = standardize(milk$kcal.per.g),
+  M        = milk$mass,
+  Mbar     = mean(milk$mass),
+  clade_id = milk$clade_id
+)
+
+flist <- alist(
+  K ~ dnorm( mu , sigma ) ,
+  mu <- a[clade_id] +b[clade_id]*(M-Mbar), 
+  a[clade_id] ~ dnorm( 0 , 0.5 ) , 
+  b[clade_id] ~ dnorm( 0 , 0.5 ) , 
+  sigma ~ dexp( 1 )
+)
+
+m4 <- quap(
+  flist, data = dat
+)
+```
+:::
+
+------------------------------------------------------------------------
+
+```{r}
+precis( m4, depth=2 )
+```
+
+------------------------------------------------------------------------
+
+
+
+
+::::: columns
+::: {.column width="50%"}
+```{r plot-apes, eval = F}
+xseq <- seq( min(milk$mass), max(milk$mass), len=100)
+Mbar = mean(milk$mass)
+custom_colors = c("#1c5253", "#e07a5f", "#f2cc8f", "#81b29a")
+colors = custom_colors[milk$clade_id]
+plot(milk$K ~ milk$mass, col = colors, 
+     pch = 16,
+     xlim = range(milk$mass), ylim = range(milk$K), 
+     xlab = "weight", ylab = "height")
+mu1 <- 
+  link(m4, data=list(clade_id=rep(1,100), M=xseq, Mbar = Mbar))
+lines(xseq, apply(mu1, 2, mean), lwd = 2, col = "#1c5253" )
+mu2 <- 
+  link(m4, data=list(clade_id=rep(2,100), M=xseq, Mbar = Mbar))
+lines(xseq, apply(mu2, 2, mean), lwd = 2, col = "#e07a5f" )
+mu3 <- 
+  link(m4, data=list(clade_id=rep(3,100), M=xseq, Mbar = Mbar))
+lines(xseq, apply(mu3, 2, mean), lwd = 2, col = "#f2cc8f" )
+mu4 <- 
+  link(m4, data=list(clade_id=rep(4,100), M=xseq, Mbar = Mbar))
+lines(xseq, apply(mu4, 2, mean), lwd = 2, col = "#81b29a" )
+legend("topright", legend = levels(milk$clade), 
+       col = custom_colors, pch = 16)
+
+```
+:::
+
+::: {.column width="50%"}
+```{r, ref.label="plot-apes", echo=F, fig.height=12}
+
+```
+
+:::
+:::::
+
+[^lecture02-2-1]: You don't need to be an expert in primate biology to have a sense of what is reasonable for these values after we standardize.
+
+---
+
+# Splines
+
+```{r}
+data(cherry_blossoms)
+d <- cherry_blossoms
+precis(d)
+
+psych::describe(d)
+```
+
+---
+
+```{r}
+d2 <- d[ complete.cases(d$doy) , ] # complete cases on doy
+num_knots <- 15
+knot_list <- quantile( d2$year , probs=seq(0,1,length.out=num_knots) )
+knot_list
+
+d2 %>% 
+  ggplot(aes(x = year, y = doy)) +
+  geom_point(color = "#ffb7c5", alpha = 1/2) + 
+  geom_vline(xintercept = knot_list, color = "white", alpha = .5) +
+  theme(panel.grid = element_blank(),
+        panel.background = element_rect(fill = "#4f455c"))
+```
+
+---
+
+```{r}
+library(splines)
+B <- bs(d2$year,
+  knots=knot_list[-c(1,num_knots)] ,
+  degree=3 , intercept=TRUE )
+
+plot( NULL , xlim=range(d2$year) , ylim=c(0,1) , xlab="year" , ylab="basis" )
+for ( i in 1:ncol(B) ) lines( d2$year , B[,i] )
+```
+
+---
+
+### Mathematical model
+
+\begin{align*}
+D_i &\sim \text{Normal}(\mu_i,\sigma) \\
+\mu_i &= \alpha + \sum^K_{k=1} w_k B_{k,i} \\
+\alpha &\sim \text{Normal}(100,10) \\
+w_j &\sim \text{Normal}(0,10) \\
+\sigma &\sim \text{Exponential}(1)
+\end{align*}
+
+:::{.fragment}
+
+```{r}
+m5<- quap(
+
+  alist(
+  D ~ dnorm( mu , sigma ) ,
+  mu <- a + B %*% w ,
+  a ~ dnorm(100,10),
+  w ~ dnorm(0,10),
+  sigma ~ dexp(1)), 
+  
+  data=list( D=d2$doy , B=B ) ,
+  
+  start=list( w=rep( 0 , ncol(B) ) ) )
+```
+
+:::
+
+::: {.notes}
+But all it is doing is multiplying each basis value by a corresponding parameter Wk and then adding up all K of those products. This is just a compact way of writing a linear model. The rest should be familiar. Although I will ask you to simulate from those priors in the practice problems at the end of the chapter. You might guess already that the w priors influence how wiggly the spline can be.
+:::
 
