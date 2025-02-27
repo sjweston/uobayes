@@ -169,7 +169,7 @@ div.csl-indent {
 <li><a href="./">A Minimal Book Example</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Course description</a>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> url: your book url like https://bookdown.org/yihui/bookdown</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#structure"><i class="fa fa-check"></i><b>1.1</b> Structure</a></li>
 <li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#materials"><i class="fa fa-check"></i><b>1.2</b> Materials</a></li>
@@ -322,7 +322,7 @@ div.csl-indent {
 <span id="cb9-4"><a href="week-2-linear-models-and-causal-inference.html#cb9-4" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> knot_list, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">alpha =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
 <span id="cb9-5"><a href="week-2-linear-models-and-causal-inference.html#cb9-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
 <span id="cb9-6"><a href="week-2-linear-models-and-causal-inference.html#cb9-6" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;#4f455c&quot;</span>))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>Next, we’ll use functions in the <code>spline</code> package to create basis spline functions based on these knots</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="week-2-linear-models-and-causal-inference.html#cb10-1" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">bs</span>(d2<span class="sc">$</span>year,</span>
 <span id="cb10-2"><a href="week-2-linear-models-and-causal-inference.html#cb10-2" tabindex="-1"></a>  <span class="at">knots=</span>knot_list[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,num_knots)] ,</span>
@@ -330,7 +330,7 @@ div.csl-indent {
 <span id="cb10-4"><a href="week-2-linear-models-and-causal-inference.html#cb10-4" tabindex="-1"></a></span>
 <span id="cb10-5"><a href="week-2-linear-models-and-causal-inference.html#cb10-5" tabindex="-1"></a><span class="fu">plot</span>( <span class="cn">NULL</span> , <span class="at">xlim=</span><span class="fu">range</span>(d2<span class="sc">$</span>year) , <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>) , <span class="at">xlab=</span><span class="st">&quot;year&quot;</span> , <span class="at">ylab=</span><span class="st">&quot;basis&quot;</span> )</span>
 <span id="cb10-6"><a href="week-2-linear-models-and-causal-inference.html#cb10-6" tabindex="-1"></a><span class="cf">for</span> ( i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(B) ) <span class="fu">lines</span>( d2<span class="sc">$</span>year , B[,i] )</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 <div id="mathematical-model-and-quap" class="section level4 hasAnchor" number="3.2.2.2">
 <h4><span class="header-section-number">3.2.2.2</span> Mathematical model and <code>quap()</code><a href="week-2-linear-models-and-causal-inference.html#mathematical-model-and-quap" class="anchor-section" aria-label="Anchor link to header"></a></h4>

@@ -39,3 +39,4 @@ class-1-overfitting
 slides-5
 class-2-mcmc
 slides-6
+url-your-book-url-like-httpsbookdown.orgyihuibookdown

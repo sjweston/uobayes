@@ -1,6 +1,6 @@
 ---
-title: "Week 3: Causes, Confounds, and Colliders"
-subtitle: "Elemental confounds"
+title: "Week 4: Overfitting/MCMC"
+subtitle: "Overfitting"
 format: 
   revealjs:
     css: xaringan-themer2.css
@@ -21,6 +21,7 @@ library(tidyverse)
 library(cowplot)
 library(rethinking)
 library(patchwork)
+library(here)
 ```
 
 ```{r, echo = F}
@@ -42,46 +43,312 @@ options(ggplot2.discrete.fill = default_palettes,
 
 ------------------------------------------------------------------------
 
-Four elemental confounds
+A central tension in our modeling is the one between explanation -- good causal models -- and prediction. In McElreath's lecture, he leads us to the intuition that predictive models are generally those that do a terrible job of representing the causal model. So the tools covered in this lecture should be considered tools for prediction, but *not* for identifying causal models.
 
-![](images/Lecture_05-waffles.jpg)
+When trying to maximize prediction, we need to be wary of **OVERFITTING** -- when the model learns too much from the sample. Methods for avoiding overfitting favor simpler models. We'll make use of **REGULARIZING**, which helps stop the model from becoming too excited about any one data point. We'll also discuss scoring devices, like **INFORMATION CRITERIA** and **CROSS-VALIDATION.**
 
----
+------------------------------------------------------------------------
 
-### finding backdoor paths
+```{r, fig.width=10, fig.height=8}
+#| code-fold: true
+
+sppnames <- c( "afarensis","africanus","habilis","boisei","rudolfensis","ergaster","sapiens")
+brainvolcc <- c( 438 , 452 , 612, 521, 752, 871, 1350 )
+masskg <- c( 37.0 , 35.5 , 34.5 , 41.5 , 55.5 , 61.0 , 53.5 )
+d <- data.frame( species=sppnames , brain=brainvolcc , mass=masskg )
+base = d %>% 
+  ggplot(aes(x=masskg, y=brainvolcc)) +
+  geom_point() +
+  geom_text(aes(label=sppnames), hjust=0, nudge_x = 1) +
+  labs(x="body mass (kg)", y="brain volume (cc)")
+p1 = base + geom_smooth(method='lm', se =F) +ggtitle("Simple linear model")
+p2 = base + geom_smooth(method='lm', se =F, formula=y~poly(x, 6)) +ggtitle("6th degree polynomial")
+(p1 | p2)
+```
+
+::: notes
+models = data compression when there are as many parameters as data points, we haven't compressed the data. we've just encoded the raw data into a different form.
+:::
+
+------------------------------------------------------------------------
+
+```{r, fig.width=10, fig.height=8}
+#| code-fold: true
+#| 
+d$mass_std <- (d$mass - mean(d$mass))/sd(d$mass)
+d$brain_std <- d$brain / max(d$brain)
+
+m7.1 <- quap(
+  alist(
+    brain_std ~ dnorm( mu , exp(log_sigma) ),
+    mu <- a + b*mass_std,
+    a ~ dnorm( 0.5 , 1 ),
+    b ~ dnorm( 0 , 10 ),
+    log_sigma ~ dnorm( 0 , 1 )
+  ), data=d )
+
+m7.6 <- quap(
+  alist(
+  brain_std ~ dnorm( mu , 0.001 ),
+  mu <- a + b[1]*mass_std + b[2]*mass_std^2 +
+    b[3]*mass_std^3 + b[4]*mass_std^4 +
+    b[5]*mass_std^5 + b[6]*mass_std^6,
+  a ~ dnorm( 0.5 , 1 ),
+  b ~ dnorm( 0 , 10 )
+ ), data=d , start=list(b=rep(0,6)) )
+
+par(mfrow=c(1,2))
+brain_loo_plot(m7.1)
+brain_loo_plot(m7.6)
+```
+
+```{r, echo = F, results = 'hide'}
+dev.off()
+```
+
+------------------------------------------------------------------------
+
+### the path to model performance criteria
+
+1.  establish a measurement scale for the distance from perfect accuracy
+    -   need to discuss information theory
+2.  establish *deviance* as an approximation of relative distance from accuracy
+3.  establish that we only care about *out-of-sample* deviance
+
+First: establishing a measurement scale. The two major dimensions to consider are:
+
+-   cost-benefit analysis
+
+    -   how much does it cost when we are wrong?
+
+    -   how much do we win when we're right?
+
+-   accuracy in context
+
+    -   judging accuracy in a way that accounts for how *much* a model could possibly improve prediction
+
+------------------------------------------------------------------------
+
+### clash of the weatherpeople
+
+| Day | Current Weatherman | New Weatherman | Outcome |
+|-----|:------------------:|:--------------:|:-------:|
+| 1   |        1.0         |      0.0       |  rain   |
+| 2   |        1.0         |      0.0       |  rain   |
+| 3   |        1.0         |      0.0       |  rain   |
+| 4   |        0.6         |      0.0       |   sun   |
+| 5   |        0.6         |      0.0       |   sun   |
+| 6   |        0.6         |      0.0       |   sun   |
+| 7   |        0.6         |      0.0       |   sun   |
+| 8   |        0.6         |      0.0       |   sun   |
+| 9   |        0.6         |      0.0       |   sun   |
+| 10  |        0.6         |      0.0       |   sun   |
+
+::: fragment
+If accuracy is the chance of a correct prediction:
+
+$\text{Current} = [(3 \times 1) + (.4 \times 7)]/10 = .58$
+
+$\text{New} = [(3 \times 0) + (1 \times 7) ]/10= .70$
+:::
+
+------------------------------------------------------------------------
+
+### clash of the weatherpeople
+
+| Day | Current Weatherman | New Weatherman | Outcome |
+|-----|:------------------:|:--------------:|:-------:|
+| 1   |        1.0         |      0.0       |  rain   |
+| 2   |        1.0         |      0.0       |  rain   |
+| 3   |        1.0         |      0.0       |  rain   |
+| 4   |        0.6         |      0.0       |   sun   |
+| 5   |        0.6         |      0.0       |   sun   |
+| 6   |        0.6         |      0.0       |   sun   |
+| 7   |        0.6         |      0.0       |   sun   |
+| 8   |        0.6         |      0.0       |   sun   |
+| 9   |        0.6         |      0.0       |   sun   |
+| 10  |        0.6         |      0.0       |   sun   |
+
+But what if you hate carrying an umbrella? Let's define the *cost* of getting wet as -5 happiness points and the cost of carrying an umbrella as -1 happiness points. Which weatherperson maximizes our happiness??
+
+$\text{Current} = (3 \times -1) + (7 \times -0.6) = -7.2$
+
+$\text{New} = (3 \times -5) + (7 \times 0) = -150$
+
+------------------------------------------------------------------------
+
+### clash of the weatherpeople
+
+| Day | Current Weatherman | New Weatherman | Outcome |
+|-----|:------------------:|:--------------:|:-------:|
+| 1   |        1.0         |      0.0       |  rain   |
+| 2   |        1.0         |      0.0       |  rain   |
+| 3   |        1.0         |      0.0       |  rain   |
+| 4   |        0.6         |      0.0       |   sun   |
+| 5   |        0.6         |      0.0       |   sun   |
+| 6   |        0.6         |      0.0       |   sun   |
+| 7   |        0.6         |      0.0       |   sun   |
+| 8   |        0.6         |      0.0       |   sun   |
+| 9   |        0.6         |      0.0       |   sun   |
+| 10  |        0.6         |      0.0       |   sun   |
+
+Finally, our previous measure of "accuracy" (we used a **HIT RATE** definition) is only one way to think about accuracy. What if accuracy is knowing the true data generating model? We might consider computing the probability of predicting the exact sequence of days (joint likelihood in Bayesian terms).
+
+$\text{Current} = (1)^3 \times (0.4)^7 \approx .005$
+
+$\text{New} = (0)^3 \times (1)^7 = 0$
+
+This method -- **LOG SCORING RULE**, or the logarithm of the joint probability -- is the way we'll think about accuracy in terms of model prediction.
+
+------------------------------------------------------------------------
+
+### information theory
+
+How do we measure distance from accuracy? One important thing to keep in mind is that some targets are easier to hit than others. Therefore, the key to measuring distance is to ask, "How much is our uncertainty reduced by learning an outcome?" This reduction is formally referred to as **INFORMATION**.
+
+We need to formalize our measure of uncertainty. This measurement should:
+
+1.  be continuous;
+2.  increase as the number of possible events increases; and
+3.  be additive.
+
+This is satisfied by the **INFORMATION ENTROPY FUNCTION**:
+
+$$
+H(p) = - \text{E log}(p_i) = \sum^n_{i=1}p_i\text{log}(p_i)
+$$ In words: The uncertainty contained in a probability distribution is the average log-probability of an event.
+
+------------------------------------------------------------------------
+
+Consider the weather forecast. When the day arrives, the weather is no longer uncertain.[^lecture04-1-1] There were 3 rainy days and 3 sunny days. Therefore:
+
+```{r}
+p <- c( .3, .7 )
+-sum( p * log(p) )
+```
+
+This is our uncertainty.
+
+If we lived in Abu Dhabi, we might have a different probability of rain (let's say .01), and therefore a different amount of uncertainty.
+
+```{r}
+p <- c( .01, .99 )
+-sum( p * log(p) )
+```
+
+------------------------------------------------------------------------
+
+### from entropy to accuracy
+
+We define **DIVERGENCE** to be the additional uncertainty induced by using probabilities from one distribution to describe another distribution. This is known as the Kullback-Leibler divergence or simply KL divergence.
+
+The divergence between a target $(p)$ and a model $(q)$ is defined as:
+
+$$
+D_{KL}(p,q) = \sum_ip_i(\text{log}(p_i) - \text{log}(q_i)) = \sum_ip_i\text{log}(\frac{p_i}{q_i})
+$$ In plainer language, the divergence is the average difference in log probability between the target and model.
+
+What is the divergence when we get the model exactly correct with the target?
+
+::: fragment
+At this point, you're probably thinking, "How can I put this into practice? Divergence is measuring distance from truth, but I don't know the truth." But we won't use divergence to estimate the difference from one model to truth; we're only interested in using it to compare two models (q and r) to each other. All we need to know are each model's average log probability: $\text{E log}(q_i)$ and $\text{E log}(r_i)$. To do so, we simply sum over all the observations, $i$, yielding a total score for each model:
+
+$$
+S(q) = \sum_i\text{log}(q_i) 
+$$
+:::
+
+::: notes
+difference = 0
+:::
+
+------------------------------------------------------------------------
+
+To compute this score for a Bayesian model, we use the entire posterior distribution. The score is known as the **LOG-POINTWISE-PREDICTIVE-DENSITY**.
+
+Let's see an example:
+
+```{r}
+m7.1 <- quap(
+  alist(
+    brain_std ~ dnorm( mu , exp(log_sigma) ),
+    mu <- a + b*mass_std,
+    a ~ dnorm( 0.5 , 1 ),
+    b ~ dnorm( 0 , 10 ),
+    log_sigma ~ dnorm( 0 , 1 )
+  ), data=d )
+
+lppd(m7.1)
+```
+
+Each of these values is the log-probability score for a specific observation.
+
+```{r}
+sum(lppd(m7.1))
+```
+
+This is the total log-probability score for this model.
+
+Sometimes, you'll see people report deviance, which is just this value multiplied by -2 (for historical reasons).
+
+```{r}
+-2*sum(lppd(m7.1))
+```
+
+------------------------------------------------------------------------
 
 ::::: columns
 ::: {.column width="50%"}
-1.  Start at treatment (X)
+One issue with the log-probability score is that it always improves as the model gets more complex. One way to address this is by calculating the log-probability out-of-sample.
 
-2.  Look for any arrows coming INTO X
+When we usually have data and use it to fit a statistical model, the data comprise a **TRAINING SAMPLE**. Parameters are estimated from it, and then we can imagine using those estimates to predict outcomes in a new sample, called the **TEST SAMPLE**.
 
-3.  Follow all possible paths to outcome (Y)
-
-4.  A valid adjustment set blocks all backdoor paths
-
-5.  But be careful not to control for colliders!
+Using out-of-sample prediction doesn't change your model; rather, it changes our estimation of the predictive accuracy of our model.
 :::
 
 ::: {.column width="50%"}
 
-### exercise
+```{r, eval = F}
+#| code-fold: true
+N <- 20
+kseq <- 1:5
+# this code will take a long time to run. 
+dev <- sapply( kseq, function(k){
+  print(k);
+  r <- mcreplicate( 1e4 , sim_train_test( N=N, k=k ) , mc.cores=4 );
+  ## if using PC, use:
+  #  r <- replicate(1e4, sim_train_test( N=N, k=k ) );
+  c( mean(r[1,]), mean(r[2,]), sd(r[1,]), sd(r[2,] ) )
+  } 
+  )
+plot( 1:5 , dev[1,] , ylim=c( min(dev[1:2,])-5 , max(dev[1:2,])+10 ) ,
+      xlim=c(1,5.1) , xlab="number of parameters" , ylab="deviance" ,
+      pch=16 , col=rangi2 )
+mtext( concat( "N = ",N ) )
+points( (1:5)+0.1 , dev[2,] )
+for ( i in kseq ) {
+  pts_in <- dev[1,i] + c(-1,+1)*dev[3,i]
+  pts_out <- dev[2,i] + c(-1,+1)*dev[4,i]
+  lines( c(i,i) , pts_in , col=rangi2 )
+  lines( c(i,i)+0.1 , pts_out )
+}
+```
 
-Go to [dagitty.net](https://dagitty.net/) and create this DAG:
-
-```{r, fig.width=4, fig.height = 2, echo = F}
-library(dagitty)
-dag4.1 <- dagitty( "dag{    
-    Exercise -> Health 
-    Diet -> Health
-    Motivation -> Exercise
-    Motivation -> Health
-    Age -> Diet
-    Age -> Health }" )
-coordinates(dag4.1) <- list( 
-  x=c(Exercise=0, Health=1, Diet=2, Motivation=0, Age=1) ,
-  y=c(Exercise=0, Health=0, Diet=0, Motivation=1, Age=1) )
-drawdag( dag4.1 )
+```{r, echo = F, fig.height=8}
+N <- 20
+kseq <- 1:5
+load(here("lectures/data/4-1-dev.Rdata"))
+plot( 1:5 , dev[1,] , ylim=c( min(dev[1:2,])-5 , max(dev[1:2,])+10 ) ,
+      xlim=c(1,5.1) , xlab="number of parameters" , ylab="deviance" ,
+      pch=16 , col=rangi2 )
+mtext( concat( "N = ",N ) )
+points( (1:5)+0.1 , dev[2,] )
+for ( i in kseq ) {
+  pts_in <- dev[1,i] + c(-1,+1)*dev[3,i]
+  pts_out <- dev[2,i] + c(-1,+1)*dev[4,i]
+  lines( c(i,i) , pts_in , col=rangi2 )
+  lines( c(i,i)+0.1 , pts_out )
+}
 ```
 
 :::
@@ -89,176 +356,261 @@ drawdag( dag4.1 )
 
 ---
 
-### exercise
+::::: columns
+::: {.column width="50%"}
 
-```{r, fig.width=4, fig.height = 2, echo = F}
-drawdag( dag4.1 )
+```{r, fig.height = 9}
+#| code-fold: true
+
+# Set up plotting area
+plot(0, 0, type = "n", xlim = c(-3, 3), ylim = c(0, 2), 
+     xlab = "parameter value", ylab = "Density",
+     main = "")
+
+# Create x-values for plotting
+x <- seq(-3, 3, length.out = 1000)
+
+# Generate three density curves with different spreads
+# Thick curve - very peaked (high kurtosis)
+y1 <- dnorm(x, mean = 0, sd = 0.3)
+# Scale to match the peak height in the original
+y1 <- y1 * (2/max(y1))
+
+# Medium curve - moderate spread
+y2 <- dnorm(x, mean = 0, sd = 0.6)
+# Scale to match the peak height in the original
+y2 <- y2 * (0.8/max(y2))
+
+# Dashed curve - most spread (normal distribution)
+y3 <- dnorm(x, mean = 0, sd = 1)
+# Scale to match the peak height in the original
+y3 <- y3 * (0.4/max(y3))
+
+# Add the curves to the plot
+lines(x, y1, lwd = 3)
+lines(x, y2, lwd = 1)
+lines(x, y3, lwd = 1, lty = 2)
 ```
+:::
 
-1. List all paths between Exercise and Health
-2. Identify which paths are backdoor paths
-3. Find all valid adjustment sets if we want to estimate the effect of Exercise on Health
-4. BONUS: What happens if we control for Motivation? Why?
+::: {.column width="50%"}
 
-:::{.notes}
+Another tool in our toolbelt is regularizing priors. **REGULARIZATION** is a means by which you prevent the model from being "too excited" by the training sample, or to fit too closely to the specific patterns in that sample. There are many tools for regularization (ridge regression, lasso regression), but they all have the effect of downweighting regression parameters towards 0. 
 
-Paths:
-
-Exercise → Health (direct/front-door)
-Exercise ← Motivation → Health (backdoor)
-Exercise ← Motivation → Diet ← Age → Health (backdoor)
-
-
-Valid adjustment sets:
-
-* Motivation
-* Motivation, Age
+As a Bayesian, you also have the tool of regularizing priors. As your priors become more "skeptical" (usually, closer to 0), your model will adapt less to the data. Be wary of having priors that are too tight, because you risk underfitting. (Of course, the more data you have, the less influence your priors have. But that shouldn't concern you, because overfitting is less of a concern with larger datasets.)
 
 :::
+:::::
+
+----
+
+### cross-validation
+
+One strategy for estimating predictive accuracy is to actually test the model’s predictive accuracy on another sample. This is known as **CROSS-VALIDATION**, leaving out a small chunk of observations from our sample and evaluating the model on the observations that were left out. 
+
+We're not actually going to leave out data -- imagine! -- so instead we'll divide the data into chunks, or "folds". The model will then predict each fold after being trained on all the other folds. This is known as k-fold validation. The minimum number of folds is 2, and the maximum is your sample size. The latter is referred to as **LEAVE-ONE-OUT-CROSS-VALIDATION**, and this is extremely common. 
 
 ---
 
-### exercise: simulate simple confounding
+The problem with LOOCV is that it's computationally intensive. Luckily, there are some clever maths that we can use to approximate the score we would get from running the model over and over. One approach is to use the _importance_ (or weight) of each observation -- that is, how much does the prior distribution change if we were to remove this observation from our data? (Similar to influence and leverage.) Importantly, observations that are less likely are more important. 
 
-Copy this code from the slides or the class book (Simulation 1: Simple Confounding).
+We can use importance in a strategy called **PARETO-SMOOTHED IMPORTANCE SAMPLING CROSS-VALIDATION** (PSIS). The Pareto part is a smoothing technique that improves the reliability of the importance or weights. By assuming the weights follow a known distribution, the Pareto distribution, we can estimate a reliabile cross-validation score without doing the work of actually cross-validating. We'll get a PSIS score for each observation in our dataset, as well as a standard error for the score for the entire model. 
 
-1. Run the base simulation and observe results
+---
 
-2. Modify the simulation parameters:
-  * Change the strength of the confounding (modify the 0.5, 0.8, and 0.6 coefficients)
-  * Change the sample size (N)
-  * Add a true causal effect (modify Y calculation to include X)
+A second approach is to use the information criteria to computed the expected score out-of-sample. If you look back at the training/testing figure, you'll find that the difference between training deviance and testing deviance is almost exactly twice the number of parameters in the model (e.g., 2 for the first model with 1 parameter and about 10 for the last with 5 parameters). This is not random, but a known finding in machine learning. We can exploit this for simple estimates of out-of-sample deviance. 
 
-3. Answer these questions:
-  * What happens to the bias in the naive estimate as you increase the strength of confounding?
-  * How does sample size affect the precision of your estimates?
-  * When does controlling for Z fail to recover the true causal effect?
+A well-known estimate is the **AKAIKE INFORMATION CRITERION (AIC)**:
+
+$$
+AIC = D_{\text{train}} + 2p = -2\text{lppd} + 2p
+$$
+where $p$ is the number of free parameters in the posterior distribution. As the 2 is just there for scaling, what AIC tells us is that the dimensionality of the posterior distribution is a natural measure of the model’s overfitting tendency. More complex models tend to overfit more, directly in proportion to the number of parameters.
+
+AIC isn't commonly used now. Its approximation is only reliable when:
+  
+  1. Priors are flat or overwhelmed by likelihood (data).
+  2. The posterior distribution is approximately multivariate Gaussian.
+  3. The sample size $N$ is much greater than the number of parameters $k$.
+  
+Similarly the **DEVIANCE INFORMATION CRITERION (DIC)** doesn't assume flat priors but does make the other assumptions. 
+  
+---
+
+### widely applicable
+
+Watanabe's **WIDELY APPLICABLE INFORMATION CRITERION (WAIC)** makes no assumption about the shape of the posterior. Its goal is to guess the out-of-sample KL divergence. In a large sample, the approximation converges to the cross-validation approximation, but in finite samples, there may be some disagreement. 
+
+Its calculation is the log-posterior-predictive-density plus a penalty proportional to the variance in the posterior predictions:
+
+$$
+\text{WAIC}(y, \Theta) = -2(\text{lppd} - \sum_i\text{var}_{\theta}\text{log}p(y_i|\theta))
+$$
+where $y$ is the observations and $\Theta$ is the posterior distribution. The penalty term means, "compute the variance in log-probabilities for each observation $i$, and then sum up these variances to get the total penalty."
+
+Like PSIS, WAIC is pointwise, meaning prediction is considered on a point-by-point basis. Therefore,
+
+  1. WAIC has an approximate standard error. 
+  2. Some observations have stronger influence than others, and we can see this.
+  3. it can be hard to define for a single model. Consider for example a model in which each prediction depends upon a previous observation. This happens, for example, in a time series. In a time series, a previous observation becomes a predictor variable for the next observation. So it’s not easy to think of each observation as independent or exchangeable. In such a case, you can of course compute WAIC as if each observation were independent of the others, but it’s not clear what the resulting value means.
+  
+---
+
+## comparing cross-validation, PSIS, WAIC
+
+PSIS and WAIC perform very similarly in the context of ordinary linear models. Of course, they may not when our posterior distributions start to get away from Gaussian or when there are highly influential observations. 
+
+CV and PSIS have higher variance as estimators of the KL divergence, while WAIC has greater bias. So we should expect each to be slightly better in different contexts.However, in practice any advantage may be much smaller than the expected error. Watanabe recommends computing both WAIC and PSIS and contrasting them. If there are large differences, this implies one or both criteria are unreliable.
+
+PSIS has a distinct advantage in warning the user about when it is unreliable. The $k$ values that PSIS computes for each observation indicate when the PSIS score may be unreliable, as well as identify which observations are at fault. We’ll see later how useful this can be.
+
+---
+
+### bic?
+
+The **Bayesian Information Criterion (BIC)**, is frequently compared with the Akaike Information Criterion (AIC). It's important to understand that choosing between these criteria isn't fundamentally about adopting a Bayesian perspective. Both criteria can be derived through either Bayesian or non-Bayesian approaches, and strictly speaking, neither is purely Bayesian.
+
+BIC is mathematically connected to the logarithm of a linear model's average likelihood. In Bayesian statistics, this average likelihood serves as the denominator in Bayes' theorem—essentially the likelihood averaged across the prior distribution. Comparing average likelihoods has long been a standard method for model comparison in Bayesian analysis. These comparisons yield what we call "Bayes factors" when expressed as ratios. When transformed to a logarithmic scale, these ratios become differences, making them conceptually similar to comparing information criteria differences.
+
+Since the average likelihood incorporates the prior distribution, models with more parameters naturally incur a complexity penalty. This helps prevent overfitting, although the exact penalty mechanism differs from that of information criteria.
+Many Bayesian statisticians have reservations about Bayes factors, and all acknowledge certain technical challenges. One significant obstacle is computational difficulty—calculating average likelihood is often complex. Even when posterior distributions can be successfully computed, estimating average likelihood may remain problematic. Another issue is that while weak priors might minimally impact posterior distributions within individual models, they can dramatically influence comparisons between different models.
+
+The choice between Bayesian and non-Bayesian approaches doesn't dictate whether to use information criteria or Bayes factors. In practice, there's value in using both methods and examining where they align and diverge. However, remember that both information criteria and Bayes factors are purely predictive tools that will readily select confounded models without considering causation.
+
+---
+
+### mid-lecture review
+
+Regularizing priors—priors which are skeptical of extreme parameter values—reduce fit to sample but tend to improve predictive accuracy.
+
+How do we choose between several plausible models when seeking to maximize accuracy?
+
+  * Calculate a measure of information divergence.
+  * Comparing accuracy within-sample is bad: we'll always favor more complex models.
+  
+We can estimate out-of-sample accuracy with any of a number of techniques, but most popularly: 
+
+  * cross-validation
+  * pareto-smoothed importance sampling cross-validation (PSIS)
+  * widely applicable information criteria (WAIC)
+  
+Regularization and predictive critera are complementary. 
+
+Let's actually calculate some things. 
+
+---
+
+### marriage again
+
+Let's revisit the divorce data from earlier.
+
+```{r}
+data("WaffleDivorce", package = "rethinking")
+
+d <- WaffleDivorce
+
+d$A <- standardize( d$MedianAgeMarriage )
+d$D <- standardize( d$Divorce )
+d$M <- standardize( d$Marriage )
+```
+
+
+### exercise
+
+Fit 3 models:
+  1. Divorce rate predicted from median age at marriage.
+  2. Divorce rate predicted from marriage rate.
+  3. Divorce rate predicted from both median age and marriage rate.
+  
+---
+
+### solution
+
+```{r}
+m5.1 <- quap(
+  alist(
+    D ~ dnorm( mu , sigma ) ,
+    mu <- a + bA * A ,
+    a ~ dnorm( 0 , 0.2 ) ,
+    bA ~ dnorm( 0 , 0.5 ) ,
+    sigma ~ dexp( 1 )
+) , data = d )
+
+m5.2 <- quap(
+  alist(
+    D ~ dnorm( mu , sigma ) ,
+    mu <- a + bM * M ,
+    a ~ dnorm( 0 , 0.2 ) ,
+    bM ~ dnorm( 0 , 0.5 ) ,
+    sigma ~ dexp( 1 )
+) , data = d )
+
+
+m5.3 <- quap(
+  alist(
+    D ~ dnorm( mu , sigma ) ,
+    mu <- a + bM*M + bA*A ,
+    a ~ dnorm( 0 , 0.2 ) ,
+    bM ~ dnorm( 0 , 0.5 ) ,
+    bA ~ dnorm( 0 , 0.5 ) ,
+    sigma ~ dexp( 1 )
+) , data = d )
+```
+
+---
+
+Next, run the following code: 
+
+```{r compare-m5, eval = F}
+set.seed(24071847)
+compare( m5.1 , m5.2 , m5.3 , func=PSIS )
+```
+
+What do you notice about:
+
+  1. The order in which the models are printed?
+  2. The warning messages?
+
+
+---
+
+### solution
+
+```{r, ref.label="compare-m5"}
+
+```
+
+### exercise
+
+Using the full model (both age and marriage rate), ceate a figure that plots the Pareto $k$ estimate on the x-axis and the WAIC penalty for each observation in the dataset. Label any outliers on this plot. The functions `PSIS()` and `WAIC()` will be helpful here, but remember to check the documentation. 
+
+---
+
+### solution
 
 ```{r}
 #| code-fold: true
-#number of sims
-N = 1000
-# Generate data
-U <- rnorm(N)  # Unobserved confounder
-X <- rnorm(N, mean = 0.5 * U)  # Treatment affected by U
-Y <- rnorm(N, mean = 0.8 * U)  # Outcome affected by U
-Z <- rnorm(N, mean = 0.6 * U)  # Observed variable that captures U
+#| 
+set.seed(24071847)
+obs_PSIS = PSIS(m5.3, pointwise = TRUE)
+obs_WAIC = WAIC(m5.3, pointwise = TRUE)
 
-d <- data.frame(X, Y, Z)
+pd <- data.frame(
+  state = d$Loc,
+  PSIS = obs_PSIS$k,
+  WAIC = obs_WAIC$WAIC) 
 
-# Fit models
-flist1 <- alist(
-  Y ~ dnorm(mu, sigma),
-  mu <- a + bX*X,
-  a ~ dnorm(0, .5),
-  bX ~ dnorm(0, .25),
-  sigma ~ dexp(1)
-)
-
-m32.1 <- quap(flist1, d)
-precis(m32.1)
-
-# Fit models
-flist2 <- alist(
-  Y ~ dnorm(mu, sigma),
-  mu <- a + bX*X +bZ*Z,
-  a ~ dnorm(0, .5),
-  bX ~ dnorm(0, .25),
-  bZ ~ dnorm(0, .25),
-  sigma ~ dexp(1)
-)
-
-m32.2 <- quap(flist2, d)
-precis(m32.2)
-
-post.1 <- extract.samples(m32.1)
-post.2 <- extract.samples(m32.2)
-
-results_df = data.frame(naive = post.1$bX,
-                        adjusted = post.2$bX)
-results_df %>% 
-  pivot_longer(everything()) %>% 
-  ggplot(aes(x = value, fill = name)) +
-  geom_density(alpha = .5) +
-  geom_vline(aes(xintercept = 0), linetype = "dashed")
-```
-
----
-
-### bad controls
-
-"Bad controls" can create bias in three main ways:
-
-* Collider bias (as we saw in the previous exercise)
-* Precision parasites (reduce precision without addressing confounding)
-* Bias amplification (making existing bias worse)
-
-Warning signs of bad controls:
-
-* Post-treatment variables
-* Variables affected by both treatment and outcome
-* Variables that don't address actual confounding paths
-
----
-
-### exercise
-
-Modify your code for this new simulation (precision parasite):
-
-```{r}
-n = 100
-# Z affects X but is not a confounder
-Z <- rnorm(n)
-X <- rnorm(n, mean = Z)
-Y <- rnorm(n, mean = X)  # True effect of X on Y is 1
+pd %>% 
+  ggplot(aes(x = PSIS, y = WAIC)) +
+  geom_point() +
+  geom_text(
+    data = subset(pd, PSIS > .45 & WAIC > 5),
+    aes(label = state), 
+    nudge_x = .08
+  )
+  
 ```
 
 
-Test your previous models with these new data, using different sample sizes (n = 50, 100, 1000). For each sample size, compare:
-
-  * Standard errors without controlling for Z
-  * Standard errors when controlling for Z
-
-How does sample size affect the impact of the precision parasite?
-Under what conditions is the precision loss most severe?
-
-
----
-
-### exercise
-
-Modify your code for this new simulation (bias amplification):
-
-```{r}
-n = 100
-conf_strength = 1
-# U is unmeasured confounder
-U <- rnorm(n)
-Z <- rnorm(n)
-X <- rnorm(n, mean = Z + conf_strength * U)
-Y <- rnorm(n, mean = conf_strength * U)  # No true effect of X
-```
-
-Compare different confounder strengths (0.5, 1, 2).
-
-Questions:
-  * What happens to the bias when you control for Z?
-  * How does the strength of the confounding affect the amount of bias amplification?
-  * Can you explain why this happens using the DAG?
-
----
-
-### exercise
-
-Modify your code to create a scenario with both a precision parasite variable and a bias amplification variable. 
-
-Questions: 
-  * What happens to our estimates when we control for both variables?
-  * Is it better to:
-      * Control for neither
-      * Control for just one (which one?)
-      *Control for both
-* How can we use DAGs to decide which controls to include?
-
-
+[^lecture04-1-1]: Caveats about Oregon weather aside.
 

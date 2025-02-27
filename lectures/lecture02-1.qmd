@@ -154,6 +154,32 @@ Simulating from your priors -- **prior predictive simulation** -- is an essentia
 
 ------------------------------------------------------------------------
 
+### an aside about learning in R
+
+At this point in the course, I'm going to start throwing a lot of code at you. Do I expect you to memorize this code? Of course not. 
+
+Do you need to understand every single thing that's happening in the code? Nope.
+
+But, you'll learn a lot by taking the time to figure out what's happening in a code chunk. Class time will frequently include exercises where I ask you to adapt code I've shared in the slides to a new dataset or to answer a new problem. When doing so, go back through the old code and figure out what's going on. Run the code one line at a time. Always observe the output and take some time to look at the object that was created or modified. Here are some functions that will be extremely useful:
+
+```{r, eval = F}
+str() # what kind of object is this? what is its structure?
+dim() # what are the dimensions (rows/columns) of this object
+head() # give me the first bit of this object
+```
+
+:::{.fragment}
+
+```{r}
+str(sim_w)
+dim(sim_w)
+head(sim_w)
+```
+
+:::
+
+------------------------------------------------------------------------
+
 ### exercise
 
 For the model defined below, simulate observed $y$ values from the prior:
@@ -213,7 +239,7 @@ y_i &\sim \mathcal{N}(\mu_i, \sigma^2) \\
 
 ------------------------------------------------------------------------
 
-## An example: height and weight
+## An example: weight and height
 
 Using the Howell data (make sure you have the `rethinking` package loaded).
 
@@ -230,16 +256,16 @@ d2 <- d[ d$age >= 18, ]
 
 ### exercise
 
-Write a mathematical model for the heights in this data set. (Don't predict from other variables yet.) Note that height is presented in centimeters.
+Write a mathematical model for the weights in this data set. (Don't predict from other variables yet.) Note that weight is presented in kilograms.
 
-Simulate both your priors and the expected observed height values from the prior.
+Simulate both your priors and the expected observed weight values from the prior.
 
 :::{.fragment}
 ### solution
 
 \begin{align*}
 h &\sim \text{Normal}(\mu, \sigma) \\
-\mu &\sim \text{Normal}(170, 50) \\
+\mu &\sim \text{Normal}(59, 20) \\
 \sigma &\sim \text{Uniform}(0, 50) \\
 \end{align*}
 :::
@@ -250,10 +276,10 @@ h &\sim \text{Normal}(\mu, \sigma) \\
 
 Simulate your priors
 
-```{r, fig.retina=3, out.height='300px'}
+```{r, fig.retina=3, out.weight='300px'}
 nsims <- 1e4 # number of simulations
 set.seed(128) # reproducibility
-sim_mu <- rnorm( nsims, 170, 20) # simulate values of mu
+sim_mu <- rnorm( nsims, 59, 20) # simulate values of mu
 sim_sig <- runif(nsims, 0, 50) # simulate values of sigma
 par(mfrow = c(1,3)) # plot display has 1 row, 3 columns
 dens_mu <- dens(sim_mu) # density of mu
@@ -268,16 +294,17 @@ dev.off() # turn off display settings
 
 ------------------------------------------------------------------------
 
-Simulate values of height.
+Simulate values of weight.
 
-```{r, fig.retina=3, fig.height=4}
+```{r, fig.retina=3, fig.weight=4}
 sim_h <- rnorm( nsims, sim_mu, sim_sig)
 dens(sim_h)
 PI(sim_h, .89)
 ```
 
 ::: notes
-79 cm = 2.6 feet 262 cm = 8.6 feet
+4.14 kg = 9.13 lb \\
+113.8 kg = 251 lb
 :::
 
 ------------------------------------------------------------------------
@@ -288,18 +315,18 @@ Use grid approximation to calculate posterior distribution.
 
 ```{r}
 # values of mu and sigma to test
-mu.list <- seq( from=150, to=190 , length.out=200 )
-sigma.list <- seq( from=2 , to=18 , length.out=200 )
+mu.list <- seq( from=25, to=74 , length.out=200 )
+sigma.list <- seq( from=2, to=10 , length.out=200 )
 # fit every possible combination of m and s
 post <- expand.grid( mu=mu.list , sigma=sigma.list )
 
-# calculate log-likelihood of heights for each combination of m and s
+# calculate log-likelihood of weights for each combination of m and s
 post$LL <- sapply( 1:nrow(post) , function(i) sum(
-  dnorm( d2$height , post$mu[i] , post$sigma[i] , log=TRUE ) ) )
+  dnorm( d2$weight , post$mu[i] , post$sigma[i] , log=TRUE ) ) )
 
 # add priors
 post$prod <- post$LL + 
-  dnorm( post$mu , 170 , 20 , TRUE ) +
+  dnorm( post$mu , 59 , 20 , TRUE ) +
   dunif( post$sigma , 0 , 50 , TRUE )
 
 # convert from LL to p
@@ -308,7 +335,7 @@ post$prob <- exp( post$prod - max(post$prod) )
 
 ------------------------------------------------------------------------
 
-```{r, fig.retina = 3, fig.height=6, fig.width=6}
+```{r, fig.retina = 3, fig.weight=6, fig.width=6}
 post %>% 
   ggplot(aes(x = mu, y = sigma, color = prob)) +
   geom_point() +
@@ -322,8 +349,8 @@ Go back to your code and change the range of values you estimate.
 
 ```{r}
 # values of mu and sigma to test
-mu.list <- seq( from=152, to=157 , length.out=100 )
-sigma.list <- seq( from=7 , to=9 , length.out=100 )
+mu.list <- seq( from=40, to=50 , length.out=200 )
+sigma.list <- seq( from=5, to=9 , length.out=200 )
 ```
 
 Rerun all the earlier code.
@@ -332,9 +359,9 @@ Rerun all the earlier code.
 # fit every possible combination of m and s
 post <- expand.grid( mu=mu.list , sigma=sigma.list )
 
-# calculate log-likelihood of heights for each combination of m and s
+# calculate log-likelihood of weights for each combination of m and s
 post$LL <- sapply( 1:nrow(post) , function(i) sum(
-  dnorm( d2$height , post$mu[i] , post$sigma[i] , log=TRUE ) ) )
+  dnorm( d2$weight , post$mu[i] , post$sigma[i] , log=TRUE ) ) )
 
 # add priors
 post$prod <- post$LL + 
@@ -347,7 +374,7 @@ post$prob <- exp( post$prod - max(post$prod) )
 
 ------------------------------------------------------------------------
 
-```{r, fig.retina = 3, fig.height=6, fig.width=6}
+```{r, fig.retina = 3, fig.weight=6, fig.width=6}
 post %>% 
   ggplot(aes(x = mu, y = sigma, color = prob)) +
   geom_point() +
@@ -363,8 +390,8 @@ We won't be calculating the probability or likelihood of values directly (too co
 
 ```{r}
 flist <- alist(
-  height ~ dnorm( mu , sigma ) ,
-  mu ~ dnorm( 178 , 20 ) ,
+  weight ~ dnorm( mu , sigma ) ,
+  mu ~ dnorm( 59 , 20 ) ,
   sigma ~ dunif( 0 , 50 )
 )
 
@@ -407,23 +434,23 @@ precis(post)
 
 ### Adding in a linear component
 
-We might assume that weight and height are associated with each other. Indeed, within our sample:
+We might assume that height and weight are associated with each other. Indeed, within our sample:
 
-```{r, fig.height =5}
-plot(d2$height ~ d2$weight)
+```{r, fig.weight =5}
+plot(d2$weight ~ d2$height)
 ```
 
 ------------------------------------------------------------------------
 
 ### exercise
 
-Update your mathematical model to incorporate weight. Simulate from your priors to see the implied regression lines.
+Update your mathematical model to incorporate height. Simulate from your priors to see the implied regression lines.
 
 :::{.fragment}
 \begin{align*}
 h_i &\sim \text{Normal}(\mu_i, \sigma) \\
 \mu_i &= \alpha + \beta (x_i - \bar{x}) \\
-\alpha &\sim \text{Normal}(170, 50) \\
+\alpha &\sim \text{Normal}(59, 20) \\
 \beta &\sim \text{Normal}(0, 10) \\
 \sigma &\sim \text{Uniform}(0, 50) \\
 \end{align*}
@@ -442,16 +469,15 @@ To simulate from our priors:
 ```{r sim-lines, eval = F}
 # simulate 100 lines
 nsims <- 100
-sim_alpha = rnorm(nsims, 170, 50)
+sim_alpha = rnorm(nsims, 59, 20)
 sim_beta = rnorm(nsims, 0, 10)
 
-# calculate weight
-xbar = mean(d2$weight)
+# calculate height
+xbar = mean(d2$height)
 # plot with nothing in it
-plot(NULL, xlim = range(d2$weight), ylim = c(-100, 400),
-     xlab = "weight", ylab = "height")
+plot(NULL, xlim = range(d2$height), ylim = c(-100, 400),
+     xlab = "height", ylab = "weight")
 abline(h = 0, lty = 2) #line at 0
-abline(h = 272, lty = 2) #line at world's tallest person
 #plot each line
 for(i in 1:nsims){
  curve(sim_alpha[i] +sim_beta[i]*(x-xbar), 
@@ -465,7 +491,7 @@ for(i in 1:nsims){
 ::::: columns
 ::: {.column width="80%"}
 
-```{r ref.label="sim-lines", fig.height=7, fig.width=10, echo = F}
+```{r ref.label="sim-lines", fig.weight=7, fig.width=10, echo = F}
 
 ```
 
@@ -490,16 +516,15 @@ Could use a uniform distribution bounded by 0.
 ```{r sim-lines2, eval = F}
 # simulate 100 lines
 nsims <- 100
-sim_alpha = rnorm(nsims, 170, 50)
+sim_alpha = rnorm(nsims, 59, 20)
 sim_beta = runif(nsims, 0, 10)
 
-# calculate weight
-xbar = mean(d2$weight)
+# calculate height
+xbar = mean(d2$height)
 # plot with nothing in it
-plot(NULL, xlim = range(d2$weight), ylim = c(-100, 400),
-     xlab = "weight", ylab = "height")
+plot(NULL, xlim = range(d2$height), ylim = c(-100, 400),
+     xlab = "height", ylab = "weight")
 abline(h = 0, lty = 2) #line at 0
-abline(h = 272, lty = 2) #line at world's tallest person
 #plot each line
 for(i in 1:nsims){
  curve(sim_alpha[i] +sim_beta[i]*(x-xbar), 
@@ -510,7 +535,7 @@ for(i in 1:nsims){
 
 ------------------------------------------------------------------------
 
-```{r ref.label="sim-lines2", fig.height=7, fig.width=10, echo = F}
+```{r ref.label="sim-lines2", fig.weight=7, fig.width=10, echo = F}
 
 ```
 
@@ -518,7 +543,7 @@ for(i in 1:nsims){
 
 ### exercise
 
-Fit the new height model using the quadratic approximation.
+Fit the new weight model using the quadratic approximation.
 
 :::{.fragment}
 
@@ -526,9 +551,9 @@ Fit the new height model using the quadratic approximation.
 
 ```{r}
 flist <- alist(
-  height ~ dnorm( mu , sigma ) ,
-  mu <- a + b*(weight - mean(weight)),
-  a ~ dnorm( 170 , 50 ) ,
+  weight ~ dnorm( mu , sigma ) ,
+  mu <- a + b*(height - mean(height)),
+  a ~ dnorm( 59 , 20 ) ,
   b ~ dunif(0, 10), 
   sigma ~ dunif( 0 , 50 )
 )
@@ -546,13 +571,11 @@ Draw lines from the posterior distribution and plot with the data.
 :::{.fragment}
 ### solution
 
-```{r sim-post, fig.height = 3, eval = F}
+```{r sim-post, fig.weight = 3, eval = F}
 sample_post = extract.samples(m2, n = 100)
-plot(d2$weight, d2$height, cex = .5, pch = 16,
-     xlim = range(d2$weight), ylim = c(-100, 400),
-     xlab = "weight", ylab = "height")
-abline(h = 0, lty = 2) #line at 0
-abline(h = 272, lty = 2) #line at world's tallest person
+plot(d2$height, d2$weight, cex = .5, pch = 16,
+     xlim = range(d2$height), 
+     xlab = "height", ylab = "weight")
 #plot each line
 for(i in 1:nrow(sample_post)){
  curve(sample_post$a[i] +sample_post$b[i]*(x-xbar), 
@@ -564,22 +587,8 @@ for(i in 1:nrow(sample_post)){
 
 ------------------------------------------------------------------------
 
-```{r ref.label = "sim-post", fig.height = 8, fig.width = 8, echo = F}
+```{r ref.label = "sim-post", fig.weight = 8, fig.width = 8, echo = F}
 
-```
-
-------------------------------------------------------------------------
-
-```{r , fig.height = 8, fig.width = 8, echo = F}
-plot(d2$weight, d2$height, cex = .5, pch = 16,
-     xlim = range(d2$weight),
-     xlab = "weight", ylab = "height")
-#plot each line
-for(i in 1:nrow(sample_post)){
- curve(sample_post$a[i] +sample_post$b[i]*(x-xbar), 
-       add = T,
-       col=col.alpha("#1c5253",0.1))  
-}
 ```
 
 ------------------------------------------------------------------------
@@ -589,9 +598,9 @@ A side note: a major concern or critique of Bayesian analysis is that the subjec
 ```{r}
 #| code-line-numbers: "5"
 flist <- alist(
-  height ~ dnorm( mu , sigma ) ,
-  mu <- a + b*(weight - mean(weight)),
-  a ~ dnorm( 170 , 50 ) ,
+  weight ~ dnorm( mu , sigma ) ,
+  mu <- a + b*(height - mean(height)),
+  a ~ dnorm( 59 , 20 ) ,
   b ~ dnorm(-5, 1),  
   sigma ~ dunif( 0 , 50 )
 )

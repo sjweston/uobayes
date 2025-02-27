@@ -12,8 +12,6 @@ format:
     self-contained: false  # Ensures correct embedding
     embed-resources: true  # Embeds required assets
     slide-number: true
-execute:
-  echo: false  
 ---
 
 ```{r, message = F, warning = F}
@@ -42,16 +40,12 @@ options(ggplot2.discrete.fill = default_palettes,
 
 ------------------------------------------------------------------------
 
-Four elemental confounds
-
 ![](images/Lecture_05-waffles.jpg)
 
----
+------------------------------------------------------------------------
 
 ### finding backdoor paths
 
-::::: columns
-::: {.column width="50%"}
 1.  Start at treatment (X)
 
 2.  Look for any arrows coming INTO X
@@ -61,33 +55,28 @@ Four elemental confounds
 4.  A valid adjustment set blocks all backdoor paths
 
 5.  But be careful not to control for colliders!
-:::
-
-::: {.column width="50%"}
 
 ### exercise
 
 Go to [dagitty.net](https://dagitty.net/) and create this DAG:
 
-```{r, fig.width=4, fig.height = 2, echo = F}
+```{r, fig.width=8, fig.height = 2, echo = F}
 library(dagitty)
 dag4.1 <- dagitty( "dag{    
     Exercise -> Health 
     Diet -> Health
     Motivation -> Exercise
+    Motivation -> Diet
     Motivation -> Health
     Age -> Diet
     Age -> Health }" )
 coordinates(dag4.1) <- list( 
   x=c(Exercise=0, Health=1, Diet=2, Motivation=0, Age=1) ,
-  y=c(Exercise=0, Health=0, Diet=0, Motivation=1, Age=1) )
-drawdag( dag4.1 )
+  y=c(Exercise=0, Health=0, Diet=0, Motivation=-1, Age=1) )
+drawdag( dag4.1, lwd = 3 )
 ```
 
-:::
-:::::
-
----
+------------------------------------------------------------------------
 
 ### exercise
 
@@ -95,46 +84,43 @@ drawdag( dag4.1 )
 drawdag( dag4.1 )
 ```
 
-1. List all paths between Exercise and Health
-2. Identify which paths are backdoor paths
-3. Find all valid adjustment sets if we want to estimate the effect of Exercise on Health
-4. BONUS: What happens if we control for Motivation? Why?
+1.  List all paths between Exercise and Health
+2.  Identify which paths are backdoor paths
+3.  Find all valid adjustment sets if we want to estimate the effect of Exercise on Health
+4.  BONUS: What happens if we control for Motivation? Why?
 
-:::{.notes}
-
+::: notes
 Paths:
 
-Exercise → Health (direct/front-door)
-Exercise ← Motivation → Health (backdoor)
-Exercise ← Motivation → Diet ← Age → Health (backdoor)
-
+Exercise → Health (direct/front-door) Exercise ← Motivation → Health (backdoor) Exercise ← Motivation → Diet ← Age → Health (backdoor)
 
 Valid adjustment sets:
 
-* Motivation
-* Motivation, Age
-
+-   Motivation
+-   Motivation, Age
 :::
 
----
+------------------------------------------------------------------------
 
-### exercise: simulate simple confounding
+### exercise: simulate simple confounding {.scrollable}
 
 Copy this code from the slides or the class book (Simulation 1: Simple Confounding).
 
-1. Run the base simulation and observe results
+1.  Run the base simulation and observe results
 
-2. Modify the simulation parameters:
-  * Change the strength of the confounding (modify the 0.5, 0.8, and 0.6 coefficients)
-  * Change the sample size (N)
-  * Add a true causal effect (modify Y calculation to include X)
+2.  Modify the simulation parameters:
 
-3. Answer these questions:
-  * What happens to the bias in the naive estimate as you increase the strength of confounding?
-  * How does sample size affect the precision of your estimates?
-  * When does controlling for Z fail to recover the true causal effect?
+-   Change the strength of the confounding (modify the 0.5, 0.8, and 0.6 coefficients)
+-   Change the sample size (N)
+-   Add a true causal effect (modify Y calculation to include X)
 
-```{r}
+3.  Answer these questions:
+
+-   What happens to the bias in the naive estimate as you increase the strength of confounding?
+-   How does sample size affect the precision of your estimates?
+-   When does controlling for Z fail to recover the true causal effect?
+
+```{r, eval = F}
 #| code-fold: true
 #number of sims
 N = 1000
@@ -183,27 +169,27 @@ results_df %>%
   geom_vline(aes(xintercept = 0), linetype = "dashed")
 ```
 
----
+------------------------------------------------------------------------
 
 ### bad controls
 
 "Bad controls" can create bias in three main ways:
 
-* Collider bias (as we saw in the previous exercise)
-* Precision parasites (reduce precision without addressing confounding)
-* Bias amplification (making existing bias worse)
+-   Collider bias (as we saw in the previous exercise)
+-   Precision parasites (reduce precision without addressing confounding)
+-   Bias amplification (making existing bias worse)
 
 Warning signs of bad controls:
 
-* Post-treatment variables
-* Variables affected by both treatment and outcome
-* Variables that don't address actual confounding paths
+-   Post-treatment variables
+-   Variables affected by both treatment and outcome
+-   Variables that don't address actual confounding paths
 
----
+------------------------------------------------------------------------
 
 ### exercise
 
-Modify your code for this new simulation (precision parasite):
+Use this code to simulate new variables:
 
 ```{r}
 n = 100
@@ -213,21 +199,18 @@ X <- rnorm(n, mean = Z)
 Y <- rnorm(n, mean = X)  # True effect of X on Y is 1
 ```
 
+Using different sample sizes (n = 50, 100, 1000), test two models exploring the relationship between X (exposure) and Y (outcome). For each sample size, compare:
 
-Test your previous models with these new data, using different sample sizes (n = 50, 100, 1000). For each sample size, compare:
+-   Standard errors without controlling for Z
+-   Standard errors when controlling for Z
 
-  * Standard errors without controlling for Z
-  * Standard errors when controlling for Z
+How does sample size affect the impact of the precision parasite (Z)? Under what conditions is the precision loss most severe?
 
-How does sample size affect the impact of the precision parasite?
-Under what conditions is the precision loss most severe?
-
-
----
+------------------------------------------------------------------------
 
 ### exercise
 
-Modify your code for this new simulation (bias amplification):
+Use this code to simulate new variables:
 
 ```{r}
 n = 100
@@ -239,26 +222,82 @@ X <- rnorm(n, mean = Z + conf_strength * U)
 Y <- rnorm(n, mean = conf_strength * U)  # No true effect of X
 ```
 
-Compare different confounder strengths (0.5, 1, 2).
+Using different confounder strengths (0.5, 1, 2), test two models exploring the relationship between X (exposure) and Y (outcome). For each sample size, compare:
 
-Questions:
-  * What happens to the bias when you control for Z?
-  * How does the strength of the confounding affect the amount of bias amplification?
-  * Can you explain why this happens using the DAG?
+-   Standard errors without controlling for Z
+-   Standard errors when controlling for Z
 
----
+Questions: \* What happens to the bias when you control for Z? \* How does the strength of the confounding affect the amount of bias amplification? \* Can you explain why this happens using the DAG?
+
+------------------------------------------------------------------------
 
 ### exercise
 
-Modify your code to create a scenario with both a precision parasite variable and a bias amplification variable. 
+Use the simulation code provided in the last two exercises to create a new scenario with both a precision parasite variable (Z1) and a bias amplification variable (Z2).
 
-Questions: 
-  * What happens to our estimates when we control for both variables?
-  * Is it better to:
-      * Control for neither
-      * Control for just one (which one?)
-      *Control for both
-* How can we use DAGs to decide which controls to include?
+Questions:
+
+-   What happens to our estimates when we control for both variables?
+
+-   Is it better to:
+
+    -   Control for neither
+    -   Control for just one (which one?)
+    -   Control for both
+
+-   How can we use DAGs to decide which controls to include?
+
+------------------------------------------------------------------------
+
+### table 2 fallacy
+
+The table 2 fallacy, first described by [Westreich and Greenland in 2013](../readings/westreich_greenland_2013.pdf), refers to a common misinterpretation in epidemiology and statistics when researchers present multiple adjusted effect estimates in a single table (often "Table 2" in academic papers).
+
+The fallacy occurs when researchers interpret all coefficients in a multiple regression model as total effects, when in fact some are direct effects conditional on the other variables in the model. This can lead to incorrect causal interpretations, particularly when some variables are mediators (lying on the causal pathway between exposure and outcome).
+
+For example, imagine studying how education affects income, with job type as a mediator:
+
+-   Education → Job Type → Income
+-   Education also directly affects Income
+
+If you include both education and job type in the same regression model, the coefficient for education represents only its direct effect on income (not mediated through job type), not its total effect. However, researchers often mistakenly interpret it as the total effect.
+
+This fallacy becomes particularly problematic when: 1. The research question involves understanding total causal effects 2. There are multiple pathways between variables 3. Some variables act as both confounders and mediators
+
+To avoid this fallacy, researchers should: - Clearly specify which effects (total vs direct) they're interested in - Use appropriate methods like path analysis or mediation analysis when studying causal relationships - Be precise in their interpretation of regression coefficients - Consider creating separate models for different research questions
+
+::: notes
+As you know, the covariates in a statistical analysis can have a variety of different roles from a causal inference perspective: they can be mediators, confounders, proxy confounders, or competing exposures. If a suitable set of covariates can be identified that removes confounding, we may proceed to estimate our causal effect using a multivariable regression model. In linear regression models, there are only two types of variables: the dependent variable (DV) and independent variables (IVs, or predictors). No further distinction is made between the IVs – specifically, the exposure is by no means a "special" IV and is treated just like any other IV. Thus, as you can see, there is a conceptual mismatch between causal theory (DAG) that leads us to formulate a multivariable regression model (that highlights the exposure-outcome relationship and associated statistical adjustment for confounding) and the regression model itself. This conceptual mismatch can easily lead to misinterpretation of the results from a multivariable regression model.
+
+One particularly widespread misconception is known as mutual adjustment, recently called the Table 2 fallacy since the first table in most epidemiological articles usually describes the study data, and the second table reports the results of a multivariable regression model where the erroneous efforts to illustrate mutual adjustment often appear. To illustrate the fallacy, let us assume that we estimate the effect of X on Y. We know (e.g. from a DAG) that there is only one confounder, Z, so we run the regression Y\~X+Z. If our background knowledge and the statistical assumptions of the regression (e.g. normality) hold, then the coefficient of X estimates the causal effect of X on Y. The ‘Table 2 fallacy’ is the belief that we can also interpret the coefficient of Z as the effect of Z on Y; indeed, in larger models, the fallacy is the belief that all coefficients have a similar interpretation with respect to Y.
+:::
+
+------------------------------------------------------------------------
+
+### exercise
+
+Visit [https://dagitty.net/learn/graphs/table2-fallacy.html)](https://dagitty.net/learn/graphs/table2-fallacy.html) and scroll down to the first Test Your Knowledge section. Try this exercise as many times as you need to get the correct answer twice in a row.
+
+------------------------------------------------------------------------
+
+### exercise
+
+::::: columns
+::: {.column width="65%"}
+![](images/3-2_table-2.png)
+
+:::
+
+::: {.column width="35%"}
+-   Draw out the DAG model for this research question using [dagitty.net](https://dagitty.net/). (You can model "personality" instead of C, N, and their interaction.)
+
+-   Assuming there are no unobserved confounds, which of these coefficients are total effects and which are direct effects?
+
+-   If personality is the primary exposure variable, are there any covariates in here that should not be included?
+
+-   Are there any unobserved confounds?
+:::
+:::::
 
 
 

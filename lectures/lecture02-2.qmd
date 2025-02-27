@@ -12,17 +12,17 @@ format:
     self-contained: false  # Ensures correct embedding
     embed-resources: true  # Embeds required assets
     slide-number: true
-execute:
-  echo: false  
 ---
 
 Workspace setup:
 
-```{r, results='hide', message = F, warning = F}
+```{r, echo = T, message = F, warning = F}
+
 library(tidyverse)
 library(cowplot)
 library(rethinking)
 library(patchwork)
+
 ```
 
 ```{r, echo = F}
@@ -44,6 +44,17 @@ options(ggplot2.discrete.fill = default_palettes,
 
 As we develop more useful models, we'll begin to practice the art of generating models with multiple estimands. An *estimand* is a quantity we want to estimate from the data. Our models may not themselves produce the answer to our central question, so we need to know how to calculate these values from the posterior distributions.
 
+This is going to be different from prior regression courses (PSY 612), where our models were often designed to give us precisely what we wanted. For example, consider the regression:
+
+$$
+\hat{Y} = b_0 + b_1(D)
+$$
+Where $Y$ is a continuous outcome and $D$ is a dummy coded variable (0 = control; 1 = treatment).
+
+  * What does $b_0$ represent? 
+  * What does $b_1$ represent? 
+  * How would you calculate or estimate the means of both groups from this model?
+
 ------------------------------------------------------------------------
 
 ## Categories
@@ -53,6 +64,7 @@ Forget dummy codes. From here on out, we will incorporate categorical causes int
 ```{r}
 data("Howell1")
 d <- Howell1
+d <- d[d$age >= 18, ]
 d$sex <- ifelse(d$male == 1, 2, 1) # 1 = female, 2 = male
 head(d[, c("male", "sex")])
 ```
@@ -61,20 +73,20 @@ head(d[, c("male", "sex")])
 
 ### Mathematical model
 
-Let's write a mathematical model to express height in terms of sex.
+Let's write a mathematical model to express weight in terms of sex.
 
 \begin{align*}
-h_i &\sim \text{Normal}(\mu_i, \sigma) \\
+w_i &\sim \text{Normal}(\mu_i, \sigma) \\
 \mu_i &=     \alpha_{SEX[i]} \\
-\alpha_j &\sim \text{Normal}(178, 20)\text{ for }j = 1..2 \\
+\alpha_j &\sim \text{Normal}(60, 20)\text{ for }j = 1..2 \\
 \sigma &\sim \text{Uniform}(0, 50)
 \end{align*}
 
 ```{r}
 flist <- alist(
-  height ~ dnorm( mu , sigma) ,
+  weight ~ dnorm( mu , sigma) ,
   mu <- a[sex] ,
-  a[sex] ~ dnorm( 178, 20 ) ,
+  a[sex] ~ dnorm( 60, 20 ) ,
   sigma ~ dunif(0, 50)
 )
 ```
@@ -84,14 +96,11 @@ flist <- alist(
 ### Fitting the model using `quap()`
 
 ```{r}
-m1 <- quap(
-  flist, data=d
-)
-
+m1 <- quap( flist, data=d )
 precis(m1, depth=2)
 ```
 
-Here, we are given the estimates of the parameters specified in our model: the average height of women (`a[1]`) and the average height of men (`a[2]`). But our question is whether these average heights are different. How do we get that?
+Here, we are given the estimates of the parameters specified in our model: the average weight of women (`a[1]`) and the average weight of men (`a[2]`). But our question is whether these average weights are different. How do we get that?
 
 ------------------------------------------------------------------------
 
@@ -107,7 +116,7 @@ precis(post, depth=2 )
 
 ### Calculate the contrast
 
-We can create two plots. One is the posterior distributions of average female and male heights and one is the average difference.
+We can create two plots. One is the posterior distributions of average female and male weights and one is the average difference.
 
 ```{r post-sex, eval = F}
 
@@ -116,19 +125,19 @@ p1 <- post %>% as.data.frame() %>%
   mutate(sex = ifelse(name == "a.1", "female", "male")) %>% 
   ggplot(aes(x=value, color = sex)) +
   geom_density(linewidth = 2) +
-  labs(x = "height(cm)") 
+  labs(x = "weight(kg)") 
 
 p2 <- post %>% as.data.frame() %>% 
   ggplot(aes(x=diff_fm)) +
   geom_density(linewidth = 2) +
-  labs(x = "difference in height(cm)") 
+  labs(x = "difference in weight(kg)") 
 
 ( p1 | p2)
 ```
 
 ------------------------------------------------------------------------
 
-```{r ref.label="post-sex", fig.height=5, fig.width=8,  fig.align="center", echo =F}
+```{r ref.label="post-sex", fig.weight=5, fig.width=8,  fig.align="center", echo =F}
 
 ```
 
@@ -136,7 +145,7 @@ p2 <- post %>% as.data.frame() %>%
 
 ### Expected values vs predicted values
 
-A note that the distributions of the *mean* heights is not the same as the distribution of heights period. For that, we need the posterior predictive distributions.
+A note that the distributions of the *mean* weights is not the same as the distribution of weights period. For that, we need the posterior predictive distributions.
 
 ```{r post-sex2, eval = F}
 
@@ -151,7 +160,7 @@ p1 <- pred_post %>% pivot_longer(starts_with("pred")) %>%
   mutate(sex = ifelse(name == "pred_f", "female", "male")) %>% 
   ggplot(aes(x = value, color = sex)) +
   geom_density(linewidth = 2) +
-  labs(x = "height (cm)")
+  labs(x = "weight (kg)")
 
 # plot difference
 # Compute density first
@@ -168,7 +177,7 @@ density_df <- tibble(
 p2 <- ggplot(density_df, aes(x = x, y = y, fill = fill_group)) +
   geom_area() +  # Adjust transparency if needed
   geom_line(linewidth = 1.2, color = "black") +  # Keep one continuous curve
-  labs(x = "Difference in height (F-M)", y = "density") +
+  labs(x = "Difference in weight (F-M)", y = "density") +
   guides(fill = "none")
 
 (p1 | p2)
@@ -176,7 +185,7 @@ p2 <- ggplot(density_df, aes(x = x, y = y, fill = fill_group)) +
 
 ------------------------------------------------------------------------
 
-```{r ref.label="post-sex2", fig.height=5, fig.width=8, fig.align = "center", ,echo =F}
+```{r ref.label="post-sex2", fig.weight=5, fig.width=8, fig.align = "center", ,echo =F}
 
 ```
 
@@ -203,7 +212,7 @@ milk$K <- standardize(milk$kcal.per.g)
 
 \begin{align*}
 K_i &\sim \text{Normal}(\mu_i, \sigma) \\
-\mu_i &= \alpha_{\text{CLAUDE}[i]} \\
+\mu_i &= \alpha_{\text{CLADE}[i]} \\
 \alpha_i &\sim \text{Normal}(0, 0.5) \text{ for }j=1..4 \\
 \sigma &\sim \text{Exponential}(1) \\
 \end{align*}
@@ -233,7 +242,7 @@ precis( m2, depth=2 )
 
 ### Plotting with `rethinking`
 
-```{r, fig.height=5, fig.width=8}
+```{r, fig.weight=5, fig.width=8}
 labels <- paste( "a[" , 1:4, "]:", levels(milk$clade),  sep="" )
 plot(
   precis(m2, depth=2, pars = "a"),
@@ -288,12 +297,12 @@ data.frame(a.1, a.2, a.3, a.4) %>%
 
 ## Combining index variables and slopes
 
-Let's return to the height example. What if we want to control for weight?
+Let's return to the weight example. What if we want to control for height?
 
 \begin{align*}
-h_i &\sim \text{Normal}(\mu_i, \sigma) \\
-\mu_i &= \alpha_{S[i]} + \beta_{S[i]}(W_i-\bar{W})\\
-\alpha_j &\sim \text{Normal}(178, 20)\text{ for }j = 1..2 \\
+w_i &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \alpha_{S[i]} + \beta_{S[i]}(H_i-\bar{H})\\
+\alpha_j &\sim \text{Normal}(60, 20)\text{ for }j = 1..2 \\
 \beta_j &\sim \text{Normal}(0, 5)\text{ for }j = 1..2 \\
 \sigma &\sim \text{Uniform}(0, 50)
 \end{align*}
@@ -301,16 +310,16 @@ h_i &\sim \text{Normal}(\mu_i, \sigma) \\
 ::: fragment
 ```{r}
 dat <- list(
-  height = d$height,
   weight = d$weight,
-  Wbar <- mean(d$weight),
+  height = d$height,
+  Hbar <- mean(d$height),
   sex = d$male + 1
 )
 
 flist <- alist(
-  height ~ dnorm( mu , sigma) ,
-  mu <- a[sex] + b[sex]*(weight-Wbar),
-  a[sex] ~ dnorm( 178, 20 ) ,
+  weight ~ dnorm( mu , sigma) ,
+  mu <- a[sex] + b[sex]*(height-Hbar),
+  a[sex] ~ dnorm( 60, 20 ) ,
   b[sex] ~ dnorm( 0, 20 ) ,
   sigma ~ dunif(0, 50)
 )
@@ -332,10 +341,13 @@ str(post)
 Plot the slopes using `extract.samples()`
 
 ```{r}
-xbar = mean(d$weight)
-plot(NULL, xlim = range(d$weight), ylim = c(0, 200),
-     xlab = "weight", ylab = "height")
-#plot each line
+#| code-fold: true
+
+xbar = mean(d$height) # need this because we centered
+post <- extract.samples(m3) # sample intercepts and slopes from the posterior
+plot(d$weight ~ d$height, cex=0.5, pch=16, col=col.alpha("darkgrey",0.5),
+     xlab = "height", ylab = "weight")
+#plot the lines implied by the first 50 draws from the posterior
 for(i in 1:50){
  curve(post$a[i, 1] +post$b[i, 1]*(x-xbar), 
        add = T,
@@ -348,16 +360,18 @@ for(i in 1:50){
 
 ------------------------------------------------------------------------
 
-Plot the slopes using `link()`
+Plot the slopes using `link()`. (Run this yourself and open up the objects `muF` and `muM` to determine what the `link()` function is doing.)
 
 ```{r}
-xseq <- seq( min(d$weight), max(d$weight), len=100)
-plot(NULL, xlim = range(d$weight), ylim = range(d$height), xlab = "weight", ylab = "height")
-muF <- 
-  link(m3, data=list(sex=rep(1,100), weight=xseq, Wbar = mean(d$weight)))
+#| code-fold: true  
+
+xseq <- seq( min(d$height), max(d$height), len=100) # some values for X
+plot(d$weight ~ d$height, cex=0.5, pch=16, col=col.alpha("darkgrey",0.3),
+     xlim = range(d$height), ylim = range(d$weight), 
+     xlab = "height", ylab = "weight")
+muF <- link(m3, data=list(sex=rep(1,100), height=xseq, Hbar = mean(d$height)))
 lines(xseq, apply(muF, 2, mean), lwd = 2, col = "#1c5253" )
-muM <- 
-  link(m3, data=list(sex=rep(2,100), weight=xseq, Wbar = mean(d$weight)))
+muM <- link(m3, data=list(sex=rep(2,100), height=xseq, Hbar = mean(d$height)))
 lines(xseq, apply(muM, 2, mean), lwd = 2, col =  "#e07a5f")
 ```
 
@@ -373,7 +387,7 @@ Return to the `milk` data. Write a mathematical model expressing the energy of m
 
 \begin{align*}
 K_i &\sim \text{Normal}(\mu_i, \sigma) \\
-\mu_i &= \alpha_{\text{CLAUDE}[i]} + \beta_{\text{CLAUDE}[i]}(M-\bar{M})\\
+\mu_i &= \alpha_{\text{CLADE}[i]} + \beta_{\text{CLADE}[i]}(M-\bar{M})\\
 \alpha_i &\sim \text{Normal}(0, 0.5) \text{ for }j=1..4 \\
 \beta_i &\sim \text{Normal}(0, 0.5) \text{ for }j=1..4 \\
 \sigma &\sim \text{Exponential}(1) \\
@@ -423,7 +437,7 @@ colors = custom_colors[milk$clade_id]
 plot(milk$K ~ milk$mass, col = colors, 
      pch = 16,
      xlim = range(milk$mass), ylim = range(milk$K), 
-     xlab = "weight", ylab = "height")
+     xlab = "height", ylab = "weight")
 mu1 <- 
   link(m4, data=list(clade_id=rep(1,100), M=xseq, Mbar = Mbar))
 lines(xseq, apply(mu1, 2, mean), lwd = 2, col = "#1c5253" )
@@ -443,7 +457,7 @@ legend("topright", legend = levels(milk$clade),
 :::
 
 ::: {.column width="50%"}
-```{r, ref.label="plot-apes", echo=F, fig.height=12}
+```{r, ref.label="plot-apes", echo=F, fig.weight=12}
 
 ```
 
@@ -451,79 +465,4 @@ legend("topright", legend = levels(milk$clade),
 :::::
 
 [^lecture02-2-1]: You don't need to be an expert in primate biology to have a sense of what is reasonable for these values after we standardize.
-
----
-
-# Splines
-
-```{r}
-data(cherry_blossoms)
-d <- cherry_blossoms
-precis(d)
-
-psych::describe(d)
-```
-
----
-
-```{r}
-d2 <- d[ complete.cases(d$doy) , ] # complete cases on doy
-num_knots <- 15
-knot_list <- quantile( d2$year , probs=seq(0,1,length.out=num_knots) )
-knot_list
-
-d2 %>% 
-  ggplot(aes(x = year, y = doy)) +
-  geom_point(color = "#ffb7c5", alpha = 1/2) + 
-  geom_vline(xintercept = knot_list, color = "white", alpha = .5) +
-  theme(panel.grid = element_blank(),
-        panel.background = element_rect(fill = "#4f455c"))
-```
-
----
-
-```{r}
-library(splines)
-B <- bs(d2$year,
-  knots=knot_list[-c(1,num_knots)] ,
-  degree=3 , intercept=TRUE )
-
-plot( NULL , xlim=range(d2$year) , ylim=c(0,1) , xlab="year" , ylab="basis" )
-for ( i in 1:ncol(B) ) lines( d2$year , B[,i] )
-```
-
----
-
-### Mathematical model
-
-\begin{align*}
-D_i &\sim \text{Normal}(\mu_i,\sigma) \\
-\mu_i &= \alpha + \sum^K_{k=1} w_k B_{k,i} \\
-\alpha &\sim \text{Normal}(100,10) \\
-w_j &\sim \text{Normal}(0,10) \\
-\sigma &\sim \text{Exponential}(1)
-\end{align*}
-
-:::{.fragment}
-
-```{r}
-m5<- quap(
-
-  alist(
-  D ~ dnorm( mu , sigma ) ,
-  mu <- a + B %*% w ,
-  a ~ dnorm(100,10),
-  w ~ dnorm(0,10),
-  sigma ~ dexp(1)), 
-  
-  data=list( D=d2$doy , B=B ) ,
-  
-  start=list( w=rep( 0 , ncol(B) ) ) )
-```
-
-:::
-
-::: {.notes}
-But all it is doing is multiplying each basis value by a corresponding parameter Wk and then adding up all K of those products. This is just a compact way of writing a linear model. The rest should be familiar. Although I will ask you to simulate from those priors in the practice problems at the end of the chapter. You might guess already that the w priors influence how wiggly the spline can be.
-:::
 

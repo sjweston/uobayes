@@ -12,17 +12,16 @@ format:
     self-contained: false  # Ensures correct embedding
     embed-resources: true  # Embeds required assets
     slide-number: true
-execute:
-  echo: false  
 ---
 
-```{r, message = F, warning = F}
+Workspace setup:
+
+```{r, echo = T, message = F, warning = F}
 library(tidyverse)
 library(cowplot)
 library(rethinking)
 library(patchwork)
 ```
-
 
 ```{r, echo = F}
 knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
@@ -41,13 +40,17 @@ options(ggplot2.discrete.fill = default_palettes,
         ggplot2.discrete.colour = default_palettes)
 ```
 
----
+Last week, we started to build out multiple regression models, those that include both categorical and continuous variables as "main effects" or predictors in a model. These are simple multiple regression models, and they can be extremely useful for things like revealing **spurious correlations** -- zero-order correlations that suggest association even when the two variables are not causally related -- and important correlations that are masked by other variables.
 
-Four elemental confounds
+However, you cannot interpret the coefficients in any multiple regression model without identifying the underlying causal model. This week, we'll use **Directed Acyclic Graphs (DAGs)** to develop and visualize our causal models. These DAGs will then help us determine which variables, if any, to control for when trying to estimate causal pathways. Along the way, we'll discuss some common mistakes when it comes to controls and their disasterious consequences.
+
+This will also be a good opportunity to practice the mathematical models and code we've discussed before, but there will be little new code this week.
+
+------------------------------------------------------------------------
 
 ![](images/Lecture_05-waffles.jpg)
 
----
+------------------------------------------------------------------------
 
 ## Forks
 
@@ -55,14 +58,14 @@ Four elemental confounds
 library(dagitty)
 dag3.1 <- dagitty( "dag{ Z -> X; Z -> Y }" )
 coordinates(dag3.1) <- list( x=c(X=-1,Z=0,Y=1) , y=c(X=0,Z=-1,Y=0) )
-drawdag( dag3.1 )
+drawdag( dag3.1, cex = 3, lwd = 3 )
 ```
 
 True confounds.
 
-Not stratifying on (controlling for) Z will yield a spurious relationship between X and Y. That is, a correlation of X and Y (or regression) will be non-zero, even though there is no causal relationship from one to another. 
+Not stratifying on (controlling for) Z will yield a spurious relationship between X and Y. That is, a correlation of X and Y (or regression) will be non-zero, even though there is no causal relationship from one to another.
 
----
+------------------------------------------------------------------------
 
 ## Marriage example
 
@@ -73,9 +76,9 @@ d <- WaffleDivorce
 
 ### exercise
 
-Create two plots, one showing the relationship between marriage rate and divorce rate and another showing the relationship between median age at marriage and divorce rate. 
+Create two plots, one showing the relationship between marriage rate and divorce rate and another showing the relationship between median age at marriage and divorce rate.
 
----
+------------------------------------------------------------------------
 
 ### solution
 
@@ -95,16 +98,17 @@ p2 <- d %>% ggplot(aes(x = MedianAgeMarriage, y = Divorce)) +
 (p1 | p2)
 ```
 
----
+------------------------------------------------------------------------
 
 ### exercise
 
 Model the relationship between Divorce Rate (D) and Marriage Rate (M). (Standardize both first.) Be sure to do the following:
 
-* Write a mathematical model expressing this relationship including priors. 
-* Sample from your priors to evaluate them. 
-* Calculate your posterior predictions for the relationship between D and M. 
----
+-   Write a mathematical model expressing this relationship including priors.
+
+-   Sample from your priors to evaluate them.
+
+-   Calculate your posterior predictions for the relationship between D and M.
 
 ### solution
 
@@ -121,8 +125,7 @@ d$D <- standardize(d$Divorce)
 d$M <- standardize(d$Marriage)
 ```
 
-
----
+------------------------------------------------------------------------
 
 ### solution
 
@@ -138,22 +141,30 @@ flist <- alist(
 m3.1 <- quap(flist = flist, data = d)
 ```
 
----
+------------------------------------------------------------------------
 
 ### solution
 
 ```{r}
 priors <- extract.prior(m3.1)
-mu <- link( m3.1 , post=priors , data=list( M=c(-2,2) ) )
+mu <- link( m3.1 , post=priors , data=list( M=c(-2,3) ) )
 plot( D ~ M , data=d, xlab = "marriage rate", ylab = "divorce rate" )
-for ( i in 1:50 ) lines( c(-2.5,3) , mu[i,] , col=col.alpha("#1c5253",0.4) )
+for ( i in 1:50 ) lines( c(-2,3) , mu[i,] , col=col.alpha("#1c5253",0.4) )
 ```
 
----
+------------------------------------------------------------------------
 
 ### solution
 
 ```{r}
+precis(m3.1)
+```
+
+Bonus: a plot
+
+```{r}
+#| code-fold: true
+
 # compute percentile interval of mean
 M_seq <- seq( from=-3 , to=3.2 , length.out=30 )
 mu <- link( m3.1 , data=list(M=M_seq) )
@@ -165,57 +176,51 @@ mu.PI <- apply( mu , 2 , PI )
 plot( D ~ M , data=d , col= "#1c5253", xlab = "marriage rate", ylab = "divorce rate" )
 lines( M_seq , mu.mean , lwd=2 )
 shade( mu.PI , M_seq )
-
-precis(m3.1)
 ```
 
----
+------------------------------------------------------------------------
 
 Now we're going to incorporate state age (median age at marriage) into our model. This is the DAG proposed by RM. What does this DAG represent?
 
 ```{r}
 dag3.2 <- dagitty( "dag{ A -> D; A -> M; M -> D }" )
 coordinates(dag3.2) <- list( x=c(A=0,D=1,M=2) , y=c(A=0,D=1,M=0) )
-drawdag( dag3.2 )
+drawdag( dag3.2, cex = 3, lwd = 3 )
 ```
 
----
+------------------------------------------------------------------------
 
 ### forks
 
 DAG models help us to see **conditional independencies**.
 
-  * statements of which variables should be associated with each other (or not) in the data.
-  * statements of which variables become disassociated when we condition on some other set of variables.
+-   statements of which variables should be associated with each other (or not) in the data.
+-   statements of which variables become disassociated when we condition on some other set of variables.
 
 ```{r}
 impliedConditionalIndependencies( dag3.2 ) #none
 ```
 
-:::{.notes}
-
+::: notes
 implication is that if we find any of these three variables are uncorrelated, our DAG is wrong.
-
 :::
 
----
-
+------------------------------------------------------------------------
 
 How does this change with a new DAG?
+
 ```{r}
 dag3.3 <- dagitty( "dag{ A -> D; A -> M }" )
 coordinates(dag3.3) <- list( x=c(A=0,D=1,M=2) , y=c(A=0,D=1,M=0) )
-drawdag( dag3.3 )
+drawdag( dag3.3, cex = 3, lwd = 3 )
 impliedConditionalIndependencies( dag3.3 ) 
 ```
 
-::: {.notes}
-
+::: notes
 implication that D and M will be independent after stratifying on A. We can test this.
-
 :::
 
----
+------------------------------------------------------------------------
 
 \begin{align*}
 D_i &\sim \text{Normal}(\mu_i, \sigma) \\
@@ -230,8 +235,7 @@ D_i &\sim \text{Normal}(\mu_i, \sigma) \\
 d$A <- standardize(d$MedianAgeMarriage)
 ```
 
----
-
+------------------------------------------------------------------------
 
 ```{r}
 flist <- alist(
@@ -247,17 +251,25 @@ m3.2 <- quap(flist = flist, data = d)
 precis(m3.2)
 ```
 
----
+------------------------------------------------------------------------
 
 ```{r}
 plot( coeftab(m3.1,m3.2), par=c("bA","bM") )
 ```
 
----
+------------------------------------------------------------------------
 
 If we want to simulate the effect of manipulating marriage, we use "do calculus." We do this by effectively "deleting" the arrows going into our manipulation variable (M).
 
-```{r}
+::::: columns
+::: {.column width="50%"}
+```{r, echo = F}
+drawdag( dag3.2, cex = 3, lwd = 3)
+```
+:::
+
+::: {.column width="50%"}
+```{r do-M, echo = F}
 post <- extract.samples(m3.2) # get 10k samples of all parameters
 n <- 1e3
 As <- sample(d$A, size=n, replace=T) #sample from original data
@@ -273,9 +285,17 @@ DM1 <- with( post ,
 M10_con <- DM1 - DM0
 dens(M10_con, lwd=4, col = "#1c5253", xlab="effect of 1SD increase in M")
 ```
+:::
+:::::
+
+```{r ref.label="do-M", eval = F}
+
+```
 
 
----
+
+
+------------------------------------------------------------------------
 
 ### Pipes
 
@@ -284,16 +304,16 @@ A pipe in a DAG model represents a situation where a variable acts as a mediator
 ```{r}
 dag_pipe <- dagitty("dag{ X -> M -> Y }")
 coordinates(dag_pipe) <- list(x=c(X=0, M=1, Y=2), y=c(X=0, M=1, Y=0))
-drawdag(dag_pipe)
+drawdag(dag_pipe, cex = 3, lwd = 3)
 ```
 
 One place that pipes show up is in **post-treatment bias.**
 
----
+------------------------------------------------------------------------
 
-Suppose you are studying plants in a greenhouse, and you want to know how effective a particular fungal treatment is. Fungus on plants tends to reduce their growth. You plant a bunch of plants, measure them, then apply one of two different treatments. After some time, you measure the plants again, and you measure the amount of fungus on the plants. 
+Suppose you are studying plants in a greenhouse, and you want to know how effective a particular fungal treatment is. Fungus on plants tends to reduce their growth. You plant a bunch of plants, measure them, then apply one of two different treatments. After some time, you measure the plants again, and you measure the amount of fungus on the plants.
 
-Simulate some fake plant data. 
+Simulate some fake plant data.
 
 ```{r}
 set.seed(71)
@@ -310,15 +330,15 @@ d <- data.frame( h0=h0 , h1=h1 , treatment=treatment , fungus=fungus )
 precis(d)
 ```
 
----
+------------------------------------------------------------------------
 
 ## exercise
 
-Draw the dag that describes the relationships between these 4 variables. 
+Draw the dag that describes the relationships between these 4 variables.
 
 What are the implied conditional independences?
 
----
+------------------------------------------------------------------------
 
 ### solution
 
@@ -331,13 +351,13 @@ plant_dag <- dagitty( "dag {
 coordinates( plant_dag ) <- list( x=c(H_0=1.0,T=0,F=0.5,H_1=1),
                                   y=c(H_0=-.5,T=0,F=0.5,H_1=0) )
 
-drawdag( plant_dag )
+drawdag( plant_dag, cex = 3, lwd = 3 )
 impliedConditionalIndependencies(plant_dag)
 ```
 
----
+------------------------------------------------------------------------
 
-Let's start by just modeling growth using our two height variables. 
+Let's start by just modeling growth using our two height variables.
 
 \begin{align*}
 h_{1,i} &\sim \text{Normal}(\mu_i, \sigma) \\
@@ -358,7 +378,7 @@ m3.3 <- quap(flist, d)
 precis(m3.3)
 ```
 
----
+------------------------------------------------------------------------
 
 Now add treatment to this model.
 
@@ -385,13 +405,13 @@ m3.4 <- quap(flist, d)
 precis(m3.4)
 ```
 
----
+------------------------------------------------------------------------
 
 ### exercise
 
 Now add in both treatment and fungus to this model.
 
----
+------------------------------------------------------------------------
 
 ### solution
 
@@ -420,37 +440,36 @@ m3.4 <- quap(flist, d)
 precis(m3.4)
 ```
 
----
+------------------------------------------------------------------------
 
 ## colliders
-
 
 ```{r, fig.height=2, fig.width=8}
 dag3.4 <- dagitty( "dag{ X -> Z; Y -> Z }" )
 coordinates(dag3.4) <- list( x=c(X=-1,Z=0,Y=1) , y=c(X=0,Z=1,Y=0) )
-drawdag( dag3.4 )
+drawdag( dag3.4, cex = 3, lwd = 3 )
 ```
 
-Stratifying on Z opens up the association between X and Y. We do *not* want to stratify on Z. 
+Stratifying on Z opens up the association between X and Y. We do *not* want to stratify on Z.
 
----
+------------------------------------------------------------------------
 
 ### collider of false sorrow
 
 We'll use the `rethinking` package to simulate data:
 
-  * Each year, 20 people are born with uniformly distributed happiness values.
-  * Each year, each person ages one year. Happiness does not change.
-  * At age 18, individuals can become married. The odds of marriage each year are proportional to an individual’s happiness.
-  * Once married, an individual remains married.
-  * After age 65, individuals leave the sample. (They move to Spain.)
-  
+-   Each year, 20 people are born with uniformly distributed happiness values.
+-   Each year, each person ages one year. Happiness does not change.
+-   At age 18, individuals can become married. The odds of marriage each year are proportional to an individual’s happiness.
+-   Once married, an individual remains married.
+-   After age 65, individuals leave the sample. (They move to Spain.)
+
 ```{r}
 d <- sim_happiness(seed = 1990, N_years = 1000)
 precis(d)
 ```
 
----
+------------------------------------------------------------------------
 
 ```{r, fig.width=9, fig.height=5}
 #| code-fold: true
@@ -465,18 +484,18 @@ d %>%
   theme(legend.position = "top")
 ```
 
----
+------------------------------------------------------------------------
 
 ### exercise
 
 Filter out people who are younger than 18. Then fit two models:
 
-  (1) a model in which happiness is influenced by both marriage and age. 
-  (2) a model in which happiness is influenced only by age. 
-  
+(1) a model in which happiness is influenced by both marriage and age.
+(2) a model in which happiness is influenced only by age.
+
 (You may want to center or standardize age in some way.)
-  
----
+
+------------------------------------------------------------------------
 
 ### solution
 
@@ -487,7 +506,7 @@ d2$mid <- d2$married + 1
 precis(d2)
 ```
 
----
+------------------------------------------------------------------------
 
 ### solution
 
@@ -504,7 +523,7 @@ m3.5 <- quap(flist, d2)
 precis(m3.5, depth=2)
 ```
 
----
+------------------------------------------------------------------------
 
 ### solution
 
@@ -521,14 +540,14 @@ m3.6 <- quap(flist, d2)
 precis(m3.6, depth=2)
 ```
 
----
+------------------------------------------------------------------------
 
 ## testing DAG assumptions
 
-* Causal DAGs make strong assumptions about unobserved confounders, but analyzing them can still provide valuable insights about where our models might be wrong through testing implied relationships.
+-   Causal DAGs make strong assumptions about unobserved confounders, but analyzing them can still provide valuable insights about where our models might be wrong through testing implied relationships.
 
-* Conditional independencies are key testable implications of a DAG, representing pairs of variables that should show no association after controlling for specific sets of other variables.
+-   Conditional independencies are key testable implications of a DAG, representing pairs of variables that should show no association after controlling for specific sets of other variables.
 
-* We can identify conditional independencies using the same path analysis techniques used for finding backdoor paths - examining all paths between two variables and determining if there exists a conditioning set that blocks all paths.
+-   We can identify conditional independencies using the same path analysis techniques used for finding backdoor paths - examining all paths between two variables and determining if there exists a conditioning set that blocks all paths.
 
-* While manually deriving conditional independencies in large graphs is complex due to the many variable pairs and paths to consider, computational tools can efficiently perform these calculations.
+-   While manually deriving conditional independencies in large graphs is complex due to the many variable pairs and paths to consider, computational tools can efficiently perform these calculations.
