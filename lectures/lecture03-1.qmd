@@ -271,7 +271,7 @@ drawdag( dag3.2, cex = 3, lwd = 3)
 ::: {.column width="50%"}
 ```{r do-M, echo = F}
 post <- extract.samples(m3.2) # get 10k samples of all parameters
-n <- 1e3
+n <- 1e4
 As <- sample(d$A, size=n, replace=T) #sample from original data
 
 # simulate D for M=0

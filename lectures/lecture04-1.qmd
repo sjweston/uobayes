@@ -611,6 +611,31 @@ pd %>%
   
 ```
 
+Based on this plot, which state(s) will you look more closely at? Can you use the data to speak to what may be happening here?
+
+---
+
+```{r}
+d %>% 
+  mutate(col = ifelse(Loc %in% c("ID", "MN"), "1", "2")) %>% 
+  ggplot(aes(x = Marriage, y = Divorce)) +
+  geom_point(aes(color = col)) +
+  geom_smooth(method = "lm") +
+  geom_text(
+    data = subset(d, Loc %in% c("ID", "MN")),
+    aes(label = Loc), 
+    nudge_x = 1
+  ) +
+  scale_color_manual(values = c("#5e8485", "grey")) +
+  guides(color=F)
+```
+
+:::{.notes}
+What is unusual about Idaho and Utah? Both of these States have large proportions of members of the Church of Jesus Christ of Latter-day Saints. Members of this church have low rates of divorce, wherever they live. 
+
+But note that other outliers don't have the same influence. 
+:::
+
 
 [^lecture04-1-1]: Caveats about Oregon weather aside.
 
