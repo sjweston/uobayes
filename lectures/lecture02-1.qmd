@@ -224,15 +224,15 @@ Remember that every student got taller each year. Does this change your choice o
 :::
 
 :::{.fragment}
-The variance in heights for students of the same age is never more than 64 cm. Does this lead you to revise your priors?
+The variance in heights for students of the same age is never more than 2.10 feet. Does this lead you to revise your priors?
 :::
 
 ::: notes
 \begin{align*}
 y_i &\sim \mathcal{N}(\mu_i, \sigma^2) \\
 \mu_i &= \beta_0 + \beta_1 x_i \\
-\beta_0 &\sim \mathcal{N}(150, 50^2) \\
-\beta_1 &\sim \mathcal{N}(5, 2^2) \\
+\beta_0 &\sim \mathcal{N}(5, 1^2) \\
+\beta_1 &\sim \mathcal{N}(.1, .1^2) \\
 \sigma &\sim \text{Half-Normal}(0, 10)
 \end{align*}
 :::
@@ -247,6 +247,9 @@ Using the Howell data (make sure you have the `rethinking` package loaded).
 data("Howell1")
 d <- Howell1
 str(d)
+library(measurements)
+d$height <- conv_unit(d$height, from = "cm", to = "feet")
+d$weight <- conv_unit(d$weight, from = "kg", to = "lbs")
 precis(d)
 
 d2 <- d[ d$age >= 18, ]
@@ -256,7 +259,7 @@ d2 <- d[ d$age >= 18, ]
 
 ### exercise
 
-Write a mathematical model for the weights in this data set. (Don't predict from other variables yet.) Note that weight is presented in kilograms.
+Write a mathematical model for the weights in this data set. (Don't predict from other variables yet.) 
 
 Simulate both your priors and the expected observed weight values from the prior.
 
@@ -264,9 +267,9 @@ Simulate both your priors and the expected observed weight values from the prior
 ### solution
 
 \begin{align*}
-h &\sim \text{Normal}(\mu, \sigma) \\
-\mu &\sim \text{Normal}(59, 20) \\
-\sigma &\sim \text{Uniform}(0, 50) \\
+w &\sim \text{Normal}(\mu, \sigma) \\
+\mu &\sim \text{Normal}(130, 20) \\
+\sigma &\sim \text{Uniform}(0, 25) \\
 \end{align*}
 :::
 
@@ -279,8 +282,8 @@ Simulate your priors
 ```{r, fig.retina=3, out.weight='300px'}
 nsims <- 1e4 # number of simulations
 set.seed(128) # reproducibility
-sim_mu <- rnorm( nsims, 59, 20) # simulate values of mu
-sim_sig <- runif(nsims, 0, 50) # simulate values of sigma
+sim_mu <- rnorm( nsims, 130, 20) # simulate values of mu
+sim_sig <- runif(nsims, 0, 25) # simulate values of sigma
 par(mfrow = c(1,3)) # plot display has 1 row, 3 columns
 dens_mu <- dens(sim_mu) # density of mu
 dens_sig <- dens(sim_sig) # density of sigma
@@ -302,10 +305,7 @@ dens(sim_h)
 PI(sim_h, .89)
 ```
 
-::: notes
-4.14 kg = 9.13 lb \\
-113.8 kg = 251 lb
-:::
+
 
 ------------------------------------------------------------------------
 
@@ -315,8 +315,8 @@ Use grid approximation to calculate posterior distribution.
 
 ```{r}
 # values of mu and sigma to test
-mu.list <- seq( from=25, to=74 , length.out=200 )
-sigma.list <- seq( from=2, to=10 , length.out=200 )
+mu.list <- seq( from=75, to=165, length.out=200 )
+sigma.list <- seq( from=0, to=25 , length.out=200 )
 # fit every possible combination of m and s
 post <- expand.grid( mu=mu.list , sigma=sigma.list )
 
@@ -326,8 +326,8 @@ post$LL <- sapply( 1:nrow(post) , function(i) sum(
 
 # add priors
 post$prod <- post$LL + 
-  dnorm( post$mu , 59 , 20 , TRUE ) +
-  dunif( post$sigma , 0 , 50 , TRUE )
+  dnorm( post$mu , 130 , 20 , TRUE ) +
+  dunif( post$sigma , 0 , 25 , TRUE )
 
 # convert from LL to p
 post$prob <- exp( post$prod - max(post$prod) )
@@ -349,8 +349,8 @@ Go back to your code and change the range of values you estimate.
 
 ```{r}
 # values of mu and sigma to test
-mu.list <- seq( from=40, to=50 , length.out=200 )
-sigma.list <- seq( from=5, to=9 , length.out=200 )
+mu.list <- seq( from=90, to=105 , length.out=200 )
+sigma.list <- seq( from=12, to=16 , length.out=200 )
 ```
 
 Rerun all the earlier code.
@@ -365,8 +365,8 @@ post$LL <- sapply( 1:nrow(post) , function(i) sum(
 
 # add priors
 post$prod <- post$LL + 
-  dnorm( post$mu , 170 , 20 , TRUE ) +
-  dunif( post$sigma , 0 , 50 , TRUE )
+  dnorm( post$mu , 130 , 20 , TRUE ) +
+  dunif( post$sigma , 0 , 25 , TRUE )
 
 # convert from LL to p
 post$prob <- exp( post$prod - max(post$prod) )
@@ -391,15 +391,15 @@ We won't be calculating the probability or likelihood of values directly (too co
 ```{r}
 flist <- alist(
   weight ~ dnorm( mu , sigma ) ,
-  mu ~ dnorm( 59 , 20 ) ,
-  sigma ~ dunif( 0 , 50 )
+  mu ~ dnorm( 130 , 20 ) ,
+  sigma ~ dunif( 0 , 25 )
 )
 
 m4.1 <- quap( flist , data=d2 )
 precis( m4.1 )
 ```
 
-These numbers provide Gaussian approximations for each parameter’s **marginal distribution**. This means the plausibility of each value of $\mu$, after averaging over the plausibilities of each value of $\sigma$, is given by a Gaussian distribution with mean 154.6 and standard deviation 0.4.
+These numbers provide Gaussian approximations for each parameter’s **marginal distribution**. This means the plausibility of each value of $\mu$, after averaging over the plausibilities of each value of $\sigma$, is given by a Gaussian distribution with mean `r round(precis( m4.1 )$mean[1], 2)` and standard deviation `r round(precis( m4.1 )$sd[1], 2)`.
 
 :::: notes
 The function `alist()` does not evaluate the code, whereas the code `list()` does.
@@ -448,11 +448,11 @@ Update your mathematical model to incorporate height. Simulate from your priors 
 
 :::{.fragment}
 \begin{align*}
-h_i &\sim \text{Normal}(\mu_i, \sigma) \\
-\mu_i &= \alpha + \beta (x_i - \bar{x}) \\
-\alpha &\sim \text{Normal}(59, 20) \\
-\beta &\sim \text{Normal}(0, 10) \\
-\sigma &\sim \text{Uniform}(0, 50) \\
+w_i &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \alpha + \beta (h_i - \bar{h}) \\
+\alpha &\sim \text{Normal}(130, 20) \\
+\beta &\sim \text{Normal}(0, 25) \\
+\sigma &\sim \text{Uniform}(0, 25) \\
 \end{align*}
 :::
 
@@ -469,13 +469,13 @@ To simulate from our priors:
 ```{r sim-lines, eval = F}
 # simulate 100 lines
 nsims <- 100
-sim_alpha = rnorm(nsims, 59, 20)
-sim_beta = rnorm(nsims, 0, 10)
+sim_alpha = rnorm(nsims, 130, 20)
+sim_beta = rnorm(nsims, 0, 25)
 
 # calculate height
 xbar = mean(d2$height)
 # plot with nothing in it
-plot(NULL, xlim = range(d2$height), ylim = c(-100, 400),
+plot(NULL, xlim = range(d2$height), ylim = c(50, 175),
      xlab = "height", ylab = "weight")
 abline(h = 0, lty = 2) #line at 0
 #plot each line
@@ -516,13 +516,13 @@ Could use a uniform distribution bounded by 0.
 ```{r sim-lines2, eval = F}
 # simulate 100 lines
 nsims <- 100
-sim_alpha = rnorm(nsims, 59, 20)
-sim_beta = runif(nsims, 0, 10)
+sim_alpha = rnorm(nsims, 130, 20)
+sim_beta = runif(nsims, 0, 50)
 
 # calculate height
 xbar = mean(d2$height)
 # plot with nothing in it
-plot(NULL, xlim = range(d2$height), ylim = c(-100, 400),
+plot(NULL, xlim = range(d2$height), ylim = c(50, 175),
      xlab = "height", ylab = "weight")
 abline(h = 0, lty = 2) #line at 0
 #plot each line
@@ -553,9 +553,9 @@ Fit the new weight model using the quadratic approximation.
 flist <- alist(
   weight ~ dnorm( mu , sigma ) ,
   mu <- a + b*(height - mean(height)),
-  a ~ dnorm( 59 , 20 ) ,
-  b ~ dunif(0, 10), 
-  sigma ~ dunif( 0 , 50 )
+  a ~ dnorm( 130 , 20 ) ,
+  b ~ dunif(0, 50), 
+  sigma ~ dunif( 0 , 25 )
 )
 
 m2 <- quap( flist , data=d2 )
@@ -600,11 +600,13 @@ A side note: a major concern or critique of Bayesian analysis is that the subjec
 flist <- alist(
   weight ~ dnorm( mu , sigma ) ,
   mu <- a + b*(height - mean(height)),
-  a ~ dnorm( 59 , 20 ) ,
-  b ~ dnorm(-5, 1),  
+  a ~ dnorm( 130 , 20 ) ,
+  b ~ dnorm(-5, 20),  
   sigma ~ dunif( 0 , 50 )
 )
 
 m2 <- quap( flist , data=d2 )
 precis( m2 )
 ```
+
+You'll only really get into trouble with uniform priors that have a boundary, if true population parameter is outside your boundary. A good rule of thumb is to avoid the uniform distribution. We'll cover other options for priors for $\sigma$ in future lectures, but as a preview, the exponential function works very well for this!

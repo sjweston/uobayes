@@ -2,7 +2,7 @@
     "sortOrder": [
         {
             "columnIndex": 2,
-            "ascending": false
+            "ascending": true
         },
         {
             "columnIndex": 4,
@@ -13,5 +13,5 @@
             "ascending": false
         }
     ],
-    "path": "~/Library/CloudStorage/GoogleDrive-weston.sara@gmail.com/My Drive/Work (google drive)/teaching/uobayes/lectures"
+    "path": "~/Library/CloudStorage/GoogleDrive-weston.sara@gmail.com/My Drive/Work (google drive)/teaching/uobayes/fits"
 }

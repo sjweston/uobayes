@@ -110,6 +110,8 @@ Model the relationship between Divorce Rate (D) and Marriage Rate (M). (Standard
 
 -   Calculate your posterior predictions for the relationship between D and M.
 
+:::{.fragment}
+
 ### solution
 
 \begin{align*}
@@ -124,6 +126,8 @@ D_i &\sim \text{Normal}(\mu_i, \sigma) \\
 d$D <- standardize(d$Divorce)
 d$M <- standardize(d$Marriage)
 ```
+
+:::
 
 ------------------------------------------------------------------------
 

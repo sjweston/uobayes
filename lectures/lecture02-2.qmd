@@ -64,6 +64,9 @@ Forget dummy codes. From here on out, we will incorporate categorical causes int
 ```{r}
 data("Howell1")
 d <- Howell1
+library(measurements)
+d$height <- conv_unit(d$height, from = "cm", to = "feet")
+d$weight <- conv_unit(d$weight, from = "kg", to = "lbs")
 d <- d[d$age >= 18, ]
 d$sex <- ifelse(d$male == 1, 2, 1) # 1 = female, 2 = male
 head(d[, c("male", "sex")])
@@ -78,7 +81,7 @@ Let's write a mathematical model to express weight in terms of sex.
 \begin{align*}
 w_i &\sim \text{Normal}(\mu_i, \sigma) \\
 \mu_i &=     \alpha_{SEX[i]} \\
-\alpha_j &\sim \text{Normal}(60, 20)\text{ for }j = 1..2 \\
+\alpha_j &\sim \text{Normal}(130, 20)\text{ for }j = 1..2 \\
 \sigma &\sim \text{Uniform}(0, 50)
 \end{align*}
 
@@ -86,7 +89,7 @@ w_i &\sim \text{Normal}(\mu_i, \sigma) \\
 flist <- alist(
   weight ~ dnorm( mu , sigma) ,
   mu <- a[sex] ,
-  a[sex] ~ dnorm( 60, 20 ) ,
+  a[sex] ~ dnorm( 130, 20 ) ,
   sigma ~ dunif(0, 50)
 )
 ```
@@ -125,12 +128,12 @@ p1 <- post %>% as.data.frame() %>%
   mutate(sex = ifelse(name == "a.1", "female", "male")) %>% 
   ggplot(aes(x=value, color = sex)) +
   geom_density(linewidth = 2) +
-  labs(x = "weight(kg)") 
+  labs(x = "weight(lbs)") 
 
 p2 <- post %>% as.data.frame() %>% 
   ggplot(aes(x=diff_fm)) +
   geom_density(linewidth = 2) +
-  labs(x = "difference in weight(kg)") 
+  labs(x = "difference in weight(lbs)") 
 
 ( p1 | p2)
 ```
@@ -160,7 +163,7 @@ p1 <- pred_post %>% pivot_longer(starts_with("pred")) %>%
   mutate(sex = ifelse(name == "pred_f", "female", "male")) %>% 
   ggplot(aes(x = value, color = sex)) +
   geom_density(linewidth = 2) +
-  labs(x = "weight (kg)")
+  labs(x = "weight (lbs)")
 
 # plot difference
 # Compute density first
@@ -302,8 +305,8 @@ Let's return to the weight example. What if we want to control for height?
 \begin{align*}
 w_i &\sim \text{Normal}(\mu_i, \sigma) \\
 \mu_i &= \alpha_{S[i]} + \beta_{S[i]}(H_i-\bar{H})\\
-\alpha_j &\sim \text{Normal}(60, 20)\text{ for }j = 1..2 \\
-\beta_j &\sim \text{Normal}(0, 5)\text{ for }j = 1..2 \\
+\alpha_j &\sim \text{Normal}(130, 20)\text{ for }j = 1..2 \\
+\beta_j &\sim \text{Normal}(0, 25)\text{ for }j = 1..2 \\
 \sigma &\sim \text{Uniform}(0, 50)
 \end{align*}
 
@@ -319,8 +322,8 @@ dat <- list(
 flist <- alist(
   weight ~ dnorm( mu , sigma) ,
   mu <- a[sex] + b[sex]*(height-Hbar),
-  a[sex] ~ dnorm( 60, 20 ) ,
-  b[sex] ~ dnorm( 0, 20 ) ,
+  a[sex] ~ dnorm( 150, 20 ) ,
+  b[sex] ~ dnorm( 0, 25 ) ,
   sigma ~ dunif(0, 50)
 )
 
