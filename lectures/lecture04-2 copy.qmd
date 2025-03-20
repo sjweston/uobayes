@@ -1,0 +1,667 @@
+---
+title: "week 4: overfitting/mcmc"
+subtitle: "mcmc -- brms"
+format: 
+  revealjs:
+    css: xaringan-themer2.css
+    nature:
+      highlightStyle: solarized-dark
+      highlightLines: true
+      countIncrementalSlides: false
+      mathjax: "default"
+    self-contained: false  # Ensures correct embedding
+    embed-resources: true  # Embeds required assets
+    slide-number: true
+execute:
+  echo: false        
+---
+
+```{r, message = F, warning = F}
+library(tidyverse)
+library(psych)
+library(cowplot)
+library(patchwork)
+library(here)
+library(brms) ## NEW PACKAGE
+library(tidybayes) ## NEW PACKAGE
+```
+
+```{r, echo = F}
+knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
+theme_set(theme_cowplot())
+default_palettes <- list(
+  c("#5e8485" , "#0f393a") ,
+  c("#1c5253" , "#5e8485" , "#0f393a") , 
+  # palette with 5 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" ) ,
+  # same palette interpolated to 8 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" ) 
+  
+)
+
+options(ggplot2.discrete.fill = default_palettes, 
+        ggplot2.discrete.colour = default_palettes)
+```
+
+At this point in the term, we'll be deviating in our code from McElreath. His course is taught entirely using `rethinking`, which is a pedogigical tool. It has clear mapping between mathematical models and syntax. But it lacks flexibility and has fewer modeling options.
+
+On the other hand, there is a package called `brms` that also does Bayesian modeling. This package uses syntax simliar to `lme4` (if you've used that), supports a wider range of distributions, integrates with the `tidyverse` ecosystem (if you've used that), has more extensive documentation, is more actively maintained, is more widely used (i.e., more support), and is more suitable for complex models.
+
+You're welcome to use the `rethinking` package when it suits you, in this course and in your research, but my goal is to introduce you to the `brms` package. Instead of reviewing the code from McElreath's lecture today, we'll be revisiting some familiar models using brms.
+
+------------------------------------------------------------------------
+
+### model specification
+
+Let's return to the height and weight data.
+
+```{r}
+data(Howell1, package = "rethinking")
+d <- Howell1
+library(measurements)
+d$height <- conv_unit(d$height, from = "cm", to = "feet")
+d$weight <- conv_unit(d$weight, from = "kg", to = "lbs")
+describe(d, fast = T)
+d <- d[d$age >= 18, ]
+d$height_c <- d$height - mean(d$height)
+```
+
+\begin{align*}
+w_i &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \alpha + \beta (h_i - \bar{h}) \\
+\alpha &\sim \text{Normal}(130, 20) \\
+\beta &\sim \text{Normal}(0, 25) \\
+\sigma &\sim \text{Uniform}(0, 25) \\
+\end{align*}
+
+
+---
+
+```{r}
+#| code-line-numbers: "1,2"
+#| 
+m42.1 <-brm(
+  data = d, 
+  family = gaussian,
+  weight ~ 1 + height_c,
+  prior = c( prior( normal(130,20), class = Intercept),
+             prior( normal(0,25), class = b),
+             prior( uniform(0,50), class = sigma, ub = 50)
+    ), 
+  iter = 5000, warmup = 1000, chains = 4, 
+  seed = 3, 
+      file = here("fits/m42.1"))
+```
+
+`brm()` is the core function for fitting Bayesian models using brms. 
+
+---
+
+```{r, eval = F}
+#| code-line-numbers: "3"
+#| 
+m42.1 <-brm(
+  data = d, 
+  family = gaussian,
+  weight ~ 1 + height_c,
+  prior = c( prior( normal(130,20), class = Intercept),
+             prior( normal(0,25), class = b),
+             prior( uniform(0,50), class = sigma, ub = 50)
+    ), 
+  iter = 5000, warmup = 1000, chains = 4,
+  seed = 3, 
+      file = here("fits/m42.1"))
+```
+
+
+`family` specifies the distribution of the outcome family. In many examples, we'll use a gaussian (normal) distribution. But there are [many many many options](https://rdrr.io/cran/brms/man/brmsfamily.html) for this.
+
+---
+
+```{r, eval = F}
+#| code-line-numbers: "4"
+#| 
+m42.1 <-brm(
+  data = d, 
+  family = gaussian,
+  weight ~ 1 + height_c,
+  prior = c( prior( normal(130,20), class = Intercept),
+             prior( normal(0,25), class = b),
+             prior( uniform(0,50), class = sigma, ub = 50)
+    ), 
+  iter = 5000, warmup = 1000, chains = 4,
+  seed = 3, 
+      file = here("fits/m42.1"))
+```
+
+
+The formula argument is what you would expect from the `lm()` and `lmer()` functions you have seen in the past. The benefit of `brms` is that this formula can easily handle complex and non-linear terms. We'll be playing with more in future classes.
+
+---
+
+```{r, eval = F}
+#| code-line-numbers: "5-8"
+#| 
+m42.1 <-brm(
+  data = d, 
+  family = gaussian,
+  weight ~ 1 + height_c,
+  prior = c( prior( normal(130,20), class = Intercept),
+             prior( normal(0,25), class = b),
+             prior( uniform(0,50), class = sigma, ub = 50)
+    ), 
+  iter = 5000, warmup = 1000, chains = 4,
+  seed = 3, 
+      file = here("fits/m42.1"))
+```
+
+
+Here we set our priors. Class `b` refers to population-level slope parameters (sometimes called fixed effects). Again, this argument has the ability to become very detailed, specific, and flexible, and we'll play more with this.
+
+---
+
+```{r, eval = F}
+#| code-line-numbers: "9"
+#| 
+m42.1 <-brm(
+  data = d, 
+  family = gaussian,
+  weight ~ 1 + height_c,
+  prior = c( prior( normal(130,20), class = Intercept),
+             prior( normal(0,25), class = b),
+             prior( uniform(0,50), class = sigma, ub = 50)
+    ), 
+  iter = 5000, warmup = 1000, chains = 4,
+  seed = 3, 
+      file = here("fits/m42.1"))
+```
+
+
+Hamiltonian MCMC runs for a set number of iterations, throws away the first bit (the warmup), and does that up multiple times (the number of chains).
+
+---
+
+```{r, eval = F}
+#| code-line-numbers: "10-11"
+#| 
+m42.1 <-brm(
+  data = d, 
+  family = gaussian,
+  weight ~ 1 + height_c,
+  prior = c( prior( normal(130,20), class = Intercept),
+             prior( normal(0,25), class = b),
+             prior( uniform(0,50), class = sigma, ub = 50)
+    ), 
+  iter = 5000, warmup = 1000, chains = 4,
+  seed = 3, 
+      file = here("fits/m42.1"))
+```
+
+Remember, these are random walks through parameter space, so set a seed for reproducbility. Also, these can take a while to run, especially when you are developing more complex models. If you specify a file, the output of the model will automatically be saved. Even better, then next time you run this code, R will check for that file and load it into your workspace instead of re-running the model. (Just be sure to delete the model file if you make changes to any other part of the code.)
+
+
+------------------------------------------------------------------------
+
+```{r}
+summary(m42.1)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+plot(m42.1)
+```
+
+------------------------------------------------------------------------
+
+### checking your model
+
+Before we start to interpret our model, we should evaluate whether it does a good job. Posterior predictive checks plot the implied distribution of your outcome next to your actual distribution. If your posterior predictive values are off, your model is off. 
+
+```{r, fig.width=4, out.width="200%", fig.height = 2}
+pp_check(m42.1)
+```
+
+------------------------------------------------------------------------
+
+### checking your model
+
+We can also look at the posterior distributions of our chains. Remember, they should be covering most of the same space, so these distributions should pretty much overlap. 
+
+```{r, fig.width=5, out.width="150%", fig.height = 2.5}
+mcmc_plot(m42.1, type = "dens_overlay")
+```
+
+
+------------------------------------------------------------------------
+
+
+
+Let's sample from the posterior. First, `get_variables()` will tell us everything at our disposal.
+
+```{r}
+get_variables(m42.1)
+```
+
+Let's focus on just the parameters we've estimated. In prior lectures, we've drawn samples from the posterior distribution to generate plots and provide summaries. We can use the `spread_draws()` function to do so.
+
+```{r}
+p42.1 <- m42.1 %>% 
+  spread_draws(b_Intercept, b_height_c, sigma, 
+               ndraws = 1e4, seed = 123)
+dim(p42.1)
+head(p42.1)
+```
+
+:::{.notes}
+
+  - `lp__` is the log posterior
+  - `lprior` is the log of the prior
+:::
+
+------------------------------------------------------------------------
+
+```{r, fig.width=9, fig.height=3}
+#| code-fold: true
+
+p42.1 %>% 
+  ggplot(aes(x = b_Intercept)) +
+  geom_density(fill = "#1c5253", color = "white") +
+  labs(
+    title = "Posterior probability",
+    x = "probabilty of intercept (mean weight)"
+  ) + 
+  scale_y_continuous(NULL, breaks = NULL)
+```
+
+---
+
+Finally, we might want to plot the bivariate distributions of our parameters.
+
+```{r, fig.height = 3, fig.width = 3, out.width = "200%"}
+pairs(m42.1)
+```
+
+
+------------------------------------------------------------------------
+
+If we were encountering this problem for the first time, we would want to work on on our priors. These ones are pretty bad. We have a few tools available to help us define and test our priors. 
+
+First, let's view the available priors for our model:
+
+```{r}
+get_prior(
+  formula = weight ~ 1 + height_c,
+  data = d
+)
+```
+
+If you're ever not sure what coefficients to put priors on, this function can help with that. 
+
+------------------------------------------------------------------------
+
+Let's refit our model with our earlier priors. Before we fit this to data, we'll start by **only** sampling from our priors.
+
+```{r weight-prior, results = 'hide'}
+#| code-line-numbers: "11"
+m42.1p <- brm(
+  data = d, 
+  family = gaussian,
+  weight ~ 1 + height_c,
+  prior = c( prior( normal(130,20), class = Intercept),
+             prior( normal(0,25), class = b),
+             prior( uniform(0,50), class = sigma, ub = 50)
+    ), 
+  iter = 5000, warmup = 1000,
+  seed = 3, 
+  sample_prior = "only")
+```
+
+------------------------------------------------------------------------
+
+The output of `spread_draws` will now draw from samples from the prior, not samples from the posterior.
+
+```{r}
+p42.1p <- m42.1p %>% 
+  spread_draws(b_Intercept, b_height_c, sigma)
+head(p42.1p)
+```
+
+------------------------------------------------------------------------
+
+We'll plot the regression lines from the priors against the real data, to see if they make sense.
+
+```{r}
+#| code-fold: true
+
+labels = seq(4, 6, by = .5)
+breaks = labels - mean(d$height)
+d %>% 
+  ggplot(aes(x = height_c, y = weight)) + 
+  geom_blank()+
+  geom_abline(aes( intercept=b_Intercept, slope=b_height_c), 
+              data = p42.1p[1:50, ], #first 50 draws only
+              color = "#1c5253",
+              alpha = .3) +
+  scale_x_continuous("height(feet)", breaks = breaks, labels = labels) +
+  scale_y_continuous("weight(lbs)", limits = c(50,150))
+```
+
+------------------------------------------------------------------------
+
+Let's see if we can improve upon this model. One thing we know for sure is that the relationship between height and weight is positive. We may not know the exact magnitude, but we can use a distribution that doesn't go below zero. We've already discussed uniform distributions, but those are pretty uninformative -- they won't do a good job regularizing -- and we can also run into trouble if our bounds are not inclusive enough.
+
+The log-normal distribution would be a good option here.
+
+```{r}
+#| code-fold: true
+
+set.seed(4)
+
+tibble(b = rlnorm(1e4, mean = 0, sd = 1)) %>% 
+  ggplot(aes(x = b)) +
+  geom_density(fill = "grey92") +
+  coord_cartesian(xlim = c(0, 5)) +
+  labs(title = "Log-Normal(0,1)")
+```
+
+------------------------------------------------------------------------
+
+The log-normal is the distribution whose logarithm is normally distributed.
+
+```{r}
+#| code-fold: true
+
+set.seed(4)
+
+tibble(rnorm           = rnorm(1e5, mean = 0, sd = 1),
+       `log(rlognorm)` = log(rlnorm(1e5, mean = 0, sd = 1))) %>% 
+  pivot_longer(everything()) %>% 
+
+  ggplot(aes(x = value)) +
+  geom_density(fill = "grey92") +
+  coord_cartesian(xlim = c(-3, 3)) +
+  facet_wrap(~ name, nrow = 2)
+```
+
+------------------------------------------------------------------------
+
+Let's try this new prior. Play around with the plot code to find parameters that you think are reasonable. I'm going to use 1,2.
+
+```{r weight-prior2, results = 'hide'}
+m42.2p <- brm(
+  data = d, 
+  family = gaussian,
+  weight ~ height_c,
+  prior = c( prior( normal(130,20), class = Intercept),
+             prior( lognormal(1,2), class = b),
+             prior( uniform(0,50), class = sigma, ub = 50)
+    ), 
+  iter = 5000, warmup = 1000,
+  seed = 3, 
+  sample_prior = "only")
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| code-fold: true
+
+p42.2p <- m42.2p %>% 
+  spread_draws(b_Intercept, b_height_c, sigma)
+d %>% 
+  ggplot(aes(x = height_c, y = weight)) + 
+   geom_blank()+
+  geom_abline(aes( intercept=b_Intercept, slope=b_height_c), 
+              data = p42.2p[1:50, ], #first 50 draws only
+              color = "#1c5253",
+              alpha = .3) +
+  scale_x_continuous("height(feet)", breaks = breaks, labels = labels) +
+  scale_y_continuous("weight(lbs)", limits = c(50,150))
+
+```
+
+------------------------------------------------------------------------
+
+Applied to our dataset:
+
+```{r, results = 'hide'}
+#| code-fold: true
+
+m42.2 <- brm(
+  data = d, 
+  family = gaussian,
+  weight ~ height_c,
+  prior = c( prior( normal(130,20), class = Intercept),
+             prior( lognormal(1,2), class = b),
+             prior( uniform(0,50), class = sigma, ub = 50)
+    ), 
+  iter = 5000, warmup = 1000,
+  seed = 3,
+  file = here("fits/m42.2"))
+```
+
+```{r}
+summary(m42.2)
+```
+
+------------------------------------------------------------------------
+
+Let's return to the `tidybayes` functions for summaries. As a reminder, we already saw `spread_draws()`
+
+```{r}
+post_draws = m42.2 %>% 
+  spread_draws(b_Intercept, b_height_c, sigma) %>% 
+  sample_n(50) 
+
+m_height <- mean(d$height)
+
+d %>% 
+  ggplot(aes(x = height, y = weight)) +
+  geom_point(alpha = .5) + 
+  geom_abline(aes(intercept = b_Intercept - b_height_c*m_height, #to account for centering
+                  slope = b_height_c),
+              alpha = .3, 
+              color = "#1c5253",
+              data = post_draws)
+```
+
+---
+
+We also have `gather_draws()`:
+
+```{r}
+m42.2 %>% 
+  gather_draws(b_Intercept, b_height_c, sigma)   %>% 
+  sample_n(2)
+```
+
+How is this different from `spread_draws()`?
+
+:::{.fragment}
+
+`gather_draws()` is a useful function if we're thinking about summarizing the results of our models.
+
+```{r}
+m42.2 %>% 
+  gather_draws(b_Intercept, b_height_c, sigma) %>% 
+  median_qi()
+```
+
+:::
+
+------------------------------------------------------------------------
+
+```{r m42.2-halfeye, fig.width=6, fig.height=3, out.width = "150%"}
+
+m42.2 %>% 
+  gather_draws(b_Intercept, b_height_c, sigma) %>% 
+  ggplot(aes(x = .value, y=.variable)) +
+  stat_halfeye()
+```
+
+----
+
+### model-based predictions
+
+We can make two kinds of predictions based on our model. First, we can get a posterior predictive distribution using `add_predicted_draws()`:
+
+```{r}
+# simulate new data
+height_c = sample(d$height_c, size = 1e2, replace = T)
+# get predictions
+predictions = data.frame(height_c) %>% add_predicted_draws(m42.2, seed = 1)
+dim(predictions)
+head(predictions)
+```
+
+
+---
+
+
+Or, we can get expected values using `add_epred_draws()`:
+
+```{r}
+# get expected values
+expected_vals = data.frame(height_c) %>% add_epred_draws(m42.2, seed = 1)
+dim(expected_vals)
+head(expected_vals)
+```
+
+---
+
+```{r, fig.width=6, fig.height=3, out.width = "150%"}
+predictions %>% full_join(expected_vals) %>% 
+  pivot_longer(c(.prediction, .epred)) %>% 
+  ggplot(aes(x=value, group = name)) +
+  geom_density(aes(fill=name), alpha=.5)
+```
+
+---
+
+```{r, fig.width=6, fig.height=3, out.width = "150%"}
+predictions %>% full_join(expected_vals) %>% 
+  pivot_longer(c(.prediction, .epred)) %>% 
+  sample_n(size = 200) %>% 
+  mutate(height = height_c + m_height) %>% 
+  ggplot(aes(x=height, y=value, group = name)) +
+    geom_point(alpha = .3) +
+  facet_wrap(~name)
+```
+
+
+
+---
+
+## Practice Time: Analyzing Sleep Data
+
+Let's practice what we've learned using a different dataset. We'll use the built-in `msleep` dataset from the `ggplot2` package, which contains sleep data for various mammals.
+
+```{r}
+data("msleep")
+d_sleep <- msleep %>%
+  drop_na(sleep_total, bodywt) %>%
+  mutate(log_weight = log(bodywt))
+
+# Quick look at the data
+describe(d_sleep[c("sleep_total", "bodywt", "log_weight")], fast = T)
+```
+
+Our goal is to model the relationship between body weight and total sleep duration. Because body weight is highly skewed, we'll use the log-transformed weight.
+
+### Exercise 1: Prior Predictive Checks
+
+Let's set up a model to predict sleep duration from log body weight:
+
+\begin{align*}
+\text{sleep}_i &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \alpha + \beta (\text{log_weight}_i) \\
+\alpha &\sim \text{Normal}(12, 4) \\
+\beta &\sim \text{Normal}(0, 2) \\
+\sigma &\sim \text{Uniform}(0, 10) \\
+\end{align*}
+
+**Your turn:** 
+1. Create a model using `brm()` that samples only from the priors (`sample_prior = "only"`)
+2. Plot some regression lines from your prior to see if they make sense
+3. Adjust the priors if needed
+
+Here's some starter code:
+
+```{r, eval=FALSE}
+m_sleep_prior <- brm(
+  data = d_sleep,
+  family = gaussian,
+  sleep_total ~ log_weight,
+  prior = c(
+    prior(normal(12, 4), class = Intercept),
+    prior(normal(0, 2), class = b),
+    prior(uniform(0, 10), class = sigma)
+  ),
+  sample_prior = "only",
+  seed = 123
+)
+
+# Now plot some prior predictive regression lines
+```
+
+### Exercise 2: Fit the Model
+
+Once you're happy with your priors, fit the actual model to the data. Then:
+
+1. Check the model summary
+2. Create a posterior predictive check plot
+3. Plot the actual data with regression lines from your posterior draws
+
+### Exercise 3: Interpretation
+
+Using the tools we learned (`spread_draws()`, `gather_draws()`, etc.):
+
+1. What is the estimated effect of body weight on sleep duration?
+2. Generate predictions for a few new body weights
+3. Create a plot showing the uncertainty in your predictions
+
+### Bonus Challenge
+
+Try adding a new predictor to your model (e.g., `vore` - what type of food the animal eats). How does this change your predictions?
+
+---
+
+### Understanding Entropy Visually
+
+Let's visualize what we mean by high and low entropy distributions:
+
+```{r entropy-viz, fig.width=10, fig.height=4}
+# Create example data
+set.seed(123)
+
+# Low entropy data (concentrated around a single value)
+low_entropy <- data.frame(
+  value = rnorm(1000, mean = 0, sd = 0.3),
+  type = "Low Entropy"
+)
+
+# High entropy data (more spread out, more uniform)
+high_entropy <- data.frame(
+  value = runif(1000, min = -2, max = 2),
+  type = "High Entropy"
+)
+
+# Combine the data
+entropy_data <- rbind(low_entropy, high_entropy)
+
+# Create the plots
+ggplot(entropy_data, aes(x = value)) +
+  geom_density(fill = "#1c5253", alpha = 0.5) +
+  facet_wrap(~type) +
+  labs(title = "Comparing High and Low Entropy Distributions",
+       x = "Value",
+       y = "Density") +
+  theme_cowplot() +
+  theme(strip.background = element_rect(fill = "#1c5253"),
+        strip.text = element_text(color = "white", size = 12))
+```
+
+The low entropy distribution shows more certainty - most values are concentrated around a single point. The high entropy distribution shows more uncertainty - values are more evenly spread across the range. This concept is important when we think about our posterior distributions: tighter distributions (low entropy) indicate more certainty in our parameter estimates.
+
+---

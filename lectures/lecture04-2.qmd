@@ -1,6 +1,6 @@
 ---
-title: "Week 4: Overfitting/MCMC"
-subtitle: "MCMC"
+title: "week 4: overfitting/mcmc"
+subtitle: "mcmc -- brms"
 format: 
   revealjs:
     css: xaringan-themer2.css
@@ -13,7 +13,7 @@ format:
     embed-resources: true  # Embeds required assets
     slide-number: true
 execute:
-  echo: false  
+  echo: false        
 ---
 
 ```{r, message = F, warning = F}
@@ -77,8 +77,8 @@ w_i &\sim \text{Normal}(\mu_i, \sigma) \\
 
 ---
 
-```{r, eval = F}
-#| code-line-numbers: "2"
+```{r}
+#| code-line-numbers: "1,2"
 #| 
 m42.1 <-brm(
   data = d, 
@@ -88,7 +88,7 @@ m42.1 <-brm(
              prior( normal(0,25), class = b),
              prior( uniform(0,50), class = sigma, ub = 50)
     ), 
-  iter = 5000, warmup = 1000, chains = 4,
+  iter = 5000, warmup = 1000, chains = 4, 
   seed = 3, 
       file = here("fits/m42.1"))
 ```
@@ -140,7 +140,7 @@ The formula argument is what you would expect from the `lm()` and `lmer()` funct
 ---
 
 ```{r, eval = F}
-#| code-line-numbers: "6"
+#| code-line-numbers: "5-8"
 #| 
 m42.1 <-brm(
   data = d, 
@@ -161,7 +161,7 @@ Here we set our priors. Class `b` refers to population-level slope parameters (s
 ---
 
 ```{r, eval = F}
-#| code-line-numbers: "7"
+#| code-line-numbers: "9"
 #| 
 m42.1 <-brm(
   data = d, 
@@ -182,7 +182,7 @@ Hamiltonian MCMC runs for a set number of iterations, throws away the first bit 
 ---
 
 ```{r, eval = F}
-#| code-line-numbers: "8,9"
+#| code-line-numbers: "10-11"
 #| 
 m42.1 <-brm(
   data = d, 
@@ -199,6 +199,7 @@ m42.1 <-brm(
 
 Remember, these are random walks through parameter space, so set a seed for reproducbility. Also, these can take a while to run, especially when you are developing more complex models. If you specify a file, the output of the model will automatically be saved. Even better, then next time you run this code, R will check for that file and load it into your workspace instead of re-running the model. (Just be sure to delete the model file if you make changes to any other part of the code.)
 
+
 ------------------------------------------------------------------------
 
 ```{r}
@@ -212,6 +213,29 @@ plot(m42.1)
 ```
 
 ------------------------------------------------------------------------
+
+### checking your model
+
+Before we start to interpret our model, we should evaluate whether it does a good job. Posterior predictive checks plot the implied distribution of your outcome next to your actual distribution. If your posterior predictive values are off, your model is off. 
+
+```{r, fig.width=4, out.width="200%", fig.height = 2}
+pp_check(m42.1)
+```
+
+------------------------------------------------------------------------
+
+### checking your model
+
+We can also look at the posterior distributions of our chains. Remember, they should be covering most of the same space, so these distributions should pretty much overlap. 
+
+```{r, fig.width=5, out.width="150%", fig.height = 2.5}
+mcmc_plot(m42.1, type = "dens_overlay")
+```
+
+
+------------------------------------------------------------------------
+
+
 
 Let's sample from the posterior. First, `get_variables()` will tell us everything at our disposal.
 
@@ -229,6 +253,12 @@ dim(p42.1)
 head(p42.1)
 ```
 
+:::{.notes}
+
+  - `lp__` is the log posterior
+  - `lprior` is the log of the prior
+:::
+
 ------------------------------------------------------------------------
 
 ```{r, fig.width=9, fig.height=3}
@@ -244,8 +274,13 @@ p42.1 %>%
   scale_y_continuous(NULL, breaks = NULL)
 ```
 
+---
 
+Finally, we might want to plot the bivariate distributions of our parameters.
 
+```{r, fig.height = 3, fig.width = 3, out.width = "200%"}
+pairs(m42.1)
+```
 
 
 ------------------------------------------------------------------------
@@ -261,13 +296,13 @@ get_prior(
 )
 ```
 
-These are the default (flat) priors that `brms` will use if I don't specify any priors. By the way, if you're ever not sure what coefficients to put priors on, this function can help with that. 
+If you're ever not sure what coefficients to put priors on, this function can help with that. 
 
 ------------------------------------------------------------------------
 
 Let's refit our model with our earlier priors. Before we fit this to data, we'll start by **only** sampling from our priors.
 
-```{r weight-prior, eval = F}
+```{r weight-prior, results = 'hide'}
 #| code-line-numbers: "11"
 m42.1p <- brm(
   data = d, 
@@ -390,7 +425,7 @@ d %>%
 
 Applied to our dataset:
 
-```{r}
+```{r, results = 'hide'}
 #| code-fold: true
 
 m42.2 <- brm(
@@ -404,12 +439,13 @@ m42.2 <- brm(
   iter = 5000, warmup = 1000,
   seed = 3,
   file = here("fits/m42.2"))
+```
 
-
+```{r}
 summary(m42.2)
 ```
 
-------------------------------------------------------------------------
+---
 
 Let's return to the `tidybayes` functions for summaries. As a reminder, we already saw `spread_draws()`
 
@@ -422,13 +458,154 @@ m_height <- mean(d$height)
 
 d %>% 
   ggplot(aes(x = height, y = weight)) +
-  geom_point() + 
-  geom_abline(aes(intercept = b_Intercept,
+  geom_point(alpha = .5) + 
+  geom_abline(aes(intercept = b_Intercept - b_height_c*m_height, #to account for centering
                   slope = b_height_c),
               alpha = .3, 
               color = "#1c5253",
               data = post_draws)
 ```
+
+---
+
+## exercise (setup)
+
+Let's practice what we've learned using a different dataset. We'll use the built-in `msleep` dataset from the `ggplot2` package, which contains sleep data for various mammals.
+
+```{r}
+data("msleep")
+d_sleep <- msleep %>%
+  drop_na(sleep_total, bodywt) %>%
+  mutate(log_weight = log(bodywt))
+
+# Quick look at the data
+describe(d_sleep[c("sleep_total", "bodywt", "log_weight")], fast = T)
+```
+
+Our goal is to model the relationship between body weight and total sleep duration. Because body weight is highly skewed, we'll use the log-transformed weight.
+
+---
+
+### exercise
+
+Let's set up a model to predict sleep duration from log body weight:
+
+\begin{align*}
+\text{sleep}_i &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \alpha + \beta (\text{log_weight}_i) \\
+\alpha &\sim \text{Normal}(12, 4) \\
+\beta &\sim \text{Normal}(0, 2) \\
+\sigma &\sim \text{Uniform}(0, 10) \\
+\end{align*}
+
+1. Create a model using `brm()` that samples only from the priors (`sample_prior = "only"`)
+2. Plot some regression lines from your prior to see if they make sense
+3. Adjust the priors if needed
+
+---
+
+### solution
+
+```{r}
+m_sleep_prior <- brm(
+  data = d_sleep,
+  family = gaussian,
+  sleep_total ~ log_weight,
+  prior = c(
+    prior(normal(12, 4), class = Intercept),
+    prior(normal(0, 2), class = b),
+    prior(uniform(0, 10), class = sigma)
+  ),
+  sample_prior = "only",
+  seed = 123
+)
+```
+
+---
+
+### solution
+
+```{r}
+#| code-fold: true
+
+p_sleep_p <- m_sleep_prior %>% 
+  spread_draws(b_Intercept, b_log_weight, sigma)
+
+d_sleep %>% 
+  ggplot(aes(x = log_weight, y = sleep_total)) + 
+   geom_blank()+
+  geom_abline(aes( intercept=b_Intercept, slope=b_log_weight), 
+              data = p_sleep_p[1:50, ], #first 50 draws only
+              color = "#1c5253",
+              alpha = .3) +
+  labs(
+    x = "weight (log)",
+    y = "sleep"
+  )
+
+```
+
+---
+
+### exercise
+
+Once you're happy with your priors, fit the actual model to the data. Then:
+
+1. Check the model summary
+2. Create a posterior predictive check plot
+3. Plot the actual data with regression lines from your posterior draws
+
+---
+
+### solution
+
+```{r}
+m_sleep_fit <- brm(
+  data = d_sleep,
+  family = gaussian,
+  sleep_total ~ log_weight,
+  prior = c(
+    prior(normal(12, 4), class = Intercept),
+    prior(normal(0, 2), class = b),
+    prior(uniform(0, 10), class = sigma)
+  ),
+  seed = 123,
+  file = here("fits/m2.sleep")
+)
+summary(m_sleep_fit)
+```
+
+---
+
+```{r}
+pp_check(m_sleep_fit)
+```
+
+---
+
+### solution
+
+```{r}
+#| code-fold: true
+
+p_sleep <- m_sleep_fit %>% 
+  spread_draws(b_Intercept, b_log_weight, sigma)
+
+d_sleep %>% 
+  ggplot(aes(x = log_weight, y = sleep_total)) + 
+  geom_point()+
+  geom_abline(aes( intercept=b_Intercept, slope=b_log_weight), 
+              data = p_sleep_p[1:50, ], #first 50 draws only
+              color = "#1c5253",
+              alpha = .3) +
+  labs(
+    x = "weight (log)",
+    y = "sleep"
+  )
+
+```
+
+
 
 ---
 
@@ -440,9 +617,9 @@ m42.2 %>%
   sample_n(2)
 ```
 
-What is the difference between these?
+How is this different from `spread_draws()`?
 
-------------------------------------------------------------------------
+:::{.fragment}
 
 `gather_draws()` is a useful function if we're thinking about summarizing the results of our models.
 
@@ -452,14 +629,123 @@ m42.2 %>%
   median_qi()
 ```
 
+:::
+
 ------------------------------------------------------------------------
 
-```{r m42.2-halfeye}
+```{r m42.2-halfeye, fig.width=6, fig.height=3, out.width = "150%"}
+
 m42.2 %>% 
   gather_draws(b_Intercept, b_height_c, sigma) %>% 
   ggplot(aes(x = .value, y=.variable)) +
   stat_halfeye()
 ```
 
+----
+
+### model-based predictions
+
+We can make two kinds of predictions based on our model. First, we can get a posterior predictive distribution using `add_predicted_draws()`:
+
+```{r}
+# simulate new data
+height_c = sample(d$height_c, size = 1e2, replace = T)
+# get predictions
+predictions = data.frame(height_c) %>% add_predicted_draws(m42.2, seed = 1)
+dim(predictions)
+head(predictions)
+```
 
 
+---
+
+
+Or, we can get expected values using `add_epred_draws()`:
+
+```{r}
+# get expected values
+expected_vals = data.frame(height_c) %>% add_epred_draws(m42.2, seed = 1)
+dim(expected_vals)
+head(expected_vals)
+```
+
+---
+
+```{r, fig.width=6, fig.height=3, out.width = "150%"}
+predictions %>% full_join(expected_vals) %>% 
+  pivot_longer(c(.prediction, .epred)) %>% 
+  ggplot(aes(x=value, group = name)) +
+  geom_density(aes(fill=name), alpha=.5)
+```
+
+---
+
+```{r, fig.width=6, fig.height=3, out.width = "150%"}
+predictions %>% full_join(expected_vals) %>% 
+  pivot_longer(c(.prediction, .epred)) %>% 
+  sample_n(size = 200) %>% 
+  mutate(height = height_c + m_height) %>% 
+  ggplot(aes(x=height, y=value, group = name)) +
+    geom_point(alpha = .3) +
+  facet_wrap(~name)
+```
+
+---
+
+### exercise
+
+Using the tools we learned (`spread_draws()`, `gather_draws()`, etc.):
+
+1. What is the estimated effect of body weight on sleep duration?
+2. Generate predictions for a few new body weights
+3. Create a plot showing the uncertainty in your predictions
+
+---
+
+### solution
+
+```{r}
+p_sleep %>% 
+  gather_draws(b_Intercept, b_log_weight, sigma) %>% 
+  median_qi
+```
+
+---
+
+### solution
+
+```{r}
+
+log_weight = sample(d_sleep$log_weight, replace = T, size = 10)
+predictions = data.frame(log_weight) %>% add_predicted_draws(m_sleep_fit, seed = 1)
+head(predictions)
+predictions %>% 
+  ggplot(aes(x = .prediction)) +
+  geom_density(aes(x = sleep_total), data = msleep) +
+  geom_histogram(aes(y = ..density..), fill = "#1c5253", color = "white", alpha = .3)
+```
+
+---
+
+## model fit and comparisons
+
+If you want to get the pareto-smoothed importance sampling:
+
+```{r}
+loo1 <- loo(m42.2, save_psis = T)
+loo1
+```
+
+And for the widely applicable information criteria:
+
+```{r}
+waic(m42.2)
+```
+
+Remember, these are primarily used to compare multiple models. See the `loo` package for more functions to help you compare models and identify influential data points. 
+
+---
+
+### bonus
+
+Try adding a new predictor to your model (e.g., `vore` - what type of food the animal eats). How does this change your predictions?
