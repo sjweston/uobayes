@@ -1,0 +1,30 @@
+author: Sara Weston
+
+instructor:
+  name: "Dr. Sara Weston"
+  name_no_title: "Sara Weston"
+  email: "sweston2@uoregon.edu"
+  url: "https://uobayes.netlify.app/"
+  twitter: ""
+  github: "https://github.com/sjweston"
+  office: "Straub 325"
+  contact_policy: "Email is the best way to get in contact with me. I will try to respond to all course-related emails within one business day during normal business hours (9am-5pm, Mon-Fri)."
+  appointment_url: "https://calendar.app.google/Gns5YmGFkN4D7YWu5"
+
+course:
+  number: "PSY 607"
+  semester: "Spring 2025"
+  days: "Tuesdays and Thursdays"
+  time: "2:00–3:20 PM"
+  location: "119 FEN"
+  dates: "Spring 2025"
+  github: "https://github.com/sjweston/uobayes"
+  url: "https://uobayes.netlify.app/"
+  copyright_year: "2025"
+  slack: ""
+
+university:
+  name: "University of Oregon"
+  department: "Department of Psychology"
+  school: "College of Arts and Sciences"
+  url: "https://www.uoregon.edu"

@@ -1,0 +1,81 @@
+---
+title: "Schedule"
+format:
+  html:
+    toc: true
+    toc-depth: 4
+sidebar: false
+page-layout: full
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r packages, include=FALSE}
+library(tidyverse)
+library(knitr)
+```
+
+## Course Schedule
+
+Below is the schedule for the course. Note that this schedule may change as the course progresses.
+
+### Week 1: Course Introduction
+
+- **Session 1**: Course Overview
+  - Topics: Course objectives, requirements, and expectations; Bayes' Rule
+
+- **Session 2**: Gardens of forking data
+  - Topics: Bayes as counting
+  - [Assignment 1](/assignment/01-problem-set.html) released
+
+### Week 2: Topic 1
+
+- **Session 3**: Topic 1.1
+  - Topics: Key concepts and methods
+  - [Slides](/slides/02-slides.html) ([PDF](/slides/02-slides.pdf))
+
+- **Session 4**: Topic 1.2
+  - Topics: Applications and examples
+  - [Assignment 1](/assignment/01-problem-set.html) due
+
+### Week 3: Topic 2
+
+- **Session 5**: Topic 2.1
+  - Topics: Key concepts and methods
+  - [Slides](/slides/03-slides.html) ([PDF](/slides/03-slides.pdf))
+
+- **Session 6**: Topic 2.2
+  - Topics: Applications and examples
+  - [Assignment 2](/assignment/02-problem-set.html) released
+
+::: {.callout-note}
+## Schedule Notes
+
+1. All deadlines are at 11:59 PM Pacific Time on the specified date
+2. Schedule is subject to change based on course needs
+3. Additional readings and resources will be posted on the course website
+:::
+
+```{r packages-data, include=FALSE, eval = FALSE }
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+
+# withr::with_dir(here::here(), {
+#   schedule_nested <- targets::tar_read(schedule_page_data)
+#   targets::tar_load(schedule_ical_file)
+# })
+
+base_url <- yaml::read_yaml(here::here("_quarto.yml"))$website$`site-url`
+# ical_url_absolute <- paste0(base_url, "/", schedule_ical_file)
+```
+
+::: {.schedule-page}
+
+Here's your roadmap for the semester!
+
+- [**Content**](/content/) ({{< fa book-open-reader >}}): This page contains the recorded lectures and slides for the week. Watch the lectures **before** our in-person class.
+
+- [**Assignment**](/assignment/) ({{< fa pen-ruler >}}): This page contains the instructions for each assignment. 

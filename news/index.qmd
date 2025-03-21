@@ -1,0 +1,36 @@
+---
+title: "Course News"
+listing:
+  id: "news-table"
+  contents: .
+  sort: "date desc"
+  page-size: 100
+  type: table
+  table-hover: true
+  fields: [date, title, categories]
+  filter-ui: [title, date, categories]
+  sort-ui: true
+  date-format: "dddd MMMM D, YYYY [at] h:mm A"
+  feed: 
+    title: "Course News"
+    description: "Updates and FAQs for Course"
+  categories: false
+page-layout: full
+sidebar: false
+toc: false
+format:
+  html:
+    # https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/formats/html/templates/title-block.html
+    template-partials:
+      - ../html/news-default/title-block.html
+---
+
+```{r get-vars, include=FALSE}
+base_url <- yaml::read_yaml(here::here("_quarto.yml"))$website$`site-url`
+feed_name <- "news/index.xml"
+feed_url <- paste0(base_url, "/", feed_name)
+```
+
+::: {#news-table}
+:::
+

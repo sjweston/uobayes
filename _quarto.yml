@@ -1,0 +1,117 @@
+project:
+  type: website
+  render:
+    - "*.qmd"
+    - "!slides/"
+  resources:
+    - "files/"
+    - "projects/"
+    - "slides/*.html"
+    - "slides/*.pdf"
+    - "slides/img/"
+    - "slides/libs/"
+    - "slides/css/"
+    - "slides/*_files/"
+
+# See https://quarto.org/docs/projects/code-execution.html#freeze
+execute:
+  freeze: auto  # Re-render only when source changes
+
+bibliography: files/bib/references.bib
+csl: files/bib/apa.csl
+description-meta: "This advanced statistics course introduces students to Bayesian methods with a focus on practical application using modern computational tools."
+
+website:
+  title: "PSY 607: Bayesian Analysis"
+  site-url: "https://uobayes.netlify.app"
+
+  favicon: "/files/icon-512.png"
+
+  twitter-card:
+    image: "/files/social-image.png"
+    card-style: summary_large_image
+    creator: ""
+
+  open-graph:
+    image: "/files/social-image.png"
+    locale: en_US
+
+  navbar:
+    pinned: true
+    background: primary
+    right:
+      - text: "Syllabus"
+        file: syllabus.qmd
+      - text: "Schedule"
+        file: schedule.qmd
+      - text: "Content"
+        file: content/index.qmd
+      - text: "Assignments"
+        file: assignment/index.qmd
+      - text: "Resources"
+        file: resource/index.qmd
+      - text: "News"
+        file: news/index.qmd
+
+  sidebar:
+    - title: "Content"
+      style: "docked"
+      search: false
+      background: dark
+      contents:
+        - section: "Overview"
+          contents:
+            - content/index.qmd
+        - section: "Course content"
+          contents:
+            - text: "1: Introduction to Bayesian Analysis"
+              file: content/01-content.qmd
+            - text: "2: Linear models and causal inference"
+              file: content/02-content.qmd
+            - text: "3: Causes, Confounds, and Colliders"
+              file: content/03-content.qmd
+            - text: "4: Overfitting/MCMC"
+              file: content/04-content.qmd
+
+    - title: "Assignments"
+      contents:
+        - section: "Overview"
+          contents:
+            - assignment/index.qmd
+        - section: "Problem sets"
+          contents:
+            - assignment/01-problem-set.qmd
+           
+    - title: "Examples"
+      contents:
+        - examples/index.qmd
+        - examples/rstudio-tidyverse.qmd
+
+    - title: "Resources"
+      contents:
+        - section: "Overview"
+          contents:
+            - resource/index.qmd
+            - resource/style.qmd
+            - resource/data.qmd
+        - section: "Guides"
+          contents:
+            - resource/install.qmd
+            - resource/markdown.qmd
+
+  page-footer:
+    left: |
+      Content {{< fa brands creative-commons >}} {{< var course.copyright_year >}} by [{{< var instructor.name_no_title >}}]({{< var instructor.url >}}) <br>
+      All content licensed under a {{< fa brands creative-commons >}}
+      {{< fa brands creative-commons-by >}} {{< fa brands creative-commons-nc >}}
+      [Creative Commons Attribution-NonCommercial 4.0 International license (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/)
+    right: |
+      Made with {{< fa brands r-project >}} and [Quarto](https://quarto.org/)
+
+format:
+  html:
+    theme:
+      - litera
+      - html/custom.scss
+    toc: true
+    highlight-style: monokai

@@ -1,0 +1,15 @@
+{
+  "hash": "91b28b9e84c6cee17943c65b464f220a",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Course News\"\nlisting:\n  id: \"news-table\"\n  contents: .\n  sort: \"date desc\"\n  page-size: 100\n  type: table\n  table-hover: true\n  fields: [date, title, categories]\n  filter-ui: [title, date, categories]\n  sort-ui: true\n  date-format: \"dddd MMMM D, YYYY [at] h:mm A\"\n  feed: \n    title: \"Course News\"\n    description: \"Updates and FAQs for Course\"\n  categories: false\npage-layout: full\nsidebar: false\ntoc: false\nformat:\n  html:\n    # https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/formats/html/templates/title-block.html\n    template-partials:\n      - ../html/news-default/title-block.html\n---\n\n\n\n\n\n\n::: {#news-table}\n:::\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
