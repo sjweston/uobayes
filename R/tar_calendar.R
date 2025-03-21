@@ -90,3 +90,4 @@ build_ical <- function(schedule_file, base_url, page_suffix, class_number) {
 
   return(schedule_ics)
 }
+
