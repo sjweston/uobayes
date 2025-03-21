@@ -350,135 +350,119 @@
     "text": "Formulas and equations\nBayesian analysis is the act of applying product and sum rules to probability.\nIs that not your cup of tea?\nDon’t worry! Most of this term, we’ll be abandoning the formulas altogheter – there are easier and more intuitive ways to fit and use these models.\nSo why did we just go through all of this? - So you can appreciate the work done by others to make this more approachable. - Because you will need to get familiar with different probability distributions (Poisson, gamma, Cauchy, etc). These form the basis of your prior distributions, so knowing what they look like and how to set good priors using them is essential."
   },
   {
-    "objectID": "resource/unzipping.html",
-    "href": "resource/unzipping.html",
-    "title": "Unzipping files",
+    "objectID": "schedule.html",
+    "href": "schedule.html",
+    "title": "Schedule",
     "section": "",
-    "text": "Because RStudio projects typically consist of multiple files (R scripts, datasets, graphical output, etc.) the easiest way to distribute them to you for examples, assignments, and projects is to combine all the different files in to a single compressed collection called a zip file. When you unzip a zipped file, your operating system extracts all the files that are contained inside into a new folder on your computer.\nUnzipping files on macOS is trivial, but unzipping files on Windows can mess you up if you don’t pay careful attention. Here’s a helpful guide to unzipping files on both macOS and Windows."
+    "text": "Below is the schedule for the course. Note that this schedule may change as the course progresses.\n\n\n\nSession 1: Course Overview\n\nTopics: Course objectives, requirements, and expectations; Bayes’ Rule\n\nSession 2: Gardens of forking data\n\nTopics: Bayes as counting\nAssignment 1 released\n\n\n\n\n\n\nSession 3: Topic 1.1\n\nTopics: Key concepts and methods\nSlides (PDF)\n\nSession 4: Topic 1.2\n\nTopics: Applications and examples\nAssignment 1 due\n\n\n\n\n\n\nSession 5: Topic 2.1\n\nTopics: Key concepts and methods\nSlides (PDF)\n\nSession 6: Topic 2.2\n\nTopics: Applications and examples\nAssignment 2 released\n\n\n\n\n\n\n\n\nSchedule Notes\n\n\n\n\nAll deadlines are at 11:59 PM Pacific Time on the specified date\nSchedule is subject to change based on course needs\nAdditional readings and resources will be posted on the course website\n\n\n\n\nHere’s your roadmap for the semester!\n\nContent (): This page contains the recorded lectures and slides for the week. Watch the lectures before our in-person class.\nAssignment (): This page contains the instructions for each assignment."
   },
   {
-    "objectID": "resource/unzipping.html#unzipping-files-on-macos",
-    "href": "resource/unzipping.html#unzipping-files-on-macos",
-    "title": "Unzipping files",
-    "section": "Unzipping files on macOS",
-    "text": "Unzipping files on macOS\nDouble click on the downloaded .zip file. macOS will automatically create a new folder with the same name as the .zip file, and all the file’s contents will be inside. Double click on the RStudio Project file (.Rproj) to get started."
-  },
-  {
-    "objectID": "resource/unzipping.html#unzipping-files-on-windows",
-    "href": "resource/unzipping.html#unzipping-files-on-windows",
-    "title": "Unzipping files",
-    "section": "Unzipping files on Windows",
-    "text": "Unzipping files on Windows\ntl;dr: Right click on the .zip file, select “Extract All…”, and work with the resulting unzipped folder.\nUnlike macOS, Windows does not automatically unzip things for you. If you double click on the .zip file, Windows will show you what’s inside, but it will do so without actually extracting anything. This can be is incredibly confusing! Here’s what it looks like—the only clues that this folder is really a .zip file are that there’s a “Compressed Folder Tools” tab at the top, and there’s a “Ratio” column that shows how much each file is compressed.\n\n\n\n\n\n\n\n\n\nIt is very tempting to try to open files from this view. However, if you do, things will break and you won’t be able to correctly work with any of the files in the zipped folder. If you open the R Project file, for instance, RStudio will point to a bizarre working directory buried deep in some temporary folder:\n\n\n\n\n\n\n\n\n\nYou most likely won’t be able to open any data files or save anything, which will be frustrating.\nInstead, you need to right click on the .zip file and select “Extract All…”:\n\n\n\n\n\n\n\n\n\nThen choose where you want to unzip all the files and click on “Extract”\n\n\n\n\n\n\n\n\n\nYou should then finally have a real folder with all the contents of the zipped file. Open the R Project file and RStudio will point to the correct working directory and everything will work."
-  },
-  {
-    "objectID": "resource/markdown.html",
-    "href": "resource/markdown.html",
-    "title": "Using Markdown",
+    "objectID": "schedule.html#course-schedule",
+    "href": "schedule.html#course-schedule",
+    "title": "Schedule",
     "section": "",
-    "text": "Markdown is a special kind of markup language that lets you format text with simple syntax. You can then use a converter program like pandoc to convert Markdown into whatever format you want: HTML, PDF, Word, PowerPoint, etc. (see the full list of output types here)",
+    "text": "Below is the schedule for the course. Note that this schedule may change as the course progresses.\n\n\n\nSession 1: Course Overview\n\nTopics: Course objectives, requirements, and expectations; Bayes’ Rule\n\nSession 2: Gardens of forking data\n\nTopics: Bayes as counting\nAssignment 1 released\n\n\n\n\n\n\nSession 3: Topic 1.1\n\nTopics: Key concepts and methods\nSlides (PDF)\n\nSession 4: Topic 1.2\n\nTopics: Applications and examples\nAssignment 1 due\n\n\n\n\n\n\nSession 5: Topic 2.1\n\nTopics: Key concepts and methods\nSlides (PDF)\n\nSession 6: Topic 2.2\n\nTopics: Applications and examples\nAssignment 2 released\n\n\n\n\n\n\n\n\nSchedule Notes\n\n\n\n\nAll deadlines are at 11:59 PM Pacific Time on the specified date\nSchedule is subject to change based on course needs\nAdditional readings and resources will be posted on the course website\n\n\n\n\nHere’s your roadmap for the semester!\n\nContent (): This page contains the recorded lectures and slides for the week. Watch the lectures before our in-person class.\nAssignment (): This page contains the instructions for each assignment."
+  },
+  {
+    "objectID": "content/01-content.html#before-class",
+    "href": "content/01-content.html#before-class",
+    "title": "Introduction to Bayes",
+    "section": "Before class",
+    "text": "Before class\nNothing. But if you want to get familiar with the site or ee what I’m using as the basis for the first lecture, here you go:\n\nThe syllabus, content, examples, and assignments pages for this class\n Introduction to Bayesian Inference for Psychology (Etz & Vandekerckhove, 2018)\n DJ Patil, “What Makes a Radical and Revolutionary Technology?”\n\n(DJ Patil is the former Chief Data Scientist of the United States under President Obama. He gave this forum address at Brigham Young University on February 13, 2018.)",
     "crumbs": [
-      "Resources",
-      "Guides",
-      "Using Markdown"
+      "Content",
+      "Course content",
+      "1: Introduction to Bayesian Analysis"
     ]
   },
   {
-    "objectID": "resource/markdown.html#basic-markdown-formatting",
-    "href": "resource/markdown.html#basic-markdown-formatting",
-    "title": "Using Markdown",
-    "section": "Basic Markdown formatting",
-    "text": "Basic Markdown formatting\n\n\n\n\n\n\n\n\n\nType…\n\n\n…or…\n\n\n…to get\n\n\n\n\n\n\nSome text in a paragraph.\nMore text in the next paragraph. Always\nuse empty lines between paragraphs.\n\n\n\n\n\nSome text in a paragraph.\n\n\nMore text in the next paragraph. Always use empty lines between paragraphs.\n\n\n\n\n\nItalic\n\n\nItalic\n\n\nItalic\n\n\n\n\nBold\n\n\nBold\n\n\nBold\n\n\n\n\n# Heading 1\n\n\n\n\n\nHeading 1\n\n\n\n\n\n## Heading 2\n\n\n\n\n\nHeading 2\n\n\n\n\n\n### Heading 3\n\n\n\n\n\nHeading 3\n\n\n\n\n\n(Go up to heading level 6 with ######)\n\n\n\n\n\n\n\n\nLink text\n\n\n\n\nLink text\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n&lt;code&gt;Inline code with backticks\n\n\n\n\nInline code with backticks\n\n\n\n\n&gt; Blockquote\n\n\n\n\n\n\nBlockquote\n\n\n\n\n\n\n- Things in\n- an unordered\n- list\n\n\n* Things in\n* an unordered\n* list\n\n\n\n\nThings in\n\n\nan unordered\n\n\nlist\n\n\n\n\n\n\n1. Things in\n2. an ordered\n3. list\n\n\n1) Things in\n2) an ordered\n3) list\n\n\n\n\nThings in\n\n\nan ordered\n\n\nlist\n\n\n\n\n\n\nHorizontal line\n\n---\n\n\nHorizontal line\n\n***\n\n\n\nHorizontal line",
+    "objectID": "content/01-content.html#during-class",
+    "href": "content/01-content.html#during-class",
+    "title": "Introduction to Bayes",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
     "crumbs": [
-      "Resources",
-      "Guides",
-      "Using Markdown"
+      "Content",
+      "Course content",
+      "1: Introduction to Bayesian Analysis"
     ]
   },
   {
-    "objectID": "resource/markdown.html#math",
-    "href": "resource/markdown.html#math",
-    "title": "Using Markdown",
-    "section": "Math",
-    "text": "Math\n\nBasic math commands\nMarkdown uses LaTeX to create fancy mathematical equations. There are like a billion little options and features available for math equations—you can find helpful examples of the the most common basic commands here. In this class, these will be the most common things you’ll use:\n\n\n\n\n\nDescription\nCommand\nOutput\n\n\n\n\nLetters\n\n\nRoman letters\n&lt;code&gt;a b c d e f&lt;/code&gt;\n\\(a\\ b\\ c\\ d\\ e\\ f\\)\n\n\nGreek letters (see &lt;a href='https://www.overleaf.com/learn/latex/List_of_Greek_letters_and_math_symbols'&gt;this&lt;/a&gt; for all possible letters)\n&lt;code&gt;\\alpha \\beta \\Gamma \\gamma&lt;/code&gt; &lt;br&gt; &lt;code&gt;\\Delta \\delta \\epsilon&lt;/code&gt;\n\\(\\alpha\\ \\beta\\ \\Gamma\\ \\gamma\\ \\Delta\\ \\delta\\ \\epsilon\\)\n\n\nLetters will automatically be italicized and treated as math variables;&lt;br&gt;if you want actual text in the math, use &lt;code&gt;\\text{}&lt;/code&gt;\nEw: &lt;code&gt;Treatment = \\beta&lt;/code&gt; &lt;br&gt;Good: &lt;code&gt;\\text{Treatment} = \\beta&lt;/code&gt;\nEw: \\(Treatment = \\beta\\)&lt;br&gt;Good: \\(\\text{Treatment} = \\beta\\)\n\n\nExtra spaces will automatically be removed; if you want a space, use &lt;code&gt;\\ &lt;/code&gt;\nNo space: &lt;code&gt;x y&lt;/code&gt; &lt;br&gt; Space: &lt;code&gt;x\\ y&lt;/code&gt;\nNo space: \\(x y\\) &lt;br&gt;Space: \\(x \\ y\\)\n\n\nSuperscripts and subscripts\n\n\nUse &lt;code&gt;^&lt;/code&gt; to make one character superscripted.\n&lt;code&gt;x^2&lt;/code&gt;\n\\(x^2\\)\n\n\nWrap the superscripted part in &lt;code&gt;{}&lt;/code&gt; if there's more than one character\n&lt;code&gt;x^{2+y}&lt;/code&gt;\n\\(x^{2+y}\\)\n\n\nUse &lt;code&gt;_&lt;/code&gt; to make one character subscripted\n&lt;code&gt;\\beta_1&lt;/code&gt;\n\\(\\beta_1\\)\n\n\nWrap the subscripted part in &lt;code&gt;{}&lt;/code&gt; if there's more than one character\n&lt;code&gt;\\beta_{i, t}&lt;/code&gt;\n\\(\\beta_{i, t}\\)\n\n\nUse superscripts and subscripts simultaneously\n&lt;code&gt;\\beta_1^{\\text{Treatment}}&lt;/code&gt;\n\\(\\beta_1^{\\text{Treatment}}\\)\n\n\nYou can even nest them\n&lt;code&gt;x^{2^{2^2}}&lt;/code&gt;\n\\(x^{2^{2^2}}\\)\n\n\nMath operations\n\n\nAddition\n&lt;code&gt;2 + 5 = 7&lt;/code&gt;\n\\(2 + 5 = 7\\)\n\n\nSubtraction\n&lt;code&gt;2 - 5 = -3&lt;/code&gt;\n\\(2 + 5 = -3\\)\n\n\nMultiplication\n&lt;code&gt;x \\times y&lt;/code&gt; &lt;br&gt; &lt;code&gt;x \\cdot y&lt;/code&gt;\n\\(x \\times y\\) &lt;br&gt; \\(x \\cdot y\\)\n\n\nDivision\n&lt;code&gt;8 \\div 2&lt;/code&gt;\n\\(8 \\div 2\\)\n\n\nFractions\n&lt;code&gt;\\frac{8}{2}&lt;/code&gt;\n\\(\\frac{8}{2}\\)\n\n\nSquare roots; use &lt;code&gt;[3]&lt;/code&gt; for other roots\n&lt;code&gt;\\sqrt{81} = 9&lt;/code&gt; &lt;br&gt; &lt;code&gt;\\sqrt[3]{27} = 3&lt;/code&gt;\n\\(\\sqrt{81} = 9\\) &lt;br&gt; \\(\\sqrt[3]{27} = 3\\)\n\n\nSummation; use sub/superscripts for extra details\n&lt;code&gt;\\sum x&lt;/code&gt; &lt;br&gt; &lt;code&gt;\\sum_{n=1}^{\\infty} \\frac{1}{n}&lt;/code&gt;\n\\(\\sum x\\) &lt;br&gt; \\(\\sum_{n=1}^{\\infty} \\frac{1}{n}\\)\n\n\nProducts; use sub/superscripts for extra details\n&lt;code&gt;\\prod x&lt;/code&gt; &lt;br&gt; &lt;code&gt;\\prod_{n=1}^{5} n^2&lt;/code&gt;\n\\(\\prod x\\) &lt;br&gt; \\(\\prod_{n=1}^{5} n^2\\)\n\n\nIntegrals; use sub/superscripts for extra details\n&lt;code&gt;\\int x^2 \\ dx&lt;/code&gt; &lt;br&gt; &lt;code&gt;\\int_{1}^{100} x^2 \\ dx&lt;/code&gt;\n\\(\\int x^2 \\ dx\\) &lt;br&gt; \\(\\int_{1}^{100} x^2 \\ dx\\)\n\n\nExtra symbols\n\n\nAdd a bar for things like averages\n&lt;code&gt;\\bar{x}&lt;/code&gt;\n\\(\\bar{x}\\)\n\n\nUse an overline for longer things\nEw: &lt;code&gt;\\bar{abcdef}&lt;/code&gt; &lt;br&gt; Good: &lt;code&gt;\\overline{abcdef}&lt;/code&gt;\nEw: \\(\\bar{abcdef}\\) &lt;br&gt; Good: \\(\\overline{abcdef}\\)\n\n\nAdd a hat for things like estimates\n&lt;code&gt;\\hat{y}&lt;/code&gt;\n\\(\\hat{y}\\)\n\n\nUse a wide hat for longer things\nEw: &lt;code&gt;\\hat{abcdef}&lt;/code&gt; &lt;br&gt; Good: &lt;code&gt;\\widehat{abcdef}&lt;/code&gt;\nEw: \\(\\hat{abcdef}\\) &lt;br&gt; Good: \\(\\widehat{abcdef}\\)\n\n\nUse arrows for DAG-like things\n&lt;code&gt;Z \\rightarrow Y \\leftarrow X&lt;/code&gt;\n\\(Z \\rightarrow Y \\leftarrow X\\)\n\n\nBonus fun\n\n\nUse colors!; see &lt;a href='https://www.overleaf.com/learn/latex/Using_colours_in_LaTeX'&gt;here&lt;/a&gt; for more details and &lt;a href='https://www.overleaf.com/learn/latex/Using_colours_in_LaTeX#Reference_guide'&gt;here&lt;/a&gt; for a list of color names\n&lt;code&gt;\\color{red}{y} = \\color{blue}{\\beta_1 x_1}&lt;/code&gt;\n\\(\\color{red}{y}\\ \\color{black}{=}\\ \\color{blue}{\\beta_1 x_1}\\)\n\n\n\n\n\n\n\n\n\nUsing math inline\nYou can use math in two different ways: inline or in a display block. To use math inline, wrap it in single dollar signs, like $y = mx + b$:\n\n\n\n\n\n\n\n\nType…\n\n\n…to get\n\n\n\n\n\n\nBased on the DAG, the regression model for\nestimating the effect of education on wages\nis $\\hat{y} = \\beta_0 + \\beta_1 x_1 + \\epsilon$, \nor $\\text{Wages} = \\beta_0 + \n\\beta_1 \\text{Education} + \\epsilon$.\n\n\nBased on the DAG, the regression model for estimating the effect of education on wages is \\(\\hat{y} = \\beta_0 + \\beta_1 x_1 + \\epsilon\\), or \\(\\text{Wages} = \\beta_0 + \\beta_1 \\text{Education} + \\epsilon\\).\n\n\n\n\n\n\nUsing math in a block\nTo put an equation on its own line in a display block, wrap it in double dollar signs, like this:\nType…\nThe quadratic equation was a way to solve for $x$ in high school math:\n\n$$\nx = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}\n$$\n…to get…\n\nThe quadratic equation was a way to solve for \\(x\\) in high school math:\n\\[\nx = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}\n\\]\n\n\n\n\nDollar signs and math\nBecause dollar signs are used to indicate math equations, you can’t just use dollar signs like normal if you’re writing about actual dollars. For instance, if you write This book costs $5.75 and this other costs $40, Markdown will treat everything that comes between the dollar signs as math, like so: “This book costs \\($5.75 and this other costs $40\\)”.\nTo get around that, put a backslash (\\) in front of the dollar signs, so that This book costs \\$5.75 and this other costs \\$40 becomes “This book costs $5.75 and this other costs $40”.",
-    "crumbs": [
-      "Resources",
-      "Guides",
-      "Using Markdown"
-    ]
-  },
-  {
-    "objectID": "resource/markdown.html#tables",
-    "href": "resource/markdown.html#tables",
-    "title": "Using Markdown",
-    "section": "Tables",
-    "text": "Tables\nThere are 4 different ways to hand-create tables in Markdown—I say “hand-create” because it’s normally way easier to use R to generate these things with packages like kableExtra (use kable()) or pander (use pandoc.table()). The two most common are simple tables and pipe tables. You should look at the full documentation here.\nFor simple tables, type…\n  Right     Left     Center     Default\n-------     ------ ----------   -------\n     12     12        12            12\n    123     123       123          123\n      1     1          1             1\n\nTable: Caption goes here\n…to get…\n\nCaption goes here\n\n\nRight\nLeft\nCenter\nDefault\n\n\n\n\n12\n12\n12\n12\n\n\n123\n123\n123\n123\n\n\n1\n1\n1\n1\n\n\n\nFor pipe tables, type…\n| Right | Left | Default | Center |\n|------:|:-----|---------|:------:|\n|   12  |  12  |    12   |    12  |\n|  123  |  123 |   123   |   123  |\n|    1  |    1 |     1   |     1  |\n\nTable: Caption goes here\n…to get…\n\nCaption goes here\n\n\nRight\nLeft\nDefault\nCenter\n\n\n\n\n12\n12\n12\n12\n\n\n123\n123\n123\n123\n\n\n1\n1\n1\n1",
-    "crumbs": [
-      "Resources",
-      "Guides",
-      "Using Markdown"
-    ]
-  },
-  {
-    "objectID": "resource/markdown.html#footnotes",
-    "href": "resource/markdown.html#footnotes",
-    "title": "Using Markdown",
-    "section": "Footnotes",
-    "text": "Footnotes\nThere are two different ways to add footnotes (see here for complete documentation): regular and inline.\nRegular notes need (1) an identifier and (2) the actual note. The identifier can be whatever you want. Some people like to use numbers like [^1], but if you ever rearrange paragraphs or add notes before #1, the numbering will be wrong (in your Markdown file, not in the output; everything will be correct in the output). Because of that, I prefer to use some sort of text label:\nType…\nHere is a footnote reference[^1] and here is another [^note-on-dags].\n\n[^1]: This is a note.\n\n[^note-on-dags]: DAGs are neat. \n\nAnd here's more of the document.\n…to get…\n\nHere is a footnote reference1 and here is another.2\nAnd here’s more of the document.\n\n\n\n\n\nThis is a note.↩︎\n\n\n\n\nDAGs are neat.↩︎\n\n\n\n\n\n\nYou can also use inline footnotes with ^[Text of the note goes here], which are often easier because you don’t need to worry about identifiers:\nType…\nCausal inference is neat.^[But it can be hard too!]\n…to get…\n\nCausal inference is neat.1\n\n\n\n\n\nBut it can be hard too!↩︎",
-    "crumbs": [
-      "Resources",
-      "Guides",
-      "Using Markdown"
-    ]
-  },
-  {
-    "objectID": "resource/markdown.html#front-matter",
-    "href": "resource/markdown.html#front-matter",
-    "title": "Using Markdown",
-    "section": "Front matter",
-    "text": "Front matter\nYou can include a special section at the top of a Markdown document that contains metadata (or data about your document) like the title, date, author, etc. This section uses a special simple syntax named YAML (or “YAML Ain’t Markup Language”) that follows this basic outline: setting: value for setting. Here’s an example YAML metadata section. Note that it must start and end with three dashes (---).\n---\ntitle: Title of your document\ndate: \"January 13, 2020\"\nauthor: \"Your name\"\n---\nYou can put the values inside quotes (like the date and name in the example above), or you can leave them outside of quotes (like the title in the example above). I typically use quotes just to be safe—if the value you’re using has a colon (:) in it, it’ll confuse Markdown since it’ll be something like title: My cool title: a subtitle, which has two colons. It’s better to do this:\n---\ntitle: \"My cool title: a subtitle\"\n---\nIf you want to use quotes inside one of the values (e.g. your document is An evaluation of \"scare quotes\"), you can use single quotes instead:\n---\ntitle: 'An evaluation of \"scare quotes\"'\n---",
-    "crumbs": [
-      "Resources",
-      "Guides",
-      "Using Markdown"
-    ]
-  },
-  {
-    "objectID": "resource/markdown.html#citations",
-    "href": "resource/markdown.html#citations",
-    "title": "Using Markdown",
-    "section": "Citations",
-    "text": "Citations\nOne of the most powerful features of Markdown + pandoc is the ability to automatically cite things and generate bibliographies. to use citations, you need to create a BibTeX file (ends in .bib) that contains a database of the things you want to cite. You can do this with bibliography managers designed to work with BibTeX directly (like BibDesk on macOS), or you can use Zotero (macOS and Windows) to export a .bib file. You can download an example .bib file of all the readings from this class here.\nComplete details for using citations can be found here. In brief, you need to do three things:\n\nAdd a bibliography: entry to the YAML metadata:\n---\ntitle: Title of your document\ndate: \"January 13, 2020\"\nauthor: \"Your name\"\nbibliography: name_of_file.bib\n---\nChoose a citation style based on a CSL file. The default is Chicago author-date, but you can choose from 2,000+ at this repository. Download the CSL file, put it in your project folder, and add an entry to the YAML metadata (or provide a URL to the online version):\n---\ntitle: Title of your document\ndate: \"January 13, 2020\"\nauthor: \"Your name\"\nbibliography: name_of_file.bib\ncsl: \"https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl\"\n---\nSome of the most common CSLs are:\n\nChicago author-date\nChicago note-bibliography\nChicago full note-bibliography (no shortened notes or ibids)\nAPA 7th edition\nMLA 8th edition\n\nCite things in your document. Check the documentation for full details of how to do this. Essentially, you use @citationkey inside square brackets ([]):\n\n\n\n\n\n\n\n\nType…\n…to get…\n\n\n\n\nCausal inference is neat [@Rohrer:2018;\n@AngristPischke:2015].\nCausal inference is neat (Rohrer:2018?; AngristPischke:2015?).\n\n\nCausal inference is neat [see @Rohrer:2018,\np. 34; also @AngristPischke:2015, chapter 1]\nCausal inference is neat (see Rohrer:2018?; also AngristPischke:2015?)\n\n\nAngrist and Pischke say causal inference\nis neat [-@AngristPischke:2015; see also\n@Rohrer:2018].\nAngrist and Pischke say causal inference is neat (AngristPischke:2015?; see also Rohrer:2018?).\n\n\n@AngristPischke:2015 [chapter 1] say causal\ninference is neat, and @Rohrer:2018 agrees.\n(AngristPischke:2015?) say causal inference is neat, and (Rohrer:2018?) agrees.\n\n\n\nAfter compiling, you should have a perfectly formatted bibliography added to the end of your document too:\n\nAngrist, Joshua D., and Jörn-Steffen Pischke. 2015. Mastering ’Metrics: The Path from Cause to Effect. Princeton, NJ: Princeton University Press.\nRohrer, Julia M. 2018. “Thinking Clearly About Correlations and Causation: Graphical Causal Models for Observational Data.” Advances in Methods and Practices in Psychological Science 1 (1): 27–42. https://doi.org/10.1177/2515245917745629.",
-    "crumbs": [
-      "Resources",
-      "Guides",
-      "Using Markdown"
-    ]
-  },
-  {
-    "objectID": "resource/markdown.html#other-references",
-    "href": "resource/markdown.html#other-references",
-    "title": "Using Markdown",
-    "section": "Other references",
-    "text": "Other references\nThese websites have additional details and examples and practice tools:\n\nCommonMark’s Markdown tutorial: A quick interactive Markdown tutorial.\nMarkdown tutorial: Another interactive tutorial to practice using Markdown.\nMarkdown cheatsheet: Useful one-page reminder of Markdown syntax.\nThe Plain Person’s Guide to Plain Text Social Science: A comprehensive explanation and tutorial about why you should write data-based reports in Markdown.",
-    "crumbs": [
-      "Resources",
-      "Guides",
-      "Using Markdown"
-    ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "\n            Bayesian Analysis\n        ",
+    "objectID": "syllabus.html",
+    "href": "syllabus.html",
+    "title": "PSY 607 Bayesian Analysis",
     "section": "",
-    "text": "Bayesian Analysis\n        \n        \n            Model building, estimation, interpretation, visualization\n        \n        \n            PSY 607 • Spring 2025 Psychology University of Oregon\n        \n    \n    \n      \n        \n        \n        \n      \n    \n\n\n\n\n\n\nInstructor\n\n   Dr. Sara Weston\n   Straub 325\n   [sweston2@uoregon.edu]\n   Schedule an appointment\n\n\n\nCourse details\n\n   Tuesdays and Thursdays\n   Spring 2025\n   2:00–3:20 PM\n   119 FEN\n   Slack\n\n\n\nContacting me\nEmail is the best way to get in contact with me. I will try to respond to all course-related emails within one business day during normal business hours (9am-5pm, Mon-Fri).\n\n\n```"
+    "text": "This advanced statistics course introduces students to Bayesian methods with a focus on practical application using modern computational tools. Through a combination of theoretical foundations and hands-on programming, students learn to build, interpret, and critique Bayesian models using the R programming language, with particular emphasis on the brms package."
   },
   {
-    "objectID": "news/index.html",
-    "href": "news/index.html",
-    "title": "Course News",
+    "objectID": "syllabus.html#course-description",
+    "href": "syllabus.html#course-description",
+    "title": "PSY 607 Bayesian Analysis",
     "section": "",
-    "text": "Date\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\n\nNo matching items"
+    "text": "This advanced statistics course introduces students to Bayesian methods with a focus on practical application using modern computational tools. Through a combination of theoretical foundations and hands-on programming, students learn to build, interpret, and critique Bayesian models using the R programming language, with particular emphasis on the brms package."
+  },
+  {
+    "objectID": "syllabus.html#course-structure",
+    "href": "syllabus.html#course-structure",
+    "title": "PSY 607 Bayesian Analysis",
+    "section": "Course Structure",
+    "text": "Course Structure\nThis course is a mix of asynchronous lectures, in-class activities, and homework assignments:\n\nBefore each class, you will watch a video lecture. These will be posted here alongside each lecture.\nAt the beginning of each class, there will be a short quiz to check your understanding of the lecture and help me know what to review.\nClass time will be used for in-class activities, including group work and discussion.\nEach week will have a homework assignment. These will be posted here.\nYou can find all the materials for each week in the week’s chapter."
+  },
+  {
+    "objectID": "syllabus.html#materials",
+    "href": "syllabus.html#materials",
+    "title": "PSY 607 Bayesian Analysis",
+    "section": "Materials",
+    "text": "Materials\nRequired:\n\nR and RStudio (free)\n\nRecommended:\n\nStatistical Rethinking by Richard McElreath (2nd ed.)"
+  },
+  {
+    "objectID": "syllabus.html#grading",
+    "href": "syllabus.html#grading",
+    "title": "PSY 607 Bayesian Analysis",
+    "section": "Grading",
+    "text": "Grading\n\nHomework (95%)\n\n10 assignments\nGraded on completion (not accuracy)\nPosted on Friday, due the following Monday at 11:59pm\nOne week grace period for each assignment\n\nQuizzes (5%)\n\n19 quizzes\nCover material from the day’s recorded lecture\nCompleted in class\nNo makeup opportunities for missed quizzes"
+  },
+  {
+    "objectID": "syllabus.html#course-policies",
+    "href": "syllabus.html#course-policies",
+    "title": "PSY 607 Bayesian Analysis",
+    "section": "Course Policies",
+    "text": "Course Policies\n\nCommunication\nIf you have questions about course policies, have trouble submitting an assignment, or want to schedule a meeting, please email. I will make an effort to respond to emails within one business day. Note that I neither plan nor commit to checking email outside of normal business hours (9am-5pm, Mon-Fri).\nIf you are having trouble understanding a concept covered in class, please come to office hours, schedule a meeting with me, or ask for clarification during class periods. I will not explain course concepts over email.\nOccasionally, I will send out announcements to the entire class via Canvas announcements. These will typically appear when you open Canvas, but you can update your Canvas settings to receive these announcements as emails. It is strongly recommended that you do so.\n\n\nClassroom Expectations\nAll members of the class (students and instructor) can expect to:\nParticipate and Contribute: All students are expected to participate by sharing ideas and contributing to the learning environment. This entails preparing, following instructions, and engaging respectfully and thoughtfully with others.\nWhile all students should participate, participation is not just talking, and a range of participation activities support learning. Participation might look like speaking aloud in the full class and in small groups and collaborating on homework assignments.\nExpect and Respect Diversity: All classes at the University of Oregon welcome and respect diverse experiences, perspectives, and approaches. What is not welcome are behaviors or contributions that undermine, demean, or marginalize others based on race, ethnicity, gender, sex, age, sexual orientation, religion, ability, or socioeconomic status. We will value differences and communicate disagreements with respect.\nHelp Everyone Learn: Part of how we learn together is by learning from one another. To do this effectively, we need to be patient with each other, identify ways we can assist others, and be open-minded to receiving help and feedback from others. Don’t hesitate to contact me to ask for assistance or offer suggestions that might help us learn better.\n\n\nWorkload\nThis is a 3-credit hour course, so you should expect to complete 120 hours of work for the course—an average of about 12 hours each week (this includes time in-class).\n\n\nGenerative AI Policy\nWhile generative AI tools (such as ChatGPT, Claude, and Cursor) can be useful for assisting with certain tasks, it’s important to use these technologies responsibly and ethically.\nGood uses of AI:\n\nExploring concepts, generating code ideas, and providing explanations for topics covered in the course\nCreating preliminary drafts of code, data analysis plans, or written reports (with review and testing)\nBrainstorming research questions, identifying key terms, or helping summarize complex literature\n\nBad uses of AI:\n\nGenerating entire assignments, projects, or reports without manual oversight\nUsing AI in place of collaborating with peers\nSubmitting AI-generated content without proper attribution\n\nRequired Disclosure: Students who use AI tools must include a brief statement at the end of their submission describing how and where the tool was used. Failure to disclose AI use may result in grade reduction or disciplinary action.\n\n\nAcademic Integrity\nFrankly, you’re in graduate school, and the purpose of work is to create opportunities to learn and improve. Even if cheating helps you in the short term, you’ll quickly find yourself ill-prepared for the career you have chosen. If you find yourself tempted to cheat, please come speak to Dr. Weston about an extension and developing tools to improve your success.\n\n\nAccessibility\nThe University of Oregon and I are dedicated to fostering inclusive learning environments for all students and welcomes students with disabilities into all of the University’s educational programs. The Accessible Education Center (AEC) assists students with disabilities in reducing campus-wide and classroom-related barriers. If you have or think you have a disability (https://aec.uoregon.edu/content/what-disability) and experience academic barriers, please contact the AEC to discuss appropriate accommodations or support. Visit 360 Oregon Hall or aec.uoregon.edu for more information. You can contact AEC at 541-346-1155 or via email at uoaec@uoregon.edu.\n\n\nBasic Needs\nBeing able to meet your basic needs is foundational to your success as a student at the University of Oregon. If you are having difficulty affording food, don’t have a stable, safe place to live, or are struggling to meet another need, visit the UO Basic Needs Resource page for information on how to get support. They have information food, housing, healthcare, childcare, transportation, technology, finances (including emergency funds), and legal support.\nIf your need is urgent, please contact the Care and Advocacy Program by calling 541-346-3216, filling out the Community Care and Support form, or by scheduling an appointment with an advocate.\n\n\nReporting Obligations\nI am a designated reporter. For information about my reporting obligations as an employee, please see Employee Reporting Obligations on the Office of Investigations and Civil Rights Compliance (OICRC) website. Students experiencing sex- or gender-based discrimination, harassment or violence should call the 24-7 hotline 541-346-SAFE [7244] or visit safe.uoregon.edu for help. Students experiencing all forms of prohibited discrimination or harassment may contact the Dean of Students Office at 541-346-3216 or the non-confidential Title IX Coordinator/OICRC at 541-346-3123 to request information and resources. Students are not required to participate in an investigation to receive support, including requesting academic supportive measures. Additional resources are available at investigations.uoregon.edu/how-get-support.\nI am also a mandatory reporter of child abuse. Please find more information at Mandatory Reporting of Child Abuse and Neglect.\n\n\nPregnancy Accommodations\nPregnant and parenting students are eligible for academic and work modifications related to pregnancy, childbirth, loss of pregnancy, termination of pregnancy, lactation, and related medical conditions. To request pregnancy-related modifications, students should complete the Request for Pregnancy Modifications form on the OICRC website. OICRC coordinates academic and other modifications for pregnant and parenting students to ensure students can continue to access their education and university programs and activities.\n\n\nCampus Emergencies\nIn the event of a campus emergency that disrupts academic activities, course requirements, deadlines, and grading percentages are subject to change. Information about changes in this course will be communicated as soon as possible by email, and on Canvas. If we are not able to meet face-to-face, students should immediately log onto Canvas and read any announcements and/or access alternative assignments. Students are also expected to continue coursework as outlined in this syllabus or other instructions on Canvas."
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html",
+    "href": "example/rstudio-tidyverse.html",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "",
+    "text": "This course assumes that you’re already familiar with R, RStudio, Markdown, and the tidyverse. If you’re not, or if you’re looking to brush up, here are some resources for helping you get up to speed."
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html#part-1-the-basics-of-r-and-dplyr",
+    "href": "example/rstudio-tidyverse.html#part-1-the-basics-of-r-and-dplyr",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "Part 1: The basics of R and dplyr",
+    "text": "Part 1: The basics of R and dplyr\n\nThe Basics\n\nVisualization Basics\nProgramming Basics\n\nWork with Data\n\nWorking with Tibbles\nIsolating Data with dplyr\nDeriving Information with dplyr\n\nVisualize Data\n\nExploratory Data Analysis\nBar Charts\nHistograms\nBoxplots and Counts\nScatterplots\nLine plots\nOverplotting and Big Data\nCustomize Your Plots\n\nTidy Your Data\n\nReshape Data\n\n\n\n\n\n\n\n\nNote\n\n\n\nRecent versions of tidyr have renamed these core functions: gather() is now pivot_longer() and spread() is now pivot_wider(). The syntax for these pivot_*() functions is slightly different from what it was in gather() and spread(), so you can’t just replace the names. Fortunately, both gather() and spread() still work and won’t go away for a while, so you can still use them as you learn about reshaping and tidying data. It would be worth learning how the newer pivot_*() functions work, eventually, though (see here for examples).\n\n\nThe content from these primers comes from the (free and online!) book R for Data Science by Garrett Grolemund and Hadley Wickham. I highly recommend the book as a reference and for continuing to learn and use R in the future."
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html#part-2-getting-familiar-with-rstudio",
+    "href": "example/rstudio-tidyverse.html#part-2-getting-familiar-with-rstudio",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "Part 2: Getting familiar with RStudio",
+    "text": "Part 2: Getting familiar with RStudio\nThe RStudio primers you just worked through are a great introduction to writing and running R code, but you typically won’t type code in a browser when you work with R. Instead, you’ll use a nicer programming environment like RStudio, which lets you type and save code in scripts, run code from those scripts, and see the output of that code, all in the same program.\nTo get familiar with RStudio, watch this video by Andrew Heiss:"
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html#part-3-rstudio-projects",
+    "href": "example/rstudio-tidyverse.html#part-3-rstudio-projects",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "Part 3: RStudio Projects",
+    "text": "Part 3: RStudio Projects\nOne of the most powerful and useful aspects of RStudio is its ability to manage projects.\nWhen you first open R, it is “pointed” at some folder on your computer, and anything you do will be relative to that folder. The technical term for this is a “working directory.”\nWhen you first open RStudio, look in the area right at the top of the Console pane to see your current working directory. Most likely you’ll see something cryptic: ~/\n\n\n\n\n\n\n\n\n\nThat tilde sign (~) is a shortcut that stands for your user directory. On Windows this is C:\\Users\\your_user_name\\; on macOS this is /Users/your_user_name/. With the working directory set to ~/, R is “pointed” at that folder, and anything you save will end up in that folder, and R will expect any data that you load to be there too.\nIt’s always best to point R at some other directory. If you don’t use RStudio, you need to manually set the working directory to where you want it with setwd(), and many R scripts in the wild include something like setwd(\"C:\\\\Users\\\\bill\\\\Desktop\\\\Important research project\") at the beginning to change the directory. THIS IS BAD THOUGH (see here for an explanation). If you ever move that directory somewhere else, or run the script on a different computer, or share the project with someone, the path will be wrong and nothing will run and you will be sad.\nThe best way to deal with working directories with RStudio is to use RStudio Projects. These are special files that RStudio creates for you that end in a .Rproj extension. When you open one of these special files, a new RStudio instance will open up and be pointed at the correct directory automatically. If you move the folder later or open it on a different computer, it will work just fine and you will not be sad.\nRead this super short chapter on RStudio projects to learn how to create and use them\nIn general, you can create a new project by going to File &gt; New Project &gt; New Directory &gt; Empty Project, which will create a new folder on your computer that is empty except for a single .Rproj file. Double click on that file to open an RStudio instance that is pointed at the correct folder."
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html#part-4-getting-familiar-with-r-markdown",
+    "href": "example/rstudio-tidyverse.html#part-4-getting-familiar-with-r-markdown",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "Part 4: Getting familiar with R Markdown",
+    "text": "Part 4: Getting familiar with R Markdown\nTo ensure that the analysis and graphics you make are reproducible, you’ll do the majority of your work in this class using R Markdown files.\nDo the following things:\n\nWatch this video:\n\n\n\n\n\n \n\nSkim through the content at these pages:\n\nUsing Markdown\nUsing R Markdown\nHow it Works\nCode Chunks\nInline Code\nMarkdown Basics (The R Markdown Reference Guide is super useful here.)\nOutput Formats"
   },
   {
     "objectID": "resource/index.html",
@@ -595,126 +579,11 @@
     "text": "Footnotes\n\n\nIf you want to be really fancy, you can use blogdown, which makes a complete website with R Markdown files. That’s actually how this site is built (see the source code). You can build your own site with this tutorial.↩︎"
   },
   {
-    "objectID": "example/rstudio-tidyverse.html",
-    "href": "example/rstudio-tidyverse.html",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "",
-    "text": "This course assumes that you’re already familiar with R, RStudio, Markdown, and the tidyverse. If you’re not, or if you’re looking to brush up, here are some resources for helping you get up to speed."
-  },
-  {
-    "objectID": "example/rstudio-tidyverse.html#part-1-the-basics-of-r-and-dplyr",
-    "href": "example/rstudio-tidyverse.html#part-1-the-basics-of-r-and-dplyr",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "Part 1: The basics of R and dplyr",
-    "text": "Part 1: The basics of R and dplyr\n\nThe Basics\n\nVisualization Basics\nProgramming Basics\n\nWork with Data\n\nWorking with Tibbles\nIsolating Data with dplyr\nDeriving Information with dplyr\n\nVisualize Data\n\nExploratory Data Analysis\nBar Charts\nHistograms\nBoxplots and Counts\nScatterplots\nLine plots\nOverplotting and Big Data\nCustomize Your Plots\n\nTidy Your Data\n\nReshape Data\n\n\n\n\n\n\n\n\nNote\n\n\n\nRecent versions of tidyr have renamed these core functions: gather() is now pivot_longer() and spread() is now pivot_wider(). The syntax for these pivot_*() functions is slightly different from what it was in gather() and spread(), so you can’t just replace the names. Fortunately, both gather() and spread() still work and won’t go away for a while, so you can still use them as you learn about reshaping and tidying data. It would be worth learning how the newer pivot_*() functions work, eventually, though (see here for examples).\n\n\nThe content from these primers comes from the (free and online!) book R for Data Science by Garrett Grolemund and Hadley Wickham. I highly recommend the book as a reference and for continuing to learn and use R in the future."
-  },
-  {
-    "objectID": "example/rstudio-tidyverse.html#part-2-getting-familiar-with-rstudio",
-    "href": "example/rstudio-tidyverse.html#part-2-getting-familiar-with-rstudio",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "Part 2: Getting familiar with RStudio",
-    "text": "Part 2: Getting familiar with RStudio\nThe RStudio primers you just worked through are a great introduction to writing and running R code, but you typically won’t type code in a browser when you work with R. Instead, you’ll use a nicer programming environment like RStudio, which lets you type and save code in scripts, run code from those scripts, and see the output of that code, all in the same program.\nTo get familiar with RStudio, watch this video by Andrew Heiss:"
-  },
-  {
-    "objectID": "example/rstudio-tidyverse.html#part-3-rstudio-projects",
-    "href": "example/rstudio-tidyverse.html#part-3-rstudio-projects",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "Part 3: RStudio Projects",
-    "text": "Part 3: RStudio Projects\nOne of the most powerful and useful aspects of RStudio is its ability to manage projects.\nWhen you first open R, it is “pointed” at some folder on your computer, and anything you do will be relative to that folder. The technical term for this is a “working directory.”\nWhen you first open RStudio, look in the area right at the top of the Console pane to see your current working directory. Most likely you’ll see something cryptic: ~/\n\n\n\n\n\n\n\n\n\nThat tilde sign (~) is a shortcut that stands for your user directory. On Windows this is C:\\Users\\your_user_name\\; on macOS this is /Users/your_user_name/. With the working directory set to ~/, R is “pointed” at that folder, and anything you save will end up in that folder, and R will expect any data that you load to be there too.\nIt’s always best to point R at some other directory. If you don’t use RStudio, you need to manually set the working directory to where you want it with setwd(), and many R scripts in the wild include something like setwd(\"C:\\\\Users\\\\bill\\\\Desktop\\\\Important research project\") at the beginning to change the directory. THIS IS BAD THOUGH (see here for an explanation). If you ever move that directory somewhere else, or run the script on a different computer, or share the project with someone, the path will be wrong and nothing will run and you will be sad.\nThe best way to deal with working directories with RStudio is to use RStudio Projects. These are special files that RStudio creates for you that end in a .Rproj extension. When you open one of these special files, a new RStudio instance will open up and be pointed at the correct directory automatically. If you move the folder later or open it on a different computer, it will work just fine and you will not be sad.\nRead this super short chapter on RStudio projects to learn how to create and use them\nIn general, you can create a new project by going to File &gt; New Project &gt; New Directory &gt; Empty Project, which will create a new folder on your computer that is empty except for a single .Rproj file. Double click on that file to open an RStudio instance that is pointed at the correct folder."
-  },
-  {
-    "objectID": "example/rstudio-tidyverse.html#part-4-getting-familiar-with-r-markdown",
-    "href": "example/rstudio-tidyverse.html#part-4-getting-familiar-with-r-markdown",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "Part 4: Getting familiar with R Markdown",
-    "text": "Part 4: Getting familiar with R Markdown\nTo ensure that the analysis and graphics you make are reproducible, you’ll do the majority of your work in this class using R Markdown files.\nDo the following things:\n\nWatch this video:\n\n\n\n\n\n \n\nSkim through the content at these pages:\n\nUsing Markdown\nUsing R Markdown\nHow it Works\nCode Chunks\nInline Code\nMarkdown Basics (The R Markdown Reference Guide is super useful here.)\nOutput Formats"
-  },
-  {
-    "objectID": "syllabus.html",
-    "href": "syllabus.html",
-    "title": "PSY 607 Bayesian Analysis",
-    "section": "",
-    "text": "This advanced statistics course introduces students to Bayesian methods with a focus on practical application using modern computational tools. Through a combination of theoretical foundations and hands-on programming, students learn to build, interpret, and critique Bayesian models using the R programming language, with particular emphasis on the brms package."
-  },
-  {
-    "objectID": "syllabus.html#course-description",
-    "href": "syllabus.html#course-description",
-    "title": "PSY 607 Bayesian Analysis",
-    "section": "",
-    "text": "This advanced statistics course introduces students to Bayesian methods with a focus on practical application using modern computational tools. Through a combination of theoretical foundations and hands-on programming, students learn to build, interpret, and critique Bayesian models using the R programming language, with particular emphasis on the brms package."
-  },
-  {
-    "objectID": "syllabus.html#course-structure",
-    "href": "syllabus.html#course-structure",
-    "title": "PSY 607 Bayesian Analysis",
-    "section": "Course Structure",
-    "text": "Course Structure\nThis course is a mix of asynchronous lectures, in-class activities, and homework assignments:\n\nBefore each class, you will watch a video lecture. These will be posted here alongside each lecture.\nAt the beginning of each class, there will be a short quiz to check your understanding of the lecture and help me know what to review.\nClass time will be used for in-class activities, including group work and discussion.\nEach week will have a homework assignment. These will be posted here.\nYou can find all the materials for each week in the week’s chapter."
-  },
-  {
-    "objectID": "syllabus.html#materials",
-    "href": "syllabus.html#materials",
-    "title": "PSY 607 Bayesian Analysis",
-    "section": "Materials",
-    "text": "Materials\nRequired:\n\nR and RStudio (free)\n\nRecommended:\n\nStatistical Rethinking by Richard McElreath (2nd ed.)"
-  },
-  {
-    "objectID": "syllabus.html#grading",
-    "href": "syllabus.html#grading",
-    "title": "PSY 607 Bayesian Analysis",
-    "section": "Grading",
-    "text": "Grading\n\nHomework (95%)\n\n10 assignments\nGraded on completion (not accuracy)\nPosted on Friday, due the following Monday at 11:59pm\nOne week grace period for each assignment\n\nQuizzes (5%)\n\n19 quizzes\nCover material from the day’s recorded lecture\nCompleted in class\nNo makeup opportunities for missed quizzes"
-  },
-  {
-    "objectID": "syllabus.html#course-policies",
-    "href": "syllabus.html#course-policies",
-    "title": "PSY 607 Bayesian Analysis",
-    "section": "Course Policies",
-    "text": "Course Policies\n\nCommunication\nIf you have questions about course policies, have trouble submitting an assignment, or want to schedule a meeting, please email. I will make an effort to respond to emails within one business day. Note that I neither plan nor commit to checking email outside of normal business hours (9am-5pm, Mon-Fri).\nIf you are having trouble understanding a concept covered in class, please come to office hours, schedule a meeting with me, or ask for clarification during class periods. I will not explain course concepts over email.\nOccasionally, I will send out announcements to the entire class via Canvas announcements. These will typically appear when you open Canvas, but you can update your Canvas settings to receive these announcements as emails. It is strongly recommended that you do so.\n\n\nClassroom Expectations\nAll members of the class (students and instructor) can expect to:\nParticipate and Contribute: All students are expected to participate by sharing ideas and contributing to the learning environment. This entails preparing, following instructions, and engaging respectfully and thoughtfully with others.\nWhile all students should participate, participation is not just talking, and a range of participation activities support learning. Participation might look like speaking aloud in the full class and in small groups and collaborating on homework assignments.\nExpect and Respect Diversity: All classes at the University of Oregon welcome and respect diverse experiences, perspectives, and approaches. What is not welcome are behaviors or contributions that undermine, demean, or marginalize others based on race, ethnicity, gender, sex, age, sexual orientation, religion, ability, or socioeconomic status. We will value differences and communicate disagreements with respect.\nHelp Everyone Learn: Part of how we learn together is by learning from one another. To do this effectively, we need to be patient with each other, identify ways we can assist others, and be open-minded to receiving help and feedback from others. Don’t hesitate to contact me to ask for assistance or offer suggestions that might help us learn better.\n\n\nWorkload\nThis is a 3-credit hour course, so you should expect to complete 120 hours of work for the course—an average of about 12 hours each week (this includes time in-class).\n\n\nGenerative AI Policy\nWhile generative AI tools (such as ChatGPT, Claude, and Cursor) can be useful for assisting with certain tasks, it’s important to use these technologies responsibly and ethically.\nGood uses of AI:\n\nExploring concepts, generating code ideas, and providing explanations for topics covered in the course\nCreating preliminary drafts of code, data analysis plans, or written reports (with review and testing)\nBrainstorming research questions, identifying key terms, or helping summarize complex literature\n\nBad uses of AI:\n\nGenerating entire assignments, projects, or reports without manual oversight\nUsing AI in place of collaborating with peers\nSubmitting AI-generated content without proper attribution\n\nRequired Disclosure: Students who use AI tools must include a brief statement at the end of their submission describing how and where the tool was used. Failure to disclose AI use may result in grade reduction or disciplinary action.\n\n\nAcademic Integrity\nFrankly, you’re in graduate school, and the purpose of work is to create opportunities to learn and improve. Even if cheating helps you in the short term, you’ll quickly find yourself ill-prepared for the career you have chosen. If you find yourself tempted to cheat, please come speak to Dr. Weston about an extension and developing tools to improve your success.\n\n\nAccessibility\nThe University of Oregon and I are dedicated to fostering inclusive learning environments for all students and welcomes students with disabilities into all of the University’s educational programs. The Accessible Education Center (AEC) assists students with disabilities in reducing campus-wide and classroom-related barriers. If you have or think you have a disability (https://aec.uoregon.edu/content/what-disability) and experience academic barriers, please contact the AEC to discuss appropriate accommodations or support. Visit 360 Oregon Hall or aec.uoregon.edu for more information. You can contact AEC at 541-346-1155 or via email at uoaec@uoregon.edu.\n\n\nBasic Needs\nBeing able to meet your basic needs is foundational to your success as a student at the University of Oregon. If you are having difficulty affording food, don’t have a stable, safe place to live, or are struggling to meet another need, visit the UO Basic Needs Resource page for information on how to get support. They have information food, housing, healthcare, childcare, transportation, technology, finances (including emergency funds), and legal support.\nIf your need is urgent, please contact the Care and Advocacy Program by calling 541-346-3216, filling out the Community Care and Support form, or by scheduling an appointment with an advocate.\n\n\nReporting Obligations\nI am a designated reporter. For information about my reporting obligations as an employee, please see Employee Reporting Obligations on the Office of Investigations and Civil Rights Compliance (OICRC) website. Students experiencing sex- or gender-based discrimination, harassment or violence should call the 24-7 hotline 541-346-SAFE [7244] or visit safe.uoregon.edu for help. Students experiencing all forms of prohibited discrimination or harassment may contact the Dean of Students Office at 541-346-3216 or the non-confidential Title IX Coordinator/OICRC at 541-346-3123 to request information and resources. Students are not required to participate in an investigation to receive support, including requesting academic supportive measures. Additional resources are available at investigations.uoregon.edu/how-get-support.\nI am also a mandatory reporter of child abuse. Please find more information at Mandatory Reporting of Child Abuse and Neglect.\n\n\nPregnancy Accommodations\nPregnant and parenting students are eligible for academic and work modifications related to pregnancy, childbirth, loss of pregnancy, termination of pregnancy, lactation, and related medical conditions. To request pregnancy-related modifications, students should complete the Request for Pregnancy Modifications form on the OICRC website. OICRC coordinates academic and other modifications for pregnant and parenting students to ensure students can continue to access their education and university programs and activities.\n\n\nCampus Emergencies\nIn the event of a campus emergency that disrupts academic activities, course requirements, deadlines, and grading percentages are subject to change. Information about changes in this course will be communicated as soon as possible by email, and on Canvas. If we are not able to meet face-to-face, students should immediately log onto Canvas and read any announcements and/or access alternative assignments. Students are also expected to continue coursework as outlined in this syllabus or other instructions on Canvas."
-  },
-  {
-    "objectID": "content/01-content.html#before-class",
-    "href": "content/01-content.html#before-class",
-    "title": "Introduction to Bayes",
-    "section": "Before class",
-    "text": "Before class\nNothing. But if you want to get familiar with the site or ee what I’m using as the basis for the first lecture, here you go:\n\nThe syllabus, content, examples, and assignments pages for this class\n Introduction to Bayesian Inference for Psychology (Etz & Vandekerckhove, 2018)\n DJ Patil, “What Makes a Radical and Revolutionary Technology?”\n\n(DJ Patil is the former Chief Data Scientist of the United States under President Obama. He gave this forum address at Brigham Young University on February 13, 2018.)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "1: Introduction to Bayesian Analysis"
-    ]
-  },
-  {
-    "objectID": "content/01-content.html#during-class",
-    "href": "content/01-content.html#during-class",
-    "title": "Introduction to Bayes",
-    "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "1: Introduction to Bayesian Analysis"
-    ]
-  },
-  {
-    "objectID": "schedule.html",
-    "href": "schedule.html",
-    "title": "Schedule",
-    "section": "",
-    "text": "Below is the schedule for the course. Note that this schedule may change as the course progresses.\n\n\n\nSession 1: Course Overview\n\nTopics: Course objectives, requirements, and expectations; Bayes’ Rule\n\nSession 2: Gardens of forking data\n\nTopics: Bayes as counting\nAssignment 1 released\n\n\n\n\n\n\nSession 3: Topic 1.1\n\nTopics: Key concepts and methods\nSlides (PDF)\n\nSession 4: Topic 1.2\n\nTopics: Applications and examples\nAssignment 1 due\n\n\n\n\n\n\nSession 5: Topic 2.1\n\nTopics: Key concepts and methods\nSlides (PDF)\n\nSession 6: Topic 2.2\n\nTopics: Applications and examples\nAssignment 2 released\n\n\n\n\n\n\n\n\nSchedule Notes\n\n\n\n\nAll deadlines are at 11:59 PM Pacific Time on the specified date\nSchedule is subject to change based on course needs\nAdditional readings and resources will be posted on the course website\n\n\n\n\nHere’s your roadmap for the semester!\n\nContent (): This page contains the recorded lectures and slides for the week. Watch the lectures before our in-person class.\nAssignment (): This page contains the instructions for each assignment."
-  },
-  {
-    "objectID": "schedule.html#course-schedule",
-    "href": "schedule.html#course-schedule",
-    "title": "Schedule",
-    "section": "",
-    "text": "Below is the schedule for the course. Note that this schedule may change as the course progresses.\n\n\n\nSession 1: Course Overview\n\nTopics: Course objectives, requirements, and expectations; Bayes’ Rule\n\nSession 2: Gardens of forking data\n\nTopics: Bayes as counting\nAssignment 1 released\n\n\n\n\n\n\nSession 3: Topic 1.1\n\nTopics: Key concepts and methods\nSlides (PDF)\n\nSession 4: Topic 1.2\n\nTopics: Applications and examples\nAssignment 1 due\n\n\n\n\n\n\nSession 5: Topic 2.1\n\nTopics: Key concepts and methods\nSlides (PDF)\n\nSession 6: Topic 2.2\n\nTopics: Applications and examples\nAssignment 2 released\n\n\n\n\n\n\n\n\nSchedule Notes\n\n\n\n\nAll deadlines are at 11:59 PM Pacific Time on the specified date\nSchedule is subject to change based on course needs\nAdditional readings and resources will be posted on the course website\n\n\n\n\nHere’s your roadmap for the semester!\n\nContent (): This page contains the recorded lectures and slides for the week. Watch the lectures before our in-person class.\nAssignment (): This page contains the instructions for each assignment."
-  },
-  {
     "objectID": "assignment/01-problem-set.html",
     "href": "assignment/01-problem-set.html",
     "title": "Problem set 1",
     "section": "",
-    "text": "Go the the example page for this week, “Welcome to R, RStudio, and the tidyverse”, and work through the different primers and videos in the four parts of the page.\nIt seems like there’s a lot on the page, but they’re short and go fairly quickly (especially as you get the hang of the syntax). Also, I have no way of seeing what you do or what you get wrong or right, and that’s totally fine! If you get stuck and want to skip some (or if it gets too easy), go right ahead and skip them!",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
@@ -722,11 +591,11 @@
     ]
   },
   {
-    "objectID": "assignment/01-problem-set.html#task-1-introduce-yourself-to-r-rstudio-and-the-tidyverse",
-    "href": "assignment/01-problem-set.html#task-1-introduce-yourself-to-r-rstudio-and-the-tidyverse",
+    "objectID": "assignment/01-problem-set.html#instructions",
+    "href": "assignment/01-problem-set.html#instructions",
     "title": "Problem set 1",
     "section": "",
-    "text": "Go the the example page for this week, “Welcome to R, RStudio, and the tidyverse”, and work through the different primers and videos in the four parts of the page.\nIt seems like there’s a lot on the page, but they’re short and go fairly quickly (especially as you get the hang of the syntax). Also, I have no way of seeing what you do or what you get wrong or right, and that’s totally fine! If you get stuck and want to skip some (or if it gets too easy), go right ahead and skip them!",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
@@ -734,11 +603,11 @@
     ]
   },
   {
-    "objectID": "assignment/01-problem-set.html#task-2-make-an-rstudio-project",
-    "href": "assignment/01-problem-set.html#task-2-make-an-rstudio-project",
+    "objectID": "assignment/01-problem-set.html#questions",
+    "href": "assignment/01-problem-set.html#questions",
     "title": "Problem set 1",
-    "section": "Task 2: Make an RStudio Project",
-    "text": "Task 2: Make an RStudio Project\n\nUse either RStudio.cloud or RStudio on your computer (preferably RStudio on your computer! Follow these instructions to get started!) to create a new RStudio Project. Refer to the example page you read in Task 1 for instructions\nCreate a folder named “data” in the project folder you just made.\nDownload this CSV file and place it in that folder:\n\n cars.csv\n\nIn RStudio, go to “File” &gt; “New File…” &gt; “R Markdown…” and click “OK” in the dialog without changing anything.\nDelete all the placeholder text in that new file and replace it with this:\n---\ntitle: \"Problem set 1\"\nauthor: \"Put your name here\"\noutput: html_document\n---\n\n\n```{r load-libraries-data, warning=FALSE, message=FALSE}\nlibrary(tidyverse)\n\ncars &lt;- read_csv(\"data/cars.csv\")\n```\n\n\n# Learning R\n\nTell me that you worked through the primers and videos and examples at the example page for this week:\n\nWRITE SOMETHING HERE LIKE \"I did all the primers and had the time of my life!\" or whatever.\n\n\n# My first plots\n\nInsert a chunk below and use it to create a scatterplot (hint: `geom_point()`) with diplacement (`displ`) on the x-axis, city MPG (`cty`) on the y-axis, and with the points colored by drive (`drv`).\n\nPUT CHUNK HERE\n\nInsert a chunk below and use it to create a histogram (hint: `geom_histogram()`) with highway MPG (`hwy`) on the x-axis. Do not include anything on the y-axis (`geom_histogram()` will do that automatically for you). Choose an appropriate bin width. If you're brave, facet by drive (`drv`).\n\nPUT CHUNK HERE\n\n\n# My first data manipulation\n\nInsert a chunk below and use it to calculate the average city MPG (`cty`) by class of car (`class`). This won't be a plot---it'll be a table. Hint: use a combination of `group_by()` and `summarize()`.\n\nPUT CHUNK HERE\nSave the R Markdown file with some sort of name (without any spaces!)\nYour project folder should look something like this:",
+    "section": "Questions",
+    "text": "Questions\n\nSuppose the globe tossing experiment turned out to be 3 water and 11 land. Construct the posterior distribution.\nUsing the posterior distribution from 1, compute the posterior predictive distribution for the next 5 tosses of the globe.",
     "crumbs": [
       "Assignments",
       "Problem sets",
@@ -746,16 +615,135 @@
     ]
   },
   {
-    "objectID": "assignment/01-problem-set.html#task-3-work-with-r",
-    "href": "assignment/01-problem-set.html#task-3-work-with-r",
-    "title": "Problem set 1",
-    "section": "Task 3: Work with R",
-    "text": "Task 3: Work with R\n\nRemove the text that says “PUT CHUNK HERE” and insert a new R code chunk. Either type ctrl + alt + i on Windows, or ⌘ + ⌥ + i on macOS, or use the “Insert Chunk” menu:\n\n\n\n\n\n\n\n\n\n\n\nFollow the instructions for the three chunks of code.\nKnit your document as a Word file (or PDF if you’re brave and installed LaTeX). Use the “Knit” menu:\n\n\n\n\n\n\n\n\n\n\n\nUpload the knitted document to iCollege.\n🎉 Party! 🎉\n\n\n\n\n\n\n\nTip\n\n\n\nYou’ll be doing this same process for all your future problem sets. Each problem set will involve an R Markdown file. You can either create a new RStudio Project directory for all your work:\n\n\n\n\n\n\n\n\n\nOr you can create individual projects for each assignment and project:",
+    "objectID": "news/index.html",
+    "href": "news/index.html",
+    "title": "Course News",
+    "section": "",
+    "text": "Date\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "\n            Bayesian Analysis\n        ",
+    "section": "",
+    "text": "Bayesian Analysis\n        \n        \n            Model building, estimation, interpretation, visualization\n        \n        \n            PSY 607 • Spring 2025 Psychology University of Oregon\n        \n    \n    \n      \n        \n        \n        \n      \n    \n\n\n\n\n\n\nInstructor\n\n   Dr. Sara Weston\n   Straub 325\n   [sweston2@uoregon.edu]\n   Schedule an appointment\n\n\n\nCourse details\n\n   Tuesdays and Thursdays\n   Spring 2025\n   2:00–3:20 PM\n   119 FEN\n   Slack\n\n\n\nContacting me\nEmail is the best way to get in contact with me. I will try to respond to all course-related emails within one business day during normal business hours (9am-5pm, Mon-Fri).\n\n\n```"
+  },
+  {
+    "objectID": "resource/markdown.html",
+    "href": "resource/markdown.html",
+    "title": "Using Markdown",
+    "section": "",
+    "text": "Markdown is a special kind of markup language that lets you format text with simple syntax. You can then use a converter program like pandoc to convert Markdown into whatever format you want: HTML, PDF, Word, PowerPoint, etc. (see the full list of output types here)",
     "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 1"
+      "Resources",
+      "Guides",
+      "Using Markdown"
     ]
+  },
+  {
+    "objectID": "resource/markdown.html#basic-markdown-formatting",
+    "href": "resource/markdown.html#basic-markdown-formatting",
+    "title": "Using Markdown",
+    "section": "Basic Markdown formatting",
+    "text": "Basic Markdown formatting\n\n\n\n\n\n\n\n\n\nType…\n\n\n…or…\n\n\n…to get\n\n\n\n\n\n\nSome text in a paragraph.\nMore text in the next paragraph. Always\nuse empty lines between paragraphs.\n\n\n\n\n\nSome text in a paragraph.\n\n\nMore text in the next paragraph. Always use empty lines between paragraphs.\n\n\n\n\n\nItalic\n\n\nItalic\n\n\nItalic\n\n\n\n\nBold\n\n\nBold\n\n\nBold\n\n\n\n\n# Heading 1\n\n\n\n\n\nHeading 1\n\n\n\n\n\n## Heading 2\n\n\n\n\n\nHeading 2\n\n\n\n\n\n### Heading 3\n\n\n\n\n\nHeading 3\n\n\n\n\n\n(Go up to heading level 6 with ######)\n\n\n\n\n\n\n\n\nLink text\n\n\n\n\nLink text\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n&lt;code&gt;Inline code with backticks\n\n\n\n\nInline code with backticks\n\n\n\n\n&gt; Blockquote\n\n\n\n\n\n\nBlockquote\n\n\n\n\n\n\n- Things in\n- an unordered\n- list\n\n\n* Things in\n* an unordered\n* list\n\n\n\n\nThings in\n\n\nan unordered\n\n\nlist\n\n\n\n\n\n\n1. Things in\n2. an ordered\n3. list\n\n\n1) Things in\n2) an ordered\n3) list\n\n\n\n\nThings in\n\n\nan ordered\n\n\nlist\n\n\n\n\n\n\nHorizontal line\n\n---\n\n\nHorizontal line\n\n***\n\n\n\nHorizontal line",
+    "crumbs": [
+      "Resources",
+      "Guides",
+      "Using Markdown"
+    ]
+  },
+  {
+    "objectID": "resource/markdown.html#math",
+    "href": "resource/markdown.html#math",
+    "title": "Using Markdown",
+    "section": "Math",
+    "text": "Math\n\nBasic math commands\nMarkdown uses LaTeX to create fancy mathematical equations. There are like a billion little options and features available for math equations—you can find helpful examples of the the most common basic commands here. In this class, these will be the most common things you’ll use:\n\n\n\n\n\nDescription\nCommand\nOutput\n\n\n\n\nLetters\n\n\nRoman letters\n&lt;code&gt;a b c d e f&lt;/code&gt;\n\\(a\\ b\\ c\\ d\\ e\\ f\\)\n\n\nGreek letters (see &lt;a href='https://www.overleaf.com/learn/latex/List_of_Greek_letters_and_math_symbols'&gt;this&lt;/a&gt; for all possible letters)\n&lt;code&gt;\\alpha \\beta \\Gamma \\gamma&lt;/code&gt; &lt;br&gt; &lt;code&gt;\\Delta \\delta \\epsilon&lt;/code&gt;\n\\(\\alpha\\ \\beta\\ \\Gamma\\ \\gamma\\ \\Delta\\ \\delta\\ \\epsilon\\)\n\n\nLetters will automatically be italicized and treated as math variables;&lt;br&gt;if you want actual text in the math, use &lt;code&gt;\\text{}&lt;/code&gt;\nEw: &lt;code&gt;Treatment = \\beta&lt;/code&gt; &lt;br&gt;Good: &lt;code&gt;\\text{Treatment} = \\beta&lt;/code&gt;\nEw: \\(Treatment = \\beta\\)&lt;br&gt;Good: \\(\\text{Treatment} = \\beta\\)\n\n\nExtra spaces will automatically be removed; if you want a space, use &lt;code&gt;\\ &lt;/code&gt;\nNo space: &lt;code&gt;x y&lt;/code&gt; &lt;br&gt; Space: &lt;code&gt;x\\ y&lt;/code&gt;\nNo space: \\(x y\\) &lt;br&gt;Space: \\(x \\ y\\)\n\n\nSuperscripts and subscripts\n\n\nUse &lt;code&gt;^&lt;/code&gt; to make one character superscripted.\n&lt;code&gt;x^2&lt;/code&gt;\n\\(x^2\\)\n\n\nWrap the superscripted part in &lt;code&gt;{}&lt;/code&gt; if there's more than one character\n&lt;code&gt;x^{2+y}&lt;/code&gt;\n\\(x^{2+y}\\)\n\n\nUse &lt;code&gt;_&lt;/code&gt; to make one character subscripted\n&lt;code&gt;\\beta_1&lt;/code&gt;\n\\(\\beta_1\\)\n\n\nWrap the subscripted part in &lt;code&gt;{}&lt;/code&gt; if there's more than one character\n&lt;code&gt;\\beta_{i, t}&lt;/code&gt;\n\\(\\beta_{i, t}\\)\n\n\nUse superscripts and subscripts simultaneously\n&lt;code&gt;\\beta_1^{\\text{Treatment}}&lt;/code&gt;\n\\(\\beta_1^{\\text{Treatment}}\\)\n\n\nYou can even nest them\n&lt;code&gt;x^{2^{2^2}}&lt;/code&gt;\n\\(x^{2^{2^2}}\\)\n\n\nMath operations\n\n\nAddition\n&lt;code&gt;2 + 5 = 7&lt;/code&gt;\n\\(2 + 5 = 7\\)\n\n\nSubtraction\n&lt;code&gt;2 - 5 = -3&lt;/code&gt;\n\\(2 + 5 = -3\\)\n\n\nMultiplication\n&lt;code&gt;x \\times y&lt;/code&gt; &lt;br&gt; &lt;code&gt;x \\cdot y&lt;/code&gt;\n\\(x \\times y\\) &lt;br&gt; \\(x \\cdot y\\)\n\n\nDivision\n&lt;code&gt;8 \\div 2&lt;/code&gt;\n\\(8 \\div 2\\)\n\n\nFractions\n&lt;code&gt;\\frac{8}{2}&lt;/code&gt;\n\\(\\frac{8}{2}\\)\n\n\nSquare roots; use &lt;code&gt;[3]&lt;/code&gt; for other roots\n&lt;code&gt;\\sqrt{81} = 9&lt;/code&gt; &lt;br&gt; &lt;code&gt;\\sqrt[3]{27} = 3&lt;/code&gt;\n\\(\\sqrt{81} = 9\\) &lt;br&gt; \\(\\sqrt[3]{27} = 3\\)\n\n\nSummation; use sub/superscripts for extra details\n&lt;code&gt;\\sum x&lt;/code&gt; &lt;br&gt; &lt;code&gt;\\sum_{n=1}^{\\infty} \\frac{1}{n}&lt;/code&gt;\n\\(\\sum x\\) &lt;br&gt; \\(\\sum_{n=1}^{\\infty} \\frac{1}{n}\\)\n\n\nProducts; use sub/superscripts for extra details\n&lt;code&gt;\\prod x&lt;/code&gt; &lt;br&gt; &lt;code&gt;\\prod_{n=1}^{5} n^2&lt;/code&gt;\n\\(\\prod x\\) &lt;br&gt; \\(\\prod_{n=1}^{5} n^2\\)\n\n\nIntegrals; use sub/superscripts for extra details\n&lt;code&gt;\\int x^2 \\ dx&lt;/code&gt; &lt;br&gt; &lt;code&gt;\\int_{1}^{100} x^2 \\ dx&lt;/code&gt;\n\\(\\int x^2 \\ dx\\) &lt;br&gt; \\(\\int_{1}^{100} x^2 \\ dx\\)\n\n\nExtra symbols\n\n\nAdd a bar for things like averages\n&lt;code&gt;\\bar{x}&lt;/code&gt;\n\\(\\bar{x}\\)\n\n\nUse an overline for longer things\nEw: &lt;code&gt;\\bar{abcdef}&lt;/code&gt; &lt;br&gt; Good: &lt;code&gt;\\overline{abcdef}&lt;/code&gt;\nEw: \\(\\bar{abcdef}\\) &lt;br&gt; Good: \\(\\overline{abcdef}\\)\n\n\nAdd a hat for things like estimates\n&lt;code&gt;\\hat{y}&lt;/code&gt;\n\\(\\hat{y}\\)\n\n\nUse a wide hat for longer things\nEw: &lt;code&gt;\\hat{abcdef}&lt;/code&gt; &lt;br&gt; Good: &lt;code&gt;\\widehat{abcdef}&lt;/code&gt;\nEw: \\(\\hat{abcdef}\\) &lt;br&gt; Good: \\(\\widehat{abcdef}\\)\n\n\nUse arrows for DAG-like things\n&lt;code&gt;Z \\rightarrow Y \\leftarrow X&lt;/code&gt;\n\\(Z \\rightarrow Y \\leftarrow X\\)\n\n\nBonus fun\n\n\nUse colors!; see &lt;a href='https://www.overleaf.com/learn/latex/Using_colours_in_LaTeX'&gt;here&lt;/a&gt; for more details and &lt;a href='https://www.overleaf.com/learn/latex/Using_colours_in_LaTeX#Reference_guide'&gt;here&lt;/a&gt; for a list of color names\n&lt;code&gt;\\color{red}{y} = \\color{blue}{\\beta_1 x_1}&lt;/code&gt;\n\\(\\color{red}{y}\\ \\color{black}{=}\\ \\color{blue}{\\beta_1 x_1}\\)\n\n\n\n\n\n\n\n\n\nUsing math inline\nYou can use math in two different ways: inline or in a display block. To use math inline, wrap it in single dollar signs, like $y = mx + b$:\n\n\n\n\n\n\n\n\nType…\n\n\n…to get\n\n\n\n\n\n\nBased on the DAG, the regression model for\nestimating the effect of education on wages\nis $\\hat{y} = \\beta_0 + \\beta_1 x_1 + \\epsilon$, \nor $\\text{Wages} = \\beta_0 + \n\\beta_1 \\text{Education} + \\epsilon$.\n\n\nBased on the DAG, the regression model for estimating the effect of education on wages is \\(\\hat{y} = \\beta_0 + \\beta_1 x_1 + \\epsilon\\), or \\(\\text{Wages} = \\beta_0 + \\beta_1 \\text{Education} + \\epsilon\\).\n\n\n\n\n\n\nUsing math in a block\nTo put an equation on its own line in a display block, wrap it in double dollar signs, like this:\nType…\nThe quadratic equation was a way to solve for $x$ in high school math:\n\n$$\nx = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}\n$$\n…to get…\n\nThe quadratic equation was a way to solve for \\(x\\) in high school math:\n\\[\nx = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}\n\\]\n\n\n\n\nDollar signs and math\nBecause dollar signs are used to indicate math equations, you can’t just use dollar signs like normal if you’re writing about actual dollars. For instance, if you write This book costs $5.75 and this other costs $40, Markdown will treat everything that comes between the dollar signs as math, like so: “This book costs \\($5.75 and this other costs $40\\)”.\nTo get around that, put a backslash (\\) in front of the dollar signs, so that This book costs \\$5.75 and this other costs \\$40 becomes “This book costs $5.75 and this other costs $40”.",
+    "crumbs": [
+      "Resources",
+      "Guides",
+      "Using Markdown"
+    ]
+  },
+  {
+    "objectID": "resource/markdown.html#tables",
+    "href": "resource/markdown.html#tables",
+    "title": "Using Markdown",
+    "section": "Tables",
+    "text": "Tables\nThere are 4 different ways to hand-create tables in Markdown—I say “hand-create” because it’s normally way easier to use R to generate these things with packages like kableExtra (use kable()) or pander (use pandoc.table()). The two most common are simple tables and pipe tables. You should look at the full documentation here.\nFor simple tables, type…\n  Right     Left     Center     Default\n-------     ------ ----------   -------\n     12     12        12            12\n    123     123       123          123\n      1     1          1             1\n\nTable: Caption goes here\n…to get…\n\nCaption goes here\n\n\nRight\nLeft\nCenter\nDefault\n\n\n\n\n12\n12\n12\n12\n\n\n123\n123\n123\n123\n\n\n1\n1\n1\n1\n\n\n\nFor pipe tables, type…\n| Right | Left | Default | Center |\n|------:|:-----|---------|:------:|\n|   12  |  12  |    12   |    12  |\n|  123  |  123 |   123   |   123  |\n|    1  |    1 |     1   |     1  |\n\nTable: Caption goes here\n…to get…\n\nCaption goes here\n\n\nRight\nLeft\nDefault\nCenter\n\n\n\n\n12\n12\n12\n12\n\n\n123\n123\n123\n123\n\n\n1\n1\n1\n1",
+    "crumbs": [
+      "Resources",
+      "Guides",
+      "Using Markdown"
+    ]
+  },
+  {
+    "objectID": "resource/markdown.html#footnotes",
+    "href": "resource/markdown.html#footnotes",
+    "title": "Using Markdown",
+    "section": "Footnotes",
+    "text": "Footnotes\nThere are two different ways to add footnotes (see here for complete documentation): regular and inline.\nRegular notes need (1) an identifier and (2) the actual note. The identifier can be whatever you want. Some people like to use numbers like [^1], but if you ever rearrange paragraphs or add notes before #1, the numbering will be wrong (in your Markdown file, not in the output; everything will be correct in the output). Because of that, I prefer to use some sort of text label:\nType…\nHere is a footnote reference[^1] and here is another [^note-on-dags].\n\n[^1]: This is a note.\n\n[^note-on-dags]: DAGs are neat. \n\nAnd here's more of the document.\n…to get…\n\nHere is a footnote reference1 and here is another.2\nAnd here’s more of the document.\n\n\n\n\n\nThis is a note.↩︎\n\n\n\n\nDAGs are neat.↩︎\n\n\n\n\n\n\nYou can also use inline footnotes with ^[Text of the note goes here], which are often easier because you don’t need to worry about identifiers:\nType…\nCausal inference is neat.^[But it can be hard too!]\n…to get…\n\nCausal inference is neat.1\n\n\n\n\n\nBut it can be hard too!↩︎",
+    "crumbs": [
+      "Resources",
+      "Guides",
+      "Using Markdown"
+    ]
+  },
+  {
+    "objectID": "resource/markdown.html#front-matter",
+    "href": "resource/markdown.html#front-matter",
+    "title": "Using Markdown",
+    "section": "Front matter",
+    "text": "Front matter\nYou can include a special section at the top of a Markdown document that contains metadata (or data about your document) like the title, date, author, etc. This section uses a special simple syntax named YAML (or “YAML Ain’t Markup Language”) that follows this basic outline: setting: value for setting. Here’s an example YAML metadata section. Note that it must start and end with three dashes (---).\n---\ntitle: Title of your document\ndate: \"January 13, 2020\"\nauthor: \"Your name\"\n---\nYou can put the values inside quotes (like the date and name in the example above), or you can leave them outside of quotes (like the title in the example above). I typically use quotes just to be safe—if the value you’re using has a colon (:) in it, it’ll confuse Markdown since it’ll be something like title: My cool title: a subtitle, which has two colons. It’s better to do this:\n---\ntitle: \"My cool title: a subtitle\"\n---\nIf you want to use quotes inside one of the values (e.g. your document is An evaluation of \"scare quotes\"), you can use single quotes instead:\n---\ntitle: 'An evaluation of \"scare quotes\"'\n---",
+    "crumbs": [
+      "Resources",
+      "Guides",
+      "Using Markdown"
+    ]
+  },
+  {
+    "objectID": "resource/markdown.html#citations",
+    "href": "resource/markdown.html#citations",
+    "title": "Using Markdown",
+    "section": "Citations",
+    "text": "Citations\nOne of the most powerful features of Markdown + pandoc is the ability to automatically cite things and generate bibliographies. to use citations, you need to create a BibTeX file (ends in .bib) that contains a database of the things you want to cite. You can do this with bibliography managers designed to work with BibTeX directly (like BibDesk on macOS), or you can use Zotero (macOS and Windows) to export a .bib file. You can download an example .bib file of all the readings from this class here.\nComplete details for using citations can be found here. In brief, you need to do three things:\n\nAdd a bibliography: entry to the YAML metadata:\n---\ntitle: Title of your document\ndate: \"January 13, 2020\"\nauthor: \"Your name\"\nbibliography: name_of_file.bib\n---\nChoose a citation style based on a CSL file. The default is Chicago author-date, but you can choose from 2,000+ at this repository. Download the CSL file, put it in your project folder, and add an entry to the YAML metadata (or provide a URL to the online version):\n---\ntitle: Title of your document\ndate: \"January 13, 2020\"\nauthor: \"Your name\"\nbibliography: name_of_file.bib\ncsl: \"https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl\"\n---\nSome of the most common CSLs are:\n\nChicago author-date\nChicago note-bibliography\nChicago full note-bibliography (no shortened notes or ibids)\nAPA 7th edition\nMLA 8th edition\n\nCite things in your document. Check the documentation for full details of how to do this. Essentially, you use @citationkey inside square brackets ([]):\n\n\n\n\n\n\n\n\nType…\n…to get…\n\n\n\n\nCausal inference is neat [@Rohrer:2018;\n@AngristPischke:2015].\nCausal inference is neat (Rohrer:2018?; AngristPischke:2015?).\n\n\nCausal inference is neat [see @Rohrer:2018,\np. 34; also @AngristPischke:2015, chapter 1]\nCausal inference is neat (see Rohrer:2018?; also AngristPischke:2015?)\n\n\nAngrist and Pischke say causal inference\nis neat [-@AngristPischke:2015; see also\n@Rohrer:2018].\nAngrist and Pischke say causal inference is neat (AngristPischke:2015?; see also Rohrer:2018?).\n\n\n@AngristPischke:2015 [chapter 1] say causal\ninference is neat, and @Rohrer:2018 agrees.\n(AngristPischke:2015?) say causal inference is neat, and (Rohrer:2018?) agrees.\n\n\n\nAfter compiling, you should have a perfectly formatted bibliography added to the end of your document too:\n\nAngrist, Joshua D., and Jörn-Steffen Pischke. 2015. Mastering ’Metrics: The Path from Cause to Effect. Princeton, NJ: Princeton University Press.\nRohrer, Julia M. 2018. “Thinking Clearly About Correlations and Causation: Graphical Causal Models for Observational Data.” Advances in Methods and Practices in Psychological Science 1 (1): 27–42. https://doi.org/10.1177/2515245917745629.",
+    "crumbs": [
+      "Resources",
+      "Guides",
+      "Using Markdown"
+    ]
+  },
+  {
+    "objectID": "resource/markdown.html#other-references",
+    "href": "resource/markdown.html#other-references",
+    "title": "Using Markdown",
+    "section": "Other references",
+    "text": "Other references\nThese websites have additional details and examples and practice tools:\n\nCommonMark’s Markdown tutorial: A quick interactive Markdown tutorial.\nMarkdown tutorial: Another interactive tutorial to practice using Markdown.\nMarkdown cheatsheet: Useful one-page reminder of Markdown syntax.\nThe Plain Person’s Guide to Plain Text Social Science: A comprehensive explanation and tutorial about why you should write data-based reports in Markdown.",
+    "crumbs": [
+      "Resources",
+      "Guides",
+      "Using Markdown"
+    ]
+  },
+  {
+    "objectID": "resource/unzipping.html",
+    "href": "resource/unzipping.html",
+    "title": "Unzipping files",
+    "section": "",
+    "text": "Because RStudio projects typically consist of multiple files (R scripts, datasets, graphical output, etc.) the easiest way to distribute them to you for examples, assignments, and projects is to combine all the different files in to a single compressed collection called a zip file. When you unzip a zipped file, your operating system extracts all the files that are contained inside into a new folder on your computer.\nUnzipping files on macOS is trivial, but unzipping files on Windows can mess you up if you don’t pay careful attention. Here’s a helpful guide to unzipping files on both macOS and Windows."
+  },
+  {
+    "objectID": "resource/unzipping.html#unzipping-files-on-macos",
+    "href": "resource/unzipping.html#unzipping-files-on-macos",
+    "title": "Unzipping files",
+    "section": "Unzipping files on macOS",
+    "text": "Unzipping files on macOS\nDouble click on the downloaded .zip file. macOS will automatically create a new folder with the same name as the .zip file, and all the file’s contents will be inside. Double click on the RStudio Project file (.Rproj) to get started."
+  },
+  {
+    "objectID": "resource/unzipping.html#unzipping-files-on-windows",
+    "href": "resource/unzipping.html#unzipping-files-on-windows",
+    "title": "Unzipping files",
+    "section": "Unzipping files on Windows",
+    "text": "Unzipping files on Windows\ntl;dr: Right click on the .zip file, select “Extract All…”, and work with the resulting unzipped folder.\nUnlike macOS, Windows does not automatically unzip things for you. If you double click on the .zip file, Windows will show you what’s inside, but it will do so without actually extracting anything. This can be is incredibly confusing! Here’s what it looks like—the only clues that this folder is really a .zip file are that there’s a “Compressed Folder Tools” tab at the top, and there’s a “Ratio” column that shows how much each file is compressed.\n\n\n\n\n\n\n\n\n\nIt is very tempting to try to open files from this view. However, if you do, things will break and you won’t be able to correctly work with any of the files in the zipped folder. If you open the R Project file, for instance, RStudio will point to a bizarre working directory buried deep in some temporary folder:\n\n\n\n\n\n\n\n\n\nYou most likely won’t be able to open any data files or save anything, which will be frustrating.\nInstead, you need to right click on the .zip file and select “Extract All…”:\n\n\n\n\n\n\n\n\n\nThen choose where you want to unzip all the files and click on “Extract”\n\n\n\n\n\n\n\n\n\nYou should then finally have a real folder with all the contents of the zipped file. Open the R Project file and RStudio will point to the correct working directory and everything will work."
   },
   {
     "objectID": "resource/rmarkdown.html",
