@@ -1,0 +1,447 @@
+---
+title: "week 5: integers and other monsters"
+subtitle: "counts"
+format: 
+  revealjs:
+    css: xaringan-themer2.css
+    nature:
+      highlightStyle: solarized-dark
+      highlightLines: true
+      countIncrementalSlides: false
+      mathjax: "default"
+    self-contained: false  # Ensures correct embedding
+    embed-resources: true  # Embeds required assets
+    slide-number: true
+    code-annotations: hover
+execute:
+  echo: false        
+---
+
+```{r, message = F, warning = F}
+library(tidyverse)
+library(psych)
+library(cowplot)
+library(patchwork)
+library(here)
+library(brms) 
+library(tidybayes) 
+```
+
+```{r, echo = F}
+knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
+theme_set(theme_cowplot())
+default_palettes <- list(
+  c("#1c5253" , "#e07a5f") ,
+  c("#1c5253" , "#5e8485" , "#0f393a") , 
+  # palette with 5 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" ) ,
+  # same palette interpolated to 8 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" ) 
+  
+)
+
+options(ggplot2.discrete.fill = default_palettes, 
+        ggplot2.discrete.colour = default_palettes)
+```
+
+## populations and tools
+
+```{r}
+#| code-fold: true
+library(ggdag)
+
+dag_coords <-
+  tibble(name = c("C", "P", "L", "T"),
+         x    = c(1, 1, 2, 2),
+         y    = c(2, 1, 2, 1))
+
+dagify(C ~ L + P,
+       P ~ L,
+       T ~ C + L + P,
+       coords = dag_coords) %>%
+  
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
+  geom_dag_point(aes(color = name == "D"),
+                 alpha = 1/2, size = 6.5, show.legend = F) +
+  geom_point(x = 2, y = 1, 
+             size = 6.5, shape = 1, stroke = 1, color = "orange") +
+  geom_dag_text(color = "black") +
+  geom_dag_edges() +
+  scale_color_manual(values = c("#1c5253", "orange")) +
+  scale_x_continuous(NULL, breaks = NULL, expand = c(.1, .1)) +
+  scale_y_continuous(NULL, breaks = NULL, expand = c(.1, .1))
+```
+
+---
+
+### counts are poisson distributed
+
+\begin{align*}
+Y_i &\sim \text{Poisson}(\lambda_i) \\
+\text{log}(\lambda_i) &= \alpha + \beta x_i \\
+\lambda_i &= \text{exp}(\alpha + \beta x_i)
+\end{align*}
+
+You'll need to be careful about your priors.
+
+---
+
+\begin{align*}
+\text{log}(\lambda_i) &= \alpha  \\
+\alpha &\sim \text{Normal}(0,10)
+\end{align*}
+
+Simulate this:
+
+```{r}
+#| code-fold: true
+n_sim = 1e4
+alpha_prior = rnorm(n_sim, 0, 10)
+lambda_prior = exp(alpha_prior)
+count_prior = rpois(n_sim, lambda_prior)
+range(count_prior)
+mean(count_prior)
+data.frame(count = count_prior) %>% 
+  ggplot(aes(x = count)) +
+  geom_density() +
+  scale_x_continuous(limits = c(0, 100))
+```
+
+---
+
+\begin{align*}
+\text{log}(\lambda_i) &= \alpha  \\
+\alpha &\sim \text{Normal}(3,.5)
+\end{align*}
+
+Simulate this:
+
+```{r}
+#| code-fold: true
+n_sim = 1e4
+alpha_prior = rnorm(n_sim, 3, .5)
+lambda_prior = exp(alpha_prior)
+count_prior = rpois(n_sim, lambda_prior)
+range(count_prior)
+mean(count_prior)
+data.frame(count = count_prior) %>% 
+  ggplot(aes(x = count)) +
+  geom_density() +
+  scale_x_continuous(limits = c(0, 100))
+```
+
+---
+
+## example
+
+```{r}
+data(Kline, package = "rethinking")
+Kline <- Kline
+Kline
+```
+
+---
+
+```{r}
+Kline = Kline %>% 
+  mutate(
+    P = log(population),
+    contact_id = ifelse( contact == "high", 2, 1)
+  )
+```
+
+Intercept only model
+
+```{r}
+m1 <- brm(
+  data = Kline, 
+  family = poisson,
+  total_tools ~ 1, 
+  prior = c( prior( normal(3, 0.5), class = Intercept) ),
+  iter = 2000, warmup = 1000, chains = 4, cores = 4, 
+  seed = 11,
+  file = here("files/data/generated_data/m52.1")
+)
+```
+
+---
+
+
+```{r}
+Kline = Kline %>% 
+  mutate(
+    P = log(population),
+    contact_id = ifelse( contact == "high", 2, 1)
+  )
+```
+
+Interaction  model
+
+```{r}
+m2 <- brm(
+  data = Kline, 
+  family = poisson,
+  bf(total_tools ~ a + b*P, 
+     a + b ~ 0 + contact,
+     nl = TRUE), 
+  prior = c( prior( normal(3, 0.5), nlpar = a),
+             prior( normal(0, 0.2), nlpar = b)),
+  iter = 2000, warmup = 1000, chains = 4, cores = 4, 
+  seed = 11,
+  file = here("files/data/generated_data/m52.2")
+)
+```
+
+---
+
+```{r}
+m1
+```
+
+---
+
+```{r}
+m2
+```
+
+
+---
+
+### What do these mean?
+
+Once we've moved outside of the Gaussian distribution, your best bet is to push everything back through the posterior. Do NOT try and evaluate the model estimates. 
+
+```{r}
+
+nd <- data.frame(P = 1) # intercept only model
+
+epred_draws(object = m1, newdata = nd) %>% 
+  median_qi
+```
+
+---
+
+```{r}
+
+nd <-
+  distinct(Kline, contact) %>% 
+  expand_grid(P = seq(from = min(Kline$P), 
+                            to=max(Kline$P), 
+                            length.out = 100))
+
+f2 <- epred_draws(object = m2, newdata = nd) %>% 
+  group_by(contact, P) %>% 
+  median_qi
+
+f2
+```
+---
+
+```{r}
+f2 %>% 
+  ggplot(aes(x = P)) + 
+  geom_ribbon(aes(ymin = .lower, ymax = .upper, fill = contact), 
+              alpha = .3) +
+  geom_smooth(aes(y = .epred, color = contact)) +
+  geom_point(data = Kline, aes(y = total_tools, color = contact)) +
+  labs(x = "log population", y = "number of tools") 
+
+```
+
+---
+
+## compare
+
+```{r}
+m1  <- add_criterion(m1, "loo")
+m2 <- add_criterion(m2, "loo")
+
+loo_compare(m1, m2, criterion = "loo") %>% print(simplify = F)
+
+loo(m2) %>% loo::pareto_k_table()
+```
+
+---
+
+```{r}
+m2k = m2$criteria$loo$pointwise %>% 
+  as.data.frame() %>% 
+  mutate(culture = Kline$culture) %>% 
+  arrange(desc(influence_pareto_k)) %>% 
+  mutate_if(is.double, round, digits = 2)
+m2k
+```
+
+---
+
+Adding these to our plot:
+
+```{r}
+#| code-fold: true
+m2k = m2k %>% full_join(Kline)
+library(ggrepel)
+f2 %>% 
+  ggplot(aes(x = P)) + 
+  geom_ribbon(aes(ymin = .lower, ymax = .upper, fill = contact), 
+              alpha = .3) +
+  geom_smooth(aes(y = .epred, color = contact)) +
+  geom_point(data = m2k, 
+             aes(y = total_tools, 
+                 size = influence_pareto_k,
+                 color = contact)) +
+  geom_text_repel(data = m2k, 
+             aes(y = total_tools,
+                 label = culture)) +
+  guides(size = "none") +
+  labs(x = "log population", y = "number of tools") +
+  theme(legend.position = "top")
+
+```
+
+---
+
+Natural scale
+
+```{r}
+#| code-fold: true
+m2k = m2k %>% full_join(Kline)
+library(ggrepel)
+f2 %>% 
+  ggplot(aes(x = P)) + 
+  geom_ribbon(aes(ymin = .lower, ymax = .upper, fill = contact), 
+              alpha = .3) +
+  geom_smooth(aes(y = .epred, color = contact)) +
+  geom_point(data = m2k, 
+             aes(y = total_tools, 
+                 size = influence_pareto_k,
+                 color = contact)) +
+  geom_text_repel(data = m2k, 
+             aes(y = total_tools,
+                 label = culture)) +
+  scale_x_continuous(trans = "exp",
+                     breaks = log(c(0, 50000, 150000, 250000)),
+                     labels = c(0, 50000, 150000, 250000)) +
+  guides(size = "none") +
+  labs(x = "population", y = "number of tools") +
+  theme(legend.position = "top")
+
+```
+
+
+---
+
+## exercise
+
+The data in `data(Primates301)` are 301 primate species and associated measures. Model the number of observations of social_learning for each species as a function of the log brain size. Use a Poisson distribution for the `social_learning` outcome variable. Interpret the resulting posterior. 
+
+---
+
+### solution
+
+```{r}
+data(Primates301, package = "rethinking")
+d <- Primates301
+d$B <- log(d$brain)
+
+m4 <- brm(
+  data = d, 
+  family = poisson,
+  social_learning ~ 1 + B,
+  prior = c( prior( normal(3,.5), class = Intercept),
+             prior( normal(0, .1), class = b)),
+  iter = 2000, warmup = 1000, chains = 4, cores = 4, 
+  seed = 11,
+  file = here("files/data/generated_data/m52.4")
+)
+```
+
+---
+
+```{r}
+#| code-fold: true
+nd <- expand.grid(
+  B = seq(min(d$B, na.rm=T), max(d$B, na.rm=T), length = 100)
+)
+
+f4 <- epred_draws(m4, nd) %>% 
+  with_groups(B, median_qi, .epred)
+
+ggplot(f4, aes(x = B, y = .epred)) +
+  geom_ribbon(aes(ymin = .lower, ymax =.upper), alpha = .3) +
+  geom_line() +
+  geom_point(data = d, 
+             aes(y = social_learning), 
+             alpha = .3, 
+             color = "#1c5253") +
+  labs(x = "log brain size",
+       y = "social learning")
+```
+
+---
+
+```{r}
+#| code-fold: true
+
+
+ggplot(f4, aes(x = B, y = .epred)) +
+  geom_ribbon(aes(ymin = .lower, ymax =.upper), alpha = .3) +
+  geom_line() +
+  geom_point(data = d, 
+             aes(y = social_learning), 
+             alpha = .3, 
+             color = "#1c5253") +
+  scale_x_continuous(trans = "exp") +
+  labs(x = "brain size",
+       y = "social learning")
+```
+
+---
+
+Returning to the tools example, McElreath points to a theoretical issue with the plots. He proposes to solve this with a better representation of the relationship between tools and time.
+
+$$
+\Delta T = \alpha P^{\beta}-\gamma T
+$$
+
+   - $\Delta$ = change
+   - $\alpha$ = innovation rate
+   - $\beta$ = diminishing returns (elasticity)
+   - $\gamma$ = rate of loss
+
+In this case, both $\alpha$ and $\beta$ are moderated by contact. 
+
+If you solve for T:
+
+$$
+\hat{T} = \frac{\alpha_CP^{\beta_C}}{\gamma}
+$$
+
+---
+
+Note that in this case we're **not** using the log link function. Wild!
+This is because all our parameters must be positive. There are two ways to do this: the first is to use appropriate priors that constrain the parameters. This is nice for transparency, but computationally more difficult. The other option is to use the exponential function (see on `a`). This code does both.
+
+```{r}
+m3 <-
+  brm(data = Kline, 
+      family = poisson(link = "identity"),
+      bf(total_tools ~ exp(a) * P^b / g,
+         a + b ~ 0 + contact,
+         g ~ 1,
+         nl = TRUE),
+      prior = c(prior(normal(1, 1), nlpar = a),
+                prior(exponential(1), nlpar = b, lb = 0),
+                prior(exponential(1), nlpar = g, lb = 0)),
+      iter = 2000, warmup = 1000, chains = 4, cores = 4,
+      seed = 11,
+      control = list(adapt_delta = .85),
+      file = here("files/data/generated_data/m52.3"))
+```
+
+
+---
+
+### exercise
+
+Returning to the primate example: Some species are studied much more than others. So the number of reported instances of social_learning could be a product of research effort. Use the research_effort variable, specifically its logarithm, as an additional predictor variable. Interpret the coefficient for log research_effort. How does this model differ from the previous one? 
+

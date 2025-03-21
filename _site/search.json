@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "lectures/lecture05-2.html#populations-and-tools",
+    "href": "lectures/lecture05-2.html#populations-and-tools",
+    "title": "week 5: integers and other monsters",
+    "section": "populations and tools",
+    "text": "populations and tools\n\n\nCode\nlibrary(ggdag)\n\ndag_coords &lt;-\n  tibble(name = c(\"C\", \"P\", \"L\", \"T\"),\n         x    = c(1, 1, 2, 2),\n         y    = c(2, 1, 2, 1))\n\ndagify(C ~ L + P,\n       P ~ L,\n       T ~ C + L + P,\n       coords = dag_coords) %&gt;%\n  \n  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +\n  geom_dag_point(aes(color = name == \"D\"),\n                 alpha = 1/2, size = 6.5, show.legend = F) +\n  geom_point(x = 2, y = 1, \n             size = 6.5, shape = 1, stroke = 1, color = \"orange\") +\n  geom_dag_text(color = \"black\") +\n  geom_dag_edges() +\n  scale_color_manual(values = c(\"#1c5253\", \"orange\")) +\n  scale_x_continuous(NULL, breaks = NULL, expand = c(.1, .1)) +\n  scale_y_continuous(NULL, breaks = NULL, expand = c(.1, .1))"
+  },
+  {
+    "objectID": "lectures/lecture05-2.html#example",
+    "href": "lectures/lecture05-2.html#example",
+    "title": "week 5: integers and other monsters",
+    "section": "example",
+    "text": "example\n\ndata(Kline, package = \"rethinking\")\nKline &lt;- Kline\nKline\n\n      culture population contact total_tools mean_TU\n1    Malekula       1100     low          13     3.2\n2     Tikopia       1500     low          22     4.7\n3  Santa Cruz       3600     low          24     4.0\n4         Yap       4791    high          43     5.0\n5    Lau Fiji       7400    high          33     5.0\n6   Trobriand       8000    high          19     4.0\n7       Chuuk       9200    high          40     3.8\n8       Manus      13000     low          28     6.6\n9       Tonga      17500    high          55     5.4\n10     Hawaii     275000     low          71     6.6"
+  },
+  {
+    "objectID": "lectures/lecture05-2.html#compare",
+    "href": "lectures/lecture05-2.html#compare",
+    "title": "week 5: integers and other monsters",
+    "section": "compare",
+    "text": "compare\n\nm1  &lt;- add_criterion(m1, \"loo\")\nm2 &lt;- add_criterion(m2, \"loo\")\n\nloo_compare(m1, m2, criterion = \"loo\") %&gt;% print(simplify = F)\n\n   elpd_diff se_diff elpd_loo se_elpd_loo p_loo se_p_loo looic se_looic\nm2   0.0       0.0   -45.7      7.2         8.2   3.4     91.3  14.3   \nm1 -24.9      14.0   -70.6     16.9         7.9   3.5    141.2  33.7   \n\nloo(m2) %&gt;% loo::pareto_k_table()\n\nPareto k diagnostic values:\n                         Count Pct.    Min. ESS\n(-Inf, 0.7]   (good)     9     90.0%   232     \n   (0.7, 1]   (bad)      0      0.0%   &lt;NA&gt;    \n   (1, Inf)   (very bad) 1     10.0%   &lt;NA&gt;"
+  },
+  {
+    "objectID": "lectures/lecture05-2.html#exercise",
+    "href": "lectures/lecture05-2.html#exercise",
+    "title": "week 5: integers and other monsters",
+    "section": "exercise",
+    "text": "exercise\nThe data in data(Primates301) are 301 primate species and associated measures. Model the number of observations of social_learning for each species as a function of the log brain size. Use a Poisson distribution for the social_learning outcome variable. Interpret the resulting posterior."
+  }
+]
