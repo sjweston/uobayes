@@ -52,9 +52,6 @@ Here's your roadmap for the semester!
 
 - [**Assignment**](/assignment/) ({{< fa pen-ruler >}}): This page contains the instructions for each assignment. 
 
-::: {.callout-tip}
-
-
 
 ```{r build-table, include=FALSE}
 show_table <- function(group_id) {
@@ -80,4 +77,4 @@ show_table <- function(group_id) {
 walk(seq(1, nrow(schedule_nested)), ~show_table(.x))
 ```
 
-:::
+
