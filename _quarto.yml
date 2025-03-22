@@ -66,13 +66,44 @@ website:
           contents:
             - text: "1: Introduction to Bayesian Analysis"
               file: content/01-content.qmd
-            - text: "2: Linear models and causal inference"
+            - text: "2: Bayes as counting"
               file: content/02-content.qmd
-            - text: "3: Causes, Confounds, and Colliders"
+            - text: "3: Linear models"
               file: content/03-content.qmd
-            - text: "4: Overfitting/MCMC"
+            - text: "4: Categories"
               file: content/04-content.qmd
-
+            - text: "5: Causal modeling"
+              file: content/05-content.qmd
+            - text: "6: More causal modeling"
+              file: content/06-content.qmd
+            - text: "7: Good predictions"
+              file: content/07-content.qmd
+            - text: "8: MCMC"
+              file: content/08-content.qmd
+            - text: "9: Binomial regression"
+              file: content/09-content.qmd
+            - text: "10: Poisson regression"
+              file: content/10-content.qmd
+            - text: "11: Multinomial regression"
+              file: content/11-content.qmd
+            - text: "12: Multilevel models"
+              file: content/12-content.qmd
+            - text: "13: More multilevel models"
+              file: content/13-content.qmd  
+            - text: "14: Multivariate priors"
+              file: content/14-content.qmd
+            - text: "15: Social networks"
+              file: content/15-content.qmd
+            - text: "16: Gaussian processes"
+              file: content/16-content.qmd
+            - text: "17: Measurement"
+              file: content/17-content.qmd
+            - text: "18: Missing data"
+              file: content/18-content.qmd
+            - text: "19: Generalized linear models"
+              file: content/19-content.qmd
+            - text: "20: TBD"
+              file: content/20-content.qmd
     - title: "Assignments"
       contents:
         - section: "Overview"
