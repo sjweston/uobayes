@@ -1,8 +1,8 @@
 {
-  "hash": "503e2e982ec8d422c44cf80a5cb0611e",
+  "hash": "c16e0816d3ec3dd64b4eafe43a73c40d",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Problem set 1\"\ndate: \"2025-04-07\"\n---\n\n\n\n\n\n\n## Instructions\n\nPlease use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas. \n\n## Questions\n\n1. Suppose the globe tossing experiment turned out to be 3 water and 11 land. Construct the posterior distribution.\n\n2. Using the posterior distribution from **1**, compute the posterior predictive distribution for the next 5 tosses of the globe. \n\n",
+    "markdown": "---\ntitle: \"Problem set 1\"\ndate: \"2025-04-07\"\n---\n\n\n\n\n\n\n## Instructions\n\nPlease use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas. \n\n## Questions\n\n1. Suppose the globe tossing experiment turned out to be 3 water and 11 land. Construct the posterior distribution.\n\n2. Using the posterior distribution from **1**, compute the posterior predictive distribution for the next 5 tosses of the globe. \n\nYou can download a template file [here](ps1_template.Rmd) to help you get started.\n",
     "supporting": [
       "01-problem-set_files"
     ],

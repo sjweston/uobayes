@@ -17,3 +17,4 @@ Please use an RMarkdown file to complete this assignment. Make sure you reserve 
 
 2. Using the posterior distribution from **1**, compute the posterior predictive distribution for the next 5 tosses of the globe. 
 
+You can download a template file [here](ps1_template.Rmd) to help you get started.

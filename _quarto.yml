@@ -112,7 +112,16 @@ website:
         - section: "Problem sets"
           contents:
             - assignment/01-problem-set.qmd
-           
+            - assignment/02-problem-set.qmd
+            - assignment/03-problem-set.qmd
+            - assignment/04-problem-set.qmd
+            - assignment/05-problem-set.qmd
+            - assignment/06-problem-set.qmd
+            - assignment/07-problem-set.qmd
+            - assignment/08-problem-set.qmd
+            - assignment/09-problem-set.qmd
+            - assignment/10-problem-set.qmd
+            
     - title: "Examples"
       contents:
         - examples/index.qmd

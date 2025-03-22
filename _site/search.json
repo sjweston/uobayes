@@ -272,35 +272,231 @@
     "text": "Part 4: Getting familiar with R Markdown\nTo ensure that the analysis and graphics you make are reproducible, you’ll do the majority of your work in this class using R Markdown files.\nDo the following things:\n\nWatch this video:\n\n\n\n\n\n \n\nSkim through the content at these pages:\n\nUsing Markdown\nUsing R Markdown\nHow it Works\nCode Chunks\nInline Code\nMarkdown Basics (The R Markdown Reference Guide is super useful here.)\nOutput Formats"
   },
   {
-    "objectID": "resource/index.html",
-    "href": "resource/index.html",
-    "title": "Resources",
+    "objectID": "assignment/09-problem-set.html",
+    "href": "assignment/09-problem-set.html",
+    "title": "Problem set 9",
     "section": "",
-    "text": "I have included a bunch of extra resources and guides related to causal inference, program evaluation, R, data, and other relevant topics. Enjoy!",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 9"
+    ]
+  },
+  {
+    "objectID": "assignment/09-problem-set.html#instructions",
+    "href": "assignment/09-problem-set.html#instructions",
+    "title": "Problem set 9",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 9"
+    ]
+  },
+  {
+    "objectID": "assignment/09-problem-set.html#questions",
+    "href": "assignment/09-problem-set.html#questions",
+    "title": "Problem set 9",
+    "section": "Questions",
+    "text": "Questions\nTBD",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 9"
+    ]
+  },
+  {
+    "objectID": "assignment/07-problem-set.html",
+    "href": "assignment/07-problem-set.html",
+    "title": "Problem set 7",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 7"
+    ]
+  },
+  {
+    "objectID": "assignment/07-problem-set.html#instructions",
+    "href": "assignment/07-problem-set.html#instructions",
+    "title": "Problem set 7",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 7"
+    ]
+  },
+  {
+    "objectID": "assignment/07-problem-set.html#questions",
+    "href": "assignment/07-problem-set.html#questions",
+    "title": "Problem set 7",
+    "section": "Questions",
+    "text": "Questions\nTBD",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 7"
+    ]
+  },
+  {
+    "objectID": "assignment/05-problem-set.html",
+    "href": "assignment/05-problem-set.html",
+    "title": "Problem set 5",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 5"
+    ]
+  },
+  {
+    "objectID": "assignment/05-problem-set.html#instructions",
+    "href": "assignment/05-problem-set.html#instructions",
+    "title": "Problem set 5",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 5"
+    ]
+  },
+  {
+    "objectID": "assignment/05-problem-set.html#questions",
+    "href": "assignment/05-problem-set.html#questions",
+    "title": "Problem set 5",
+    "section": "Questions",
+    "text": "Questions\nTBD",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 5"
+    ]
+  },
+  {
+    "objectID": "assignment/03-problem-set.html",
+    "href": "assignment/03-problem-set.html",
+    "title": "Problem set 3",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 3"
+    ]
+  },
+  {
+    "objectID": "assignment/03-problem-set.html#instructions",
+    "href": "assignment/03-problem-set.html#instructions",
+    "title": "Problem set 3",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 3"
+    ]
+  },
+  {
+    "objectID": "assignment/03-problem-set.html#questions",
+    "href": "assignment/03-problem-set.html#questions",
+    "title": "Problem set 3",
+    "section": "Questions",
+    "text": "Questions\nTBD",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 3"
+    ]
+  },
+  {
+    "objectID": "assignment/01-problem-set.html",
+    "href": "assignment/01-problem-set.html",
+    "title": "Problem set 1",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 1"
+    ]
+  },
+  {
+    "objectID": "assignment/01-problem-set.html#instructions",
+    "href": "assignment/01-problem-set.html#instructions",
+    "title": "Problem set 1",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 1"
+    ]
+  },
+  {
+    "objectID": "assignment/01-problem-set.html#questions",
+    "href": "assignment/01-problem-set.html#questions",
+    "title": "Problem set 1",
+    "section": "Questions",
+    "text": "Questions\n\nSuppose the globe tossing experiment turned out to be 3 water and 11 land. Construct the posterior distribution.\nUsing the posterior distribution from 1, compute the posterior predictive distribution for the next 5 tosses of the globe.\n\nYou can download a template file here to help you get started.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 1"
+    ]
+  },
+  {
+    "objectID": "resource/r.html",
+    "href": "resource/r.html",
+    "title": "R",
+    "section": "",
+    "text": "I highly recommend subscribing to the R Weekly newsletter. This e-mail is sent every Monday and is full of helpful tutorials about how to do stuff with R.\nSearching for help with R on Google can sometimes be tricky because the program name is a single letter. Google is generally smart enough to figure out what you mean when you search for “r scatterplot”, but if it does struggle, try searching for “rstats” instead (e.g. “rstats scatterplot”).\nIf you use Twitter, post R-related questions and content with #rstats. The community there is exceptionally generous and helpful. Also check out StackOverflow (a Q&A site with hundreds of thousands of answers to all sorts of programming questions) and RStudio Community (a forum specifically designed for people using RStudio and the tidyverse (i.e. you)).\nThese resources are also really really helpful:\n\nR for Data Science: A free online book for learning the basics of R and the tidyverse.\nR and RStudio cheat sheets: A large collection of simple cheat sheets for RStudio, ggplot2, and other R-related things.\nStat 545: Dr. Jenny Bryan at RStudio has an entire introductory course in R, visualization, and data analysis online.\nSTA 112FS: Data Science: Dr. Mine Çetinkaya-Rundel at the University of Edinburgh / Duke University has an entire introductory course in R, visualization, and data science online.\nCSE 631: Principles & Practice of Data Visualization: Yet another introductory course for R and ggplot2 by Dr. Alison Presmanes Hill at RStudio."
+  },
+  {
+    "objectID": "resource/r.html#learning-r",
+    "href": "resource/r.html#learning-r",
+    "title": "R",
+    "section": "",
+    "text": "I highly recommend subscribing to the R Weekly newsletter. This e-mail is sent every Monday and is full of helpful tutorials about how to do stuff with R.\nSearching for help with R on Google can sometimes be tricky because the program name is a single letter. Google is generally smart enough to figure out what you mean when you search for “r scatterplot”, but if it does struggle, try searching for “rstats” instead (e.g. “rstats scatterplot”).\nIf you use Twitter, post R-related questions and content with #rstats. The community there is exceptionally generous and helpful. Also check out StackOverflow (a Q&A site with hundreds of thousands of answers to all sorts of programming questions) and RStudio Community (a forum specifically designed for people using RStudio and the tidyverse (i.e. you)).\nThese resources are also really really helpful:\n\nR for Data Science: A free online book for learning the basics of R and the tidyverse.\nR and RStudio cheat sheets: A large collection of simple cheat sheets for RStudio, ggplot2, and other R-related things.\nStat 545: Dr. Jenny Bryan at RStudio has an entire introductory course in R, visualization, and data analysis online.\nSTA 112FS: Data Science: Dr. Mine Çetinkaya-Rundel at the University of Edinburgh / Duke University has an entire introductory course in R, visualization, and data science online.\nCSE 631: Principles & Practice of Data Visualization: Yet another introductory course for R and ggplot2 by Dr. Alison Presmanes Hill at RStudio."
+  },
+  {
+    "objectID": "resource/r.html#r-in-the-wild",
+    "href": "resource/r.html#r-in-the-wild",
+    "title": "R",
+    "section": "R in the wild",
+    "text": "R in the wild\nA popular (and increasingly standard) way for sharing your analyses and visualizations is to post an annotated explanation of your process somewhere online. RStudio allows you to publish knitted HTML files directly to RPubs, but you can also post your output to a blog or other type of website.1 Reading these kinds of posts is one of the best ways to learn R, since they walk you through each step of the process and show the code and output.\nHere are some of the best examples I’ve come across:\n\nText analysis of Trump’s tweets confirms he writes only the (angrier) Android half (with a follow-up)\nBob Ross - Joy of Painting\nBechdel analysis using the tidyverse: There are also a bunch of other examples using data from FiveThirtyEight.\nSexism on the Silver Screen: Exploring film’s gender divide\nComparison of Quentin Tarantino Movies by Box Office and the Bechdel Test\nWho came to vote in Utah’s caucuses?\nHealth care indicators in Utah counties\nSong lyrics across the United States\nA decade (ish) of listening to Sigur Rós\nWhen is Tom peeping these days?: There are a also bunch of final projects from other R and data visualization classes here and here.\nMapping Fall Foliage\nGeneral (Attys) Distributions\nDisproving Approval"
+  },
+  {
+    "objectID": "resource/r.html#footnotes",
+    "href": "resource/r.html#footnotes",
+    "title": "R",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nIf you want to be really fancy, you can use blogdown, which makes a complete website with R Markdown files. That’s actually how this site is built (see the source code). You can build your own site with this tutorial.↩︎"
+  },
+  {
+    "objectID": "resource/data.html",
+    "href": "resource/data.html",
+    "title": "Data",
+    "section": "",
+    "text": "There are a ton of places to find data related to public policy and administration (as well as data on pretty much any topic you want) online:\n\nData is Plural newsletter: Jeremy Singer-Vine sends a weekly newsletter of the most interesting public datasets he’s found. You should subscribe to it. He also has an archive of all the datasets he’s highlighted.\nGoogle Dataset Search: Google indexes thousands of public datasets; search for them here.\nKaggle: Kaggle hosts machine learning competitions where people compete to create the fastest, most efficient, most predictive algorithms. A byproduct of these competitions is a host of fascinating datasets that are generally free and open to the public. See, for example, the European Soccer Database, the Salem Witchcraft Dataset or results from an Oreo flavors taste test.\n360Giving: Dozens of British foundations follow a standard file format for sharing grant data and have made that data available online.\nUS City Open Data Census: More than 100 US cities have committed to sharing dozens of types of data, including data about crime, budgets, campaign finance, lobbying, transit, and zoning. This site from the Sunlight Foundation and Code for America collects this data and rates cities by how well they’re doing.\nPolitical science and economics datasets: There’s a wealth of data available for political science- and economics-related topics:\n\nFrançois Briatte’s extensive curated lists: Includes data from/about intergovernmental organizations (IGOs), nongovernmental organizations (NGOs), public opinion surveys, parliaments and legislatures, wars, human rights, elections, and municipalities.\nThomas Leeper’s list of political science datasets: Good short list of useful datasets, divided by type of data (country-level data, survey data, social media data, event data, text data, etc.).\nErik Gahner’s list of political science datasets: Huge list of useful datasets, divided by topic (governance, elections, policy, political elites, etc.)",
     "crumbs": [
       "Resources",
       "Overview",
-      "Resources"
+      "Data"
     ]
   },
   {
-    "objectID": "resource/citations.html",
-    "href": "resource/citations.html",
-    "title": "Citations and bibliography",
+    "objectID": "example/index.html",
+    "href": "example/index.html",
+    "title": "Code examples",
     "section": "",
-    "text": "You can download a BibTeX file of all the non-web-based readings in the course:\n\n references.bib\n\nYou can open the file in BibDesk on macOS, JabRef on Windows, or Zotero or Mendeley online."
-  },
-  {
-    "objectID": "content/index.html",
-    "href": "content/index.html",
-    "title": "Readings, lectures, and videos",
-    "section": "",
-    "text": "Each class session has one or two videos that you should watch before coming to class. These videos are the lectures recorded by Richard McElreath.\nThe in-class lecture slides are special HTML files made with the R package xaringan (R can do so much!). On each class session page you’ll see buttons for opening the presentation in a new tab or for downloading a PDF of the slides in case you want to print them or store them on your computer:\n\n View all slides in new window  Download PDF of all slides\n\nThe slides are also embedded on each page. You can click in the slides and navigate through them with ← and →. If you type ? (or shift + /) while viewing the slides you can see a list of slide-specific commands (like f for fullscreen or p for presenter mode if you want to see my notes).\nI will note for each set of lecture slides which chapters in the 2nd edition of the McElreath book correspond with that day’s lesson. However, many of the functions we use – especially starting in week 4 – will not be from McElreath’s materials, but instead from the brms and tidybayes packages.",
-    "crumbs": [
-      "Content",
-      "Overview",
-      "Readings, lectures, and videos"
-    ]
+    "text": "Visit this section after you have finished the readings and lecture videos. It contains fully annotated R code and other supplementary information and it will be indispensable as you work on your problem sets and project.\nMany sections also contain videos of me live coding the examples so you can see what it looks like to work with R in real time. You’ll notice me make all sorts of little errors, which is totally normal—everyone does!"
   },
   {
     "objectID": "assignment/index.html",
@@ -339,86 +535,214 @@
     ]
   },
   {
-    "objectID": "example/index.html",
-    "href": "example/index.html",
-    "title": "Code examples",
+    "objectID": "content/index.html",
+    "href": "content/index.html",
+    "title": "Readings, lectures, and videos",
     "section": "",
-    "text": "Visit this section after you have finished the readings and lecture videos. It contains fully annotated R code and other supplementary information and it will be indispensable as you work on your problem sets and project.\nMany sections also contain videos of me live coding the examples so you can see what it looks like to work with R in real time. You’ll notice me make all sorts of little errors, which is totally normal—everyone does!"
+    "text": "Each class session has one or two videos that you should watch before coming to class. These videos are the lectures recorded by Richard McElreath.\nThe in-class lecture slides are special HTML files made with the R package xaringan (R can do so much!). On each class session page you’ll see buttons for opening the presentation in a new tab or for downloading a PDF of the slides in case you want to print them or store them on your computer:\n\n View all slides in new window  Download PDF of all slides\n\nThe slides are also embedded on each page. You can click in the slides and navigate through them with ← and →. If you type ? (or shift + /) while viewing the slides you can see a list of slide-specific commands (like f for fullscreen or p for presenter mode if you want to see my notes).\nI will note for each set of lecture slides which chapters in the 2nd edition of the McElreath book correspond with that day’s lesson. However, many of the functions we use – especially starting in week 4 – will not be from McElreath’s materials, but instead from the brms and tidybayes packages.",
+    "crumbs": [
+      "Content",
+      "Overview",
+      "Readings, lectures, and videos"
+    ]
   },
   {
-    "objectID": "resource/data.html",
-    "href": "resource/data.html",
-    "title": "Data",
+    "objectID": "resource/citations.html",
+    "href": "resource/citations.html",
+    "title": "Citations and bibliography",
     "section": "",
-    "text": "There are a ton of places to find data related to public policy and administration (as well as data on pretty much any topic you want) online:\n\nData is Plural newsletter: Jeremy Singer-Vine sends a weekly newsletter of the most interesting public datasets he’s found. You should subscribe to it. He also has an archive of all the datasets he’s highlighted.\nGoogle Dataset Search: Google indexes thousands of public datasets; search for them here.\nKaggle: Kaggle hosts machine learning competitions where people compete to create the fastest, most efficient, most predictive algorithms. A byproduct of these competitions is a host of fascinating datasets that are generally free and open to the public. See, for example, the European Soccer Database, the Salem Witchcraft Dataset or results from an Oreo flavors taste test.\n360Giving: Dozens of British foundations follow a standard file format for sharing grant data and have made that data available online.\nUS City Open Data Census: More than 100 US cities have committed to sharing dozens of types of data, including data about crime, budgets, campaign finance, lobbying, transit, and zoning. This site from the Sunlight Foundation and Code for America collects this data and rates cities by how well they’re doing.\nPolitical science and economics datasets: There’s a wealth of data available for political science- and economics-related topics:\n\nFrançois Briatte’s extensive curated lists: Includes data from/about intergovernmental organizations (IGOs), nongovernmental organizations (NGOs), public opinion surveys, parliaments and legislatures, wars, human rights, elections, and municipalities.\nThomas Leeper’s list of political science datasets: Good short list of useful datasets, divided by type of data (country-level data, survey data, social media data, event data, text data, etc.).\nErik Gahner’s list of political science datasets: Huge list of useful datasets, divided by topic (governance, elections, policy, political elites, etc.)",
+    "text": "You can download a BibTeX file of all the non-web-based readings in the course:\n\n references.bib\n\nYou can open the file in BibDesk on macOS, JabRef on Windows, or Zotero or Mendeley online."
+  },
+  {
+    "objectID": "resource/index.html",
+    "href": "resource/index.html",
+    "title": "Resources",
+    "section": "",
+    "text": "I have included a bunch of extra resources and guides related to causal inference, program evaluation, R, data, and other relevant topics. Enjoy!",
     "crumbs": [
       "Resources",
       "Overview",
-      "Data"
+      "Resources"
     ]
   },
   {
-    "objectID": "resource/r.html",
-    "href": "resource/r.html",
-    "title": "R",
-    "section": "",
-    "text": "I highly recommend subscribing to the R Weekly newsletter. This e-mail is sent every Monday and is full of helpful tutorials about how to do stuff with R.\nSearching for help with R on Google can sometimes be tricky because the program name is a single letter. Google is generally smart enough to figure out what you mean when you search for “r scatterplot”, but if it does struggle, try searching for “rstats” instead (e.g. “rstats scatterplot”).\nIf you use Twitter, post R-related questions and content with #rstats. The community there is exceptionally generous and helpful. Also check out StackOverflow (a Q&A site with hundreds of thousands of answers to all sorts of programming questions) and RStudio Community (a forum specifically designed for people using RStudio and the tidyverse (i.e. you)).\nThese resources are also really really helpful:\n\nR for Data Science: A free online book for learning the basics of R and the tidyverse.\nR and RStudio cheat sheets: A large collection of simple cheat sheets for RStudio, ggplot2, and other R-related things.\nStat 545: Dr. Jenny Bryan at RStudio has an entire introductory course in R, visualization, and data analysis online.\nSTA 112FS: Data Science: Dr. Mine Çetinkaya-Rundel at the University of Edinburgh / Duke University has an entire introductory course in R, visualization, and data science online.\nCSE 631: Principles & Practice of Data Visualization: Yet another introductory course for R and ggplot2 by Dr. Alison Presmanes Hill at RStudio."
-  },
-  {
-    "objectID": "resource/r.html#learning-r",
-    "href": "resource/r.html#learning-r",
-    "title": "R",
-    "section": "",
-    "text": "I highly recommend subscribing to the R Weekly newsletter. This e-mail is sent every Monday and is full of helpful tutorials about how to do stuff with R.\nSearching for help with R on Google can sometimes be tricky because the program name is a single letter. Google is generally smart enough to figure out what you mean when you search for “r scatterplot”, but if it does struggle, try searching for “rstats” instead (e.g. “rstats scatterplot”).\nIf you use Twitter, post R-related questions and content with #rstats. The community there is exceptionally generous and helpful. Also check out StackOverflow (a Q&A site with hundreds of thousands of answers to all sorts of programming questions) and RStudio Community (a forum specifically designed for people using RStudio and the tidyverse (i.e. you)).\nThese resources are also really really helpful:\n\nR for Data Science: A free online book for learning the basics of R and the tidyverse.\nR and RStudio cheat sheets: A large collection of simple cheat sheets for RStudio, ggplot2, and other R-related things.\nStat 545: Dr. Jenny Bryan at RStudio has an entire introductory course in R, visualization, and data analysis online.\nSTA 112FS: Data Science: Dr. Mine Çetinkaya-Rundel at the University of Edinburgh / Duke University has an entire introductory course in R, visualization, and data science online.\nCSE 631: Principles & Practice of Data Visualization: Yet another introductory course for R and ggplot2 by Dr. Alison Presmanes Hill at RStudio."
-  },
-  {
-    "objectID": "resource/r.html#r-in-the-wild",
-    "href": "resource/r.html#r-in-the-wild",
-    "title": "R",
-    "section": "R in the wild",
-    "text": "R in the wild\nA popular (and increasingly standard) way for sharing your analyses and visualizations is to post an annotated explanation of your process somewhere online. RStudio allows you to publish knitted HTML files directly to RPubs, but you can also post your output to a blog or other type of website.1 Reading these kinds of posts is one of the best ways to learn R, since they walk you through each step of the process and show the code and output.\nHere are some of the best examples I’ve come across:\n\nText analysis of Trump’s tweets confirms he writes only the (angrier) Android half (with a follow-up)\nBob Ross - Joy of Painting\nBechdel analysis using the tidyverse: There are also a bunch of other examples using data from FiveThirtyEight.\nSexism on the Silver Screen: Exploring film’s gender divide\nComparison of Quentin Tarantino Movies by Box Office and the Bechdel Test\nWho came to vote in Utah’s caucuses?\nHealth care indicators in Utah counties\nSong lyrics across the United States\nA decade (ish) of listening to Sigur Rós\nWhen is Tom peeping these days?: There are a also bunch of final projects from other R and data visualization classes here and here.\nMapping Fall Foliage\nGeneral (Attys) Distributions\nDisproving Approval"
-  },
-  {
-    "objectID": "resource/r.html#footnotes",
-    "href": "resource/r.html#footnotes",
-    "title": "R",
-    "section": "Footnotes",
-    "text": "Footnotes\n\n\nIf you want to be really fancy, you can use blogdown, which makes a complete website with R Markdown files. That’s actually how this site is built (see the source code). You can build your own site with this tutorial.↩︎"
-  },
-  {
-    "objectID": "assignment/01-problem-set.html",
-    "href": "assignment/01-problem-set.html",
-    "title": "Problem set 1",
+    "objectID": "assignment/02-problem-set.html",
+    "href": "assignment/02-problem-set.html",
+    "title": "Problem set 2",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 1"
+      "Problem set 2"
     ]
   },
   {
-    "objectID": "assignment/01-problem-set.html#instructions",
-    "href": "assignment/01-problem-set.html#instructions",
-    "title": "Problem set 1",
+    "objectID": "assignment/02-problem-set.html#instructions",
+    "href": "assignment/02-problem-set.html#instructions",
+    "title": "Problem set 2",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 1"
+      "Problem set 2"
     ]
   },
   {
-    "objectID": "assignment/01-problem-set.html#questions",
-    "href": "assignment/01-problem-set.html#questions",
-    "title": "Problem set 1",
+    "objectID": "assignment/02-problem-set.html#questions",
+    "href": "assignment/02-problem-set.html#questions",
+    "title": "Problem set 2",
     "section": "Questions",
-    "text": "Questions\n\nSuppose the globe tossing experiment turned out to be 3 water and 11 land. Construct the posterior distribution.\nUsing the posterior distribution from 1, compute the posterior predictive distribution for the next 5 tosses of the globe.",
+    "text": "Questions\nTBD",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 1"
+      "Problem set 2"
+    ]
+  },
+  {
+    "objectID": "assignment/04-problem-set.html",
+    "href": "assignment/04-problem-set.html",
+    "title": "Problem set 4",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 4"
+    ]
+  },
+  {
+    "objectID": "assignment/04-problem-set.html#instructions",
+    "href": "assignment/04-problem-set.html#instructions",
+    "title": "Problem set 4",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 4"
+    ]
+  },
+  {
+    "objectID": "assignment/04-problem-set.html#questions",
+    "href": "assignment/04-problem-set.html#questions",
+    "title": "Problem set 4",
+    "section": "Questions",
+    "text": "Questions\nTBD",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 4"
+    ]
+  },
+  {
+    "objectID": "assignment/06-problem-set.html",
+    "href": "assignment/06-problem-set.html",
+    "title": "Problem set 6",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 6"
+    ]
+  },
+  {
+    "objectID": "assignment/06-problem-set.html#instructions",
+    "href": "assignment/06-problem-set.html#instructions",
+    "title": "Problem set 6",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 6"
+    ]
+  },
+  {
+    "objectID": "assignment/06-problem-set.html#questions",
+    "href": "assignment/06-problem-set.html#questions",
+    "title": "Problem set 6",
+    "section": "Questions",
+    "text": "Questions\nTBD",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 6"
+    ]
+  },
+  {
+    "objectID": "assignment/08-problem-set.html",
+    "href": "assignment/08-problem-set.html",
+    "title": "Problem set 8",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 8"
+    ]
+  },
+  {
+    "objectID": "assignment/08-problem-set.html#instructions",
+    "href": "assignment/08-problem-set.html#instructions",
+    "title": "Problem set 8",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 8"
+    ]
+  },
+  {
+    "objectID": "assignment/08-problem-set.html#questions",
+    "href": "assignment/08-problem-set.html#questions",
+    "title": "Problem set 8",
+    "section": "Questions",
+    "text": "Questions\nTBD",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 8"
+    ]
+  },
+  {
+    "objectID": "assignment/10-problem-set.html",
+    "href": "assignment/10-problem-set.html",
+    "title": "Problem set 10",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 10"
+    ]
+  },
+  {
+    "objectID": "assignment/10-problem-set.html#instructions",
+    "href": "assignment/10-problem-set.html#instructions",
+    "title": "Problem set 10",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 10"
+    ]
+  },
+  {
+    "objectID": "assignment/10-problem-set.html#questions",
+    "href": "assignment/10-problem-set.html#questions",
+    "title": "Problem set 10",
+    "section": "Questions",
+    "text": "Questions\nTBD",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 10"
     ]
   },
   {

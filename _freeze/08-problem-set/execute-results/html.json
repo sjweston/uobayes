@@ -1,0 +1,15 @@
+{
+  "hash": "8361d2cbc19c31a6f53e4cc58817264d",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Problem set 8\"\ndate: \"2025-05-26\"\n---\n\n\n\n\n\n## Instructions\n\nPlease use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas. \n\n## Questions\n\nTBD ",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
