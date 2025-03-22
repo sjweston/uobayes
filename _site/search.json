@@ -1,30 +1,159 @@
 [
   {
-    "objectID": "lectures/lecture05-2.html#populations-and-tools",
-    "href": "lectures/lecture05-2.html#populations-and-tools",
-    "title": "week 5: integers and other monsters",
-    "section": "populations and tools",
-    "text": "populations and tools\n\n\nCode\nlibrary(ggdag)\n\ndag_coords &lt;-\n  tibble(name = c(\"C\", \"P\", \"L\", \"T\"),\n         x    = c(1, 1, 2, 2),\n         y    = c(2, 1, 2, 1))\n\ndagify(C ~ L + P,\n       P ~ L,\n       T ~ C + L + P,\n       coords = dag_coords) %&gt;%\n  \n  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +\n  geom_dag_point(aes(color = name == \"D\"),\n                 alpha = 1/2, size = 6.5, show.legend = F) +\n  geom_point(x = 2, y = 1, \n             size = 6.5, shape = 1, stroke = 1, color = \"orange\") +\n  geom_dag_text(color = \"black\") +\n  geom_dag_edges() +\n  scale_color_manual(values = c(\"#1c5253\", \"orange\")) +\n  scale_x_continuous(NULL, breaks = NULL, expand = c(.1, .1)) +\n  scale_y_continuous(NULL, breaks = NULL, expand = c(.1, .1))"
+    "objectID": "lectures/lecture01-1.html#welcome",
+    "href": "lectures/lecture01-1.html#welcome",
+    "title": "Week 1: Introduction to Bayesian Analysis",
+    "section": "welcome!",
+    "text": "welcome!\nI’m excited to be here.\n\nI’m learning the material along with you.\nDrawing on materials and resources made by a master (Richard McElreath)\n\n\n\nGoals of the class1:\n\nDevelop an intuition for statistical modeling using a Bayesian framework.\nLearn how to execute Bayesian statistics using R.\n\n\nMy commitments:\n\nBe here2, be excited, be patient, be flexible.\n\n\nThese goals are in tension with each other. Good pedigogical code is bad application code. We’ll start with the former, move to the latter, but sometimes return to pedigogy.With the important caveat that I have a one-year-old in daycare, so on any given day, he or I or both of us are sick. My hope is the planned course structure is forgiving of missed days without"
   },
   {
-    "objectID": "lectures/lecture05-2.html#example",
-    "href": "lectures/lecture05-2.html#example",
-    "title": "week 5: integers and other monsters",
-    "section": "example",
-    "text": "example\n\ndata(Kline, package = \"rethinking\")\nKline &lt;- Kline\nKline\n\n      culture population contact total_tools mean_TU\n1    Malekula       1100     low          13     3.2\n2     Tikopia       1500     low          22     4.7\n3  Santa Cruz       3600     low          24     4.0\n4         Yap       4791    high          43     5.0\n5    Lau Fiji       7400    high          33     5.0\n6   Trobriand       8000    high          19     4.0\n7       Chuuk       9200    high          40     3.8\n8       Manus      13000     low          28     6.6\n9       Tonga      17500    high          55     5.4\n10     Hawaii     275000     low          71     6.6"
+    "objectID": "lectures/lecture01-1.html#interpretation",
+    "href": "lectures/lecture01-1.html#interpretation",
+    "title": "Week 1: Introduction to Bayesian Analysis",
+    "section": "Interpretation",
+    "text": "Interpretation\n\nEpistemic: probability is the degree of belief.\n\nA number between 0 and 1 that quantifies how strongly we think something is true based on relevant information.\nThere is no such thing as the probability. There is only your probability.\nBUT probability is not arbitrary.\n\nAleatory: probability is a statement of the expected frequency over many repetitions of a procedure.\n\nCannot speak to singular events.\nAssumes independence among repetitions.\nCan be a valid conceptual interpretation but is rarely ever an operational one.\n\n\nIn the vast majority of cases, psychologists are trying to make statements about singular events: - this theory is true or not. - this effect is positive or negative. - this model or that model is more likely."
   },
   {
-    "objectID": "lectures/lecture05-2.html#compare",
-    "href": "lectures/lecture05-2.html#compare",
-    "title": "week 5: integers and other monsters",
-    "section": "compare",
-    "text": "compare\n\nm1  &lt;- add_criterion(m1, \"loo\")\nm2 &lt;- add_criterion(m2, \"loo\")\n\nloo_compare(m1, m2, criterion = \"loo\") %&gt;% print(simplify = F)\n\n   elpd_diff se_diff elpd_loo se_elpd_loo p_loo se_p_loo looic se_looic\nm2   0.0       0.0   -45.7      7.2         8.2   3.4     91.3  14.3   \nm1 -24.9      14.0   -70.6     16.9         7.9   3.5    141.2  33.7   \n\nloo(m2) %&gt;% loo::pareto_k_table()\n\nPareto k diagnostic values:\n                         Count Pct.    Min. ESS\n(-Inf, 0.7]   (good)     9     90.0%   232     \n   (0.7, 1]   (bad)      0      0.0%   &lt;NA&gt;    \n   (1, Inf)   (very bad) 1     10.0%   &lt;NA&gt;"
+    "objectID": "lectures/lecture01-1.html#notation",
+    "href": "lectures/lecture01-1.html#notation",
+    "title": "Week 1: Introduction to Bayesian Analysis",
+    "section": "Notation",
+    "text": "Notation\n\n\\(P(A)\\) is the probability of event A.\n\\(P(A, B)\\) is the probability that both A and B happen.\n\\(P(B|A)\\) is the probability of event B given that A is true."
   },
   {
-    "objectID": "lectures/lecture05-2.html#exercise",
-    "href": "lectures/lecture05-2.html#exercise",
-    "title": "week 5: integers and other monsters",
-    "section": "exercise",
-    "text": "exercise\nThe data in data(Primates301) are 301 primate species and associated measures. Model the number of observations of social_learning for each species as a function of the log brain size. Use a Poisson distribution for the social_learning outcome variable. Interpret the resulting posterior."
+    "objectID": "lectures/lecture01-1.html#product-rule-basics",
+    "href": "lectures/lecture01-1.html#product-rule-basics",
+    "title": "Week 1: Introduction to Bayesian Analysis",
+    "section": "Product Rule: Basics",
+    "text": "Product Rule: Basics\n\nFormula:\n\\[\nP(A, B) = P(A)P(B|A) = P(B)P(A|B)\n\\]\nMeaning:\n\nThe probability of \\((A)\\) and \\((B)\\) occurring together – \\(P(A, B)\\) – can be calculated using:\n\n\\(P(A)\\): Probability of \\((A)\\).\n\\(P(B|A)\\): Probability of \\((B)\\) given \\((A)\\), or vice versa."
+  },
+  {
+    "objectID": "lectures/lecture01-1.html#product-rule-example",
+    "href": "lectures/lecture01-1.html#product-rule-example",
+    "title": "Week 1: Introduction to Bayesian Analysis",
+    "section": "Product Rule: Example",
+    "text": "Product Rule: Example\n\nScenario:\n\nToss a coin twice.\n\\((A)\\): First toss is heads.\n\\((B)\\): Second toss is heads.\n\nGiven:\n\n\\(P(A) = 0.5\\) (fair coin).\n\\(P(B|A) = 0.5\\) (independent tosses).\n\nUsing the product rule: \\[\nP(A, B) = P(A)P(B|A) = 0.5 \\times 0.5 = 0.25\n\\]"
+  },
+  {
+    "objectID": "lectures/lecture01-1.html#product-rule-intuition",
+    "href": "lectures/lecture01-1.html#product-rule-intuition",
+    "title": "Week 1: Introduction to Bayesian Analysis",
+    "section": "Product Rule: Intuition",
+    "text": "Product Rule: Intuition\n\nThe joint probability – \\(P(A, B)\\) – reflects:\n\nThe likelihood of one event.\nAdjusted by how the second event depends on the first.\n\nFor Independent Events: \\[\nP(A, B) = P(A)P(B)\n\\]\nFor Dependent Events: \\[\nP(A, B) = P(A)P(B|A)\n\\]"
+  },
+  {
+    "objectID": "lectures/lecture01-1.html#sum-rule-basics",
+    "href": "lectures/lecture01-1.html#sum-rule-basics",
+    "title": "Week 1: Introduction to Bayesian Analysis",
+    "section": "Sum Rule: Basics",
+    "text": "Sum Rule: Basics\n\nFormula: \\[\nP(A) = P(A, B) + P(A, \\neg B)\n\\]\nMeaning:\n\nThe probability of \\((A)\\) happening is the sum of:\n\n\\(P(A, B)\\): Probability of \\((A)\\) and \\((B)\\) both happening.\n\\(P(A, \\neg B)\\): Probability of \\((A)\\) happening without \\((B)\\).\n\n\nDisjoint set:\n\nA collection of mutually exclusive events."
+  },
+  {
+    "objectID": "lectures/lecture01-1.html#sum-rule-example",
+    "href": "lectures/lecture01-1.html#sum-rule-example",
+    "title": "Week 1: Introduction to Bayesian Analysis",
+    "section": "Sum Rule: Example",
+    "text": "Sum Rule: Example\n\nScenario:\n\nDrawing a card from a deck.\n\\((A)\\): The card is red.\n\\((B)\\): The card is a heart.\n\\((\\neg B)\\): The card is a diamond.\n\nUsing the Sum Rule: \\[\nP(A) = P(A, B) + P(A, \\neg B)\n\\]\nGiven:\n\n\\(P(A, B) = \\frac{13}{52}\\) (hearts).\n\\(P(A, \\neg B) = \\frac{13}{52}\\) (diamonds).\n\nResult: \\[\nP(A) = \\frac{13}{52} + \\frac{13}{52} = 0.5\n\\]"
+  },
+  {
+    "objectID": "lectures/lecture01-1.html#sum-rule-intuition",
+    "href": "lectures/lecture01-1.html#sum-rule-intuition",
+    "title": "Week 1: Introduction to Bayesian Analysis",
+    "section": "Sum Rule: Intuition",
+    "text": "Sum Rule: Intuition\n\nThe sum rule finds total probability by accounting for all disjoint ways \\((A)\\) can occur.\nGeneral Formula: \\[\nP(A) = \\sum_{i} P(A, B_i)\n\\]\nEnsures that no possibilities are overlooked."
+  },
+  {
+    "objectID": "lectures/lecture01-1.html#bayesian-inference",
+    "href": "lectures/lecture01-1.html#bayesian-inference",
+    "title": "Week 1: Introduction to Bayesian Analysis",
+    "section": "Bayesian inference",
+    "text": "Bayesian inference\nBayesian inference is the application of the product and sum rules to real problems of inference.\n\nConsider \\(H\\) to be a hypothesis and \\(\\neg H\\) to be the competing hypothesis.\nBefore any data are collected, the researcher has some belief in these hypotheses. These are priors or prior probabilities, \\(P(H)\\) and \\(P(\\neg H)\\).\nThese hypotheses are well-defined if they make a specific prediction about each experimental outcome (D) through a likelihood function like \\(P(D|H)\\) and \\(P(D|\\neg H)\\).\n\nLikelihoods are how strongly data (D) are implied by a hypothesis.\nThink NHST: \\(P(D|H_0)\\)."
+  },
+  {
+    "objectID": "lectures/lecture01-1.html#example-professor-sprout",
+    "href": "lectures/lecture01-1.html#example-professor-sprout",
+    "title": "Week 1: Introduction to Bayesian Analysis",
+    "section": "Example: Professor Sprout",
+    "text": "Example: Professor Sprout\nAt Hogwarts, professor Sprout leads the Herbology Department. In the Department’s greenhouses, she cultivates a magical plant that when consumed causes a witch or wizard to feel euphoric and relaxed. Professor Trelawney, the professor of Divination, is an avid user of this plant and frequently visits Professor Sprout’s laboratory to sample the latest harvest.\nHowever, it has turned out that one in a thousand codacle plants is afflicted with a mutation that changes its effects: Consuming mutated plants causes unpleasant side effects such as paranoia, anxiety, and spontaneous levitation.\nIn order to evaluate the quality of her crops, Professor Sprout has developed a mutation-detecting spell. The new spell has a 99% chance to accurately detect an existing mutation, but also has a 2% chance to falsely indicate that a healthy plant is a mutant. When Professor Sprout presents her results at a School colloquium, Trelawney asks two questions: What is the probability that a plant is a mutant, when your spell says that it is? And what is the probability the plant is a mutant, when your spell says that it is healthy?"
+  },
+  {
+    "objectID": "lectures/lecture01-1.html#example-sorting-hat",
+    "href": "lectures/lecture01-1.html#example-sorting-hat",
+    "title": "Week 1: Introduction to Bayesian Analysis",
+    "section": "Example: Sorting Hat",
+    "text": "Example: Sorting Hat\n\nHogwarts’ Sorting Hat was damaged by a curse during the battle against You-Know-Who.\nIt now assigns students to Slytherin 40% of the time, regardless of their true house.\n\n40% of students are assigned to Slytherin.\nOnly 20% each to Gryffindor, Ravenclaw, and Hufflepuff.\n\nProfessor Binns develops a Diagnostic Test:\n\nPARSEL test (Placement Accuracy Remedy for Students Erroneously Labeled):\n\nScores predict true house:\n\nExcellent (E): Likely Slytherin.\nOther scores (Outstanding, Acceptable, Poor) indicate other houses."
+  },
+  {
+    "objectID": "lectures/lecture01-1.html#question-is-the-student-a-gryffindor",
+    "href": "lectures/lecture01-1.html#question-is-the-student-a-gryffindor",
+    "title": "Week 1: Introduction to Bayesian Analysis",
+    "section": "Question: Is the Student a Gryffindor?",
+    "text": "Question: Is the Student a Gryffindor?\nProfessor McGonigall wants to know how likely it would be that a true Gryffindor will end up in Slytherin after taking this test.\n\nGoal:\n\nCalculate \\(P(\\text{Gryffindor}|H_S, S_E)\\)."
+  },
+  {
+    "objectID": "lectures/lecture01-1.html#bayes-in-the-continuous-case",
+    "href": "lectures/lecture01-1.html#bayes-in-the-continuous-case",
+    "title": "Week 1: Introduction to Bayesian Analysis",
+    "section": "Bayes in the continuous case",
+    "text": "Bayes in the continuous case\n\n\nMost of our research questions are about parameters in the continuous case. For this, we make use of probability density functions. Densities:\n\nexpress how much a probability exists “near” a particular value of a, while the probability of any particular value is zero.\nprobability is the integral of the density function over a certain interval:\n\n\\(P(a_1 &lt; A &lt; a_2) = \\int_{a_1}^{a_2}p(a)da\\)\n\nthe total area under the density curve is 1.\n\n\\(P(-\\ &lt; A &lt; a_2) = \\int_{a_1}^{a_2}p(a)da\\)\n\n\n\n\n\n\n\n\n\n\n\n\nArea in both is .10 or 10% Below 81 between 108 and 113"
+  },
+  {
+    "objectID": "lectures/lecture01-1.html#example-puking-pastilles",
+    "href": "lectures/lecture01-1.html#example-puking-pastilles",
+    "title": "Week 1: Introduction to Bayesian Analysis",
+    "section": "Example: Puking pastilles",
+    "text": "Example: Puking pastilles\n\nContext:\n\nGeorge Weasley is developing a new gag product: Puking Pastilles.\nThe pastilles cause multiple “expulsion events” (vomiting) over time.\nGeorge wants to estimate the expulsion rate (\\(\\lambda\\)) more precisely.\n\nObjective:\n\nUse Bayesian parameter estimation to determine the most plausible values of \\(\\lambda\\).\nIncorporate prior beliefs and observed data."
+  },
+  {
+    "objectID": "lectures/lecture01-1.html#formulas-and-equations",
+    "href": "lectures/lecture01-1.html#formulas-and-equations",
+    "title": "Week 1: Introduction to Bayesian Analysis",
+    "section": "Formulas and equations",
+    "text": "Formulas and equations\nBayesian analysis is the act of applying product and sum rules to probability.\nIs that not your cup of tea?\nDon’t worry! Most of this term, we’ll be abandoning the formulas altogheter – there are easier and more intuitive ways to fit and use these models.\nSo why did we just go through all of this? - So you can appreciate the work done by others to make this more approachable. - Because you will need to get familiar with different probability distributions (Poisson, gamma, Cauchy, etc). These form the basis of your prior distributions, so knowing what they look like and how to set good priors using them is essential."
+  },
+  {
+    "objectID": "schedule2.html",
+    "href": "schedule2.html",
+    "title": "Schedule",
+    "section": "",
+    "text": "Here’s your roadmap for the semester!\n\nContent (): This page contains the readings, slides, and recorded lectures for the week. Read and watch these before our in-person class.\nExample (): This page contains fully annotated R code and other supplementary information that you can use as a reference for your assignments and project. This is only a reference page—you don’t have to necessarily do anything here. Some sections also contain videos of me live coding the examples so you can see what it looks like to work with R in real time. This page will be very helpful as you work on your assignments.\nAssignment (): This page contains the instructions for each assignment. Weekly reports are due by noon on the day of class. Other assignments are due by 11:59 PM on the day they’re listed.\n\n\n\n\n\n\n\nDeveloping intuitions\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 1\n\n\n\n\nApril 1\n\n\nIntroduction and Bayes’ theorem\n\n\n\n\n\n\n\n\n\n\nApril 3\n\n\nBayes as counting\n\n\n\n\n\n\n\n\n\n\nApril 7\n\n\nProblem set 1  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 2\n\n\n\n\nApril 8\n\n\nGeocentric models\n\n\n\n\n\n\n\n\n\n\nApril 10\n\n\nCategories and curves\n\n\n\n\n\n\n\n\n\n\nApril 14\n\n\nProblem set 2  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\n\nA new topic\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 3\n\n\n\n\nApril 15\n\n\nLecture theme\n\n\n\n\n\n\n\n\n\n\nApril 17\n\n\nLecture theme\n\n\n\n\n\n\n\n\n\n\nApril 21\n\n\nProblem set 3  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 4\n\n\n\n\nApril 22\n\n\nLecture theme\n\n\n\n\n\n\n\n\n\n\nApril 24\n\n\nLecture theme\n\n\n\n\n\n\n\n\n\n\nApril 28\n\n\nProblem set 4  (submit by 23:59:00)"
+  },
+  {
+    "objectID": "content/01-content.html#before-class",
+    "href": "content/01-content.html#before-class",
+    "title": "Introduction to Bayes",
+    "section": "Before class",
+    "text": "Before class\nNothing. But if you want to get familiar with the site or ee what I’m using as the basis for the first lecture, here you go:\n\nThe syllabus, content, examples, and assignments pages for this class\n Introduction to Bayesian Inference for Psychology (Etz & Vandekerckhove, 2018)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "1: Introduction to Bayesian Analysis"
+    ]
+  },
+  {
+    "objectID": "content/01-content.html#during-class",
+    "href": "content/01-content.html#during-class",
+    "title": "Introduction to Bayes",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "1: Introduction to Bayesian Analysis"
+    ]
+  },
+  {
+    "objectID": "schedule.html",
+    "href": "schedule.html",
+    "title": "Schedule",
+    "section": "",
+    "text": "Below is the schedule for the course. Note that this schedule may change as the course progresses.\n\n\n\n\n\n\nSchedule Notes\n\n\n\n\nAll deadlines are at 11:59 PM Pacific Time on the specified date\nSchedule is subject to change based on course needs\nAdditional readings and resources will be posted on the course website\n\n\n\n\nHere’s your roadmap for the semester!\n\nContent (): This page contains the recorded lectures and slides for the week. Watch the lectures before our in-person class.\nAssignment (): This page contains the instructions for each assignment.\n\n\n\n\n\n\n\nDeveloping intuitions\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 1\n\n\n\n\nApril 1\n\n\nIntroduction and Bayes’ theorem\n\n\n\n\n\n\n\n\n\n\nApril 3\n\n\nBayes as counting\n\n\n\n\n\n\n\n\n\n\nApril 7\n\n\nProblem set 1  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 2\n\n\n\n\nApril 8\n\n\nGeocentric models\n\n\n\n\n\n\n\n\n\n\nApril 10\n\n\nCategories and curves\n\n\n\n\n\n\n\n\n\n\nApril 14\n\n\nProblem set 2  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 3\n\n\n\n\nApril 15\n\n\nLecture theme\n\n\n\n\n\n\n\n\n\n\nApril 17\n\n\nLecture theme\n\n\n\n\n\n\n\n\n\n\nApril 21\n\n\nProblem set 3  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 4\n\n\n\n\nApril 22\n\n\nLecture theme\n\n\n\n\n\n\n\n\n\n\nApril 24\n\n\nLecture theme\n\n\n\n\n\n\n\n\n\n\nApril 28\n\n\nProblem set 4  (submit by 23:59:00)"
+  },
+  {
+    "objectID": "schedule.html#course-schedule",
+    "href": "schedule.html#course-schedule",
+    "title": "Schedule",
+    "section": "",
+    "text": "Below is the schedule for the course. Note that this schedule may change as the course progresses.\n\n\n\n\n\n\nSchedule Notes\n\n\n\n\nAll deadlines are at 11:59 PM Pacific Time on the specified date\nSchedule is subject to change based on course needs\nAdditional readings and resources will be posted on the course website\n\n\n\n\nHere’s your roadmap for the semester!\n\nContent (): This page contains the recorded lectures and slides for the week. Watch the lectures before our in-person class.\nAssignment (): This page contains the instructions for each assignment.\n\n\n\n\n\n\n\nDeveloping intuitions\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 1\n\n\n\n\nApril 1\n\n\nIntroduction and Bayes’ theorem\n\n\n\n\n\n\n\n\n\n\nApril 3\n\n\nBayes as counting\n\n\n\n\n\n\n\n\n\n\nApril 7\n\n\nProblem set 1  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 2\n\n\n\n\nApril 8\n\n\nGeocentric models\n\n\n\n\n\n\n\n\n\n\nApril 10\n\n\nCategories and curves\n\n\n\n\n\n\n\n\n\n\nApril 14\n\n\nProblem set 2  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 3\n\n\n\n\nApril 15\n\n\nLecture theme\n\n\n\n\n\n\n\n\n\n\nApril 17\n\n\nLecture theme\n\n\n\n\n\n\n\n\n\n\nApril 21\n\n\nProblem set 3  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 4\n\n\n\n\nApril 22\n\n\nLecture theme\n\n\n\n\n\n\n\n\n\n\nApril 24\n\n\nLecture theme\n\n\n\n\n\n\n\n\n\n\nApril 28\n\n\nProblem set 4  (submit by 23:59:00)"
   }
 ]

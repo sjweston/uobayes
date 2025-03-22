@@ -1,0 +1,533 @@
+---
+title: "week 5: integers and other monsters"
+subtitle: "modeling events"
+format: 
+  revealjs:
+    css: xaringan-themer2.css
+    nature:
+      highlightStyle: solarized-dark
+      highlightLines: true
+      countIncrementalSlides: false
+      mathjax: "default"
+    self-contained: false  # Ensures correct embedding
+    embed-resources: true  # Embeds required assets
+    slide-number: true
+    code-annotations: hover
+execute:
+  echo: false        
+---
+
+```{r, message = F, warning = F}
+library(tidyverse)
+library(psych)
+library(cowplot)
+library(patchwork)
+library(here)
+library(brms) 
+library(tidybayes) 
+```
+
+```{r, echo = F}
+knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
+theme_set(theme_cowplot())
+default_palettes <- list(
+  c("#5e8485" , "#0f393a") ,
+  c("#1c5253" , "#5e8485" , "#0f393a") , 
+  # palette with 5 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" ) ,
+  # same palette interpolated to 8 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" ) 
+  
+)
+
+options(ggplot2.discrete.fill = default_palettes, 
+        ggplot2.discrete.colour = default_palettes)
+```
+
+## entropy
+
+Entropy is a measure of uncertainty. Distributions with high entropy have more uncertainty because they have more possibilities.
+
+```{r entropy-viz, fig.width=10, fig.height=4}
+#| code-fold: true
+#| 
+# Create example data
+set.seed(123)
+
+# Low entropy data (concentrated around a single value)
+low_entropy <- data.frame(
+  value = sample(x = c(1:6), 10000, replace = T, prob = c(.3, .25, .2, .1, .05, 0)),
+  type = "Low Entropy"
+)
+
+# High entropy data (more spread out, more uniform)
+high_entropy <- data.frame(
+  value = sample(x = c(1:6), 10000, replace = T),
+  type = "High Entropy"
+)
+
+# Combine the data
+entropy_data <- rbind(low_entropy, high_entropy)
+
+# Create the plots
+ggplot(entropy_data, aes(x = value)) +
+  geom_histogram(fill = "#1c5253", alpha = 0.5, binwidth = 1, color = "white") +
+  facet_wrap(~type) +
+  labs(title = "Comparing High and Low Entropy Distributions",
+       x = "Value",
+       y = "Density") +
+  theme_cowplot() +
+  theme(strip.background = element_rect(fill = "#1c5253"),
+        strip.text = element_text(color = "white", size = 12))
+```
+
+When you choose a prior and a likelihood function for your data -- the distribution representing the behavior of your outcome -- the best choice is the distribution that maximizes entropy while still meeting the constraints of your variable.
+
+------------------------------------------------------------------------
+
+## maximum entropy
+
+-   First, the distribution with the biggest entropy is the widest and least informative distribution. Choosing the distribution with the largest entropy means spreading probability as evenly as possible, while still remaining consistent with anything we think we know about a process.
+
+    -   For priors: it means choosing the least informative distribution consistent with any partial scientific knowledge we have about a parameter.
+    -   For likelihoods: it means selecting the distribution we'd get by counting up all the ways outcomes could arise, consistent with the constraints on the outcome variable.
+
+-   Second, nature tends to produce empirical distributions that have high entropy.
+
+-   Third, it works.
+
+------------------------------------------------------------------------
+
+## what are your options?
+
+So many! But here are a few:
+
+![](images/distributions.png)
+
+------------------------------------------------------------------------
+
+### exponential
+
+-   constrained to be zero or positive.
+-   distance and duration, or displacement from some point of reference.
+    -   If the probability of an event is constant in time or across space, then the distribution of events tends towards exponential.
+-   maximum entropy among all non-negative continuous distributions with the same average displacement. \* described by a single parameter, the rate of events $\lambda$, or the average displacement $\lambda^{-1}$.
+-   common to survival and event history analysis
+
+```{r exponential-viz, fig.width=8, fig.height=3}
+#| code-fold: true
+# Create data for different rate parameters
+x <- seq(0, 5, length.out = 1000)
+rates <- c(0.5, 1, 2)
+
+exp_data <- expand.grid(x = x, rate = rates) %>%
+  mutate(density = dexp(x, rate),
+         rate = factor(rate, labels = paste("λ =", rates)))
+
+ggplot(exp_data, aes(x = x, y = density, color = rate)) +
+  geom_line(size = 1) +
+  labs(title = "Exponential Distribution with Different Rate Parameters",
+       x = "x",
+       y = "Density",
+       color = "Rate") +
+  theme_cowplot() +
+  scale_color_manual(values = c("#1c5253", "#5e8485", "#0f393a"))
+```
+
+------------------------------------------------------------------------
+
+### gamma
+
+-   constrained to be zero or positive.
+-   distance and duration, or displacement from some point of reference
+-   can have a peak above zero (exponential cannot)
+-   maximum entropy among all distributions with the same mean and same average logarithm
+-   shape is described by two parameters ($a$ and $b$)
+
+```{r gamma-viz, fig.width=8, fig.height=3}
+#| code-fold: true
+# Create data for different shape parameters
+x <- seq(0, 10, length.out = 1000)
+shapes <- list(c(1, 1), c(2, 2), c(5, 1))
+names <- c("a=1, b=1", "a=2, b=2", "a=5, b=1")
+
+gamma_data <- map_df(seq_along(shapes), function(i) {
+  data.frame(
+    x = x,
+    density = dgamma(x, shape = shapes[[i]][1], rate = shapes[[i]][2]),
+    params = names[i]
+  )
+})
+
+ggplot(gamma_data, aes(x = x, y = density, color = params)) +
+  geom_line(size = 1) +
+  labs(title = "Gamma Distribution with Different Shape and Rate Parameters",
+       x = "x",
+       y = "Density",
+       color = "Parameters") +
+  theme_cowplot() +
+  scale_color_manual(values = c("#1c5253", "#5e8485", "#0f393a"))
+```
+
+------------------------------------------------------------------------
+
+### poisson
+
+-   count-distributed (like binomial)
+    -   actually a special case of the binomial where $n$ is large and $p$ is small
+-   used for counts that never get close to any theoretical maximum
+-   As a special case of the binomial, it has maximum entropy under exactly the same constraints
+-   described by a single parameter, the rate of events $\lambda$
+
+```{r poisson-viz, fig.width=8, fig.height=3}
+#| code-fold: true
+# Create data for different lambda parameters
+x <- 0:15
+lambdas <- c(1, 3, 7)
+
+pois_data <- expand.grid(x = x, lambda = lambdas) %>%
+  mutate(probability = dpois(x, lambda),
+         lambda = factor(lambda, labels = paste("λ =", lambdas)))
+
+ggplot(pois_data, aes(x = x, y = probability, fill = lambda)) +
+  geom_col(position = "dodge", alpha = 0.7) +
+  labs(title = "Poisson Distribution with Different Rate Parameters",
+       x = "Count",
+       y = "Probability",
+       fill = "Lambda") +
+  theme_cowplot() +
+  scale_fill_manual(values = c("#1c5253",  "#e07a5f", "#f2cc8f"))
+```
+
+------------------------------------------------------------------------
+
+## motivating dataset
+
+From McElreath's lecture:
+
+```{r}
+#| file: "scripts/sim_gender_dept.R"
+
+```
+
+```{r}
+dat <- data.frame(D=as.character(D), G=as.character(G), A)
+```
+
+------------------------------------------------------------------------
+
+We're going to fit two models here, one estimating the total effect of gender on acceptance, and one estimating the direct effect stratifying on department.
+
+\begin{align*}
+A_i &\sim \text{Bernoulli}(p_i) \\
+\text{logit}(p_i) &= \alpha[G_i] \\
+\alpha_j &\sim \text{Normal}(0,1)
+\end{align*}
+
+```{r, results='hide'}
+m1 = brm(
+  data = dat,
+  family = bernoulli,
+  A  ~ 0 + G,
+  prior = c( prior( normal(0, 1), class = b)), 
+  iter = 5000, warmup = 1000, chains = 4, 
+  seed = 3,
+  file = here("files/data/generated_data/m5.1")
+)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+m1
+```
+
+------------------------------------------------------------------------
+
+\begin{align*}
+A_i &\sim \text{Bernoulli}(p_i) \\
+\text{logit}(p_i) &= \alpha[G_i, D_i] \\
+\alpha_j &\sim \text{Normal}(0,1)
+\end{align*}
+
+```{r, results='hide'}
+
+m2 = brm(
+  data = dat,
+  family = bernoulli,
+  A  ~ G*D,
+  prior = c( prior( normal(0, 1), class = Intercept),
+             prior( normal(0, 1), class = b)), 
+  iter = 5000, warmup = 1000, chains = 4, 
+  seed = 3,
+  file = here("files/data/generated_data/m5.2")
+)
+
+```
+
+------------------------------------------------------------------------
+
+```{r}
+m2
+```
+
+------------------------------------------------------------------------
+
+### wait, what do these numbers mean?
+
+::::: columns
+::: {.column width="50%"}
+```{r}
+#| code-fold: true
+summary(m1)$fixed %>% round(2) %>% select(Estimate, contains("95"))
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+#| code-fold: true
+summary(m2)$fixed %>% round(2) %>% select(Estimate, contains("95"))
+```
+:::
+:::::
+
+A reminder that we're running a **LOGISTIC REGRESSION**, which is a special case of a **BINOMIAL REGRESSION**. We have used a link function -- the logit link function -- to convert our outcome (probability) into something that is not bounded and can be estimated using linear equations. But now we need to go back from the logit to the probability.
+
+::::: columns
+::: {.column width="50%"}
+
+$$
+\text{logit} = \text{log}(\frac{p}{1-p})
+$$
+:::
+
+::: {.column width="50%"}
+
+$$
+p = \frac{1}{1 + \text{exp}(-\text{logit})}
+$$
+:::
+:::::
+
+------------------------------------------------------------------------
+
+It doesn't matter how you fit the model. Use `add_epred_draws()` to get estimated values for each combination. This also gives you the probability, not the logit. Yay!
+
+```{r}
+new_dat = expand.grid(G = c("1", "2"),
+                      D = c("1", "2"))
+
+m1 %>% add_epred_draws(newdata = new_dat) %>% 
+  median_qi
+m2 %>% add_epred_draws(newdata = new_dat) %>% 
+  median_qi
+```
+
+---
+
+### exercise
+
+Using the data `UCBadmit` from the `rethinking` package, fit 
+
+1. a model estimating the total effect of gender on acceptance, and
+2. a model estimating the direct effect of gender stratifying by department.
+
+Hint: these data are given in the aggregated form, not the long form. You'll need to use a binomial distribution, not a bernoulli. And you'll need to specify the number of trials. So your formula will look like this:
+
+```{r, eval = F}
+
+admit | trials(applications) ~ [predictors go here]
+
+```
+
+
+---
+
+### solution
+
+```{r, results = 'hide'}
+data(UCBadmit, package = "rethinking")
+
+UCBadmit$gender = UCBadmit$applicant.gender
+
+m3 <- brm(
+  data = UCBadmit,
+  family = binomial,
+  admit | trials(applications) ~ 0 + gender, 
+  prior = c( prior( normal(0, 2), class = b) ),
+  iter = 5000, warmup = 1000, chains = 4, 
+  seed = 3,
+  file = here("files/data/generated_data/m5.3")
+)
+```
+
+---
+
+### solution
+
+```{r, results = 'hide'}
+m4 <- brm(
+  data = UCBadmit,
+  family = binomial,
+  admit | trials(applications) ~ gender*dept, 
+  prior = c( prior( normal(0, 2), class = Intercept),
+             prior( normal(0, 2), class = b) ),
+  iter = 5000, warmup = 1000, chains = 4, 
+  seed = 3,
+  file = here("files/data/generated_data/m5.4")
+)
+```
+
+---
+
+### exercise
+
+Explore your options with `get_variables()` and use the `spread draws()` function to sample from the posterior distribution of one of your models. What does this return?
+
+---
+
+```{r}
+get_variables(m3)
+m3 %>% 
+  spread_draws(b_genderfemale, b_gendermale) 
+```
+
+---
+
+```{r}
+get_variables(m4)
+m4 %>% 
+  spread_draws(b_Intercept, b_gendermale, b_deptB, b_deptC, 
+               b_deptD, b_deptE, b_deptF, 
+               `b_gendermale:deptB`,`b_gendermale:deptC`, 
+               `b_gendermale:deptD`, `b_gendermale:deptE`,
+               `b_gendermale:deptF`) 
+```
+
+---
+
+### exercise
+
+Use the `add_epred_draws()` function to estimate expected values based on your models. What is the unit on `.epred` for this model?
+
+---
+
+### solution
+
+```{r}
+UCBadmit %>% add_epred_draws(m3) %>% 
+  ungroup() %>% 
+  select(dept, gender, applications, admit, reject, .draw, .epred)
+```
+
+---
+
+### exercise
+
+Recreate this figure (from the model without department)
+
+```{r m3-posterior-fig, echo = F}
+
+m3 %>% 
+  spread_draws(b_genderfemale, b_gendermale) %>% 
+  mutate(
+    across(starts_with("b"), 
+           rethinking::inv_logit),
+    diff = b_genderfemale - b_gendermale)  %>% 
+  ggplot(aes(x = diff)) +
+  geom_density(color ="#1c5253", linewidth = 2) +
+  labs(x = "P_female - P_male")
+  
+```
+
+
+---
+
+### solution
+
+```{r, ref.label="m3-posterior-fig", eval = F}
+
+```
+
+---
+
+### exercise
+
+Recreate this figure (from the model with department).
+
+```{r m4-posterior-fig, echo = F}
+
+m4 %>% 
+  spread_draws(b_Intercept, b_gendermale, b_deptB, b_deptC, 
+               b_deptD, b_deptE, b_deptF, 
+               `b_gendermale:deptB`,`b_gendermale:deptC`, 
+               `b_gendermale:deptD`, `b_gendermale:deptE`,
+               `b_gendermale:deptF`) %>% 
+  mutate(
+    A_female = b_Intercept,
+    B_female = b_Intercept + b_deptB,
+    C_female = b_Intercept + b_deptC,
+    D_female = b_Intercept + b_deptD,
+    E_female = b_Intercept + b_deptE,
+    F_female = b_Intercept + b_deptF,
+    A_male = b_Intercept + b_gendermale,
+    B_male = b_Intercept + b_gendermale + `b_gendermale:deptB`,
+    C_male = b_Intercept + b_gendermale + `b_gendermale:deptC`,
+    D_male = b_Intercept + b_gendermale + `b_gendermale:deptD`,
+    E_male = b_Intercept + b_gendermale + `b_gendermale:deptE`,
+    F_male = b_Intercept + b_gendermale + `b_gendermale:deptF`
+  ) %>% 
+  select(.draw, A_female:F_male) %>% 
+  pivot_longer(-.draw, 
+               names_to = c("dept", "gender"),
+               names_sep = "_") %>% 
+  mutate(value = rethinking::inv_logit(value)) %>% 
+  pivot_wider(names_from = gender, values_from = value) %>% 
+  mutate(diff = female-male) %>% 
+  ggplot(aes(x = diff, color = dept)) +
+  geom_density(linewidth = 2) +
+  labs(x = "P_female - P_male") +
+  guides(color = "none")
+  
+```
+
+---
+
+```{r, ref.label="m4-posterior-fig", eval = F}
+
+```
+
+---
+
+### exercise
+
+Calculate the probability of acceptance for each gender within each department for both your models. Plot the results.
+
+---
+
+### solution
+
+```{r}
+#| code-fold: true
+
+m3_epred = UCBadmit %>% add_epred_draws(m3) %>% 
+  mutate(prob = .epred/applications) %>% 
+  median_qi(prob) %>% 
+  mutate(model = "m3") 
+m4_epred = UCBadmit %>% add_epred_draws(m4) %>% 
+mutate(prob = .epred/applications) %>% 
+    median_qi(prob) %>% 
+    mutate(model = "m4") 
+
+m3_epred %>% full_join(m4_epred) %>% 
+  ggplot(
+    aes(x = dept, y = prob, color = gender)
+  ) +
+  geom_errorbar(
+    aes(ymin = .lower, ymax=.upper),
+    width = .5) +
+  geom_point() +
+  facet_wrap(~model)
+```
+
+

@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="This advanced statistics course introduces students to Bayesian methods with a focus on practical application using modern computational tools.">
+
+<title>Week 3: Causes, Confounds, and Colliders – PSY 607: Bayesian Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="..//files/icon-512.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="Week 3: Causes, Confounds, and Colliders – PSY 607: Bayesian Analysis">
+<meta property="og:description" content="Elemental confounds">
+<meta property="og:image" content="https://uobayes.netlify.app/files/social-image.png">
+<meta property="og:site_name" content="PSY 607: Bayesian Analysis">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:title" content="Week 3: Causes, Confounds, and Colliders – PSY 607: Bayesian Analysis">
+<meta name="twitter:description" content="Elemental confounds">
+<meta name="twitter:image" content="https://uobayes.netlify.app/files/social-image.png">
+<meta name="twitter:creator" content="">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">PSY 607: Bayesian Analysis</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../syllabus.html"> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../schedule.html"> 
+<span class="menu-text">Schedule</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../content/index.html"> 
+<span class="menu-text">Content</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../assignment/index.html"> 
+<span class="menu-text">Assignments</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../resource/index.html"> 
+<span class="menu-text">Resources</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../news/index.html"> 
+<span class="menu-text">News</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#forks" id="toc-forks" class="nav-link active" data-scroll-target="#forks">Forks</a></li>
+  <li><a href="#marriage-example" id="toc-marriage-example" class="nav-link" data-scroll-target="#marriage-example">Marriage example</a>
+  <ul class="collapse">
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise">exercise</a></li>
+  <li><a href="#solution" id="toc-solution" class="nav-link" data-scroll-target="#solution">solution</a></li>
+  <li><a href="#exercise-1" id="toc-exercise-1" class="nav-link" data-scroll-target="#exercise-1">exercise</a></li>
+  <li><a href="#solution-1" id="toc-solution-1" class="nav-link" data-scroll-target="#solution-1">solution</a></li>
+  <li><a href="#solution-2" id="toc-solution-2" class="nav-link" data-scroll-target="#solution-2">solution</a></li>
+  <li><a href="#solution-3" id="toc-solution-3" class="nav-link" data-scroll-target="#solution-3">solution</a></li>
+  <li><a href="#solution-4" id="toc-solution-4" class="nav-link" data-scroll-target="#solution-4">solution</a></li>
+  <li><a href="#forks-1" id="toc-forks-1" class="nav-link" data-scroll-target="#forks-1">forks</a></li>
+  <li><a href="#pipes" id="toc-pipes" class="nav-link" data-scroll-target="#pipes">Pipes</a></li>
+  </ul></li>
+  <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2">exercise</a>
+  <ul class="collapse">
+  <li><a href="#solution-5" id="toc-solution-5" class="nav-link" data-scroll-target="#solution-5">solution</a></li>
+  <li><a href="#exercise-3" id="toc-exercise-3" class="nav-link" data-scroll-target="#exercise-3">exercise</a></li>
+  <li><a href="#solution-6" id="toc-solution-6" class="nav-link" data-scroll-target="#solution-6">solution</a></li>
+  </ul></li>
+  <li><a href="#colliders" id="toc-colliders" class="nav-link" data-scroll-target="#colliders">colliders</a>
+  <ul class="collapse">
+  <li><a href="#collider-of-false-sorrow" id="toc-collider-of-false-sorrow" class="nav-link" data-scroll-target="#collider-of-false-sorrow">collider of false sorrow</a></li>
+  <li><a href="#exercise-4" id="toc-exercise-4" class="nav-link" data-scroll-target="#exercise-4">exercise</a></li>
+  <li><a href="#solution-7" id="toc-solution-7" class="nav-link" data-scroll-target="#solution-7">solution</a></li>
+  <li><a href="#solution-8" id="toc-solution-8" class="nav-link" data-scroll-target="#solution-8">solution</a></li>
+  <li><a href="#solution-9" id="toc-solution-9" class="nav-link" data-scroll-target="#solution-9">solution</a></li>
+  </ul></li>
+  <li><a href="#testing-dag-assumptions" id="toc-testing-dag-assumptions" class="nav-link" data-scroll-target="#testing-dag-assumptions">testing DAG assumptions</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lecture03-1.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Week 3: Causes, Confounds, and Colliders</h1>
+<p class="subtitle lead">Elemental confounds</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Workspace setup:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cowplot)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rethinking)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Last week, we started to build out multiple regression models, those that include both categorical and continuous variables as “main effects” or predictors in a model. These are simple multiple regression models, and they can be extremely useful for things like revealing <strong>spurious correlations</strong> – zero-order correlations that suggest association even when the two variables are not causally related – and important correlations that are masked by other variables.</p>
+<p>However, you cannot interpret the coefficients in any multiple regression model without identifying the underlying causal model. This week, we’ll use <strong>Directed Acyclic Graphs (DAGs)</strong> to develop and visualize our causal models. These DAGs will then help us determine which variables, if any, to control for when trying to estimate causal pathways. Along the way, we’ll discuss some common mistakes when it comes to controls and their disasterious consequences.</p>
+<p>This will also be a good opportunity to practice the mathematical models and code we’ve discussed before, but there will be little new code this week.</p>
+<hr>
+<p><img src="images/Lecture_05-waffles.jpg" class="img-fluid"></p>
+<hr>
+<section id="forks" class="level2">
+<h2 class="anchored" data-anchor-id="forks">Forks</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dagitty)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dag3<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">dagitty</span>( <span class="st">"dag{ Z -&gt; X; Z -&gt; Y }"</span> )</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">coordinates</span>(dag3<span class="fl">.1</span>) <span class="ot">&lt;-</span> <span class="fu">list</span>( <span class="at">x=</span><span class="fu">c</span>(<span class="at">X=</span><span class="sc">-</span><span class="dv">1</span>,<span class="at">Z=</span><span class="dv">0</span>,<span class="at">Y=</span><span class="dv">1</span>) , <span class="at">y=</span><span class="fu">c</span>(<span class="at">X=</span><span class="dv">0</span>,<span class="at">Z=</span><span class="sc">-</span><span class="dv">1</span>,<span class="at">Y=</span><span class="dv">0</span>) )</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">drawdag</span>( dag3<span class="fl">.1</span>, <span class="at">cex =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">3</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture03-1_files/figure-revealjs/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>True confounds.</p>
+<p>Not stratifying on (controlling for) Z will yield a spurious relationship between X and Y. That is, a correlation of X and Y (or regression) will be non-zero, even though there is no causal relationship from one to another.</p>
+<hr>
+</section>
+<section id="marriage-example" class="level2">
+<h2 class="anchored" data-anchor-id="marriage-example">Marriage example</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(WaffleDivorce, <span class="at">package =</span> <span class="st">"rethinking"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> WaffleDivorce</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="exercise" class="level3">
+<h3 class="anchored" data-anchor-id="exercise">exercise</h3>
+<p>Create two plots, one showing the relationship between marriage rate and divorce rate and another showing the relationship between median age at marriage and divorce rate.</p>
+<hr>
+</section>
+<section id="solution" class="level3">
+<h3 class="anchored" data-anchor-id="solution">solution</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Marriage, <span class="at">y =</span> Divorce)) <span class="sc">+</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#1c5253"</span>) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"marriage rate"</span>, <span class="at">y =</span> <span class="st">"divorce rate"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> MedianAgeMarriage, <span class="at">y =</span> Divorce)) <span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#1c5253"</span>) <span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"median age at marriage"</span>, <span class="at">y =</span> <span class="st">"divorce rate"</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>(p1 <span class="sc">|</span> p2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture03-1_files/figure-revealjs/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="exercise-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-1">exercise</h3>
+<p>Model the relationship between Divorce Rate (D) and Marriage Rate (M). (Standardize both first.) Be sure to do the following:</p>
+<ul>
+<li><p>Write a mathematical model expressing this relationship including priors.</p></li>
+<li><p>Sample from your priors to evaluate them.</p></li>
+<li><p>Calculate your posterior predictions for the relationship between D and M.</p></li>
+</ul>
+</section>
+<div class="fragment">
+<section id="solution-1" class="level3">
+<h3 class="anchored" data-anchor-id="solution-1">solution</h3>
+<p><span class="math display">\[\begin{align*}
+D_i &amp;\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &amp;= \alpha + \beta_MM_i \\
+\alpha &amp;\sim \text{Normal}(0, 0.2) \\
+\beta_M &amp;\sim \text{Normal}(0, 0.5) \\
+\sigma &amp;\sim \text{Exponential}(1) \\
+\end{align*}\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>D <span class="ot">&lt;-</span> <span class="fu">standardize</span>(d<span class="sc">$</span>Divorce)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>M <span class="ot">&lt;-</span> <span class="fu">standardize</span>(d<span class="sc">$</span>Marriage)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</div>
+<hr>
+<section id="solution-2" class="level3">
+<h3 class="anchored" data-anchor-id="solution-2">solution</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>flist <span class="ot">&lt;-</span> <span class="fu">alist</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  D <span class="sc">~</span> <span class="fu">dnorm</span>( mu, sigma),</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> a <span class="sc">+</span> bM <span class="sc">*</span> M,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  a <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="fl">0.2</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  bM <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="fl">0.5</span>),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  sigma <span class="sc">~</span> <span class="fu">dexp</span>(<span class="dv">1</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>m3<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">quap</span>(<span class="at">flist =</span> flist, <span class="at">data =</span> d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+</section>
+<section id="solution-3" class="level3">
+<h3 class="anchored" data-anchor-id="solution-3">solution</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>priors <span class="ot">&lt;-</span> <span class="fu">extract.prior</span>(m3<span class="fl">.1</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="fu">link</span>( m3<span class="fl">.1</span> , <span class="at">post=</span>priors , <span class="at">data=</span><span class="fu">list</span>( <span class="at">M=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">3</span>) ) )</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>( D <span class="sc">~</span> M , <span class="at">data=</span>d, <span class="at">xlab =</span> <span class="st">"marriage rate"</span>, <span class="at">ylab =</span> <span class="st">"divorce rate"</span> )</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ( i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span> ) <span class="fu">lines</span>( <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">3</span>) , mu[i,] , <span class="at">col=</span><span class="fu">col.alpha</span>(<span class="st">"#1c5253"</span>,<span class="fl">0.4</span>) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture03-1_files/figure-revealjs/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="solution-4" class="level3">
+<h3 class="anchored" data-anchor-id="solution-4">solution</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">precis</span>(m3<span class="fl">.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              mean         sd       5.5%     94.5%
+a     2.054143e-05 0.10824937 -0.1729829 0.1730239
+bM    3.500351e-01 0.12593212  0.1487713 0.5512990
+sigma 9.103005e-01 0.08987105  0.7666692 1.0539318</code></pre>
+</div>
+</div>
+<p>Bonus: a plot</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute percentile interval of mean</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>M_seq <span class="ot">&lt;-</span> <span class="fu">seq</span>( <span class="at">from=</span><span class="sc">-</span><span class="dv">3</span> , <span class="at">to=</span><span class="fl">3.2</span> , <span class="at">length.out=</span><span class="dv">30</span> )</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="fu">link</span>( m3<span class="fl">.1</span> , <span class="at">data=</span><span class="fu">list</span>(<span class="at">M=</span>M_seq) )</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>mu.mean <span class="ot">&lt;-</span> <span class="fu">apply</span>( mu , <span class="dv">2</span>, mean )</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>mu.PI <span class="ot">&lt;-</span> <span class="fu">apply</span>( mu , <span class="dv">2</span> , PI )</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># plot it all</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>( D <span class="sc">~</span> M , <span class="at">data=</span>d , <span class="at">col=</span> <span class="st">"#1c5253"</span>, <span class="at">xlab =</span> <span class="st">"marriage rate"</span>, <span class="at">ylab =</span> <span class="st">"divorce rate"</span> )</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>( M_seq , mu.mean , <span class="at">lwd=</span><span class="dv">2</span> )</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="fu">shade</span>( mu.PI , M_seq )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture03-1_files/figure-revealjs/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+<p>Now we’re going to incorporate state age (median age at marriage) into our model. This is the DAG proposed by RM. What does this DAG represent?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dag3<span class="fl">.2</span> <span class="ot">&lt;-</span> <span class="fu">dagitty</span>( <span class="st">"dag{ A -&gt; D; A -&gt; M; M -&gt; D }"</span> )</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coordinates</span>(dag3<span class="fl">.2</span>) <span class="ot">&lt;-</span> <span class="fu">list</span>( <span class="at">x=</span><span class="fu">c</span>(<span class="at">A=</span><span class="dv">0</span>,<span class="at">D=</span><span class="dv">1</span>,<span class="at">M=</span><span class="dv">2</span>) , <span class="at">y=</span><span class="fu">c</span>(<span class="at">A=</span><span class="dv">0</span>,<span class="at">D=</span><span class="dv">1</span>,<span class="at">M=</span><span class="dv">0</span>) )</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">drawdag</span>( dag3<span class="fl">.2</span>, <span class="at">cex =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">3</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture03-1_files/figure-revealjs/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="forks-1" class="level3">
+<h3 class="anchored" data-anchor-id="forks-1">forks</h3>
+<p>DAG models help us to see <strong>conditional independencies</strong>.</p>
+<ul>
+<li>statements of which variables should be associated with each other (or not) in the data.</li>
+<li>statements of which variables become disassociated when we condition on some other set of variables.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">impliedConditionalIndependencies</span>( dag3<span class="fl">.2</span> ) <span class="co">#none</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="notes">
+<p>implication is that if we find any of these three variables are uncorrelated, our DAG is wrong.</p>
+</div>
+<hr>
+<p>How does this change with a new DAG?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dag3<span class="fl">.3</span> <span class="ot">&lt;-</span> <span class="fu">dagitty</span>( <span class="st">"dag{ A -&gt; D; A -&gt; M }"</span> )</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coordinates</span>(dag3<span class="fl">.3</span>) <span class="ot">&lt;-</span> <span class="fu">list</span>( <span class="at">x=</span><span class="fu">c</span>(<span class="at">A=</span><span class="dv">0</span>,<span class="at">D=</span><span class="dv">1</span>,<span class="at">M=</span><span class="dv">2</span>) , <span class="at">y=</span><span class="fu">c</span>(<span class="at">A=</span><span class="dv">0</span>,<span class="at">D=</span><span class="dv">1</span>,<span class="at">M=</span><span class="dv">0</span>) )</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">drawdag</span>( dag3<span class="fl">.3</span>, <span class="at">cex =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">3</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture03-1_files/figure-revealjs/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">impliedConditionalIndependencies</span>( dag3<span class="fl">.3</span> ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>D _||_ M | A</code></pre>
+</div>
+</div>
+<div class="notes">
+<p>implication that D and M will be independent after stratifying on A. We can test this.</p>
+</div>
+<hr>
+<p><span class="math display">\[\begin{align*}
+D_i &amp;\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &amp;= \alpha + \beta_AA_i + \beta_MM_i\\
+\alpha &amp;\sim \text{Normal}(0, 0.2) \\
+\beta_A &amp;\sim \text{Normal}(0, 0.5) \\
+\beta_M &amp;\sim \text{Normal}(0, 0.5) \\
+\sigma &amp;\sim \text{Exponential}(1) \\
+\end{align*}\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>A <span class="ot">&lt;-</span> <span class="fu">standardize</span>(d<span class="sc">$</span>MedianAgeMarriage)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>flist <span class="ot">&lt;-</span> <span class="fu">alist</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  D <span class="sc">~</span> <span class="fu">dnorm</span>( mu, sigma),</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> a <span class="sc">+</span> bA <span class="sc">*</span> A <span class="sc">+</span> bM <span class="sc">*</span> M,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  a <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="fl">0.2</span>),</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  bA <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="fl">0.5</span>),</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  bM <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="fl">0.5</span>),</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  sigma <span class="sc">~</span> <span class="fu">dexp</span>(<span class="dv">1</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>m3<span class="fl">.2</span> <span class="ot">&lt;-</span> <span class="fu">quap</span>(<span class="at">flist =</span> flist, <span class="at">data =</span> d)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="fu">precis</span>(m3<span class="fl">.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               mean         sd       5.5%      94.5%
+a      3.836799e-06 0.09707548 -0.1551415  0.1551492
+bA    -6.133942e-01 0.15098419 -0.8546961 -0.3720923
+bM    -6.524857e-02 0.15077339 -0.3062136  0.1757164
+sigma  7.851122e-01 0.07784206  0.6607056  0.9095188</code></pre>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>( <span class="fu">coeftab</span>(m3<span class="fl">.1</span>,m3<span class="fl">.2</span>), <span class="at">par=</span><span class="fu">c</span>(<span class="st">"bA"</span>,<span class="st">"bM"</span>) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture03-1_files/figure-revealjs/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+<p>If we want to simulate the effect of manipulating marriage, we use “do calculus.” We do this by effectively “deleting” the arrows going into our manipulation variable (M).</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture03-1_files/figure-revealjs/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture03-1_files/figure-revealjs/do-M-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>post <span class="ot">&lt;-</span> <span class="fu">extract.samples</span>(m3<span class="fl">.2</span>) <span class="co"># get 10k samples of all parameters</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fl">1e4</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>As <span class="ot">&lt;-</span> <span class="fu">sample</span>(d<span class="sc">$</span>A, <span class="at">size=</span>n, <span class="at">replace=</span>T) <span class="co">#sample from original data</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># simulate D for M=0</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>DM0 <span class="ot">&lt;-</span> <span class="fu">with</span>( post ,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>             <span class="fu">rnorm</span>(n, a <span class="sc">+</span> bM<span class="sc">*</span><span class="dv">0</span> <span class="sc">+</span> bA<span class="sc">*</span>As, sigma))</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># simulate D for M=1 -- SAME A values</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>DM1 <span class="ot">&lt;-</span> <span class="fu">with</span>( post ,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>             <span class="fu">rnorm</span>(n, a <span class="sc">+</span> bM<span class="sc">*</span><span class="dv">1</span> <span class="sc">+</span> bA<span class="sc">*</span>As, sigma))</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co">#contrast</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>M10_con <span class="ot">&lt;-</span> DM1 <span class="sc">-</span> DM0</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="fu">dens</span>(M10_con, <span class="at">lwd=</span><span class="dv">4</span>, <span class="at">col =</span> <span class="st">"#1c5253"</span>, <span class="at">xlab=</span><span class="st">"effect of 1SD increase in M"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+</section>
+<section id="pipes" class="level3">
+<h3 class="anchored" data-anchor-id="pipes">Pipes</h3>
+<p>A pipe in a DAG model represents a situation where a variable acts as a mediator between two other variables. In this context, the effect of one variable on another is transmitted through the mediator.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>dag_pipe <span class="ot">&lt;-</span> <span class="fu">dagitty</span>(<span class="st">"dag{ X -&gt; M -&gt; Y }"</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coordinates</span>(dag_pipe) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="at">X=</span><span class="dv">0</span>, <span class="at">M=</span><span class="dv">1</span>, <span class="at">Y=</span><span class="dv">2</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="at">X=</span><span class="dv">0</span>, <span class="at">M=</span><span class="dv">1</span>, <span class="at">Y=</span><span class="dv">0</span>))</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">drawdag</span>(dag_pipe, <span class="at">cex =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture03-1_files/figure-revealjs/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>One place that pipes show up is in <strong>post-treatment bias.</strong></p>
+<hr>
+<p>Suppose you are studying plants in a greenhouse, and you want to know how effective a particular fungal treatment is. Fungus on plants tends to reduce their growth. You plant a bunch of plants, measure them, then apply one of two different treatments. After some time, you measure the plants again, and you measure the amount of fungus on the plants.</p>
+<p>Simulate some fake plant data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">71</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># number of plants</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># simulate initial heights</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>h0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N,<span class="dv">10</span>,<span class="dv">2</span>)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co"># assign treatments and simulate fungus and growth</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>treatment <span class="ot">&lt;-</span> <span class="fu">rep</span>( <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span> , <span class="at">each=</span>N<span class="sc">/</span><span class="dv">2</span> )</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>fungus <span class="ot">&lt;-</span> <span class="fu">rbinom</span>( N , <span class="at">size=</span><span class="dv">1</span> , <span class="at">prob=</span><span class="fl">0.5</span> <span class="sc">-</span> treatment<span class="sc">*</span><span class="fl">0.4</span> )</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>h1 <span class="ot">&lt;-</span> h0 <span class="sc">+</span> <span class="fu">rnorm</span>(N, <span class="dv">5</span> <span class="sc">-</span> <span class="dv">3</span><span class="sc">*</span>fungus)</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co"># compose a clean data frame</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>( <span class="at">h0=</span>h0 , <span class="at">h1=</span>h1 , <span class="at">treatment=</span>treatment , <span class="at">fungus=</span>fungus )</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="fu">precis</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              mean        sd      5.5%    94.5%    histogram
+h0         9.95978 2.1011623  6.570328 13.07874 ▁▂▂▂▇▃▂▃▁▁▁▁
+h1        14.39920 2.6880870 10.618002 17.93369     ▁▁▃▇▇▇▁▁
+treatment  0.50000 0.5025189  0.000000  1.00000   ▇▁▁▁▁▁▁▁▁▇
+fungus     0.23000 0.4229526  0.000000  1.00000   ▇▁▁▁▁▁▁▁▁▂</code></pre>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="exercise-2" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2">exercise</h2>
+<p>Draw the dag that describes the relationships between these 4 variables.</p>
+<p>What are the implied conditional independences?</p>
+<hr>
+<section id="solution-5" class="level3">
+<h3 class="anchored" data-anchor-id="solution-5">solution</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>plant_dag <span class="ot">&lt;-</span> <span class="fu">dagitty</span>( <span class="st">"dag {</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="st">  H_0 -&gt; H_1</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="st">  F -&gt; H_1</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="st">  T -&gt; F}"</span> )</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="fu">coordinates</span>( plant_dag ) <span class="ot">&lt;-</span> <span class="fu">list</span>( <span class="at">x=</span><span class="fu">c</span>(<span class="at">H_0=</span><span class="fl">1.0</span>,<span class="at">T=</span><span class="dv">0</span>,<span class="at">F=</span><span class="fl">0.5</span>,<span class="at">H_1=</span><span class="dv">1</span>),</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">y=</span><span class="fu">c</span>(<span class="at">H_0=</span><span class="sc">-</span>.<span class="dv">5</span>,<span class="at">T=</span><span class="dv">0</span>,<span class="at">F=</span><span class="fl">0.5</span>,<span class="at">H_1=</span><span class="dv">0</span>) )</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="fu">drawdag</span>( plant_dag, <span class="at">cex =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">3</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture03-1_files/figure-revealjs/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">impliedConditionalIndependencies</span>(plant_dag)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>F _||_ H_0
+H_0 _||_ T
+H_1 _||_ T | F</code></pre>
+</div>
+</div>
+<hr>
+<p>Let’s start by just modeling growth using our two height variables.</p>
+<p><span class="math display">\[\begin{align*}
+h_{1,i} &amp;\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &amp;= h_{0,i} \times p \\
+p &amp;\sim \text{Log Normal}(0, .25) \\
+\sigma &amp;\sim \text{Exponential}(1)
+\end{align*}\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>flist <span class="ot">&lt;-</span> <span class="fu">alist</span>(</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  h1 <span class="sc">~</span> <span class="fu">dnorm</span>(mu, sigma),</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> h0<span class="sc">*</span>p,</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  p <span class="sc">~</span> <span class="fu">dlnorm</span>(<span class="dv">0</span>, .<span class="dv">25</span>),</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  sigma <span class="sc">~</span> <span class="fu">dexp</span>(<span class="dv">1</span>)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>m3<span class="fl">.3</span> <span class="ot">&lt;-</span> <span class="fu">quap</span>(flist, d)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="fu">precis</span>(m3<span class="fl">.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          mean         sd     5.5%    94.5%
+p     1.426628 0.01759792 1.398503 1.454753
+sigma 1.792063 0.12496047 1.592352 1.991774</code></pre>
+</div>
+</div>
+<hr>
+<p>Now add treatment to this model.</p>
+<p><span class="math display">\[\begin{align*}
+h_{1,i} &amp;\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &amp;= h_{0,i} \times p \\
+p &amp;= \alpha + \beta_TT_i \\
+\alpha &amp;\sim \text{Log Normal}(0, .25) \\
+\beta_T &amp;\sim \text{Normal}(0, .5) \\
+\sigma &amp;\sim \text{Exponential}(1)
+\end{align*}\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>flist <span class="ot">&lt;-</span> <span class="fu">alist</span>(</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  h1 <span class="sc">~</span> <span class="fu">dnorm</span>(mu, sigma),</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> h0<span class="sc">*</span>p,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> a <span class="sc">+</span> bT <span class="sc">*</span> treatment,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  a <span class="sc">~</span> <span class="fu">dlnorm</span>(<span class="dv">0</span>, .<span class="dv">25</span>),</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  bT <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, .<span class="dv">5</span>),</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  sigma <span class="sc">~</span> <span class="fu">dexp</span>(<span class="dv">1</span>)</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>m3<span class="fl">.4</span> <span class="ot">&lt;-</span> <span class="fu">quap</span>(flist, d)</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="fu">precis</span>(m3<span class="fl">.4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            mean         sd       5.5%     94.5%
+a     1.38168552 0.02519767 1.34141478 1.4219563
+bT    0.08366426 0.03431331 0.02882496 0.1385036
+sigma 1.74629961 0.12190865 1.55146604 1.9411332</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="exercise-3" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-3">exercise</h3>
+<p>Now add in both treatment and fungus to this model.</p>
+<hr>
+</section>
+<section id="solution-6" class="level3">
+<h3 class="anchored" data-anchor-id="solution-6">solution</h3>
+<p><span class="math display">\[\begin{align*}
+h_{1,i} &amp;\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &amp;= h_{0,i} \times p \\
+p &amp;= \alpha + \beta_TT_i + \beta_FF_i \\
+\alpha &amp;\sim \text{Log Normal}(0, .25) \\
+\beta_T &amp;\sim \text{Normal}(0, .5) \\
+\beta_F &amp;\sim \text{Normal}(0, .5) \\
+\sigma &amp;\sim \text{Exponential}(1)
+\end{align*}\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>flist <span class="ot">&lt;-</span> <span class="fu">alist</span>(</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  h1 <span class="sc">~</span> <span class="fu">dnorm</span>(mu, sigma),</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> h0<span class="sc">*</span>p,</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> a <span class="sc">+</span> bT <span class="sc">*</span> treatment <span class="sc">+</span> bF <span class="sc">*</span> fungus,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  a <span class="sc">~</span> <span class="fu">dlnorm</span>(<span class="dv">0</span>, .<span class="dv">25</span>),</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  bT <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, .<span class="dv">5</span>),</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  bF <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, .<span class="dv">5</span>),</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  sigma <span class="sc">~</span> <span class="fu">dexp</span>(<span class="dv">1</span>)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>m3<span class="fl">.4</span> <span class="ot">&lt;-</span> <span class="fu">quap</span>(flist, d)</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="fu">precis</span>(m3<span class="fl">.4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              mean         sd        5.5%       94.5%
+a      1.482826896 0.02452192  1.44363614  1.52201765
+bT     0.001060225 0.02987668 -0.04668849  0.04880894
+bF    -0.267912187 0.03654981 -0.32632584 -0.20949853
+sigma  1.408656542 0.09859148  1.25108831  1.56622477</code></pre>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="colliders" class="level2">
+<h2 class="anchored" data-anchor-id="colliders">colliders</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>dag3<span class="fl">.4</span> <span class="ot">&lt;-</span> <span class="fu">dagitty</span>( <span class="st">"dag{ X -&gt; Z; Y -&gt; Z }"</span> )</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coordinates</span>(dag3<span class="fl">.4</span>) <span class="ot">&lt;-</span> <span class="fu">list</span>( <span class="at">x=</span><span class="fu">c</span>(<span class="at">X=</span><span class="sc">-</span><span class="dv">1</span>,<span class="at">Z=</span><span class="dv">0</span>,<span class="at">Y=</span><span class="dv">1</span>) , <span class="at">y=</span><span class="fu">c</span>(<span class="at">X=</span><span class="dv">0</span>,<span class="at">Z=</span><span class="dv">1</span>,<span class="at">Y=</span><span class="dv">0</span>) )</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">drawdag</span>( dag3<span class="fl">.4</span>, <span class="at">cex =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">3</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture03-1_files/figure-revealjs/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Stratifying on Z opens up the association between X and Y. We do <em>not</em> want to stratify on Z.</p>
+<hr>
+<section id="collider-of-false-sorrow" class="level3">
+<h3 class="anchored" data-anchor-id="collider-of-false-sorrow">collider of false sorrow</h3>
+<p>We’ll use the <code>rethinking</code> package to simulate data:</p>
+<ul>
+<li>Each year, 20 people are born with uniformly distributed happiness values.</li>
+<li>Each year, each person ages one year. Happiness does not change.</li>
+<li>At age 18, individuals can become married. The odds of marriage each year are proportional to an individual’s happiness.</li>
+<li>Once married, an individual remains married.</li>
+<li>After age 65, individuals leave the sample. (They move to Spain.)</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">sim_happiness</span>(<span class="at">seed =</span> <span class="dv">1990</span>, <span class="at">N_years =</span> <span class="dv">1000</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">precis</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  mean         sd      5.5%     94.5%     histogram
+age       3.300000e+01 18.7688832  4.000000 62.000000 ▇▇▇▇▇▇▇▇▇▇▇▇▇
+married   2.946154e-01  0.4560451  0.000000  1.000000    ▇▁▁▁▁▁▁▁▁▃
+happiness 6.832142e-19  1.2144211 -1.789474  1.789474      ▇▅▇▅▅▇▅▇</code></pre>
+</div>
+</div>
+<hr>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>d <span class="sc">%&gt;%</span> </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">married =</span> <span class="fu">factor</span>(married, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"unmarried"</span>, <span class="st">"married"</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>( <span class="at">x =</span> age, <span class="at">y =</span> happiness)) <span class="sc">+</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>( <span class="fu">aes</span>( <span class="at">color =</span> married), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="st">""</span>,</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"unmarried"</span> <span class="ot">=</span> <span class="st">"lightgrey"</span>,</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"married"</span> <span class="ot">=</span> <span class="st">"#1c5253"</span>)) <span class="sc">+</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lecture03-1_files/figure-revealjs/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="exercise-4" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-4">exercise</h3>
+<p>Filter out people who are younger than 18. Then fit two models:</p>
+<ol type="1">
+<li>a model in which happiness is influenced by both marriage and age.</li>
+<li>a model in which happiness is influenced only by age.</li>
+</ol>
+<p>(You may want to center or standardize age in some way.)</p>
+<hr>
+</section>
+<section id="solution-7" class="level3">
+<h3 class="anchored" data-anchor-id="solution-7">solution</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> d[d<span class="sc">$</span>age <span class="sc">&gt;=</span> <span class="dv">18</span>, ]</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>d2<span class="sc">$</span>A <span class="ot">&lt;-</span> <span class="fu">standardize</span>(d2<span class="sc">$</span>age)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>d2<span class="sc">$</span>mid <span class="ot">&lt;-</span> d2<span class="sc">$</span>married <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">precis</span>(d2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   mean         sd      5.5%     94.5%  histogram
+age        4.150000e+01 13.8606201 20.000000 63.000000 ▃▇▇▇▇▇▇▇▇▇
+married    3.989583e-01  0.4899394  0.000000  1.000000 ▇▁▁▁▁▁▁▁▁▅
+happiness  9.251859e-19  1.2145867 -1.789474  1.789474   ▇▅▇▅▅▇▅▇
+A         -6.476301e-18  1.0000000 -1.551157  1.551157   ▃▇▇▇▇▇▇▃
+mid        1.398958e+00  0.4899394  1.000000  2.000000 ▇▁▁▁▁▁▁▁▁▅</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="solution-8" class="level3">
+<h3 class="anchored" data-anchor-id="solution-8">solution</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>flist <span class="ot">&lt;-</span> <span class="fu">alist</span>(</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  happiness <span class="sc">~</span> <span class="fu">dnorm</span>( mu, sigma ),</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> a[mid] <span class="sc">+</span> bA<span class="sc">*</span>A,</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  a[mid] <span class="sc">~</span> <span class="fu">dnorm</span>( <span class="dv">0</span>, <span class="fl">0.5</span>),</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  bA <span class="sc">~</span> <span class="fu">dnorm</span>( <span class="dv">0</span>, <span class="fl">0.25</span>),</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  sigma <span class="sc">~</span> <span class="fu">dexp</span>(<span class="dv">1</span>)</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>m3<span class="fl">.5</span> <span class="ot">&lt;-</span> <span class="fu">quap</span>(flist, d2)</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="fu">precis</span>(m3<span class="fl">.5</span>, <span class="at">depth=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            mean         sd       5.5%      94.5%
+a[1]  -0.5905624 0.04197727 -0.6576502 -0.5234746
+a[2]   0.8866633 0.05191218  0.8036976  0.9696290
+bA    -0.2136768 0.03329633 -0.2668908 -0.1604629
+sigma  0.9928218 0.02264183  0.9566358  1.0290078</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="solution-9" class="level3">
+<h3 class="anchored" data-anchor-id="solution-9">solution</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>flist <span class="ot">&lt;-</span> <span class="fu">alist</span>(</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  happiness <span class="sc">~</span> <span class="fu">dnorm</span>( mu, sigma ),</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> a <span class="sc">+</span> bA<span class="sc">*</span>A,</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  a <span class="sc">~</span> <span class="fu">dnorm</span>( <span class="dv">0</span>, <span class="fl">0.5</span>),</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  bA <span class="sc">~</span> <span class="fu">dnorm</span>( <span class="dv">0</span>, <span class="fl">0.25</span>),</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  sigma <span class="sc">~</span> <span class="fu">dexp</span>(<span class="dv">1</span>)</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>m3<span class="fl">.6</span> <span class="ot">&lt;-</span> <span class="fu">quap</span>(flist, d2)</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="fu">precis</span>(m3<span class="fl">.6</span>, <span class="at">depth=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               mean         sd        5.5%      94.5%
+a      7.215763e-07 0.03903552 -0.06238558 0.06238703
+bA    -1.864706e-07 0.03870314 -0.06185527 0.06185490
+sigma  1.213174e+00 0.02766004  1.16896820 1.25738038</code></pre>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="testing-dag-assumptions" class="level2">
+<h2 class="anchored" data-anchor-id="testing-dag-assumptions">testing DAG assumptions</h2>
+<ul>
+<li><p>Causal DAGs make strong assumptions about unobserved confounders, but analyzing them can still provide valuable insights about where our models might be wrong through testing implied relationships.</p></li>
+<li><p>Conditional independencies are key testable implications of a DAG, representing pairs of variables that should show no association after controlling for specific sets of other variables.</p></li>
+<li><p>We can identify conditional independencies using the same path analysis techniques used for finding backdoor paths - examining all paths between two variables and determining if there exists a conditioning set that blocks all paths.</p></li>
+<li><p>While manually deriving conditional independencies in large graphs is complex due to the many variable pairs and paths to consider, computational tools can efficiently perform these calculations.</p></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+
+<script>
+  // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+  // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+  // slide changes (different for each slide format).
+  (function () {
+    // dispatch for htmlwidgets
+    function fireSlideEnter() {
+      const event = window.document.createEvent("Event");
+      event.initEvent("slideenter", true, true);
+      window.document.dispatchEvent(event);
+    }
+
+    function fireSlideChanged(previousSlide, currentSlide) {
+      fireSlideEnter();
+
+      // dispatch for shiny
+      if (window.jQuery) {
+        if (previousSlide) {
+          window.jQuery(previousSlide).trigger("hidden");
+        }
+        if (currentSlide) {
+          window.jQuery(currentSlide).trigger("shown");
+        }
+      }
+    }
+
+    // hookup for slidy
+    if (window.w3c_slidy) {
+      window.w3c_slidy.add_observer(function (slide_num) {
+        // slide_num starts at position 1
+        fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+      });
+    }
+
+  })();
+</script>
+
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/uobayes\.netlify\.app");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Content <i class="fa-brands fa-creative-commons" aria-hidden="true"></i> 2025 by <a href="https://uobayes.netlify.app/">Sara Weston</a> <br> All content licensed under a <i class="fa-brands fa-creative-commons" aria-hidden="true"></i> <i class="fa-brands fa-creative-commons-by" aria-hidden="true"></i> <i class="fa-brands fa-creative-commons-nc" aria-hidden="true"></i> <a href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International license (CC BY-NC 4.0)</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Made with <i class="fa-brands fa-r-project" aria-hidden="true"></i> and <a href="https://quarto.org/">Quarto</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

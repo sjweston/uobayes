@@ -21,34 +21,6 @@ library(knitr)
 
 Below is the schedule for the course. Note that this schedule may change as the course progresses.
 
-### Week 1: Course Introduction
-
-- **Session 1**: Course Overview
-  - Topics: Course objectives, requirements, and expectations; Bayes' Rule
-
-- **Session 2**: Gardens of forking data
-  - Topics: Bayes as counting
-  - [Assignment 1](/assignment/01-problem-set.html) released
-
-### Week 2: Topic 1
-
-- **Session 3**: Topic 1.1
-  - Topics: Key concepts and methods
-  - [Slides](/slides/02-slides.html) ([PDF](/slides/02-slides.pdf))
-
-- **Session 4**: Topic 1.2
-  - Topics: Applications and examples
-  - [Assignment 1](/assignment/01-problem-set.html) due
-
-### Week 3: Topic 2
-
-- **Session 5**: Topic 2.1
-  - Topics: Key concepts and methods
-  - [Slides](/slides/03-slides.html) ([PDF](/slides/03-slides.pdf))
-
-- **Session 6**: Topic 2.2
-  - Topics: Applications and examples
-  - [Assignment 2](/assignment/02-problem-set.html) released
 
 ::: {.callout-note}
 ## Schedule Notes
@@ -58,18 +30,18 @@ Below is the schedule for the course. Note that this schedule may change as the 
 3. Additional readings and resources will be posted on the course website
 :::
 
-```{r packages-data, include=FALSE, eval = FALSE }
+```{r packages-data, include=FALSE }
 library(tidyverse)
 library(knitr)
 library(kableExtra)
 
-# withr::with_dir(here::here(), {
-#   schedule_nested <- targets::tar_read(schedule_page_data)
-#   targets::tar_load(schedule_ical_file)
-# })
+withr::with_dir(here::here(), {
+  schedule_nested <- targets::tar_read(schedule_page_data)
+  targets::tar_load(schedule_ical_file)
+})
 
 base_url <- yaml::read_yaml(here::here("_quarto.yml"))$website$`site-url`
-# ical_url_absolute <- paste0(base_url, "/", schedule_ical_file)
+ical_url_absolute <- paste0(base_url, "/", schedule_ical_file)
 ```
 
 ::: {.schedule-page}
@@ -79,3 +51,33 @@ Here's your roadmap for the semester!
 - [**Content**](/content/) ({{< fa book-open-reader >}}): This page contains the recorded lectures and slides for the week. Watch the lectures **before** our in-person class.
 
 - [**Assignment**](/assignment/) ({{< fa pen-ruler >}}): This page contains the instructions for each assignment. 
+
+::: {.callout-tip}
+
+
+
+```{r build-table, include=FALSE}
+show_table <- function(group_id) {
+  # Add a heading
+  cat(as.character(paste("\n\n###", schedule_nested$group[[group_id]], "\n\n")))
+  
+  # Make the table
+  tbl <- schedule_nested$data[[group_id]] %>% 
+    select(-subgroup) %>% 
+    kbl(escape = FALSE, align = "rlccc", table.attr = 'class="schedule-table"') %>% 
+    kable_styling() %>% 
+    column_spec(1, width = "20%", extra_css = "padding-right: 20px;") %>% 
+    column_spec(2, width = "50%") %>% 
+    column_spec(3:4, width = "10%") %>% 
+    pack_rows(index = schedule_nested$subgroup_index[[group_id]],
+              label_row_css = "border-bottom: 2px solid #000000;")
+  
+  cat(tbl)
+}
+```
+
+```{r show-table, echo=FALSE, results="asis"}
+walk(seq(1, nrow(schedule_nested)), ~show_table(.x))
+```
+
+:::

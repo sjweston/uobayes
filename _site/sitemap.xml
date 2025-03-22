@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://uobayes.netlify.app/lectures/lecture05-2.html</loc>
-    <lastmod>2025-03-21T23:21:32.132Z</lastmod>
+    <loc>https://uobayes.netlify.app/lectures/lecture01-1.html</loc>
+    <lastmod>2025-03-20T17:36:02.902Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uobayes.netlify.app/schedule2.html</loc>
+    <lastmod>2025-03-22T04:28:38.968Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uobayes.netlify.app/content/01-content.html</loc>
+    <lastmod>2025-03-22T04:25:01.079Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uobayes.netlify.app/schedule.html</loc>
+    <lastmod>2025-03-22T04:33:28.007Z</lastmod>
   </url>
 </urlset>
