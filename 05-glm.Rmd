@@ -1,0 +1,32 @@
+# Week 5: Integers and other monsters
+
+## Class 1: Modeling events
+
+
+::: {.content-visible when-format="html"}
+
+```{r, results = 'asis', echo = F}
+library(vembedr)
+embed_youtube("Zi6N3GLUJmw")
+```
+
+:::
+
+<iframe src="lectures/lecture05-1.html" width="100%" height="500px"></iframe>
+
+This lecture is based on Chapters 10 and 11 in _Statistical Rethinking_ by Richard McElreath.
+
+## Class 2: MCMC
+
+::: {.content-visible when-format="html"}
+
+```{r, results = 'asis', echo = F}
+embed_youtube("jokxu18egu0")
+```
+
+:::
+
+<iframe src="lectures/lecture05-2.html" width="100%" height="500px"></iframe>
+
+This lecture is based on Chapter 12 in _Statistical Rethinking_ by Richard McElreath.
+

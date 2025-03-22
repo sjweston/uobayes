@@ -1,0 +1,33 @@
+# Week 4: Overfitting/MCMC
+
+## Class 1: Overfitting
+
+
+::: {.content-visible when-format="html"}
+
+```{r, results = 'asis', echo = F}
+library(vembedr)
+embed_youtube("1VgYIsANQck")
+```
+
+:::
+
+<iframe src="lectures/lecture04-1.html" width="100%" height="500px"></iframe>
+
+This lecture is based on Chapter 7 in _Statistical Rethinking_ by Richard McElreath.
+
+## Class 2: MCMC
+
+
+::: {.content-visible when-format="html"}
+
+```{r, results = 'asis', echo = F}
+embed_youtube("rZk2FqX2XnY")
+```
+
+:::
+
+<iframe src="lectures/lecture04-2.html" width="100%" height="500px"></iframe>
+
+This lecture is based on Chapter 9 in _Statistical Rethinking_ by Richard McElreath.
+

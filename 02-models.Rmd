@@ -1,0 +1,120 @@
+# Week 2: Linear models and causal inference
+
+## Class 1: Geocentric models 
+
+::: {.content-visible when-format="html"}
+
+```{r, results = 'asis', echo = F}
+library(vembedr)
+embed_youtube("tNOu-SEacNU")
+```
+
+:::
+
+<iframe src="lectures/lecture02-1.html" width="100%" height="500px"></iframe>
+
+This lecture is based on Chapter 4 in _Statistical Rethinking_ by Richard McElreath.
+
+## Class 2: Categories (and curves)
+
+::: {.content-visible when-format="html"}
+
+```{r, results = 'asis', echo = F, eval = F}
+embed_youtube("F0N4b7K_iYQ")
+```
+
+:::
+
+<iframe src="lectures/lecture02-2.html" width="100%" height="500px"></iframe>
+
+This lecture is based on Chapter 5 Section 3 in _Statistical Rethinking_ by Richard McElreath.
+
+### Curves (splines)
+
+We won't have time to address curves in class, and McElreath doesn't give you a lot of code to work with in the lecture. Here's how to reproduce his spline model from the lecture.
+
+#### Data preparation
+
+```{r, results = 'hide', message = F, warning =F}
+library(rethinking)
+library(psych)
+library(tidyverse)
+library(splines)
+
+```
+
+```{r}
+data(cherry_blossoms)
+d <- cherry_blossoms
+precis(d)
+
+psych::describe(d)
+```
+
+Note that some of the values for `doy` (day of year) are missing. The `quap()` function can't handle missingness, so we'll remove those rows before proceeding.
+
+```{r}
+d2 <- d[ complete.cases(d$doy) , ] # complete cases on doy
+```
+
+Next we set up an arbitrary number of knots. Knots divide our data into $N_{knots}+1$ equal bins, such that each bin has the same number of data points. McElreath chooses 15 knots. 
+```{r}
+num_knots <- 15
+knot_list <- quantile( d2$year , probs=seq(0,1,length.out=num_knots) )
+knot_list
+```
+
+To visualize how our data have been partitioned:
+
+```{r}
+d2 %>% 
+  ggplot(aes(x = year, y = doy)) +
+  geom_point(color = "#ffb7c5", alpha = 1/2) + 
+  geom_vline(xintercept = knot_list, color = "white", alpha = .5) +
+  theme(panel.grid = element_blank(),
+        panel.background = element_rect(fill = "#4f455c"))
+```
+
+Next, we'll use functions in the `spline` package to create basis spline functions based on these knots
+
+```{r}
+
+B <- bs(d2$year,
+  knots=knot_list[-c(1,num_knots)] ,
+  degree=3 , intercept=TRUE )
+
+plot( NULL , xlim=range(d2$year) , ylim=c(0,1) , xlab="year" , ylab="basis" )
+for ( i in 1:ncol(B) ) lines( d2$year , B[,i] )
+```
+
+#### Mathematical model and `quap()`
+
+Here is the mathematical model for the spline model:
+
+\begin{align*}
+D_i &\sim \text{Normal}(\mu_i,\sigma) \\
+\mu_i &= \alpha + \sum^K_{k=1} w_k B_{k,i} \\
+\alpha &\sim \text{Normal}(100,10) \\
+w_j &\sim \text{Normal}(0,10) \\
+\sigma &\sim \text{Exponential}(1)
+\end{align*}
+
+And here's how we can fit this using `quap()`. Note that this is the first use of the `start` function, which gives the estimation algorithm a start value. This can be helpful if you find that models are not converging.
+
+```{r}
+m5<- quap(
+
+  alist(
+  D ~ dnorm( mu , sigma ) ,
+  mu <- a + B %*% w ,
+  a ~ dnorm(100,10),
+  w ~ dnorm(0,10),
+  sigma ~ dexp(1)), 
+  
+  data=list( D=d2$doy , B=B ) ,
+  
+  start=list( w=rep( 0 , ncol(B) ) ) )
+```
+
+
+

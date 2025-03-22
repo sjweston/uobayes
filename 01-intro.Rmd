@@ -1,0 +1,28 @@
+# Week 1: Introduction to Bayesian Analysis
+
+## Class 1: Probability
+
+<iframe src="lectures/lecture01-1.html" width="100%" height="500px"></iframe>
+
+This lecture is based on the following article: @etz_introduction_2018-1. [download here.](readings/Etz and Vandekerckhove - 2018 - Introduction to Bayesian Inference for Psychology.pdf)
+
+## Class 2: Bayes as counting
+
+Before class, be sure to watch both of the following lectures by McElreath:
+
+::: {.content-visible when-format="html"}
+
+```{r, results = 'asis', echo = F}
+library(vembedr)
+embed_youtube("FdnMWdICdRs")
+```
+
+```{r, results = 'asis', echo = F}
+embed_youtube("R1vcdhPBlXA")
+```
+
+:::
+  
+<iframe src="lectures/lecture01-2.html" width="100%" height="500px"></iframe>
+
+This lecture is based on Chapters 2 and 3 in _Statistical Rethinking_ by Richard McElreath.

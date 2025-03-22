@@ -1,0 +1,138 @@
+--- 
+title: "PSY 607 Bayesian Analysis"
+author: "Sara Weston"
+date: "Spring 2025"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib, articles.bib]
+biblio-style: "apalike"
+# url: your book url like https://bookdown.org/yihui/bookdown
+# cover-image: path to the social sharing image like images/cover.jpg
+description: |
+  Course website for PSY 607: Bayesian Analysis (Spring 2025). All course materials are available here. Please use our Canvas page to submit homework assignments. 
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+always_allow_html: true
+
+---
+
+# Course description {-}
+
+This advanced statistics course introduces students to Bayesian methods with a focus on practical application using modern computational tools. Through a combination of theoretical foundations and hands-on programming, students learn to build, interpret, and critique Bayesian models using the R programming language, with particular emphasis on the brms package.
+
+## Structure
+
+  This course is a mix of asynchronous lectures, in-class activities, and homework assignments. 
+
+  Before each class, you will watch a video lecture. These will be posted here alongside each lecture.
+
+  At the beginning of each class, there will be a short quiz to check your understanding of the lecture and help me know what to review.
+
+  Class time will be used for in-class activities, including group work and discussion.
+
+  Each week will have a homework assignment. These will be posted here.
+
+  You can find all the materials for each week in the week's chapter.
+
+## Materials
+
+  **Required:**
+  
+  - R and RStudio (free)
+
+  **Recommended:**
+  
+  - _Statistical Rethinking_ by Richard McElreath (2nd ed.)
+
+## Schedule
+
+## Grades
+
+  - Homework: 95%
+    - 10 assignments
+    - Graded on completion (not accuracy).
+    - Homework will be posted on Friday and due the following Monday at 11:59pm.
+    - There is a one week grace period for each assignment.
+  - Quizzes: 5%
+    - 19 quizzes
+    - Each quiz will cover the material from the day's recorded lecture.
+    - Quizzes will be completed in class. 
+    - There are no opportunities to makeup missed quizzes.
+    
+## Policies
+
+### Communication
+
+If you have questions about course policies, have trouble submitting an assignment, or want to schedule a meeting, please email. I will make an effort to respond to emails within one business day. Note that I neither plan nor commit to checking email outside of normal business hours (9am-5pm, Mon-Fri). 
+
+If you are having trouble understanding a concept covered in class, please come to office hours, schedule a meeting with me, or ask for clarification during class periods. I will not explain course concepts over email.  
+
+Occasionally, I will send out announcements to the entire class via Canvas announcements. These will typically appear when you open Canvas, but you can update your Canvas settings to receive these announcements as emails. It is strongly recommended that you do so.
+
+### Classroom
+
+All members of the class (students and instructor) can expect to:
+
+_Participate and Contribute:_ All students are expected to participate by sharing ideas and contributing to the learning environment. This entails preparing, following instructions, and engaging respectfully and thoughtfully with others. 
+
+While all students should participate, participation is not just talking, and a range of participation activities support learning. Participation might look like speaking aloud in the full class and in small groups and collaborating on homework assignments.
+
+_Expect and Respect Diversity:_ All classes at the University of Oregon welcome and respect diverse experiences, perspectives, and approaches. What is not welcome are behaviors or contributions that undermine, demean, or marginalize others based on race, ethnicity, gender, sex, age, sexual orientation, religion, ability, or socioeconomic status. We will value differences and communicate disagreements with respect.  
+
+_Help Everyone Learn:_ Part of how we learn together is by learning from one another. To do this effectively, we need to be patient with each other, identify ways we can assist others, and be open-minded to receiving help and feedback from others. Don’t hesitate to contact me to ask for assistance or offer suggestions that might help us learn better.
+
+### Workload
+
+This is a 3-credit hour course, so you should expect to complete 120 hours of work for the course—an average of about 12 hours each week (this includes time in-class). 
+
+### Generative AI
+
+While generative AI tools (such as ChatGPT, Claude, and Cursor) can be useful for assisting with certain tasks, it’s important to use these technologies responsibly and ethically.
+
+Good uses of AI:
+
+- exploring concepts, generating code ideas, and providing explanations for topics covered in the course. These tools can help clarify difficult concepts, debug code, or suggest alternative approaches to data analysis.
+- create preliminary drafts of code, data analysis plans, or written reports. However, all AI-generated output must be reviewed, tested, and critically evaluated by the student. You are responsible for ensuring the accuracy and appropriateness of all content before submitting it.
+-brainstorm research questions, identify key terms, or help summarize complex literature related to data analysis. However, students should verify any factual claims independently by consulting primary sources.
+
+Bad uses of AI:
+
+- generate entire assignments, projects, or reports. This includes writing whole essays, coding entire projects, or automating data analysis tasks without manual oversight. Any such use will be considered academic misconduct.
+- be used in place of collaborating with peers.
+- submitting AI-generated content without proper attribution or passing it off as entirely your own work.
+
+Students who use AI tools in their coursework must include a brief statement at the end of their submission describing how and where the tool was used. For example: Generative AI was used to suggest the structure of the code in the data visualization section. Failure to disclose AI use may result in a grade reduction or further disciplinary action.
+
+Generative AI can be a helpful resource when used responsibly, but students must actively engage in their learning process. Reliance on AI at the expense of developing your own analytical skills will likely lead to poor performance, not just in this course, but your career more broadly.
+
+[Note: Generative AI was used to suggest the components of this policy.]
+
+
+### Cheating and Plagiarism
+
+Frankly, you’re in graduate school, and the purpose of work is to create opportunities to learn and improve. Even if cheating helps you in the short term, you’ll quickly find yourself ill-prepared for the career you have chosen. If you find yourself tempted to cheat, please come speak to Dr. Weston about an extension and developing tools to improve your success.
+
+### Accessibility
+
+The University of Oregon and I are dedicated to fostering inclusive learning environments for all students and welcomes students with disabilities into all of the University's educational programs. The Accessible Education Center (AEC) assists students with disabilities in reducing campus-wide and classroom-related barriers. If you have or think you have a disability (https://aec.uoregon.edu/content/what-disability) and experience academic barriers, please contact the AEC to discuss appropriate accommodations or support. Visit 360 Oregon Hall or aec.uoregon.edu for more information. You can contact AEC at 541-346-1155 or via email at uoaec@uoregon.edu.
+
+
+### Basic needs
+
+Being able to meet your basic needs is foundational to your success as a student at the University of Oregon. If you are having difficulty affording food, don’t have a stable, safe place to live, or are struggling to meet another need, visit the [UO Basic Needs Resource page](https://blogs.uoregon.edu/basicneeds) for information on how to get support. They have information food, housing, healthcare, childcare, transportation, technology, finances (including emergency funds), and legal support.
+
+If your need is urgent, please contact the Care and Advocacy Program by calling 541-346-3216, filling out the [Community Care and Support form](https://cm.maxient.com/reportingform.php?UnivofOregon&layout_id=1), or by [scheduling an appointment](https://outlook.office365.com/owa/calendar/CareandAdvocacyProgram@uoregon.edu/bookings/) with an advocate.
+
+
+### Reporting obligations
+
+I am a designated reporter. For information about my reporting obligations as an employee, please see [Employee Reporting Obligations](https://investigations.uoregon.edu/employee-responsibilities) on the Office of Investigations and Civil Rights Compliance (OICRC) website. Students experiencing sex- or gender-based discrimination, harassment or violence should call the 24-7 hotline 541-346-SAFE [7244] or visit [safe.uoregon.edu](https://safe.uoregon.edu/) for help. Students experiencing all forms of prohibited discrimination or harassment may contact the Dean of Students Office at 541-346-3216 or the non-confidential Title IX Coordinator/OICRC at 541-346-3123 to request information and resources. Students are not required to participate in an investigation to receive support, including requesting academic supportive measures. Additional resources are available at [investigations.uoregon.edu/how-get-support](https://investigations.uoregon.edu/how-get-support).
+
+I am also a mandatory reporter of child abuse. Please find more information at [Mandatory Reporting of Child Abuse and Neglect](https://hr.uoregon.edu/mandatory-reporting-child-abuse-and-neglect).
+
+Pregnancy Modifications. Pregnant and parenting students are eligible for academic and work modifications related to pregnancy, childbirth, loss of pregnancy, termination of pregnancy, lactation, and related medical conditions. To request pregnancy-related modifications, students should complete the [Request for Pregnancy Modifications form](https://cm.maxient.com/reportingform.php?UnivofOregon&layout_id=108) on the OICRC website. OICRC coordinates academic and other modifications for pregnant and parenting students to ensure students can continue to access their education and university programs and activities.
+
+
+### Campus emergencies
+
+In the event of a campus emergency that disrupts academic activities, course requirements, deadlines, and grading percentages are subject to change. Information about changes in this course will be communicated as soon as possible by email, and on Canvas. If we are not able to meet face-to-face, students should immediately log onto Canvas and read any announcements and/or access alternative assignments. Students are also expected to continue coursework as outlined in this syllabus or other instructions on Canvas.
