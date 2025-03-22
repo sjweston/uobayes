@@ -20,10 +20,9 @@ execute:
 
 I'm excited to be here.
 
--   I'm learning the material along with you.
--   Drawing on materials and resources made by a master (Richard McElreath)
-
-
+-   At this point in your training, you should be learning how to learn -- that is, you need to develop the skills and the mindset necessary to continue to expand your theoretical and methodological toolboxes without the luxury of fully formed course. 
+    - Eventually, you'll be learning primarily from a combination of preprints and a "break it until you understand how it works" mentality. 
+    - This class is a bridge to that. 
 
 ::::: columns
 ::: {.column width="50%"}
@@ -37,6 +36,7 @@ Goals of the class[^lecture01-1-1]:
 My commitments:
 
 -   Be here[^lecture01-1-2], be excited, be patient, be flexible.
+-   Give you structure.
 :::
 :::::
 
@@ -64,6 +64,11 @@ My commitments:
 :::
 
 :::::
+
+-----
+
+## Pop quiz!
+
 
 ------------------------------------------------------------------------
 
