@@ -40,6 +40,8 @@ My commitments:
 :::
 :::::
 
+Course materials can be found at [uobayes.netlify.app](https://uobayes.netlify.app/)
+
 ---
 
 **COURSE FORMAT**: Flipped class style
@@ -64,6 +66,42 @@ My commitments:
 :::
 
 :::::
+
+---
+
+## AI
+
+I am actively pro-AI. The tools that have appeared in the last few years can not only help you do your work more quickly, but they can open up projects for you that you'd never be able to do otherwise. That being said, they're a tool like any other, and they need to be learned. 
+
+My best AI tips:
+
+- AI doesn't get the first word -- giving AI something to work from will always result in a better outcome. 
+  
+  - Your notes or earlier manuscripts
+  
+  - Talk to text!
+  
+  - You can ask the AI to stick as close as possible to your original wording, but to restructure and polish for a specific purpose. 
+  
+- AI doesn't get the last word -- these models hallucinate a lot less than the early days, but you still need to double check the work. 
+
+- Ask the AI to interview you about the topic you're writing about. 
+
+- ChatGPT and Claude are great; have you tried Cursor?
+
+- Know when you need to do the thing yourself. (Pedagogical reasons usually.)
+
+---
+
+## Slack
+
+ - I created a workspace for you. 
+ - Questions, coordination, memes.
+ - I'll lurk and step in occasionally or update lectures accordingly
+ 
+ 
+ - Do you want me to discuss a topic from class? Office hours. 
+
 
 -----
 

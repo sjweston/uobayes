@@ -140,10 +140,13 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#course-description" id="toc-course-description" class="nav-link active" data-scroll-target="#course-description">Course Description</a></li>
+  <li><a href="#course-information" id="toc-course-information" class="nav-link active" data-scroll-target="#course-information">Course Information</a></li>
+  <li><a href="#course-description" id="toc-course-description" class="nav-link" data-scroll-target="#course-description">Course Description</a></li>
   <li><a href="#course-structure" id="toc-course-structure" class="nav-link" data-scroll-target="#course-structure">Course Structure</a></li>
   <li><a href="#materials" id="toc-materials" class="nav-link" data-scroll-target="#materials">Materials</a></li>
+  <li><a href="#assignment-submission" id="toc-assignment-submission" class="nav-link" data-scroll-target="#assignment-submission">Assignment Submission</a></li>
   <li><a href="#grading" id="toc-grading" class="nav-link" data-scroll-target="#grading">Grading</a></li>
+  <li><a href="#slack" id="toc-slack" class="nav-link" data-scroll-target="#slack">Slack</a></li>
   <li><a href="#course-policies" id="toc-course-policies" class="nav-link" data-scroll-target="#course-policies">Course Policies</a>
   <ul>
   <li><a href="#communication" id="toc-communication" class="nav-link" data-scroll-target="#communication">Communication</a></li>
@@ -183,6 +186,16 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="course-information" class="level2">
+<h2 class="anchored" data-anchor-id="course-information">Course Information</h2>
+<p><strong>Instructor:</strong> Dr.&nbsp;Sara Weston<br>
+<strong>Email:</strong> sweston2@uoregon.edu<br>
+<strong>Office:</strong> Straub 325<br>
+<strong>Office Hours:</strong> Friday 10:00 AM - 12:00 PM, and by appointment (<a href="https://calendar.app.google/Gns5YmGFkN4D7YWu5">schedule here</a>)</p>
+<p><strong>Class Meetings:</strong> Tuesday/Thursday 2:00-3:20 PM<br>
+<strong>Location:</strong> 119 FEN<br>
+<strong>Course Website:</strong> <a href="https://uobayes.netlify.app/">uobayes.netlify.app</a></p>
+</section>
 <section id="course-description" class="level2">
 <h2 class="anchored" data-anchor-id="course-description">Course Description</h2>
 <p>This advanced statistics course introduces students to Bayesian methods with a focus on practical application using modern computational tools. Through a combination of theoretical foundations and hands-on programming, students learn to build, interpret, and critique Bayesian models using the R programming language, with particular emphasis on the brms package.</p>
@@ -191,11 +204,11 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="course-structure">Course Structure</h2>
 <p>This course is a mix of asynchronous lectures, in-class activities, and homework assignments:</p>
 <ul>
-<li>Before each class, you will watch a video lecture. These will be posted here alongside each lecture.</li>
+<li>Before each class, you will watch a video lecture. These will be posted on the course website alongside each lecture.</li>
 <li>At the beginning of each class, there will be a short quiz to check your understanding of the lecture and help me know what to review.</li>
 <li>Class time will be used for in-class activities, including group work and discussion.</li>
-<li>Each week will have a homework assignment. These will be posted here.</li>
-<li>You can find all the materials for each week in the week’s chapter.</li>
+<li>Each week will have a homework assignment. These will be posted on Canvas.</li>
+<li>You can find all the materials for each week on the course website.</li>
 </ul>
 </section>
 <section id="materials" class="level2">
@@ -203,10 +216,27 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>Required:</strong></p>
 <ul>
 <li>R and RStudio (free)</li>
+<li>Required R packages:
+<ul>
+<li>rethinking</li>
+<li>brms</li>
+<li>tidybase</li>
+<li>tidyverse</li>
+</ul></li>
 </ul>
 <p><strong>Recommended:</strong></p>
 <ul>
 <li><em>Statistical Rethinking</em> by Richard McElreath (2nd ed.)</li>
+</ul>
+<p>Additional course materials, including lecture notes and code, will be provided on the course website.</p>
+</section>
+<section id="assignment-submission" class="level2">
+<h2 class="anchored" data-anchor-id="assignment-submission">Assignment Submission</h2>
+<ul>
+<li>All assignments should be submitted through Canvas</li>
+<li>Submissions must be in PDF format, knitted from R Markdown</li>
+<li>Assignments are posted on Friday and due the following Monday at 11:59pm</li>
+<li>There is a one-week grace period for each assignment</li>
 </ul>
 </section>
 <section id="grading" class="level2">
@@ -228,12 +258,17 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 </ul>
 </section>
+<section id="slack" class="level2">
+<h2 class="anchored" data-anchor-id="slack">Slack</h2>
+<p>I have created a <a href="https://join.slack.com/t/uobayes/shared_invite/zt-32fjkvou9-Kz5DV2PhdDuLsXKue93A7A">Slack</a> workspace for this course, open to anyone (registerd or not) who is attending. The goal of this space is for us to support each other as we learn the material. Anyone can post a question, and anyone can answer a question. I will not be as active here as I am in class, nor as responsive as I am over email. But if I see a question has the class stumped or it feels like an important concept hasn’t clicked yet, I will update lecture materials to help us get on track.</p>
+<p>I especially encourage using this space to coordinate working on probelm sets together, sharing resources you find online, and sharing ways you’ve used technology (R/RMarkdown/AI) that have supported your research. I also encourage memes.</p>
+</section>
 <section id="course-policies" class="level2">
 <h2 class="anchored" data-anchor-id="course-policies">Course Policies</h2>
 <section id="communication" class="level3">
 <h3 class="anchored" data-anchor-id="communication">Communication</h3>
 <p>If you have questions about course policies, have trouble submitting an assignment, or want to schedule a meeting, please email. I will make an effort to respond to emails within one business day. Note that I neither plan nor commit to checking email outside of normal business hours (9am-5pm, Mon-Fri).</p>
-<p>If you are having trouble understanding a concept covered in class, please come to office hours, schedule a meeting with me, or ask for clarification during class periods. I will not explain course concepts over email.</p>
+<p>If you are having trouble understanding a concept covered in class, please come to office hours, schedule a meeting with me, ask for clarification during class periods, or use the class Slack to get help from the group. I will not explain course concepts over email.</p>
 <p>Occasionally, I will send out announcements to the entire class via Canvas announcements. These will typically appear when you open Canvas, but you can update your Canvas settings to receive these announcements as emails. It is strongly recommended that you do so.</p>
 </section>
 <section id="classroom-expectations" class="level3">

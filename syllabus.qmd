@@ -78,13 +78,19 @@ Additional course materials, including lecture notes and code, will be provided 
   - Completed in class
   - No makeup opportunities for missed quizzes
 
+## Slack
+
+I have created a [Slack](https://join.slack.com/t/uobayes/shared_invite/zt-32fjkvou9-Kz5DV2PhdDuLsXKue93A7A) workspace for this course, open to anyone (registerd or not) who is attending. The goal of this space is for us to support each other as we learn the material. Anyone can post a question, and anyone can answer a question. I will not be as active here as I am in class, nor as responsive as I am over email. But if I see a question has the class stumped or it feels like an important concept hasn't clicked yet, I will update lecture materials to help us get on track. 
+
+I especially encourage using this space to coordinate working on probelm sets together, sharing resources you find online, and sharing ways you've used technology (R/RMarkdown/AI) that have supported your research. I also encourage memes. 
+
 ## Course Policies
 
 ### Communication
 
 If you have questions about course policies, have trouble submitting an assignment, or want to schedule a meeting, please email. I will make an effort to respond to emails within one business day. Note that I neither plan nor commit to checking email outside of normal business hours (9am-5pm, Mon-Fri). 
 
-If you are having trouble understanding a concept covered in class, please come to office hours, schedule a meeting with me, or ask for clarification during class periods. I will not explain course concepts over email.  
+If you are having trouble understanding a concept covered in class, please come to office hours, schedule a meeting with me, ask for clarification during class periods, or use the class Slack to get help from the group. I will not explain course concepts over email.  
 
 Occasionally, I will send out announcements to the entire class via Canvas announcements. These will typically appear when you open Canvas, but you can update your Canvas settings to receive these announcements as emails. It is strongly recommended that you do so.
 
