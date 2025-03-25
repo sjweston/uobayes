@@ -8,8 +8,6 @@ source(here::here("R", "slide-things.R"))
 source(here::here("R", "youtube-playlist.R"))
 ```
 
-## Session 1
-
 ## Before class
 
 Nothing. But if you want to get familiar with the site or ee what I'm using as the basis for the first lecture, here you go:

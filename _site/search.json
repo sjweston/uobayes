@@ -113,11 +113,23 @@
     ]
   },
   {
+    "objectID": "content/02-content.html",
+    "href": "content/02-content.html",
+    "title": "Bayes as coutning",
+    "section": "",
+    "text": "The Golum of Prague (51 min)\n The Garden of Forking Data (1 h 37 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "2: Bayes as counting"
+    ]
+  },
+  {
     "objectID": "content/02-content.html#before-class",
     "href": "content/02-content.html#before-class",
     "title": "Bayes as coutning",
-    "section": "Before class",
-    "text": "Before class\n\n The Golum of Prague (51 min)\n The Garden of Forking Data (1 h 37 min)",
+    "section": "",
+    "text": "The Golum of Prague (51 min)\n The Garden of Forking Data (1 h 37 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -137,11 +149,347 @@
     ]
   },
   {
+    "objectID": "content/20-content.html",
+    "href": "content/20-content.html",
+    "title": "TBD",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "20: TBD"
+    ]
+  },
+  {
+    "objectID": "content/20-content.html#before-class",
+    "href": "content/20-content.html#before-class",
+    "title": "TBD",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "20: TBD"
+    ]
+  },
+  {
+    "objectID": "content/20-content.html#during-class",
+    "href": "content/20-content.html#during-class",
+    "title": "TBD",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "20: TBD"
+    ]
+  },
+  {
+    "objectID": "content/18-content.html",
+    "href": "content/18-content.html",
+    "title": "Missing data",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "18: Missing data"
+    ]
+  },
+  {
+    "objectID": "content/18-content.html#before-class",
+    "href": "content/18-content.html#before-class",
+    "title": "Missing data",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "18: Missing data"
+    ]
+  },
+  {
+    "objectID": "content/18-content.html#during-class",
+    "href": "content/18-content.html#during-class",
+    "title": "Missing data",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "18: Missing data"
+    ]
+  },
+  {
+    "objectID": "content/16-content.html",
+    "href": "content/16-content.html",
+    "title": "Gaussian processes",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "16: Gaussian processes"
+    ]
+  },
+  {
+    "objectID": "content/16-content.html#before-class",
+    "href": "content/16-content.html#before-class",
+    "title": "Gaussian processes",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "16: Gaussian processes"
+    ]
+  },
+  {
+    "objectID": "content/16-content.html#during-class",
+    "href": "content/16-content.html#during-class",
+    "title": "Gaussian processes",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "16: Gaussian processes"
+    ]
+  },
+  {
+    "objectID": "content/14-content.html",
+    "href": "content/14-content.html",
+    "title": "Multivariate priors",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "14: Multivariate priors"
+    ]
+  },
+  {
+    "objectID": "content/14-content.html#before-class",
+    "href": "content/14-content.html#before-class",
+    "title": "Multivariate priors",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "14: Multivariate priors"
+    ]
+  },
+  {
+    "objectID": "content/14-content.html#during-class",
+    "href": "content/14-content.html#during-class",
+    "title": "Multivariate priors",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "14: Multivariate priors"
+    ]
+  },
+  {
+    "objectID": "content/12-content.html",
+    "href": "content/12-content.html",
+    "title": "Multilevel models",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "12: Multilevel models"
+    ]
+  },
+  {
+    "objectID": "content/12-content.html#before-class",
+    "href": "content/12-content.html#before-class",
+    "title": "Multilevel models",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "12: Multilevel models"
+    ]
+  },
+  {
+    "objectID": "content/12-content.html#during-class",
+    "href": "content/12-content.html#during-class",
+    "title": "Multilevel models",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "12: Multilevel models"
+    ]
+  },
+  {
+    "objectID": "content/10-content.html",
+    "href": "content/10-content.html",
+    "title": "Poisson regression",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "10: Poisson regression"
+    ]
+  },
+  {
+    "objectID": "content/10-content.html#before-class",
+    "href": "content/10-content.html#before-class",
+    "title": "Poisson regression",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "10: Poisson regression"
+    ]
+  },
+  {
+    "objectID": "content/10-content.html#during-class",
+    "href": "content/10-content.html#during-class",
+    "title": "Poisson regression",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "10: Poisson regression"
+    ]
+  },
+  {
+    "objectID": "content/08-content.html",
+    "href": "content/08-content.html",
+    "title": "MCMC",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "8: MCMC"
+    ]
+  },
+  {
+    "objectID": "content/08-content.html#before-class",
+    "href": "content/08-content.html#before-class",
+    "title": "MCMC",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "8: MCMC"
+    ]
+  },
+  {
+    "objectID": "content/08-content.html#during-class",
+    "href": "content/08-content.html#during-class",
+    "title": "MCMC",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "8: MCMC"
+    ]
+  },
+  {
+    "objectID": "content/06-content.html",
+    "href": "content/06-content.html",
+    "title": "More causal modeling",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "6: More causal modeling"
+    ]
+  },
+  {
+    "objectID": "content/06-content.html#before-class",
+    "href": "content/06-content.html#before-class",
+    "title": "More causal modeling",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "6: More causal modeling"
+    ]
+  },
+  {
+    "objectID": "content/06-content.html#during-class",
+    "href": "content/06-content.html#during-class",
+    "title": "More causal modeling",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "6: More causal modeling"
+    ]
+  },
+  {
+    "objectID": "content/04-content.html",
+    "href": "content/04-content.html",
+    "title": "Categories",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "4: Categories"
+    ]
+  },
+  {
+    "objectID": "content/04-content.html#before-class",
+    "href": "content/04-content.html#before-class",
+    "title": "Categories",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "4: Categories"
+    ]
+  },
+  {
+    "objectID": "content/04-content.html#during-class",
+    "href": "content/04-content.html#during-class",
+    "title": "Categories",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "4: Categories"
+    ]
+  },
+  {
+    "objectID": "content/01-content.html",
+    "href": "content/01-content.html",
+    "title": "Introduction to Bayes",
+    "section": "",
+    "text": "Nothing. But if you want to get familiar with the site or ee what I’m using as the basis for the first lecture, here you go:\n\nThe syllabus, content, examples, and assignments pages for this class\n Introduction to Bayesian Inference for Psychology (Etz & Vandekerckhove, 2018)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "1: Introduction to Bayesian Analysis"
+    ]
+  },
+  {
     "objectID": "content/01-content.html#before-class",
     "href": "content/01-content.html#before-class",
     "title": "Introduction to Bayes",
-    "section": "Before class",
-    "text": "Before class\nNothing. But if you want to get familiar with the site or ee what I’m using as the basis for the first lecture, here you go:\n\nThe syllabus, content, examples, and assignments pages for this class\n Introduction to Bayesian Inference for Psychology (Etz & Vandekerckhove, 2018)",
+    "section": "",
+    "text": "Nothing. But if you want to get familiar with the site or ee what I’m using as the basis for the first lecture, here you go:\n\nThe syllabus, content, examples, and assignments pages for this class\n Introduction to Bayesian Inference for Psychology (Etz & Vandekerckhove, 2018)",
     "crumbs": [
       "Content",
       "Course content",
@@ -753,6 +1101,330 @@
     "title": "\n            Bayesian Analysis\n        ",
     "section": "",
     "text": "Bayesian Analysis\n        \n        \n            Model building, estimation, interpretation, visualization\n        \n        \n            PSY 607 • Spring 2025 Psychology University of Oregon\n        \n    \n    \n      \n        \n        \n        \n      \n    \n\n\n\n\n\n\nInstructor\n\n   Dr. Sara Weston\n   Straub 325\n   sweston2@uoregon.edu\n   Schedule an appointment\n\n\n\nCourse details\n\n   Tuesdays and Thursdays\n   Spring 2025\n   2:00–3:20 PM\n   119 FEN\n   Slack\n\n\n\nContacting me\nEmail is the best way to get in contact with me. I will try to respond to all course-related emails within one business day during normal business hours (9am-5pm, Mon-Fri).\n\n\n```"
+  },
+  {
+    "objectID": "content/03-content.html",
+    "href": "content/03-content.html",
+    "title": "Linear models",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "3: Linear models"
+    ]
+  },
+  {
+    "objectID": "content/03-content.html#before-class",
+    "href": "content/03-content.html#before-class",
+    "title": "Linear models",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "3: Linear models"
+    ]
+  },
+  {
+    "objectID": "content/03-content.html#during-class",
+    "href": "content/03-content.html#during-class",
+    "title": "Linear models",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "3: Linear models"
+    ]
+  },
+  {
+    "objectID": "content/05-content.html",
+    "href": "content/05-content.html",
+    "title": "Causal modeling",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "5: Causal modeling"
+    ]
+  },
+  {
+    "objectID": "content/05-content.html#before-class",
+    "href": "content/05-content.html#before-class",
+    "title": "Causal modeling",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "5: Causal modeling"
+    ]
+  },
+  {
+    "objectID": "content/05-content.html#during-class",
+    "href": "content/05-content.html#during-class",
+    "title": "Causal modeling",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "5: Causal modeling"
+    ]
+  },
+  {
+    "objectID": "content/07-content.html",
+    "href": "content/07-content.html",
+    "title": "Good prediction",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "7: Good predictions"
+    ]
+  },
+  {
+    "objectID": "content/07-content.html#before-class",
+    "href": "content/07-content.html#before-class",
+    "title": "Good prediction",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "7: Good predictions"
+    ]
+  },
+  {
+    "objectID": "content/07-content.html#during-class",
+    "href": "content/07-content.html#during-class",
+    "title": "Good prediction",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "7: Good predictions"
+    ]
+  },
+  {
+    "objectID": "content/09-content.html",
+    "href": "content/09-content.html",
+    "title": "Binomial regression",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "9: Binomial regression"
+    ]
+  },
+  {
+    "objectID": "content/09-content.html#before-class",
+    "href": "content/09-content.html#before-class",
+    "title": "Binomial regression",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "9: Binomial regression"
+    ]
+  },
+  {
+    "objectID": "content/09-content.html#during-class",
+    "href": "content/09-content.html#during-class",
+    "title": "Binomial regression",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "9: Binomial regression"
+    ]
+  },
+  {
+    "objectID": "content/11-content.html",
+    "href": "content/11-content.html",
+    "title": "Ordered categories",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "11: Multinomial regression"
+    ]
+  },
+  {
+    "objectID": "content/11-content.html#before-class",
+    "href": "content/11-content.html#before-class",
+    "title": "Ordered categories",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "11: Multinomial regression"
+    ]
+  },
+  {
+    "objectID": "content/11-content.html#during-class",
+    "href": "content/11-content.html#during-class",
+    "title": "Ordered categories",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "11: Multinomial regression"
+    ]
+  },
+  {
+    "objectID": "content/13-content.html",
+    "href": "content/13-content.html",
+    "title": "More multilevel models",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "13: More multilevel models"
+    ]
+  },
+  {
+    "objectID": "content/13-content.html#before-class",
+    "href": "content/13-content.html#before-class",
+    "title": "More multilevel models",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "13: More multilevel models"
+    ]
+  },
+  {
+    "objectID": "content/13-content.html#during-class",
+    "href": "content/13-content.html#during-class",
+    "title": "More multilevel models",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "13: More multilevel models"
+    ]
+  },
+  {
+    "objectID": "content/15-content.html",
+    "href": "content/15-content.html",
+    "title": "Social networks",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "15: Social networks"
+    ]
+  },
+  {
+    "objectID": "content/15-content.html#before-class",
+    "href": "content/15-content.html#before-class",
+    "title": "Social networks",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "15: Social networks"
+    ]
+  },
+  {
+    "objectID": "content/15-content.html#during-class",
+    "href": "content/15-content.html#during-class",
+    "title": "Social networks",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "15: Social networks"
+    ]
+  },
+  {
+    "objectID": "content/17-content.html",
+    "href": "content/17-content.html",
+    "title": "Measurement",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "17: Measurement"
+    ]
+  },
+  {
+    "objectID": "content/17-content.html#before-class",
+    "href": "content/17-content.html#before-class",
+    "title": "Measurement",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "17: Measurement"
+    ]
+  },
+  {
+    "objectID": "content/17-content.html#during-class",
+    "href": "content/17-content.html#during-class",
+    "title": "Measurement",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "17: Measurement"
+    ]
+  },
+  {
+    "objectID": "content/19-content.html",
+    "href": "content/19-content.html",
+    "title": "Generalized linear models",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "19: Generalized linear models"
+    ]
+  },
+  {
+    "objectID": "content/19-content.html#before-class",
+    "href": "content/19-content.html#before-class",
+    "title": "Generalized linear models",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "19: Generalized linear models"
+    ]
+  },
+  {
+    "objectID": "content/19-content.html#during-class",
+    "href": "content/19-content.html#during-class",
+    "title": "Generalized linear models",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "19: Generalized linear models"
+    ]
   },
   {
     "objectID": "resource/markdown.html",

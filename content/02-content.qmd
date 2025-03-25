@@ -8,8 +8,6 @@ source(here::here("R", "slide-things.R"))
 source(here::here("R", "youtube-playlist.R"))
 ```
 
-## Session 1
-
 ## Before class
 
 - <i class="fab fa-youtube"></i> The Golum of Prague (51 min)

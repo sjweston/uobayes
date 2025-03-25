@@ -1,0 +1,26 @@
+---
+title: "Poisson regression"
+date: "2025-05-01"
+---
+```{r slides-videos, echo=FALSE, include=FALSE}
+source(here::here("R", "slide-things.R"))
+source(here::here("R", "youtube-playlist.R"))
+```
+
+## Before class
+
+- <i class="fab fa-youtube"></i> The Golum of Prague (51 min)
+
+```{r, results = 'asis', echo = F}
+library(vembedr)
+embed_youtube("jokxu18egu0")
+```
+
+## During class
+
+The slides for today's lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.
+
+```{r show-slide-tabs, echo=FALSE, results="asis"}
+slide_buttons("/slides/lecture05-2")
+```
+<iframe src="/slides/lecture05-2.html" width="100%" height="500px"></iframe>

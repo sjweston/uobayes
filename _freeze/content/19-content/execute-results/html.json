@@ -1,0 +1,19 @@
+{
+  "hash": "7d5a964ab7910bb87a6552a1ef2b8e70",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Generalized linear models\"\ndate: \"2025-06-03\"\n---\n\n\n\n\n\n\n\n## Before class\n\n- <i class=\"fab fa-youtube\"></i> The Golum of Prague (51 min)\n\n\n\n\n\n```{=html}\n<div class=\"vembedr\">\n<div>\n<iframe src=\"https://www.youtube.com/embed/zffwg0xDOgE\" width=\"533\" height=\"300\" frameborder=\"0\" allowfullscreen=\"\" data-external=\"1\"></iframe>\n</div>\n</div>\n```\n\n\n\n\n\n## During class\n\nThe slides for today's lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n\n\n\n<p class=\"buttons\"><a class=\"btn btn-danger\" target=\"_blank\" href=\"/slides/lecture10-1.html\"><i class=\"fa-solid fa-arrow-up-right-from-square\"></i> View all slides in new window</a> <a class=\"btn btn-danger\" target=\"_blank\" href=\"/slides/lecture10-1.pdf\" role=\"button\"><i class=\"fa-solid fa-file-pdf\"></i> Download PDF of all slides</a></p>\n\n\n\n<iframe src=\"/slides/lecture10-1.html\" width=\"100%\" height=\"500px\"></iframe> ",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {
+      "include-in-header": [
+        "<link href=\"../site_libs/vembedr-0.1.5/css/vembedr.css\" rel=\"stylesheet\" />\n"
+      ]
+    },
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
