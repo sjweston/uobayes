@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://uobayes.netlify.app/resource/bayes.html</loc>
-    <lastmod>2025-03-23T21:22:17.327Z</lastmod>
-  </url>
-  <url>
-    <loc>https://uobayes.netlify.app/resource/zilch.html</loc>
-    <lastmod>2025-03-23T21:22:17.348Z</lastmod>
+    <loc>https://uobayes.netlify.app/example/dags.html</loc>
+    <lastmod>2025-03-23T21:22:17.223Z</lastmod>
   </url>
   <url>
     <loc>https://uobayes.netlify.app/resource/rmarkdown.html</loc>
@@ -54,31 +50,27 @@
   </url>
   <url>
     <loc>https://uobayes.netlify.app/resource/r.html</loc>
-    <lastmod>2025-03-23T21:22:17.346Z</lastmod>
-  </url>
-  <url>
-    <loc>https://uobayes.netlify.app/resource/data.html</loc>
-    <lastmod>2025-03-23T21:22:17.345Z</lastmod>
-  </url>
-  <url>
-    <loc>https://uobayes.netlify.app/example/index.html</loc>
-    <lastmod>2025-03-23T21:22:17.223Z</lastmod>
-  </url>
-  <url>
-    <loc>https://uobayes.netlify.app/assignment/index.html</loc>
-    <lastmod>2025-03-23T21:22:17.219Z</lastmod>
-  </url>
-  <url>
-    <loc>https://uobayes.netlify.app/content/index.html</loc>
-    <lastmod>2025-03-23T21:22:17.221Z</lastmod>
+    <lastmod>2025-03-25T16:38:28.753Z</lastmod>
   </url>
   <url>
     <loc>https://uobayes.netlify.app/resource/citations.html</loc>
     <lastmod>2025-03-23T21:22:17.345Z</lastmod>
   </url>
   <url>
+    <loc>https://uobayes.netlify.app/content/index.html</loc>
+    <lastmod>2025-03-23T21:22:17.221Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uobayes.netlify.app/assignment/index.html</loc>
+    <lastmod>2025-03-23T21:22:17.219Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uobayes.netlify.app/example/index.html</loc>
+    <lastmod>2025-03-23T21:22:17.223Z</lastmod>
+  </url>
+  <url>
     <loc>https://uobayes.netlify.app/resource/index.html</loc>
-    <lastmod>2025-03-23T21:22:17.345Z</lastmod>
+    <lastmod>2025-03-25T16:42:46.604Z</lastmod>
   </url>
   <url>
     <loc>https://uobayes.netlify.app/assignment/02-problem-set.html</loc>
@@ -122,10 +114,6 @@
   </url>
   <url>
     <loc>https://uobayes.netlify.app/resource/style.html</loc>
-    <lastmod>2025-03-23T21:22:17.347Z</lastmod>
-  </url>
-  <url>
-    <loc>https://uobayes.netlify.app/example/dags.html</loc>
-    <lastmod>2025-03-23T21:22:17.223Z</lastmod>
+    <lastmod>2025-03-25T16:48:53.100Z</lastmod>
   </url>
 </urlset>

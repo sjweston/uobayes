@@ -2,4 +2,11 @@
 title: "Resources"
 ---
 
-I have included a bunch of extra resources and guides related to causal inference, program evaluation, R, data, and other relevant topics. Enjoy!
+First, some acknowledgements: this class is primarily built from the works of Richard McElreath and Solomon Kurz.
+
+  - McElreath's [Statistical Rethinking (2024  version)](https://github.com/rmcelreath/stat_rethinking_2024/tree/main) course materials
+  - [Kurz's translation](https://bookdown.org/content/4857/) of SR into `brms` and `tidybayes`
+
+I also recommend bookmarking [the `tidybayes` site](https://mjskay.github.io/tidybayes/).
+
+The rest of this section contains resources and tutorials. Some were developed by [Andrew Heiss](https://www.andrewheiss.com/blog/), whose website code I used to develop this class website. (Bookmark his site too and check it regularly. You'll never know what you'll learn from him, but it'll always make your science better.)

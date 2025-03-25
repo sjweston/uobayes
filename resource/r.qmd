@@ -40,3 +40,5 @@ Here are some of the best examples I've come across:
 - [Mapping Fall Foliage](https://rud.is/b/2017/09/18/mapping-fall-foliage-with-sf/)
 - [General (Attys) Distributions](https://rud.is/b/2017/07/25/r%E2%81%B6-general-attys-distributions/)
 - [Disproving Approval](https://rud.is/b/2017/06/18/r%E2%81%B6-disproving-approval/)
+
+h/t to [Andrew Heiss](https://www.andrewheiss.com/) for compiling these resources

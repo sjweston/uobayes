@@ -35,8 +35,6 @@ RStudio has a built-in way of cleaning up your code. Select some code, press <kb
 
 ## Main style things to pay attention to for this class
 
-> *Important note*: I won't ever grade you on any of this! If you submit something like `filter(mpg,cty>10,class=="compact")`, I might recommend adding spaces, but it won't affect your grade or points or anything.
-
 ### Spacing
 
 > See the ["Spacing" section](https://style.tidyverse.org/syntax.html#spacing) in the tidyverse style guide.
