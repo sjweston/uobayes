@@ -10,7 +10,7 @@ source(here::here("R", "youtube-playlist.R"))
 
 ## Before class
 
-- <i class="fab fa-youtube"></i> The Golum of Prague (51 min)
+- <i class="fab fa-youtube"></i> Geocentric models (1 h 15 min)
 
 ```{r, results = 'asis', echo = F}
 library(vembedr)

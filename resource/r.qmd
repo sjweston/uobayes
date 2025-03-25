@@ -4,11 +4,11 @@ title: R
 
 ## Learning R
 
-I highly recommend subscribing to the [R Weekly newsletter](https://rweekly.org/). This e-mail is sent every Monday and is full of helpful tutorials about how to do stuff with R.
+Consider subscribing to the [R Weekly newsletter](https://rweekly.org/). This e-mail is sent every Monday and is full of helpful tutorials about how to do stuff with R.
 
 Searching for help with R on Google can sometimes be tricky because the program name is a single letter. Google is generally smart enough to figure out what you mean when you search for "r scatterplot", but if it does struggle, try searching for "rstats" instead (e.g. "rstats scatterplot").
 
-If you use Twitter, post R-related questions and content with [#rstats](https://twitter.com/search?q=%23rstats). The community there is exceptionally generous and helpful. Also check out [StackOverflow](https://stackoverflow.com/) (a Q&A site with hundreds of thousands of answers to all sorts of programming questions) and [RStudio Community](https://community.rstudio.com/) (a forum specifically designed for people using RStudio and the tidyverse (i.e. you)).
+Check out [StackOverflow](https://stackoverflow.com/) (a Q&A site with hundreds of thousands of answers to all sorts of programming questions) and [RStudio Community](https://community.rstudio.com/) (a forum specifically designed for people using RStudio and the tidyverse (i.e. you)).
 
 These resources are also really really helpful:
 
@@ -25,7 +25,7 @@ A popular (and increasingly standard) way for sharing your analyses and visualiz
 
 [^blogdown]: If you want to be really fancy, you can use [blogdown](https://bookdown.org/yihui/blogdown/), which makes a complete website with R Markdown files. That's actually how this site is built ([see the source code](https://github.com/andrewheiss/datavizm20.classes.andrewheiss.com)). You can build your own site [with this tutorial](https://apreshill.rbind.io/post/up-and-running-with-blogdown/).
 
-Here are some of the best examples I've come across:
+Here are some of the best examples ~~I've~~ Andrew Heiss has come across:
 
 - [Text analysis of Trump's tweets confirms he writes only the (angrier) Android half](http://varianceexplained.org/r/trump-tweets/) (with a [follow-up](http://varianceexplained.org/r/trump-followup/))
 - [Bob Ross - Joy of Painting](https://rudeboybert.github.io/fivethirtyeight/articles/bob_ross.html)

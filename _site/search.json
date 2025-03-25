@@ -153,7 +153,7 @@
     "href": "content/20-content.html",
     "title": "TBD",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Horoscopes (1 h 40 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -165,7 +165,7 @@
     "href": "content/20-content.html#before-class",
     "title": "TBD",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Horoscopes (1 h 40 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -189,7 +189,7 @@
     "href": "content/18-content.html",
     "title": "Missing data",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Missing data (1 h 03 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -201,7 +201,7 @@
     "href": "content/18-content.html#before-class",
     "title": "Missing data",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Missing data (1 h 03 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -225,7 +225,7 @@
     "href": "content/16-content.html",
     "title": "Gaussian processes",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Gaussian processes (1 h 22 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -237,7 +237,7 @@
     "href": "content/16-content.html#before-class",
     "title": "Gaussian processes",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Gaussian processes (1 h 22 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -261,7 +261,7 @@
     "href": "content/14-content.html",
     "title": "Multivariate priors",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Correlated features (1 h 10 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -273,7 +273,7 @@
     "href": "content/14-content.html#before-class",
     "title": "Multivariate priors",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Correlated features (1 h 10 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -297,7 +297,7 @@
     "href": "content/12-content.html",
     "title": "Multilevel models",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Multilevel models (1 h 32 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -309,7 +309,7 @@
     "href": "content/12-content.html#before-class",
     "title": "Multilevel models",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Multilevel models (1 h 32 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -333,7 +333,7 @@
     "href": "content/10-content.html",
     "title": "Poisson regression",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Counts and hidden confounds (1 h 25 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -345,7 +345,7 @@
     "href": "content/10-content.html#before-class",
     "title": "Poisson regression",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Counts and hidden confounds (1 h 25 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -369,7 +369,7 @@
     "href": "content/08-content.html",
     "title": "MCMC",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Markov chain monte carlo (1 h 16 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -381,7 +381,7 @@
     "href": "content/08-content.html#before-class",
     "title": "MCMC",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Markov chain monte carlo (1 h 16 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -405,7 +405,7 @@
     "href": "content/06-content.html",
     "title": "More causal modeling",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Good and bad controls (1 h 26 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -417,7 +417,7 @@
     "href": "content/06-content.html#before-class",
     "title": "More causal modeling",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Good and bad controls (1 h 26 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -441,7 +441,7 @@
     "href": "content/04-content.html",
     "title": "Categories",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Categories and curves (1 h 25 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -453,7 +453,7 @@
     "href": "content/04-content.html#before-class",
     "title": "Categories",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Categories and curves (1 h 25 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -791,7 +791,7 @@
     "href": "resource/r.html",
     "title": "R",
     "section": "",
-    "text": "I highly recommend subscribing to the R Weekly newsletter. This e-mail is sent every Monday and is full of helpful tutorials about how to do stuff with R.\nSearching for help with R on Google can sometimes be tricky because the program name is a single letter. Google is generally smart enough to figure out what you mean when you search for “r scatterplot”, but if it does struggle, try searching for “rstats” instead (e.g. “rstats scatterplot”).\nIf you use Twitter, post R-related questions and content with #rstats. The community there is exceptionally generous and helpful. Also check out StackOverflow (a Q&A site with hundreds of thousands of answers to all sorts of programming questions) and RStudio Community (a forum specifically designed for people using RStudio and the tidyverse (i.e. you)).\nThese resources are also really really helpful:\n\nR for Data Science: A free online book for learning the basics of R and the tidyverse.\nR and RStudio cheat sheets: A large collection of simple cheat sheets for RStudio, ggplot2, and other R-related things.\nStat 545: Dr. Jenny Bryan at RStudio has an entire introductory course in R, visualization, and data analysis online.\nSTA 112FS: Data Science: Dr. Mine Çetinkaya-Rundel at the University of Edinburgh / Duke University has an entire introductory course in R, visualization, and data science online.\nCSE 631: Principles & Practice of Data Visualization: Yet another introductory course for R and ggplot2 by Dr. Alison Presmanes Hill at RStudio.",
+    "text": "Consider subscribing to the R Weekly newsletter. This e-mail is sent every Monday and is full of helpful tutorials about how to do stuff with R.\nSearching for help with R on Google can sometimes be tricky because the program name is a single letter. Google is generally smart enough to figure out what you mean when you search for “r scatterplot”, but if it does struggle, try searching for “rstats” instead (e.g. “rstats scatterplot”).\nCheck out StackOverflow (a Q&A site with hundreds of thousands of answers to all sorts of programming questions) and RStudio Community (a forum specifically designed for people using RStudio and the tidyverse (i.e. you)).\nThese resources are also really really helpful:\n\nR for Data Science: A free online book for learning the basics of R and the tidyverse.\nR and RStudio cheat sheets: A large collection of simple cheat sheets for RStudio, ggplot2, and other R-related things.\nStat 545: Dr. Jenny Bryan at RStudio has an entire introductory course in R, visualization, and data analysis online.\nSTA 112FS: Data Science: Dr. Mine Çetinkaya-Rundel at the University of Edinburgh / Duke University has an entire introductory course in R, visualization, and data science online.\nCSE 631: Principles & Practice of Data Visualization: Yet another introductory course for R and ggplot2 by Dr. Alison Presmanes Hill at RStudio.",
     "crumbs": [
       "Resources",
       "Overview",
@@ -803,7 +803,7 @@
     "href": "resource/r.html#learning-r",
     "title": "R",
     "section": "",
-    "text": "I highly recommend subscribing to the R Weekly newsletter. This e-mail is sent every Monday and is full of helpful tutorials about how to do stuff with R.\nSearching for help with R on Google can sometimes be tricky because the program name is a single letter. Google is generally smart enough to figure out what you mean when you search for “r scatterplot”, but if it does struggle, try searching for “rstats” instead (e.g. “rstats scatterplot”).\nIf you use Twitter, post R-related questions and content with #rstats. The community there is exceptionally generous and helpful. Also check out StackOverflow (a Q&A site with hundreds of thousands of answers to all sorts of programming questions) and RStudio Community (a forum specifically designed for people using RStudio and the tidyverse (i.e. you)).\nThese resources are also really really helpful:\n\nR for Data Science: A free online book for learning the basics of R and the tidyverse.\nR and RStudio cheat sheets: A large collection of simple cheat sheets for RStudio, ggplot2, and other R-related things.\nStat 545: Dr. Jenny Bryan at RStudio has an entire introductory course in R, visualization, and data analysis online.\nSTA 112FS: Data Science: Dr. Mine Çetinkaya-Rundel at the University of Edinburgh / Duke University has an entire introductory course in R, visualization, and data science online.\nCSE 631: Principles & Practice of Data Visualization: Yet another introductory course for R and ggplot2 by Dr. Alison Presmanes Hill at RStudio.",
+    "text": "Consider subscribing to the R Weekly newsletter. This e-mail is sent every Monday and is full of helpful tutorials about how to do stuff with R.\nSearching for help with R on Google can sometimes be tricky because the program name is a single letter. Google is generally smart enough to figure out what you mean when you search for “r scatterplot”, but if it does struggle, try searching for “rstats” instead (e.g. “rstats scatterplot”).\nCheck out StackOverflow (a Q&A site with hundreds of thousands of answers to all sorts of programming questions) and RStudio Community (a forum specifically designed for people using RStudio and the tidyverse (i.e. you)).\nThese resources are also really really helpful:\n\nR for Data Science: A free online book for learning the basics of R and the tidyverse.\nR and RStudio cheat sheets: A large collection of simple cheat sheets for RStudio, ggplot2, and other R-related things.\nStat 545: Dr. Jenny Bryan at RStudio has an entire introductory course in R, visualization, and data analysis online.\nSTA 112FS: Data Science: Dr. Mine Çetinkaya-Rundel at the University of Edinburgh / Duke University has an entire introductory course in R, visualization, and data science online.\nCSE 631: Principles & Practice of Data Visualization: Yet another introductory course for R and ggplot2 by Dr. Alison Presmanes Hill at RStudio.",
     "crumbs": [
       "Resources",
       "Overview",
@@ -815,7 +815,7 @@
     "href": "resource/r.html#r-in-the-wild",
     "title": "R",
     "section": "R in the wild",
-    "text": "R in the wild\nA popular (and increasingly standard) way for sharing your analyses and visualizations is to post an annotated explanation of your process somewhere online. RStudio allows you to publish knitted HTML files directly to RPubs, but you can also post your output to a blog or other type of website.1 Reading these kinds of posts is one of the best ways to learn R, since they walk you through each step of the process and show the code and output.\nHere are some of the best examples I’ve come across:\n\nText analysis of Trump’s tweets confirms he writes only the (angrier) Android half (with a follow-up)\nBob Ross - Joy of Painting\nBechdel analysis using the tidyverse: There are also a bunch of other examples using data from FiveThirtyEight.\nSexism on the Silver Screen: Exploring film’s gender divide\nComparison of Quentin Tarantino Movies by Box Office and the Bechdel Test\nWho came to vote in Utah’s caucuses?\nHealth care indicators in Utah counties\nSong lyrics across the United States\nA decade (ish) of listening to Sigur Rós\nWhen is Tom peeping these days?: There are a also bunch of final projects from other R and data visualization classes here and here.\nMapping Fall Foliage\nGeneral (Attys) Distributions\nDisproving Approval\n\nh/t to Andrew Heiss for compiling these resources",
+    "text": "R in the wild\nA popular (and increasingly standard) way for sharing your analyses and visualizations is to post an annotated explanation of your process somewhere online. RStudio allows you to publish knitted HTML files directly to RPubs, but you can also post your output to a blog or other type of website.1 Reading these kinds of posts is one of the best ways to learn R, since they walk you through each step of the process and show the code and output.\nHere are some of the best examples I’ve Andrew Heiss has come across:\n\nText analysis of Trump’s tweets confirms he writes only the (angrier) Android half (with a follow-up)\nBob Ross - Joy of Painting\nBechdel analysis using the tidyverse: There are also a bunch of other examples using data from FiveThirtyEight.\nSexism on the Silver Screen: Exploring film’s gender divide\nComparison of Quentin Tarantino Movies by Box Office and the Bechdel Test\nWho came to vote in Utah’s caucuses?\nHealth care indicators in Utah counties\nSong lyrics across the United States\nA decade (ish) of listening to Sigur Rós\nWhen is Tom peeping these days?: There are a also bunch of final projects from other R and data visualization classes here and here.\nMapping Fall Foliage\nGeneral (Attys) Distributions\nDisproving Approval\n\nh/t to Andrew Heiss for compiling these resources",
     "crumbs": [
       "Resources",
       "Overview",
@@ -901,7 +901,7 @@
     "href": "resource/index.html",
     "title": "Resources",
     "section": "",
-    "text": "First, some acknowledgements: this class is primarily built from the works of Richard McElreath and Solomon Kurz.\n\nMcElreath’s Statistical Rethinking (2024 version) course materials\nKurz’s translation of SR into brms and tidybayes\n\nI also recommend bookmarking the tidybayes site.\nThe rest of this section contains resources and tutorials. Some were developed by Andrew Heiss, whose website code I used to develop this class website. (Bookmark his site too and check it regularly. You’ll never know what you’ll learn from him, but it’ll always make your science better.)",
+    "text": "First, some acknowledgements: this class is primarily built from the works of Richard McElreath and Solomon Kurz.\n\nMcElreath’s Statistical Rethinking (2024 version) course materials\nKurz’s translation of SR into brms and tidybayes\n\nI also recommend bookmarking the tidybayes site.\nThe rest of this section contains resources and tutorials. Some were developed by Andrew Heiss, whose website code I used to develop this class website. (Bookmark his site too and check it regularly. You’ll never know what you’ll learn from him, but it’ll always make your science better.)\nHere are some additional Bayes resources to check out. - This new Bayes Rules book is designed to be an introductory textbook for a stats class teaching Bayesian stuff. It’s really accessible and good (and free!). - This post from 2016 is a great short introduction. - This post shows how to do one simple task (a difference-in-means test) with regular old frequentist methods, bootstrapping, and with Bayesian stats both with brms and raw Stan code - This short post gives a helpful overview of the intuition behind Bayesianism - The Theory That Would Not Die is a fun little general introduction to the history of Bayesianism and why it kind of disappeared in the 20th century and was replaced by frequentism and p-values and null hypothesis testing",
     "crumbs": [
       "Resources",
       "Overview",
@@ -1107,7 +1107,7 @@
     "href": "content/03-content.html",
     "title": "Linear models",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Geocentric models (1 h 15 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -1119,7 +1119,7 @@
     "href": "content/03-content.html#before-class",
     "title": "Linear models",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Geocentric models (1 h 15 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -1143,7 +1143,7 @@
     "href": "content/05-content.html",
     "title": "Causal modeling",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Elemental confounds (1 h 05 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -1155,7 +1155,7 @@
     "href": "content/05-content.html#before-class",
     "title": "Causal modeling",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Elemental confounds (1 h 05 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -1215,7 +1215,7 @@
     "href": "content/09-content.html",
     "title": "Binomial regression",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Modeling events (1 h 32 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -1227,7 +1227,7 @@
     "href": "content/09-content.html#before-class",
     "title": "Binomial regression",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Modeling events (1 h 32 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -1251,7 +1251,7 @@
     "href": "content/11-content.html",
     "title": "Ordered categories",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Ordered categories (1 h 30 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -1263,7 +1263,7 @@
     "href": "content/11-content.html#before-class",
     "title": "Ordered categories",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Ordered categories (1 h 30 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -1287,7 +1287,7 @@
     "href": "content/13-content.html",
     "title": "More multilevel models",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Multilevel adventures (54 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -1299,7 +1299,7 @@
     "href": "content/13-content.html#before-class",
     "title": "More multilevel models",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Multilevel adventures (54 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -1323,7 +1323,7 @@
     "href": "content/15-content.html",
     "title": "Social networks",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Social networks (1 h 12 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -1335,7 +1335,7 @@
     "href": "content/15-content.html#before-class",
     "title": "Social networks",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Social networks (1 h 12 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -1359,7 +1359,7 @@
     "href": "content/17-content.html",
     "title": "Measurement",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Measurement & misclassification (1 h 17 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -1371,7 +1371,7 @@
     "href": "content/17-content.html#before-class",
     "title": "Measurement",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Measurement & misclassification (1 h 17 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -1395,7 +1395,7 @@
     "href": "content/19-content.html",
     "title": "Generalized linear models",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Generalized linear madness (1 h 15 min)",
     "crumbs": [
       "Content",
       "Course content",
@@ -1407,7 +1407,7 @@
     "href": "content/19-content.html#before-class",
     "title": "Generalized linear models",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Generalized linear madness (1 h 15 min)",
     "crumbs": [
       "Content",
       "Course content",

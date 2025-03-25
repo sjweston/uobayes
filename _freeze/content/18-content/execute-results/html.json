@@ -1,9 +1,11 @@
 {
-  "hash": "cd3363c71afaa52440f58cb3b3e4deb2",
+  "hash": "b685041a2cc3ce636ed360abc6e323ca",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Missing data\"\ndate: \"2025-05-29\"\n---\n\n\n\n\n\n\n\n## Before class\n\n- <i class=\"fab fa-youtube\"></i> The Golum of Prague (51 min)\n\n\n\n\n\n```{=html}\n<div class=\"vembedr\">\n<div>\n<iframe src=\"https://www.youtube.com/embed/Oeq6GChHOzc\" width=\"533\" height=\"300\" frameborder=\"0\" allowfullscreen=\"\" data-external=\"1\"></iframe>\n</div>\n</div>\n```\n\n\n\n\n\n## During class\n\nThe slides for today's lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n\n\n\n<p class=\"buttons\"><a class=\"btn btn-danger\" target=\"_blank\" href=\"/slides/lecture09-2.html\"><i class=\"fa-solid fa-arrow-up-right-from-square\"></i> View all slides in new window</a> <a class=\"btn btn-danger\" target=\"_blank\" href=\"/slides/lecture09-2.pdf\" role=\"button\"><i class=\"fa-solid fa-file-pdf\"></i> Download PDF of all slides</a></p>\n\n\n\n<iframe src=\"/slides/lecture09-2.html\" width=\"100%\" height=\"500px\"></iframe> ",
-    "supporting": [],
+    "markdown": "---\ntitle: \"Missing data\"\ndate: \"2025-05-29\"\n---\n\n\n\n\n\n\n\n## Before class\n\n- <i class=\"fab fa-youtube\"></i> Missing data (1 h 03 min)\n\n\n\n\n\n```{=html}\n<div class=\"vembedr\">\n<div>\n<iframe src=\"https://www.youtube.com/embed/Oeq6GChHOzc\" width=\"533\" height=\"300\" frameborder=\"0\" allowfullscreen=\"\" data-external=\"1\"></iframe>\n</div>\n</div>\n```\n\n\n\n\n\n## During class\n\nThe slides for today's lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n\n\n\n<p class=\"buttons\"><a class=\"btn btn-danger\" target=\"_blank\" href=\"/slides/lecture09-2.html\"><i class=\"fa-solid fa-arrow-up-right-from-square\"></i> View all slides in new window</a> <a class=\"btn btn-danger\" target=\"_blank\" href=\"/slides/lecture09-2.pdf\" role=\"button\"><i class=\"fa-solid fa-file-pdf\"></i> Download PDF of all slides</a></p>\n\n\n\n<iframe src=\"/slides/lecture09-2.html\" width=\"100%\" height=\"500px\"></iframe> ",
+    "supporting": [
+      "18-content_files"
+    ],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],
