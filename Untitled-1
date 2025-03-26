@@ -1,0 +1,19 @@
+test_sigma_p = function(sigma_p){
+  # Check if sigma_p is numeric and positive
+  if(!is.numeric(sigma_p) || sigma_p <= 0) {
+    stop("sigma_p must be a positive number")
+  }
+  
+  m = brm(data = d, 
+      family = binomial,
+      surv | trials(density) ~ 1 + (1 | tank),
+      prior = c(set_prior("normal(0, 1.5)", class = "Intercept"),  # alpha bar
+                set_prior(paste0("exponential(", sigma_p, ")"), class = "sd")),   # sigma
+      iter = 2000, warmup = 1000, chains = 4, cores = 4,
+      seed = 13)
+  
+  return(m)
+}
+
+# Test the function
+test = test_sigma_p(1) 
