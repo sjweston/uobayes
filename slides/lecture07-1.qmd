@@ -1,0 +1,143 @@
+---
+title: "week 7: multilevel models"
+subtitle: "multilevel adventures"
+format: 
+  revealjs:
+    css: xaringan-themer2.css
+    nature:
+      highlightStyle: solarized-dark
+      highlightLines: true
+      countIncrementalSlides: false
+      mathjax: "default"
+    self-contained: false  # Ensures correct embedding
+    embed-resources: true  # Embeds required assets
+    slide-number: true
+    code-annotations: hover
+execute:
+  echo: false        
+---
+
+```{r, message = F, warning = F}
+library(tidyverse)
+library(psych)
+library(cowplot)
+library(patchwork)
+library(here)
+library(brms) 
+library(tidybayes) 
+```
+
+```{r, echo = F}
+knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
+theme_set(theme_cowplot())
+default_palettes <- list(
+  c("#5e8485" , "#0f393a") ,
+  c("#1c5253" , "#5e8485" , "#0f393a") , 
+  # palette with 5 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" ) ,
+  # same palette interpolated to 8 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" ) 
+  
+)
+
+options(ggplot2.discrete.fill = default_palettes, 
+        ggplot2.discrete.colour = default_palettes)
+```
+
+### more than one type of cluster
+
+McElreath doesn't cover this in his video lecture, but this is from the textbook and worth discussing.
+
+::::: columns
+
+::: {.column width="50%"}
+
+```{r}
+data(chimpanzees, package="rethinking")
+d <- chimpanzees
+str(d, vec.len=5)
+```
+
+:::
+
+::: {.column width="50%"}
+Data from [Silk et al. (2005)](https://www.nature.com/articles/nature04243)
+
+![](images/7-1_chimp.png)
+:::
+
+:::::
+
+
+
+
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+## divergent transitions
+
+From McElreath:
+
+> Recall that HMC simulates the frictionless flow of a particle on a surface. In any given transition, which is just a single flick of the particle, the total energy at the start should be equal to the total energy at the end. That’s how energy in a closed system works. And in a purely mathematical system, the energy is always conserved correctly. It’s just a fact about the physics.
+
+> But in a numerical system, it might not be. Sometimes the total energy is not the same at the end as it was at the start. In these cases, the energy is divergent. How can this happen? It tends to happen when the posterior distribution is very steep in some region of parameter space. Steep changes in probability are hard for a discrete physics simulation to follow. When that happens, the algorithm notices by comparing the energy at the start to the energy at the end. When they don’t match, it indicates numerical problems exploring that part of the posterior distribution.
+
+------------------------------------------------------------------------
+
+\begin{align*}
+C &\sim \text{Bernoulli}(p_i) \\
+\text{logit}(p_i) &= \alpha_{D_{[i]}} \\
+\alpha_j &\sim \text{Normal}(\bar{\alpha}, \sigma) \\
+\bar{\alpha} &\sim \text{Normal}(0, 1) \\
+\sigma &\sim \text{Exponential}(1) \\
+\end{align*}
+
+```{r}
+data(bangladesh, package="rethinking")
+d <- bangladesh
+
+m1 <- brm(
+  data=d,
+  family=bernoulli,
+  use.contraception ~ 1 + (1 | district),
+  prior = c( prior(normal(0, 1), class = Intercept), # alpha bar
+             prior(exponential(1), class = sd)),       # sigma
+
+  chains=4, cores=4, iter=2000, warmup=1000,
+  seed = 1,
+  file = here("files/data/generated_data/m71.1"))
+```
+
+------------------------------------------------------------------------
+
+\begin{align*}
+C &\sim \text{Bernoulli}(p_i) \\
+\text{logit}(p_i) &= \alpha_{D_{[i]}} + \beta_{D_{[i]}}U_i\\
+\alpha_j &\sim \text{Normal}(\bar{\alpha}, \sigma) \\
+\beta_j &\sim \text{Normal}(\bar{\beta}, \tau) \\
+\bar{\alpha}, \bar{\beta} &\sim \text{Normal}(0, 1) \\
+\sigma, \tau &\sim \text{Exponential}(1) \\
+\end{align*}
+
+```{r, message=F}
+m2 <- brm(
+  data=d,
+  family=bernoulli,
+  use.contraception ~ 1 + urban + (1 + urban || district),
+  prior = c( prior(normal(0, 1), class = Intercept), 
+             prior(normal(0, 1), class = b),
+             prior(exponential(1), class = sd)),     
+
+  chains=4, cores=4, iter=2000, warmup=1000,
+  seed = 1,
+  file = here("files/data/generated_data/m71.2"))
+```
+
+------------------------------------------------------------------------
+
+Oops, no divergent transitions.
+
+```{r}
+m2
+```
