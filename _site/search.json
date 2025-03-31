@@ -113,363 +113,437 @@
     ]
   },
   {
-    "objectID": "content/02-content.html",
-    "href": "content/02-content.html",
-    "title": "Bayes as coutning",
+    "objectID": "schedule.html",
+    "href": "schedule.html",
+    "title": "Schedule",
     "section": "",
-    "text": "The Golum of Prague (51 min)\n The Garden of Forking Data (1 h 37 min)",
+    "text": "Below is the schedule for the course. Note that this schedule may change as the course progresses.\n\n\n\n\n\n\nSchedule Notes\n\n\n\n\nAll deadlines are at 11:59 PM Pacific Time on the specified date\nSchedule is subject to change based on course needs\nAdditional readings and resources will be posted on the course website\n\n\n\n\nHere’s your roadmap for the semester!\n\nContent (): This page contains the recorded lectures and slides for the week. Watch the lectures before our in-person class.\nAssignment (): This page contains the instructions for each assignment.\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 1\n\n\n\n\nApril 1\n\n\nIntroduction and Bayes’ theorem\n\n\n\n\n\n\n\n\n\n\nApril 3\n\n\nBayes as counting\n\n\n\n\n\n\n\n\n\n\nApril 7\n\n\nProblem set 1  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 2\n\n\n\n\nApril 8\n\n\nLinear models\n\n\n\n\n\n\n\n\n\n\nApril 10\n\n\nCategories\n\n\n\n\n\n\n\n\n\n\nApril 14\n\n\nProblem set 2  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 3\n\n\n\n\nApril 15\n\n\nDAG models\n\n\n\n\n\n\n\n\n\n\nApril 17\n\n\nMore DAG moodels\n\n\n\n\n\n\n\n\n\n\nApril 21\n\n\nProblem set 3  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 4\n\n\n\n\nApril 22\n\n\nGood prediction\n\n\n\n\n\n\n\n\n\n\nApril 24\n\n\nMCMC\n\n\n\n\n\n\n\n\n\n\nApril 28\n\n\nProblem set 4  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 5\n\n\n\n\nApril 29\n\n\nBinomial regression\n\n\n\n\n\n\n\n\n\n\nMay 1\n\n\nPoisson regression\n\n\n\n\n\n\n\n\n\n\nMay 5\n\n\nProblem set 5  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 6\n\n\n\n\nMay 6\n\n\nMultinomial regression\n\n\n\n\n\n\n\n\n\n\nMay 8\n\n\nMultilevel models\n\n\n\n\n\n\n\n\n\n\nMay 12\n\n\nProblem set 6  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 7\n\n\n\n\nMay 13\n\n\nMore multilevel models\n\n\n\n\n\n\n\n\n\n\nMay 15\n\n\nMultivariate priors\n\n\n\n\n\n\n\n\n\n\nMay 19\n\n\nProblem set 7  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 8\n\n\n\n\nMay 20\n\n\nSocial networks\n\n\n\n\n\n\n\n\n\n\nMay 22\n\n\nGaussian processes\n\n\n\n\n\n\n\n\n\n\nMay 26\n\n\nProblem set 8  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 9\n\n\n\n\nMay 27\n\n\nMeasurement\n\n\n\n\n\n\n\n\n\n\nMay 29\n\n\nMissing data\n\n\n\n\n\n\n\n\n\n\nJune 2\n\n\nProblem set 9  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 10\n\n\n\n\nJune 3\n\n\nGeneralized linear models\n\n\n\n\n\n\n\n\n\n\nJune 5\n\n\nTBD\n\n\n\n\n\n\n\n\n\n\nJune 9\n\n\nProblem set 10  (submit by 23:59:00)"
+  },
+  {
+    "objectID": "schedule.html#course-schedule",
+    "href": "schedule.html#course-schedule",
+    "title": "Schedule",
+    "section": "",
+    "text": "Below is the schedule for the course. Note that this schedule may change as the course progresses.\n\n\n\n\n\n\nSchedule Notes\n\n\n\n\nAll deadlines are at 11:59 PM Pacific Time on the specified date\nSchedule is subject to change based on course needs\nAdditional readings and resources will be posted on the course website\n\n\n\n\nHere’s your roadmap for the semester!\n\nContent (): This page contains the recorded lectures and slides for the week. Watch the lectures before our in-person class.\nAssignment (): This page contains the instructions for each assignment.\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 1\n\n\n\n\nApril 1\n\n\nIntroduction and Bayes’ theorem\n\n\n\n\n\n\n\n\n\n\nApril 3\n\n\nBayes as counting\n\n\n\n\n\n\n\n\n\n\nApril 7\n\n\nProblem set 1  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 2\n\n\n\n\nApril 8\n\n\nLinear models\n\n\n\n\n\n\n\n\n\n\nApril 10\n\n\nCategories\n\n\n\n\n\n\n\n\n\n\nApril 14\n\n\nProblem set 2  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 3\n\n\n\n\nApril 15\n\n\nDAG models\n\n\n\n\n\n\n\n\n\n\nApril 17\n\n\nMore DAG moodels\n\n\n\n\n\n\n\n\n\n\nApril 21\n\n\nProblem set 3  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 4\n\n\n\n\nApril 22\n\n\nGood prediction\n\n\n\n\n\n\n\n\n\n\nApril 24\n\n\nMCMC\n\n\n\n\n\n\n\n\n\n\nApril 28\n\n\nProblem set 4  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 5\n\n\n\n\nApril 29\n\n\nBinomial regression\n\n\n\n\n\n\n\n\n\n\nMay 1\n\n\nPoisson regression\n\n\n\n\n\n\n\n\n\n\nMay 5\n\n\nProblem set 5  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 6\n\n\n\n\nMay 6\n\n\nMultinomial regression\n\n\n\n\n\n\n\n\n\n\nMay 8\n\n\nMultilevel models\n\n\n\n\n\n\n\n\n\n\nMay 12\n\n\nProblem set 6  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 7\n\n\n\n\nMay 13\n\n\nMore multilevel models\n\n\n\n\n\n\n\n\n\n\nMay 15\n\n\nMultivariate priors\n\n\n\n\n\n\n\n\n\n\nMay 19\n\n\nProblem set 7  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 8\n\n\n\n\nMay 20\n\n\nSocial networks\n\n\n\n\n\n\n\n\n\n\nMay 22\n\n\nGaussian processes\n\n\n\n\n\n\n\n\n\n\nMay 26\n\n\nProblem set 8  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 9\n\n\n\n\nMay 27\n\n\nMeasurement\n\n\n\n\n\n\n\n\n\n\nMay 29\n\n\nMissing data\n\n\n\n\n\n\n\n\n\n\nJune 2\n\n\nProblem set 9  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 10\n\n\n\n\nJune 3\n\n\nGeneralized linear models\n\n\n\n\n\n\n\n\n\n\nJune 5\n\n\nTBD\n\n\n\n\n\n\n\n\n\n\nJune 9\n\n\nProblem set 10  (submit by 23:59:00)"
+  },
+  {
+    "objectID": "resource/markdown.html",
+    "href": "resource/markdown.html",
+    "title": "Using Markdown",
+    "section": "",
+    "text": "Markdown is a special kind of markup language that lets you format text with simple syntax. You can then use a converter program like pandoc to convert Markdown into whatever format you want: HTML, PDF, Word, PowerPoint, etc. (see the full list of output types here)",
     "crumbs": [
-      "Content",
-      "Course content",
-      "2: Bayes as counting"
+      "Resources",
+      "Overview",
+      "Using Markdown"
     ]
   },
   {
-    "objectID": "content/02-content.html#before-class",
-    "href": "content/02-content.html#before-class",
-    "title": "Bayes as coutning",
-    "section": "",
-    "text": "The Golum of Prague (51 min)\n The Garden of Forking Data (1 h 37 min)",
+    "objectID": "resource/markdown.html#basic-markdown-formatting",
+    "href": "resource/markdown.html#basic-markdown-formatting",
+    "title": "Using Markdown",
+    "section": "Basic Markdown formatting",
+    "text": "Basic Markdown formatting\n\n\n\n\n\n\n\n\n\nType…\n\n\n…or…\n\n\n…to get\n\n\n\n\n\n\nSome text in a paragraph.\nMore text in the next paragraph. Always\nuse empty lines between paragraphs.\n\n\n\n\n\nSome text in a paragraph.\n\n\nMore text in the next paragraph. Always use empty lines between paragraphs.\n\n\n\n\n\nItalic\n\n\nItalic\n\n\nItalic\n\n\n\n\nBold\n\n\nBold\n\n\nBold\n\n\n\n\n# Heading 1\n\n\n\n\n\nHeading 1\n\n\n\n\n\n## Heading 2\n\n\n\n\n\nHeading 2\n\n\n\n\n\n### Heading 3\n\n\n\n\n\nHeading 3\n\n\n\n\n\n(Go up to heading level 6 with ######)\n\n\n\n\n\n\n\n\nLink text\n\n\n\n\nLink text\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n&lt;code&gt;Inline code with backticks\n\n\n\n\nInline code with backticks\n\n\n\n\n&gt; Blockquote\n\n\n\n\n\n\nBlockquote\n\n\n\n\n\n\n- Things in\n- an unordered\n- list\n\n\n* Things in\n* an unordered\n* list\n\n\n\n\nThings in\n\n\nan unordered\n\n\nlist\n\n\n\n\n\n\n1. Things in\n2. an ordered\n3. list\n\n\n1) Things in\n2) an ordered\n3) list\n\n\n\n\nThings in\n\n\nan ordered\n\n\nlist\n\n\n\n\n\n\nHorizontal line\n\n---\n\n\nHorizontal line\n\n***\n\n\n\nHorizontal line",
     "crumbs": [
-      "Content",
-      "Course content",
-      "2: Bayes as counting"
+      "Resources",
+      "Overview",
+      "Using Markdown"
     ]
   },
   {
-    "objectID": "content/02-content.html#during-class",
-    "href": "content/02-content.html#during-class",
-    "title": "Bayes as coutning",
+    "objectID": "resource/markdown.html#math",
+    "href": "resource/markdown.html#math",
+    "title": "Using Markdown",
+    "section": "Math",
+    "text": "Math\n\nBasic math commands\nMarkdown uses LaTeX to create fancy mathematical equations. There are like a billion little options and features available for math equations—you can find helpful examples of the the most common basic commands here. In this class, these will be the most common things you’ll use:\n\n\n\n\n\nDescription\nCommand\nOutput\n\n\n\n\nLetters\n\n\nRoman letters\n&lt;code&gt;a b c d e f&lt;/code&gt;\n\\(a\\ b\\ c\\ d\\ e\\ f\\)\n\n\nGreek letters (see &lt;a href='https://www.overleaf.com/learn/latex/List_of_Greek_letters_and_math_symbols'&gt;this&lt;/a&gt; for all possible letters)\n&lt;code&gt;\\alpha \\beta \\Gamma \\gamma&lt;/code&gt; &lt;br&gt; &lt;code&gt;\\Delta \\delta \\epsilon&lt;/code&gt;\n\\(\\alpha\\ \\beta\\ \\Gamma\\ \\gamma\\ \\Delta\\ \\delta\\ \\epsilon\\)\n\n\nLetters will automatically be italicized and treated as math variables;&lt;br&gt;if you want actual text in the math, use &lt;code&gt;\\text{}&lt;/code&gt;\nEw: &lt;code&gt;Treatment = \\beta&lt;/code&gt; &lt;br&gt;Good: &lt;code&gt;\\text{Treatment} = \\beta&lt;/code&gt;\nEw: \\(Treatment = \\beta\\)&lt;br&gt;Good: \\(\\text{Treatment} = \\beta\\)\n\n\nExtra spaces will automatically be removed; if you want a space, use &lt;code&gt;\\ &lt;/code&gt;\nNo space: &lt;code&gt;x y&lt;/code&gt; &lt;br&gt; Space: &lt;code&gt;x\\ y&lt;/code&gt;\nNo space: \\(x y\\) &lt;br&gt;Space: \\(x \\ y\\)\n\n\nSuperscripts and subscripts\n\n\nUse &lt;code&gt;^&lt;/code&gt; to make one character superscripted.\n&lt;code&gt;x^2&lt;/code&gt;\n\\(x^2\\)\n\n\nWrap the superscripted part in &lt;code&gt;{}&lt;/code&gt; if there's more than one character\n&lt;code&gt;x^{2+y}&lt;/code&gt;\n\\(x^{2+y}\\)\n\n\nUse &lt;code&gt;_&lt;/code&gt; to make one character subscripted\n&lt;code&gt;\\beta_1&lt;/code&gt;\n\\(\\beta_1\\)\n\n\nWrap the subscripted part in &lt;code&gt;{}&lt;/code&gt; if there's more than one character\n&lt;code&gt;\\beta_{i, t}&lt;/code&gt;\n\\(\\beta_{i, t}\\)\n\n\nUse superscripts and subscripts simultaneously\n&lt;code&gt;\\beta_1^{\\text{Treatment}}&lt;/code&gt;\n\\(\\beta_1^{\\text{Treatment}}\\)\n\n\nYou can even nest them\n&lt;code&gt;x^{2^{2^2}}&lt;/code&gt;\n\\(x^{2^{2^2}}\\)\n\n\nMath operations\n\n\nAddition\n&lt;code&gt;2 + 5 = 7&lt;/code&gt;\n\\(2 + 5 = 7\\)\n\n\nSubtraction\n&lt;code&gt;2 - 5 = -3&lt;/code&gt;\n\\(2 + 5 = -3\\)\n\n\nMultiplication\n&lt;code&gt;x \\times y&lt;/code&gt; &lt;br&gt; &lt;code&gt;x \\cdot y&lt;/code&gt;\n\\(x \\times y\\) &lt;br&gt; \\(x \\cdot y\\)\n\n\nDivision\n&lt;code&gt;8 \\div 2&lt;/code&gt;\n\\(8 \\div 2\\)\n\n\nFractions\n&lt;code&gt;\\frac{8}{2}&lt;/code&gt;\n\\(\\frac{8}{2}\\)\n\n\nSquare roots; use &lt;code&gt;[3]&lt;/code&gt; for other roots\n&lt;code&gt;\\sqrt{81} = 9&lt;/code&gt; &lt;br&gt; &lt;code&gt;\\sqrt[3]{27} = 3&lt;/code&gt;\n\\(\\sqrt{81} = 9\\) &lt;br&gt; \\(\\sqrt[3]{27} = 3\\)\n\n\nSummation; use sub/superscripts for extra details\n&lt;code&gt;\\sum x&lt;/code&gt; &lt;br&gt; &lt;code&gt;\\sum_{n=1}^{\\infty} \\frac{1}{n}&lt;/code&gt;\n\\(\\sum x\\) &lt;br&gt; \\(\\sum_{n=1}^{\\infty} \\frac{1}{n}\\)\n\n\nProducts; use sub/superscripts for extra details\n&lt;code&gt;\\prod x&lt;/code&gt; &lt;br&gt; &lt;code&gt;\\prod_{n=1}^{5} n^2&lt;/code&gt;\n\\(\\prod x\\) &lt;br&gt; \\(\\prod_{n=1}^{5} n^2\\)\n\n\nIntegrals; use sub/superscripts for extra details\n&lt;code&gt;\\int x^2 \\ dx&lt;/code&gt; &lt;br&gt; &lt;code&gt;\\int_{1}^{100} x^2 \\ dx&lt;/code&gt;\n\\(\\int x^2 \\ dx\\) &lt;br&gt; \\(\\int_{1}^{100} x^2 \\ dx\\)\n\n\nExtra symbols\n\n\nAdd a bar for things like averages\n&lt;code&gt;\\bar{x}&lt;/code&gt;\n\\(\\bar{x}\\)\n\n\nUse an overline for longer things\nEw: &lt;code&gt;\\bar{abcdef}&lt;/code&gt; &lt;br&gt; Good: &lt;code&gt;\\overline{abcdef}&lt;/code&gt;\nEw: \\(\\bar{abcdef}\\) &lt;br&gt; Good: \\(\\overline{abcdef}\\)\n\n\nAdd a hat for things like estimates\n&lt;code&gt;\\hat{y}&lt;/code&gt;\n\\(\\hat{y}\\)\n\n\nUse a wide hat for longer things\nEw: &lt;code&gt;\\hat{abcdef}&lt;/code&gt; &lt;br&gt; Good: &lt;code&gt;\\widehat{abcdef}&lt;/code&gt;\nEw: \\(\\hat{abcdef}\\) &lt;br&gt; Good: \\(\\widehat{abcdef}\\)\n\n\nUse arrows for DAG-like things\n&lt;code&gt;Z \\rightarrow Y \\leftarrow X&lt;/code&gt;\n\\(Z \\rightarrow Y \\leftarrow X\\)\n\n\nBonus fun\n\n\nUse colors!; see &lt;a href='https://www.overleaf.com/learn/latex/Using_colours_in_LaTeX'&gt;here&lt;/a&gt; for more details and &lt;a href='https://www.overleaf.com/learn/latex/Using_colours_in_LaTeX#Reference_guide'&gt;here&lt;/a&gt; for a list of color names\n&lt;code&gt;\\color{red}{y} = \\color{blue}{\\beta_1 x_1}&lt;/code&gt;\n\\(\\color{red}{y}\\ \\color{black}{=}\\ \\color{blue}{\\beta_1 x_1}\\)\n\n\n\n\n\n\n\n\n\nUsing math inline\nYou can use math in two different ways: inline or in a display block. To use math inline, wrap it in single dollar signs, like $y = mx + b$:\n\n\n\n\n\n\n\n\nType…\n\n\n…to get\n\n\n\n\n\n\nBased on the DAG, the regression model for\nestimating the effect of education on wages\nis $\\hat{y} = \\beta_0 + \\beta_1 x_1 + \\epsilon$, \nor $\\text{Wages} = \\beta_0 + \n\\beta_1 \\text{Education} + \\epsilon$.\n\n\nBased on the DAG, the regression model for estimating the effect of education on wages is \\(\\hat{y} = \\beta_0 + \\beta_1 x_1 + \\epsilon\\), or \\(\\text{Wages} = \\beta_0 + \\beta_1 \\text{Education} + \\epsilon\\).\n\n\n\n\n\n\nUsing math in a block\nTo put an equation on its own line in a display block, wrap it in double dollar signs, like this:\nType…\nThe quadratic equation was a way to solve for $x$ in high school math:\n\n$$\nx = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}\n$$\n…to get…\n\nThe quadratic equation was a way to solve for \\(x\\) in high school math:\n\\[\nx = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}\n\\]\n\n\n\n\nDollar signs and math\nBecause dollar signs are used to indicate math equations, you can’t just use dollar signs like normal if you’re writing about actual dollars. For instance, if you write This book costs $5.75 and this other costs $40, Markdown will treat everything that comes between the dollar signs as math, like so: “This book costs \\($5.75 and this other costs $40\\)”.\nTo get around that, put a backslash (\\) in front of the dollar signs, so that This book costs \\$5.75 and this other costs \\$40 becomes “This book costs $5.75 and this other costs $40”.",
+    "crumbs": [
+      "Resources",
+      "Overview",
+      "Using Markdown"
+    ]
+  },
+  {
+    "objectID": "resource/markdown.html#tables",
+    "href": "resource/markdown.html#tables",
+    "title": "Using Markdown",
+    "section": "Tables",
+    "text": "Tables\nThere are 4 different ways to hand-create tables in Markdown—I say “hand-create” because it’s normally way easier to use R to generate these things with packages like kableExtra (use kable()) or pander (use pandoc.table()). The two most common are simple tables and pipe tables. You should look at the full documentation here.\nFor simple tables, type…\n  Right     Left     Center     Default\n-------     ------ ----------   -------\n     12     12        12            12\n    123     123       123          123\n      1     1          1             1\n\nTable: Caption goes here\n…to get…\n\nCaption goes here\n\n\nRight\nLeft\nCenter\nDefault\n\n\n\n\n12\n12\n12\n12\n\n\n123\n123\n123\n123\n\n\n1\n1\n1\n1\n\n\n\nFor pipe tables, type…\n| Right | Left | Default | Center |\n|------:|:-----|---------|:------:|\n|   12  |  12  |    12   |    12  |\n|  123  |  123 |   123   |   123  |\n|    1  |    1 |     1   |     1  |\n\nTable: Caption goes here\n…to get…\n\nCaption goes here\n\n\nRight\nLeft\nDefault\nCenter\n\n\n\n\n12\n12\n12\n12\n\n\n123\n123\n123\n123\n\n\n1\n1\n1\n1",
+    "crumbs": [
+      "Resources",
+      "Overview",
+      "Using Markdown"
+    ]
+  },
+  {
+    "objectID": "resource/markdown.html#footnotes",
+    "href": "resource/markdown.html#footnotes",
+    "title": "Using Markdown",
+    "section": "Footnotes",
+    "text": "Footnotes\nThere are two different ways to add footnotes (see here for complete documentation): regular and inline.\nRegular notes need (1) an identifier and (2) the actual note. The identifier can be whatever you want. Some people like to use numbers like [^1], but if you ever rearrange paragraphs or add notes before #1, the numbering will be wrong (in your Markdown file, not in the output; everything will be correct in the output). Because of that, I prefer to use some sort of text label:\nType…\nHere is a footnote reference[^1] and here is another [^note-on-dags].\n\n[^1]: This is a note.\n\n[^note-on-dags]: DAGs are neat. \n\nAnd here's more of the document.\n…to get…\n\nHere is a footnote reference1 and here is another.2\nAnd here’s more of the document.\n\n\n\n\n\nThis is a note.↩︎\n\n\n\n\nDAGs are neat.↩︎\n\n\n\n\n\n\nYou can also use inline footnotes with ^[Text of the note goes here], which are often easier because you don’t need to worry about identifiers:\nType…\nCausal inference is neat.^[But it can be hard too!]\n…to get…\n\nCausal inference is neat.1\n\n\n\n\n\nBut it can be hard too!↩︎",
+    "crumbs": [
+      "Resources",
+      "Overview",
+      "Using Markdown"
+    ]
+  },
+  {
+    "objectID": "resource/markdown.html#front-matter",
+    "href": "resource/markdown.html#front-matter",
+    "title": "Using Markdown",
+    "section": "Front matter",
+    "text": "Front matter\nYou can include a special section at the top of a Markdown document that contains metadata (or data about your document) like the title, date, author, etc. This section uses a special simple syntax named YAML (or “YAML Ain’t Markup Language”) that follows this basic outline: setting: value for setting. Here’s an example YAML metadata section. Note that it must start and end with three dashes (---).\n---\ntitle: Title of your document\ndate: \"January 13, 2020\"\nauthor: \"Your name\"\n---\nYou can put the values inside quotes (like the date and name in the example above), or you can leave them outside of quotes (like the title in the example above). I typically use quotes just to be safe—if the value you’re using has a colon (:) in it, it’ll confuse Markdown since it’ll be something like title: My cool title: a subtitle, which has two colons. It’s better to do this:\n---\ntitle: \"My cool title: a subtitle\"\n---\nIf you want to use quotes inside one of the values (e.g. your document is An evaluation of \"scare quotes\"), you can use single quotes instead:\n---\ntitle: 'An evaluation of \"scare quotes\"'\n---",
+    "crumbs": [
+      "Resources",
+      "Overview",
+      "Using Markdown"
+    ]
+  },
+  {
+    "objectID": "resource/markdown.html#citations",
+    "href": "resource/markdown.html#citations",
+    "title": "Using Markdown",
+    "section": "Citations",
+    "text": "Citations\nOne of the most powerful features of Markdown + pandoc is the ability to automatically cite things and generate bibliographies. to use citations, you need to create a BibTeX file (ends in .bib) that contains a database of the things you want to cite. You can do this with bibliography managers designed to work with BibTeX directly (like BibDesk on macOS), or you can use Zotero (macOS and Windows) to export a .bib file. You can download an example .bib file of all the readings from this class here.\nComplete details for using citations can be found here. In brief, you need to do three things:\n\nAdd a bibliography: entry to the YAML metadata:\n---\ntitle: Title of your document\ndate: \"January 13, 2020\"\nauthor: \"Your name\"\nbibliography: name_of_file.bib\n---\nChoose a citation style based on a CSL file. The default is Chicago author-date, but you can choose from 2,000+ at this repository. Download the CSL file, put it in your project folder, and add an entry to the YAML metadata (or provide a URL to the online version):\n---\ntitle: Title of your document\ndate: \"January 13, 2020\"\nauthor: \"Your name\"\nbibliography: name_of_file.bib\ncsl: \"https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl\"\n---\nSome of the most common CSLs are:\n\nChicago author-date\nChicago note-bibliography\nChicago full note-bibliography (no shortened notes or ibids)\nAPA 7th edition\nMLA 8th edition\n\nCite things in your document. Check the documentation for full details of how to do this. Essentially, you use @citationkey inside square brackets ([]):\n\n\n\n\n\n\n\n\nType…\n…to get…\n\n\n\n\nCausal inference is neat [@Rohrer:2018;\n@AngristPischke:2015].\nCausal inference is neat (Rohrer:2018?; AngristPischke:2015?).\n\n\nCausal inference is neat [see @Rohrer:2018,\np. 34; also @AngristPischke:2015, chapter 1]\nCausal inference is neat (see Rohrer:2018?; also AngristPischke:2015?)\n\n\nAngrist and Pischke say causal inference\nis neat [-@AngristPischke:2015; see also\n@Rohrer:2018].\nAngrist and Pischke say causal inference is neat (AngristPischke:2015?; see also Rohrer:2018?).\n\n\n@AngristPischke:2015 [chapter 1] say causal\ninference is neat, and @Rohrer:2018 agrees.\n(AngristPischke:2015?) say causal inference is neat, and (Rohrer:2018?) agrees.\n\n\n\nAfter compiling, you should have a perfectly formatted bibliography added to the end of your document too:\n\nAngrist, Joshua D., and Jörn-Steffen Pischke. 2015. Mastering ’Metrics: The Path from Cause to Effect. Princeton, NJ: Princeton University Press.\nRohrer, Julia M. 2018. “Thinking Clearly About Correlations and Causation: Graphical Causal Models for Observational Data.” Advances in Methods and Practices in Psychological Science 1 (1): 27–42. https://doi.org/10.1177/2515245917745629.",
+    "crumbs": [
+      "Resources",
+      "Overview",
+      "Using Markdown"
+    ]
+  },
+  {
+    "objectID": "resource/markdown.html#other-references",
+    "href": "resource/markdown.html#other-references",
+    "title": "Using Markdown",
+    "section": "Other references",
+    "text": "Other references\nThese websites have additional details and examples and practice tools:\n\nCommonMark’s Markdown tutorial: A quick interactive Markdown tutorial.\nMarkdown tutorial: Another interactive tutorial to practice using Markdown.\nMarkdown cheatsheet: Useful one-page reminder of Markdown syntax.\nThe Plain Person’s Guide to Plain Text Social Science: A comprehensive explanation and tutorial about why you should write data-based reports in Markdown.",
+    "crumbs": [
+      "Resources",
+      "Overview",
+      "Using Markdown"
+    ]
+  },
+  {
+    "objectID": "content/19-content.html",
+    "href": "content/19-content.html",
+    "title": "Generalized linear models",
+    "section": "",
+    "text": "Generalized linear madness (1 h 15 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "19: Generalized linear models"
+    ]
+  },
+  {
+    "objectID": "content/19-content.html#before-class",
+    "href": "content/19-content.html#before-class",
+    "title": "Generalized linear models",
+    "section": "",
+    "text": "Generalized linear madness (1 h 15 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "19: Generalized linear models"
+    ]
+  },
+  {
+    "objectID": "content/19-content.html#during-class",
+    "href": "content/19-content.html#during-class",
+    "title": "Generalized linear models",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "19: Generalized linear models"
+    ]
+  },
+  {
+    "objectID": "content/17-content.html",
+    "href": "content/17-content.html",
+    "title": "Measurement",
+    "section": "",
+    "text": "Measurement & misclassification (1 h 17 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "17: Measurement"
+    ]
+  },
+  {
+    "objectID": "content/17-content.html#before-class",
+    "href": "content/17-content.html#before-class",
+    "title": "Measurement",
+    "section": "",
+    "text": "Measurement & misclassification (1 h 17 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "17: Measurement"
+    ]
+  },
+  {
+    "objectID": "content/17-content.html#during-class",
+    "href": "content/17-content.html#during-class",
+    "title": "Measurement",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "17: Measurement"
+    ]
+  },
+  {
+    "objectID": "content/15-content.html",
+    "href": "content/15-content.html",
+    "title": "Social networks",
+    "section": "",
+    "text": "Social networks (1 h 12 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "15: Social networks"
+    ]
+  },
+  {
+    "objectID": "content/15-content.html#before-class",
+    "href": "content/15-content.html#before-class",
+    "title": "Social networks",
+    "section": "",
+    "text": "Social networks (1 h 12 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "15: Social networks"
+    ]
+  },
+  {
+    "objectID": "content/15-content.html#during-class",
+    "href": "content/15-content.html#during-class",
+    "title": "Social networks",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "15: Social networks"
+    ]
+  },
+  {
+    "objectID": "content/13-content.html",
+    "href": "content/13-content.html",
+    "title": "More multilevel models",
+    "section": "",
+    "text": "Multilevel adventures (54 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "13: More multilevel models"
+    ]
+  },
+  {
+    "objectID": "content/13-content.html#before-class",
+    "href": "content/13-content.html#before-class",
+    "title": "More multilevel models",
+    "section": "",
+    "text": "Multilevel adventures (54 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "13: More multilevel models"
+    ]
+  },
+  {
+    "objectID": "content/13-content.html#during-class",
+    "href": "content/13-content.html#during-class",
+    "title": "More multilevel models",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "13: More multilevel models"
+    ]
+  },
+  {
+    "objectID": "content/11-content.html",
+    "href": "content/11-content.html",
+    "title": "Ordered categories",
+    "section": "",
+    "text": "Ordered categories (1 h 30 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "11: Multinomial regression"
+    ]
+  },
+  {
+    "objectID": "content/11-content.html#before-class",
+    "href": "content/11-content.html#before-class",
+    "title": "Ordered categories",
+    "section": "",
+    "text": "Ordered categories (1 h 30 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "11: Multinomial regression"
+    ]
+  },
+  {
+    "objectID": "content/11-content.html#during-class",
+    "href": "content/11-content.html#during-class",
+    "title": "Ordered categories",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "11: Multinomial regression"
+    ]
+  },
+  {
+    "objectID": "content/09-content.html",
+    "href": "content/09-content.html",
+    "title": "Binomial regression",
+    "section": "",
+    "text": "Modeling events (1 h 32 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "9: Binomial regression"
+    ]
+  },
+  {
+    "objectID": "content/09-content.html#before-class",
+    "href": "content/09-content.html#before-class",
+    "title": "Binomial regression",
+    "section": "",
+    "text": "Modeling events (1 h 32 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "9: Binomial regression"
+    ]
+  },
+  {
+    "objectID": "content/09-content.html#during-class",
+    "href": "content/09-content.html#during-class",
+    "title": "Binomial regression",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "9: Binomial regression"
+    ]
+  },
+  {
+    "objectID": "content/07-content.html",
+    "href": "content/07-content.html",
+    "title": "Good prediction",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "7: Good predictions"
+    ]
+  },
+  {
+    "objectID": "content/07-content.html#before-class",
+    "href": "content/07-content.html#before-class",
+    "title": "Good prediction",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "7: Good predictions"
+    ]
+  },
+  {
+    "objectID": "content/07-content.html#during-class",
+    "href": "content/07-content.html#during-class",
+    "title": "Good prediction",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "7: Good predictions"
+    ]
+  },
+  {
+    "objectID": "content/05-content.html",
+    "href": "content/05-content.html",
+    "title": "Causal modeling",
+    "section": "",
+    "text": "Elemental confounds (1 h 05 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "5: Causal modeling"
+    ]
+  },
+  {
+    "objectID": "content/05-content.html#before-class",
+    "href": "content/05-content.html#before-class",
+    "title": "Causal modeling",
+    "section": "",
+    "text": "Elemental confounds (1 h 05 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "5: Causal modeling"
+    ]
+  },
+  {
+    "objectID": "content/05-content.html#during-class",
+    "href": "content/05-content.html#during-class",
+    "title": "Causal modeling",
     "section": "During class",
     "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
     "crumbs": [
       "Content",
       "Course content",
-      "2: Bayes as counting"
+      "5: Causal modeling"
     ]
   },
   {
-    "objectID": "content/20-content.html",
-    "href": "content/20-content.html",
-    "title": "TBD",
+    "objectID": "content/03-content.html",
+    "href": "content/03-content.html",
+    "title": "Linear models",
     "section": "",
-    "text": "Horoscopes (1 h 40 min)",
+    "text": "Geocentric models (1 h 15 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "20: TBD"
+      "3: Linear models"
     ]
   },
   {
-    "objectID": "content/20-content.html#before-class",
-    "href": "content/20-content.html#before-class",
-    "title": "TBD",
+    "objectID": "content/03-content.html#before-class",
+    "href": "content/03-content.html#before-class",
+    "title": "Linear models",
     "section": "",
-    "text": "Horoscopes (1 h 40 min)",
+    "text": "Geocentric models (1 h 15 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "20: TBD"
+      "3: Linear models"
     ]
   },
   {
-    "objectID": "content/20-content.html#during-class",
-    "href": "content/20-content.html#during-class",
-    "title": "TBD",
-    "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "20: TBD"
-    ]
-  },
-  {
-    "objectID": "content/18-content.html",
-    "href": "content/18-content.html",
-    "title": "Missing data",
-    "section": "",
-    "text": "Missing data (1 h 03 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "18: Missing data"
-    ]
-  },
-  {
-    "objectID": "content/18-content.html#before-class",
-    "href": "content/18-content.html#before-class",
-    "title": "Missing data",
-    "section": "",
-    "text": "Missing data (1 h 03 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "18: Missing data"
-    ]
-  },
-  {
-    "objectID": "content/18-content.html#during-class",
-    "href": "content/18-content.html#during-class",
-    "title": "Missing data",
-    "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "18: Missing data"
-    ]
-  },
-  {
-    "objectID": "content/16-content.html",
-    "href": "content/16-content.html",
-    "title": "Gaussian processes",
-    "section": "",
-    "text": "Gaussian processes (1 h 22 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "16: Gaussian processes"
-    ]
-  },
-  {
-    "objectID": "content/16-content.html#before-class",
-    "href": "content/16-content.html#before-class",
-    "title": "Gaussian processes",
-    "section": "",
-    "text": "Gaussian processes (1 h 22 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "16: Gaussian processes"
-    ]
-  },
-  {
-    "objectID": "content/16-content.html#during-class",
-    "href": "content/16-content.html#during-class",
-    "title": "Gaussian processes",
-    "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "16: Gaussian processes"
-    ]
-  },
-  {
-    "objectID": "content/14-content.html",
-    "href": "content/14-content.html",
-    "title": "Multivariate priors",
-    "section": "",
-    "text": "Correlated features (1 h 10 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "14: Multivariate priors"
-    ]
-  },
-  {
-    "objectID": "content/14-content.html#before-class",
-    "href": "content/14-content.html#before-class",
-    "title": "Multivariate priors",
-    "section": "",
-    "text": "Correlated features (1 h 10 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "14: Multivariate priors"
-    ]
-  },
-  {
-    "objectID": "content/14-content.html#during-class",
-    "href": "content/14-content.html#during-class",
-    "title": "Multivariate priors",
-    "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "14: Multivariate priors"
-    ]
-  },
-  {
-    "objectID": "content/12-content.html",
-    "href": "content/12-content.html",
-    "title": "Multilevel models",
-    "section": "",
-    "text": "Multilevel models (1 h 32 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "12: Multilevel models"
-    ]
-  },
-  {
-    "objectID": "content/12-content.html#before-class",
-    "href": "content/12-content.html#before-class",
-    "title": "Multilevel models",
-    "section": "",
-    "text": "Multilevel models (1 h 32 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "12: Multilevel models"
-    ]
-  },
-  {
-    "objectID": "content/12-content.html#during-class",
-    "href": "content/12-content.html#during-class",
-    "title": "Multilevel models",
-    "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "12: Multilevel models"
-    ]
-  },
-  {
-    "objectID": "content/10-content.html",
-    "href": "content/10-content.html",
-    "title": "Poisson regression",
-    "section": "",
-    "text": "Counts and hidden confounds (1 h 25 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "10: Poisson regression"
-    ]
-  },
-  {
-    "objectID": "content/10-content.html#before-class",
-    "href": "content/10-content.html#before-class",
-    "title": "Poisson regression",
-    "section": "",
-    "text": "Counts and hidden confounds (1 h 25 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "10: Poisson regression"
-    ]
-  },
-  {
-    "objectID": "content/10-content.html#during-class",
-    "href": "content/10-content.html#during-class",
-    "title": "Poisson regression",
-    "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "10: Poisson regression"
-    ]
-  },
-  {
-    "objectID": "content/08-content.html",
-    "href": "content/08-content.html",
-    "title": "MCMC",
-    "section": "",
-    "text": "Markov chain monte carlo (1 h 16 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "8: MCMC"
-    ]
-  },
-  {
-    "objectID": "content/08-content.html#before-class",
-    "href": "content/08-content.html#before-class",
-    "title": "MCMC",
-    "section": "",
-    "text": "Markov chain monte carlo (1 h 16 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "8: MCMC"
-    ]
-  },
-  {
-    "objectID": "content/08-content.html#during-class",
-    "href": "content/08-content.html#during-class",
-    "title": "MCMC",
-    "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "8: MCMC"
-    ]
-  },
-  {
-    "objectID": "content/06-content.html",
-    "href": "content/06-content.html",
-    "title": "More causal modeling",
-    "section": "",
-    "text": "Good and bad controls (1 h 26 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "6: More causal modeling"
-    ]
-  },
-  {
-    "objectID": "content/06-content.html#before-class",
-    "href": "content/06-content.html#before-class",
-    "title": "More causal modeling",
-    "section": "",
-    "text": "Good and bad controls (1 h 26 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "6: More causal modeling"
-    ]
-  },
-  {
-    "objectID": "content/06-content.html#during-class",
-    "href": "content/06-content.html#during-class",
-    "title": "More causal modeling",
+    "objectID": "content/03-content.html#during-class",
+    "href": "content/03-content.html#during-class",
+    "title": "Linear models",
     "section": "During class",
     "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
     "crumbs": [
       "Content",
       "Course content",
-      "6: More causal modeling"
-    ]
-  },
-  {
-    "objectID": "content/04-content.html",
-    "href": "content/04-content.html",
-    "title": "Categories",
-    "section": "",
-    "text": "Categories and curves (1 h 25 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "4: Categories"
-    ]
-  },
-  {
-    "objectID": "content/04-content.html#before-class",
-    "href": "content/04-content.html#before-class",
-    "title": "Categories",
-    "section": "",
-    "text": "Categories and curves (1 h 25 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "4: Categories"
-    ]
-  },
-  {
-    "objectID": "content/04-content.html#during-class",
-    "href": "content/04-content.html#during-class",
-    "title": "Categories",
-    "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "4: Categories"
+      "3: Linear models"
     ]
   },
   {
@@ -913,7 +987,7 @@
     "href": "assignment/02-problem-set.html",
     "title": "Problem set 2",
     "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explanations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
@@ -925,7 +999,7 @@
     "href": "assignment/02-problem-set.html#instructions",
     "title": "Problem set 2",
     "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explanations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
@@ -937,7 +1011,7 @@
     "href": "assignment/02-problem-set.html#questions",
     "title": "Problem set 2",
     "section": "Questions",
-    "text": "Questions\nTBD",
+    "text": "Questions\nFrom the Howell1 dataset, consider only people younger than 13 years old. Estimate the causal association between age and weight. Assume that age influences weight through two paths. First, age influences height, and height influences weight. Second, age directly influences weight through age-related changes in muscle growth and body proportions.\n\nDraw the DAG that represents these causal relationships.\nWrite a generative simulation that takes age as an input and simulates height and weight, obeying the relationships in the DAG.\nEstimate the total causal effect of each year of growth on weight. Be sure to simulate your priors before estimating the model on the data.",
     "crumbs": [
       "Assignments",
       "Problem sets",
@@ -1103,438 +1177,406 @@
     "text": "Bayesian Analysis\n        \n        \n            Model building, estimation, interpretation, visualization\n        \n        \n            PSY 607 • Spring 2025 Psychology University of Oregon\n        \n    \n    \n      \n        \n        \n        \n      \n    \n\n\n\n\n\n\nInstructor\n\n   Dr. Sara Weston\n   Straub 325\n   sweston2@uoregon.edu\n   Schedule an appointment\n\n\n\nCourse details\n\n   Tuesdays and Thursdays\n   Spring 2025\n   2:00–3:20 PM\n   119 FEN\n   Slack\n\n\n\nContacting me\nEmail is the best way to get in contact with me. I will try to respond to all course-related emails within one business day during normal business hours (9am-5pm, Mon-Fri).\n\n\n```"
   },
   {
-    "objectID": "content/03-content.html",
-    "href": "content/03-content.html",
-    "title": "Linear models",
+    "objectID": "assignment/CopyOf01-problem-set.html",
+    "href": "assignment/CopyOf01-problem-set.html",
+    "title": "Problem set 1",
     "section": "",
-    "text": "Geocentric models (1 h 15 min)",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas."
+  },
+  {
+    "objectID": "assignment/CopyOf01-problem-set.html#instructions",
+    "href": "assignment/CopyOf01-problem-set.html#instructions",
+    "title": "Problem set 1",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas."
+  },
+  {
+    "objectID": "assignment/CopyOf01-problem-set.html#questions",
+    "href": "assignment/CopyOf01-problem-set.html#questions",
+    "title": "Problem set 1",
+    "section": "Questions",
+    "text": "Questions\n\nSuppose the globe tossing experiment turned out to be 3 water and 11 land. Construct the posterior distribution.\n\n\n\nClick to see the answer\n\n\n# Create a sequence of p values from 0 to 1\np_grid &lt;- seq(0, 1, length.out = 1000)\n\n# Prior (uniform)\nprior &lt;- rep(1, 1000)\n\n# Likelihood (binomial)\nlikelihood &lt;- dbinom(3, size = 14, prob = p_grid)\n\n# Posterior (proportional to likelihood * prior)\nposterior &lt;- likelihood * prior\nposterior &lt;- posterior / sum(posterior)\n\n# Plot the posterior\nplot(p_grid, posterior, type = \"l\", \n     xlab = \"Proportion of water (p)\", \n     ylab = \"Posterior probability\",\n     main = \"Posterior distribution for p\")\n\n\n\n\n\n\n\n\nThe posterior distribution shows the probability of different values of p (proportion of water) given our data (3 water, 11 land). Since we used a uniform prior, the posterior is proportional to the likelihood. The peak of the distribution is around p = 0.21, which makes sense given our data (3/14 ≈ 0.21).\n\n\nUsing the posterior distribution from 1, compute the posterior predictive distribution for the next 5 tosses of the globe.\n\n\n\nClick to see the answer\n\n\n# Number of samples from posterior\nn_samples &lt;- 10000\n\n# Sample p values from posterior\np_samples &lt;- sample(p_grid, prob = posterior, size = n_samples, replace = TRUE)\n\n# Generate predictions for 5 tosses\nn_tosses &lt;- 5\npredictions &lt;- rbinom(n_samples, size = n_tosses, prob = p_samples)\n\n# Plot the posterior predictive distribution\nhist(predictions, \n     xlab = \"Number of water in 5 tosses\",\n     ylab = \"Count\",\n     main = \"Posterior predictive distribution\",\n     breaks = seq(-0.5, 5.5, by = 1))\n\n\n\n\n\n\n\n\nThe posterior predictive distribution shows the probability of different outcomes for the next 5 tosses, taking into account our uncertainty about p. The most likely outcome is 1 water (since our posterior mean for p is around 0.21, we expect about 1 water in 5 tosses). The distribution is right-skewed because p is less than 0.5.\n\nYou can download a template file here to help you get started."
+  },
+  {
+    "objectID": "content/04-content.html",
+    "href": "content/04-content.html",
+    "title": "Categories",
+    "section": "",
+    "text": "Categories and curves (1 h 25 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "3: Linear models"
+      "4: Categories"
     ]
   },
   {
-    "objectID": "content/03-content.html#before-class",
-    "href": "content/03-content.html#before-class",
-    "title": "Linear models",
+    "objectID": "content/04-content.html#before-class",
+    "href": "content/04-content.html#before-class",
+    "title": "Categories",
     "section": "",
-    "text": "Geocentric models (1 h 15 min)",
+    "text": "Categories and curves (1 h 25 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "3: Linear models"
+      "4: Categories"
     ]
   },
   {
-    "objectID": "content/03-content.html#during-class",
-    "href": "content/03-content.html#during-class",
-    "title": "Linear models",
+    "objectID": "content/04-content.html#during-class",
+    "href": "content/04-content.html#during-class",
+    "title": "Categories",
     "section": "During class",
     "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
     "crumbs": [
       "Content",
       "Course content",
-      "3: Linear models"
+      "4: Categories"
     ]
   },
   {
-    "objectID": "content/05-content.html",
-    "href": "content/05-content.html",
-    "title": "Causal modeling",
+    "objectID": "content/06-content.html",
+    "href": "content/06-content.html",
+    "title": "More causal modeling",
     "section": "",
-    "text": "Elemental confounds (1 h 05 min)",
+    "text": "Good and bad controls (1 h 26 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "5: Causal modeling"
+      "6: More causal modeling"
     ]
   },
   {
-    "objectID": "content/05-content.html#before-class",
-    "href": "content/05-content.html#before-class",
-    "title": "Causal modeling",
+    "objectID": "content/06-content.html#before-class",
+    "href": "content/06-content.html#before-class",
+    "title": "More causal modeling",
     "section": "",
-    "text": "Elemental confounds (1 h 05 min)",
+    "text": "Good and bad controls (1 h 26 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "5: Causal modeling"
+      "6: More causal modeling"
     ]
   },
   {
-    "objectID": "content/05-content.html#during-class",
-    "href": "content/05-content.html#during-class",
-    "title": "Causal modeling",
+    "objectID": "content/06-content.html#during-class",
+    "href": "content/06-content.html#during-class",
+    "title": "More causal modeling",
     "section": "During class",
     "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
     "crumbs": [
       "Content",
       "Course content",
-      "5: Causal modeling"
+      "6: More causal modeling"
     ]
   },
   {
-    "objectID": "content/07-content.html",
-    "href": "content/07-content.html",
-    "title": "Good prediction",
+    "objectID": "content/08-content.html",
+    "href": "content/08-content.html",
+    "title": "MCMC",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Markov chain monte carlo (1 h 16 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "7: Good predictions"
+      "8: MCMC"
     ]
   },
   {
-    "objectID": "content/07-content.html#before-class",
-    "href": "content/07-content.html#before-class",
-    "title": "Good prediction",
+    "objectID": "content/08-content.html#before-class",
+    "href": "content/08-content.html#before-class",
+    "title": "MCMC",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Markov chain monte carlo (1 h 16 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "7: Good predictions"
+      "8: MCMC"
     ]
   },
   {
-    "objectID": "content/07-content.html#during-class",
-    "href": "content/07-content.html#during-class",
-    "title": "Good prediction",
+    "objectID": "content/08-content.html#during-class",
+    "href": "content/08-content.html#during-class",
+    "title": "MCMC",
     "section": "During class",
     "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
     "crumbs": [
       "Content",
       "Course content",
-      "7: Good predictions"
+      "8: MCMC"
     ]
   },
   {
-    "objectID": "content/09-content.html",
-    "href": "content/09-content.html",
-    "title": "Binomial regression",
+    "objectID": "content/10-content.html",
+    "href": "content/10-content.html",
+    "title": "Poisson regression",
     "section": "",
-    "text": "Modeling events (1 h 32 min)",
+    "text": "Counts and hidden confounds (1 h 25 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "9: Binomial regression"
+      "10: Poisson regression"
     ]
   },
   {
-    "objectID": "content/09-content.html#before-class",
-    "href": "content/09-content.html#before-class",
-    "title": "Binomial regression",
+    "objectID": "content/10-content.html#before-class",
+    "href": "content/10-content.html#before-class",
+    "title": "Poisson regression",
     "section": "",
-    "text": "Modeling events (1 h 32 min)",
+    "text": "Counts and hidden confounds (1 h 25 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "9: Binomial regression"
+      "10: Poisson regression"
     ]
   },
   {
-    "objectID": "content/09-content.html#during-class",
-    "href": "content/09-content.html#during-class",
-    "title": "Binomial regression",
+    "objectID": "content/10-content.html#during-class",
+    "href": "content/10-content.html#during-class",
+    "title": "Poisson regression",
     "section": "During class",
     "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
     "crumbs": [
       "Content",
       "Course content",
-      "9: Binomial regression"
+      "10: Poisson regression"
     ]
   },
   {
-    "objectID": "content/11-content.html",
-    "href": "content/11-content.html",
-    "title": "Ordered categories",
+    "objectID": "content/12-content.html",
+    "href": "content/12-content.html",
+    "title": "Multilevel models",
     "section": "",
-    "text": "Ordered categories (1 h 30 min)",
+    "text": "Multilevel models (1 h 32 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "11: Multinomial regression"
+      "12: Multilevel models"
     ]
   },
   {
-    "objectID": "content/11-content.html#before-class",
-    "href": "content/11-content.html#before-class",
-    "title": "Ordered categories",
+    "objectID": "content/12-content.html#before-class",
+    "href": "content/12-content.html#before-class",
+    "title": "Multilevel models",
     "section": "",
-    "text": "Ordered categories (1 h 30 min)",
+    "text": "Multilevel models (1 h 32 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "11: Multinomial regression"
+      "12: Multilevel models"
     ]
   },
   {
-    "objectID": "content/11-content.html#during-class",
-    "href": "content/11-content.html#during-class",
-    "title": "Ordered categories",
+    "objectID": "content/12-content.html#during-class",
+    "href": "content/12-content.html#during-class",
+    "title": "Multilevel models",
     "section": "During class",
     "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
     "crumbs": [
       "Content",
       "Course content",
-      "11: Multinomial regression"
+      "12: Multilevel models"
     ]
   },
   {
-    "objectID": "content/13-content.html",
-    "href": "content/13-content.html",
-    "title": "More multilevel models",
+    "objectID": "content/14-content.html",
+    "href": "content/14-content.html",
+    "title": "Multivariate priors",
     "section": "",
-    "text": "Multilevel adventures (54 min)",
+    "text": "Correlated features (1 h 10 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "13: More multilevel models"
+      "14: Multivariate priors"
     ]
   },
   {
-    "objectID": "content/13-content.html#before-class",
-    "href": "content/13-content.html#before-class",
-    "title": "More multilevel models",
+    "objectID": "content/14-content.html#before-class",
+    "href": "content/14-content.html#before-class",
+    "title": "Multivariate priors",
     "section": "",
-    "text": "Multilevel adventures (54 min)",
+    "text": "Correlated features (1 h 10 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "13: More multilevel models"
+      "14: Multivariate priors"
     ]
   },
   {
-    "objectID": "content/13-content.html#during-class",
-    "href": "content/13-content.html#during-class",
-    "title": "More multilevel models",
+    "objectID": "content/14-content.html#during-class",
+    "href": "content/14-content.html#during-class",
+    "title": "Multivariate priors",
     "section": "During class",
     "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
     "crumbs": [
       "Content",
       "Course content",
-      "13: More multilevel models"
+      "14: Multivariate priors"
     ]
   },
   {
-    "objectID": "content/15-content.html",
-    "href": "content/15-content.html",
-    "title": "Social networks",
+    "objectID": "content/16-content.html",
+    "href": "content/16-content.html",
+    "title": "Gaussian processes",
     "section": "",
-    "text": "Social networks (1 h 12 min)",
+    "text": "Gaussian processes (1 h 22 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "15: Social networks"
+      "16: Gaussian processes"
     ]
   },
   {
-    "objectID": "content/15-content.html#before-class",
-    "href": "content/15-content.html#before-class",
-    "title": "Social networks",
+    "objectID": "content/16-content.html#before-class",
+    "href": "content/16-content.html#before-class",
+    "title": "Gaussian processes",
     "section": "",
-    "text": "Social networks (1 h 12 min)",
+    "text": "Gaussian processes (1 h 22 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "15: Social networks"
+      "16: Gaussian processes"
     ]
   },
   {
-    "objectID": "content/15-content.html#during-class",
-    "href": "content/15-content.html#during-class",
-    "title": "Social networks",
+    "objectID": "content/16-content.html#during-class",
+    "href": "content/16-content.html#during-class",
+    "title": "Gaussian processes",
     "section": "During class",
     "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
     "crumbs": [
       "Content",
       "Course content",
-      "15: Social networks"
+      "16: Gaussian processes"
     ]
   },
   {
-    "objectID": "content/17-content.html",
-    "href": "content/17-content.html",
-    "title": "Measurement",
+    "objectID": "content/18-content.html",
+    "href": "content/18-content.html",
+    "title": "Missing data",
     "section": "",
-    "text": "Measurement & misclassification (1 h 17 min)",
+    "text": "Missing data (1 h 03 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "17: Measurement"
+      "18: Missing data"
     ]
   },
   {
-    "objectID": "content/17-content.html#before-class",
-    "href": "content/17-content.html#before-class",
-    "title": "Measurement",
+    "objectID": "content/18-content.html#before-class",
+    "href": "content/18-content.html#before-class",
+    "title": "Missing data",
     "section": "",
-    "text": "Measurement & misclassification (1 h 17 min)",
+    "text": "Missing data (1 h 03 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "17: Measurement"
+      "18: Missing data"
     ]
   },
   {
-    "objectID": "content/17-content.html#during-class",
-    "href": "content/17-content.html#during-class",
-    "title": "Measurement",
+    "objectID": "content/18-content.html#during-class",
+    "href": "content/18-content.html#during-class",
+    "title": "Missing data",
     "section": "During class",
     "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
     "crumbs": [
       "Content",
       "Course content",
-      "17: Measurement"
+      "18: Missing data"
     ]
   },
   {
-    "objectID": "content/19-content.html",
-    "href": "content/19-content.html",
-    "title": "Generalized linear models",
+    "objectID": "content/20-content.html",
+    "href": "content/20-content.html",
+    "title": "TBD",
     "section": "",
-    "text": "Generalized linear madness (1 h 15 min)",
+    "text": "Horoscopes (1 h 40 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "19: Generalized linear models"
+      "20: TBD"
     ]
   },
   {
-    "objectID": "content/19-content.html#before-class",
-    "href": "content/19-content.html#before-class",
-    "title": "Generalized linear models",
+    "objectID": "content/20-content.html#before-class",
+    "href": "content/20-content.html#before-class",
+    "title": "TBD",
     "section": "",
-    "text": "Generalized linear madness (1 h 15 min)",
+    "text": "Horoscopes (1 h 40 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "19: Generalized linear models"
+      "20: TBD"
     ]
   },
   {
-    "objectID": "content/19-content.html#during-class",
-    "href": "content/19-content.html#during-class",
-    "title": "Generalized linear models",
+    "objectID": "content/20-content.html#during-class",
+    "href": "content/20-content.html#during-class",
+    "title": "TBD",
     "section": "During class",
     "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
     "crumbs": [
       "Content",
       "Course content",
-      "19: Generalized linear models"
+      "20: TBD"
     ]
   },
   {
-    "objectID": "resource/markdown.html",
-    "href": "resource/markdown.html",
-    "title": "Using Markdown",
+    "objectID": "content/02-content.html",
+    "href": "content/02-content.html",
+    "title": "Bayes as coutning",
     "section": "",
-    "text": "Markdown is a special kind of markup language that lets you format text with simple syntax. You can then use a converter program like pandoc to convert Markdown into whatever format you want: HTML, PDF, Word, PowerPoint, etc. (see the full list of output types here)",
+    "text": "The Golum of Prague (51 min)\n The Garden of Forking Data (1 h 37 min)",
     "crumbs": [
-      "Resources",
-      "Overview",
-      "Using Markdown"
+      "Content",
+      "Course content",
+      "2: Bayes as counting"
     ]
   },
   {
-    "objectID": "resource/markdown.html#basic-markdown-formatting",
-    "href": "resource/markdown.html#basic-markdown-formatting",
-    "title": "Using Markdown",
-    "section": "Basic Markdown formatting",
-    "text": "Basic Markdown formatting\n\n\n\n\n\n\n\n\n\nType…\n\n\n…or…\n\n\n…to get\n\n\n\n\n\n\nSome text in a paragraph.\nMore text in the next paragraph. Always\nuse empty lines between paragraphs.\n\n\n\n\n\nSome text in a paragraph.\n\n\nMore text in the next paragraph. Always use empty lines between paragraphs.\n\n\n\n\n\nItalic\n\n\nItalic\n\n\nItalic\n\n\n\n\nBold\n\n\nBold\n\n\nBold\n\n\n\n\n# Heading 1\n\n\n\n\n\nHeading 1\n\n\n\n\n\n## Heading 2\n\n\n\n\n\nHeading 2\n\n\n\n\n\n### Heading 3\n\n\n\n\n\nHeading 3\n\n\n\n\n\n(Go up to heading level 6 with ######)\n\n\n\n\n\n\n\n\nLink text\n\n\n\n\nLink text\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n&lt;code&gt;Inline code with backticks\n\n\n\n\nInline code with backticks\n\n\n\n\n&gt; Blockquote\n\n\n\n\n\n\nBlockquote\n\n\n\n\n\n\n- Things in\n- an unordered\n- list\n\n\n* Things in\n* an unordered\n* list\n\n\n\n\nThings in\n\n\nan unordered\n\n\nlist\n\n\n\n\n\n\n1. Things in\n2. an ordered\n3. list\n\n\n1) Things in\n2) an ordered\n3) list\n\n\n\n\nThings in\n\n\nan ordered\n\n\nlist\n\n\n\n\n\n\nHorizontal line\n\n---\n\n\nHorizontal line\n\n***\n\n\n\nHorizontal line",
-    "crumbs": [
-      "Resources",
-      "Overview",
-      "Using Markdown"
-    ]
-  },
-  {
-    "objectID": "resource/markdown.html#math",
-    "href": "resource/markdown.html#math",
-    "title": "Using Markdown",
-    "section": "Math",
-    "text": "Math\n\nBasic math commands\nMarkdown uses LaTeX to create fancy mathematical equations. There are like a billion little options and features available for math equations—you can find helpful examples of the the most common basic commands here. In this class, these will be the most common things you’ll use:\n\n\n\n\n\nDescription\nCommand\nOutput\n\n\n\n\nLetters\n\n\nRoman letters\n&lt;code&gt;a b c d e f&lt;/code&gt;\n\\(a\\ b\\ c\\ d\\ e\\ f\\)\n\n\nGreek letters (see &lt;a href='https://www.overleaf.com/learn/latex/List_of_Greek_letters_and_math_symbols'&gt;this&lt;/a&gt; for all possible letters)\n&lt;code&gt;\\alpha \\beta \\Gamma \\gamma&lt;/code&gt; &lt;br&gt; &lt;code&gt;\\Delta \\delta \\epsilon&lt;/code&gt;\n\\(\\alpha\\ \\beta\\ \\Gamma\\ \\gamma\\ \\Delta\\ \\delta\\ \\epsilon\\)\n\n\nLetters will automatically be italicized and treated as math variables;&lt;br&gt;if you want actual text in the math, use &lt;code&gt;\\text{}&lt;/code&gt;\nEw: &lt;code&gt;Treatment = \\beta&lt;/code&gt; &lt;br&gt;Good: &lt;code&gt;\\text{Treatment} = \\beta&lt;/code&gt;\nEw: \\(Treatment = \\beta\\)&lt;br&gt;Good: \\(\\text{Treatment} = \\beta\\)\n\n\nExtra spaces will automatically be removed; if you want a space, use &lt;code&gt;\\ &lt;/code&gt;\nNo space: &lt;code&gt;x y&lt;/code&gt; &lt;br&gt; Space: &lt;code&gt;x\\ y&lt;/code&gt;\nNo space: \\(x y\\) &lt;br&gt;Space: \\(x \\ y\\)\n\n\nSuperscripts and subscripts\n\n\nUse &lt;code&gt;^&lt;/code&gt; to make one character superscripted.\n&lt;code&gt;x^2&lt;/code&gt;\n\\(x^2\\)\n\n\nWrap the superscripted part in &lt;code&gt;{}&lt;/code&gt; if there's more than one character\n&lt;code&gt;x^{2+y}&lt;/code&gt;\n\\(x^{2+y}\\)\n\n\nUse &lt;code&gt;_&lt;/code&gt; to make one character subscripted\n&lt;code&gt;\\beta_1&lt;/code&gt;\n\\(\\beta_1\\)\n\n\nWrap the subscripted part in &lt;code&gt;{}&lt;/code&gt; if there's more than one character\n&lt;code&gt;\\beta_{i, t}&lt;/code&gt;\n\\(\\beta_{i, t}\\)\n\n\nUse superscripts and subscripts simultaneously\n&lt;code&gt;\\beta_1^{\\text{Treatment}}&lt;/code&gt;\n\\(\\beta_1^{\\text{Treatment}}\\)\n\n\nYou can even nest them\n&lt;code&gt;x^{2^{2^2}}&lt;/code&gt;\n\\(x^{2^{2^2}}\\)\n\n\nMath operations\n\n\nAddition\n&lt;code&gt;2 + 5 = 7&lt;/code&gt;\n\\(2 + 5 = 7\\)\n\n\nSubtraction\n&lt;code&gt;2 - 5 = -3&lt;/code&gt;\n\\(2 + 5 = -3\\)\n\n\nMultiplication\n&lt;code&gt;x \\times y&lt;/code&gt; &lt;br&gt; &lt;code&gt;x \\cdot y&lt;/code&gt;\n\\(x \\times y\\) &lt;br&gt; \\(x \\cdot y\\)\n\n\nDivision\n&lt;code&gt;8 \\div 2&lt;/code&gt;\n\\(8 \\div 2\\)\n\n\nFractions\n&lt;code&gt;\\frac{8}{2}&lt;/code&gt;\n\\(\\frac{8}{2}\\)\n\n\nSquare roots; use &lt;code&gt;[3]&lt;/code&gt; for other roots\n&lt;code&gt;\\sqrt{81} = 9&lt;/code&gt; &lt;br&gt; &lt;code&gt;\\sqrt[3]{27} = 3&lt;/code&gt;\n\\(\\sqrt{81} = 9\\) &lt;br&gt; \\(\\sqrt[3]{27} = 3\\)\n\n\nSummation; use sub/superscripts for extra details\n&lt;code&gt;\\sum x&lt;/code&gt; &lt;br&gt; &lt;code&gt;\\sum_{n=1}^{\\infty} \\frac{1}{n}&lt;/code&gt;\n\\(\\sum x\\) &lt;br&gt; \\(\\sum_{n=1}^{\\infty} \\frac{1}{n}\\)\n\n\nProducts; use sub/superscripts for extra details\n&lt;code&gt;\\prod x&lt;/code&gt; &lt;br&gt; &lt;code&gt;\\prod_{n=1}^{5} n^2&lt;/code&gt;\n\\(\\prod x\\) &lt;br&gt; \\(\\prod_{n=1}^{5} n^2\\)\n\n\nIntegrals; use sub/superscripts for extra details\n&lt;code&gt;\\int x^2 \\ dx&lt;/code&gt; &lt;br&gt; &lt;code&gt;\\int_{1}^{100} x^2 \\ dx&lt;/code&gt;\n\\(\\int x^2 \\ dx\\) &lt;br&gt; \\(\\int_{1}^{100} x^2 \\ dx\\)\n\n\nExtra symbols\n\n\nAdd a bar for things like averages\n&lt;code&gt;\\bar{x}&lt;/code&gt;\n\\(\\bar{x}\\)\n\n\nUse an overline for longer things\nEw: &lt;code&gt;\\bar{abcdef}&lt;/code&gt; &lt;br&gt; Good: &lt;code&gt;\\overline{abcdef}&lt;/code&gt;\nEw: \\(\\bar{abcdef}\\) &lt;br&gt; Good: \\(\\overline{abcdef}\\)\n\n\nAdd a hat for things like estimates\n&lt;code&gt;\\hat{y}&lt;/code&gt;\n\\(\\hat{y}\\)\n\n\nUse a wide hat for longer things\nEw: &lt;code&gt;\\hat{abcdef}&lt;/code&gt; &lt;br&gt; Good: &lt;code&gt;\\widehat{abcdef}&lt;/code&gt;\nEw: \\(\\hat{abcdef}\\) &lt;br&gt; Good: \\(\\widehat{abcdef}\\)\n\n\nUse arrows for DAG-like things\n&lt;code&gt;Z \\rightarrow Y \\leftarrow X&lt;/code&gt;\n\\(Z \\rightarrow Y \\leftarrow X\\)\n\n\nBonus fun\n\n\nUse colors!; see &lt;a href='https://www.overleaf.com/learn/latex/Using_colours_in_LaTeX'&gt;here&lt;/a&gt; for more details and &lt;a href='https://www.overleaf.com/learn/latex/Using_colours_in_LaTeX#Reference_guide'&gt;here&lt;/a&gt; for a list of color names\n&lt;code&gt;\\color{red}{y} = \\color{blue}{\\beta_1 x_1}&lt;/code&gt;\n\\(\\color{red}{y}\\ \\color{black}{=}\\ \\color{blue}{\\beta_1 x_1}\\)\n\n\n\n\n\n\n\n\n\nUsing math inline\nYou can use math in two different ways: inline or in a display block. To use math inline, wrap it in single dollar signs, like $y = mx + b$:\n\n\n\n\n\n\n\n\nType…\n\n\n…to get\n\n\n\n\n\n\nBased on the DAG, the regression model for\nestimating the effect of education on wages\nis $\\hat{y} = \\beta_0 + \\beta_1 x_1 + \\epsilon$, \nor $\\text{Wages} = \\beta_0 + \n\\beta_1 \\text{Education} + \\epsilon$.\n\n\nBased on the DAG, the regression model for estimating the effect of education on wages is \\(\\hat{y} = \\beta_0 + \\beta_1 x_1 + \\epsilon\\), or \\(\\text{Wages} = \\beta_0 + \\beta_1 \\text{Education} + \\epsilon\\).\n\n\n\n\n\n\nUsing math in a block\nTo put an equation on its own line in a display block, wrap it in double dollar signs, like this:\nType…\nThe quadratic equation was a way to solve for $x$ in high school math:\n\n$$\nx = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}\n$$\n…to get…\n\nThe quadratic equation was a way to solve for \\(x\\) in high school math:\n\\[\nx = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}\n\\]\n\n\n\n\nDollar signs and math\nBecause dollar signs are used to indicate math equations, you can’t just use dollar signs like normal if you’re writing about actual dollars. For instance, if you write This book costs $5.75 and this other costs $40, Markdown will treat everything that comes between the dollar signs as math, like so: “This book costs \\($5.75 and this other costs $40\\)”.\nTo get around that, put a backslash (\\) in front of the dollar signs, so that This book costs \\$5.75 and this other costs \\$40 becomes “This book costs $5.75 and this other costs $40”.",
-    "crumbs": [
-      "Resources",
-      "Overview",
-      "Using Markdown"
-    ]
-  },
-  {
-    "objectID": "resource/markdown.html#tables",
-    "href": "resource/markdown.html#tables",
-    "title": "Using Markdown",
-    "section": "Tables",
-    "text": "Tables\nThere are 4 different ways to hand-create tables in Markdown—I say “hand-create” because it’s normally way easier to use R to generate these things with packages like kableExtra (use kable()) or pander (use pandoc.table()). The two most common are simple tables and pipe tables. You should look at the full documentation here.\nFor simple tables, type…\n  Right     Left     Center     Default\n-------     ------ ----------   -------\n     12     12        12            12\n    123     123       123          123\n      1     1          1             1\n\nTable: Caption goes here\n…to get…\n\nCaption goes here\n\n\nRight\nLeft\nCenter\nDefault\n\n\n\n\n12\n12\n12\n12\n\n\n123\n123\n123\n123\n\n\n1\n1\n1\n1\n\n\n\nFor pipe tables, type…\n| Right | Left | Default | Center |\n|------:|:-----|---------|:------:|\n|   12  |  12  |    12   |    12  |\n|  123  |  123 |   123   |   123  |\n|    1  |    1 |     1   |     1  |\n\nTable: Caption goes here\n…to get…\n\nCaption goes here\n\n\nRight\nLeft\nDefault\nCenter\n\n\n\n\n12\n12\n12\n12\n\n\n123\n123\n123\n123\n\n\n1\n1\n1\n1",
-    "crumbs": [
-      "Resources",
-      "Overview",
-      "Using Markdown"
-    ]
-  },
-  {
-    "objectID": "resource/markdown.html#footnotes",
-    "href": "resource/markdown.html#footnotes",
-    "title": "Using Markdown",
-    "section": "Footnotes",
-    "text": "Footnotes\nThere are two different ways to add footnotes (see here for complete documentation): regular and inline.\nRegular notes need (1) an identifier and (2) the actual note. The identifier can be whatever you want. Some people like to use numbers like [^1], but if you ever rearrange paragraphs or add notes before #1, the numbering will be wrong (in your Markdown file, not in the output; everything will be correct in the output). Because of that, I prefer to use some sort of text label:\nType…\nHere is a footnote reference[^1] and here is another [^note-on-dags].\n\n[^1]: This is a note.\n\n[^note-on-dags]: DAGs are neat. \n\nAnd here's more of the document.\n…to get…\n\nHere is a footnote reference1 and here is another.2\nAnd here’s more of the document.\n\n\n\n\n\nThis is a note.↩︎\n\n\n\n\nDAGs are neat.↩︎\n\n\n\n\n\n\nYou can also use inline footnotes with ^[Text of the note goes here], which are often easier because you don’t need to worry about identifiers:\nType…\nCausal inference is neat.^[But it can be hard too!]\n…to get…\n\nCausal inference is neat.1\n\n\n\n\n\nBut it can be hard too!↩︎",
-    "crumbs": [
-      "Resources",
-      "Overview",
-      "Using Markdown"
-    ]
-  },
-  {
-    "objectID": "resource/markdown.html#front-matter",
-    "href": "resource/markdown.html#front-matter",
-    "title": "Using Markdown",
-    "section": "Front matter",
-    "text": "Front matter\nYou can include a special section at the top of a Markdown document that contains metadata (or data about your document) like the title, date, author, etc. This section uses a special simple syntax named YAML (or “YAML Ain’t Markup Language”) that follows this basic outline: setting: value for setting. Here’s an example YAML metadata section. Note that it must start and end with three dashes (---).\n---\ntitle: Title of your document\ndate: \"January 13, 2020\"\nauthor: \"Your name\"\n---\nYou can put the values inside quotes (like the date and name in the example above), or you can leave them outside of quotes (like the title in the example above). I typically use quotes just to be safe—if the value you’re using has a colon (:) in it, it’ll confuse Markdown since it’ll be something like title: My cool title: a subtitle, which has two colons. It’s better to do this:\n---\ntitle: \"My cool title: a subtitle\"\n---\nIf you want to use quotes inside one of the values (e.g. your document is An evaluation of \"scare quotes\"), you can use single quotes instead:\n---\ntitle: 'An evaluation of \"scare quotes\"'\n---",
-    "crumbs": [
-      "Resources",
-      "Overview",
-      "Using Markdown"
-    ]
-  },
-  {
-    "objectID": "resource/markdown.html#citations",
-    "href": "resource/markdown.html#citations",
-    "title": "Using Markdown",
-    "section": "Citations",
-    "text": "Citations\nOne of the most powerful features of Markdown + pandoc is the ability to automatically cite things and generate bibliographies. to use citations, you need to create a BibTeX file (ends in .bib) that contains a database of the things you want to cite. You can do this with bibliography managers designed to work with BibTeX directly (like BibDesk on macOS), or you can use Zotero (macOS and Windows) to export a .bib file. You can download an example .bib file of all the readings from this class here.\nComplete details for using citations can be found here. In brief, you need to do three things:\n\nAdd a bibliography: entry to the YAML metadata:\n---\ntitle: Title of your document\ndate: \"January 13, 2020\"\nauthor: \"Your name\"\nbibliography: name_of_file.bib\n---\nChoose a citation style based on a CSL file. The default is Chicago author-date, but you can choose from 2,000+ at this repository. Download the CSL file, put it in your project folder, and add an entry to the YAML metadata (or provide a URL to the online version):\n---\ntitle: Title of your document\ndate: \"January 13, 2020\"\nauthor: \"Your name\"\nbibliography: name_of_file.bib\ncsl: \"https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl\"\n---\nSome of the most common CSLs are:\n\nChicago author-date\nChicago note-bibliography\nChicago full note-bibliography (no shortened notes or ibids)\nAPA 7th edition\nMLA 8th edition\n\nCite things in your document. Check the documentation for full details of how to do this. Essentially, you use @citationkey inside square brackets ([]):\n\n\n\n\n\n\n\n\nType…\n…to get…\n\n\n\n\nCausal inference is neat [@Rohrer:2018;\n@AngristPischke:2015].\nCausal inference is neat (Rohrer:2018?; AngristPischke:2015?).\n\n\nCausal inference is neat [see @Rohrer:2018,\np. 34; also @AngristPischke:2015, chapter 1]\nCausal inference is neat (see Rohrer:2018?; also AngristPischke:2015?)\n\n\nAngrist and Pischke say causal inference\nis neat [-@AngristPischke:2015; see also\n@Rohrer:2018].\nAngrist and Pischke say causal inference is neat (AngristPischke:2015?; see also Rohrer:2018?).\n\n\n@AngristPischke:2015 [chapter 1] say causal\ninference is neat, and @Rohrer:2018 agrees.\n(AngristPischke:2015?) say causal inference is neat, and (Rohrer:2018?) agrees.\n\n\n\nAfter compiling, you should have a perfectly formatted bibliography added to the end of your document too:\n\nAngrist, Joshua D., and Jörn-Steffen Pischke. 2015. Mastering ’Metrics: The Path from Cause to Effect. Princeton, NJ: Princeton University Press.\nRohrer, Julia M. 2018. “Thinking Clearly About Correlations and Causation: Graphical Causal Models for Observational Data.” Advances in Methods and Practices in Psychological Science 1 (1): 27–42. https://doi.org/10.1177/2515245917745629.",
-    "crumbs": [
-      "Resources",
-      "Overview",
-      "Using Markdown"
-    ]
-  },
-  {
-    "objectID": "resource/markdown.html#other-references",
-    "href": "resource/markdown.html#other-references",
-    "title": "Using Markdown",
-    "section": "Other references",
-    "text": "Other references\nThese websites have additional details and examples and practice tools:\n\nCommonMark’s Markdown tutorial: A quick interactive Markdown tutorial.\nMarkdown tutorial: Another interactive tutorial to practice using Markdown.\nMarkdown cheatsheet: Useful one-page reminder of Markdown syntax.\nThe Plain Person’s Guide to Plain Text Social Science: A comprehensive explanation and tutorial about why you should write data-based reports in Markdown.",
-    "crumbs": [
-      "Resources",
-      "Overview",
-      "Using Markdown"
-    ]
-  },
-  {
-    "objectID": "schedule.html",
-    "href": "schedule.html",
-    "title": "Schedule",
+    "objectID": "content/02-content.html#before-class",
+    "href": "content/02-content.html#before-class",
+    "title": "Bayes as coutning",
     "section": "",
-    "text": "Below is the schedule for the course. Note that this schedule may change as the course progresses.\n\n\n\n\n\n\nSchedule Notes\n\n\n\n\nAll deadlines are at 11:59 PM Pacific Time on the specified date\nSchedule is subject to change based on course needs\nAdditional readings and resources will be posted on the course website\n\n\n\n\nHere’s your roadmap for the semester!\n\nContent (): This page contains the recorded lectures and slides for the week. Watch the lectures before our in-person class.\nAssignment (): This page contains the instructions for each assignment.\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 1\n\n\n\n\nApril 1\n\n\nIntroduction and Bayes’ theorem\n\n\n\n\n\n\n\n\n\n\nApril 3\n\n\nBayes as counting\n\n\n\n\n\n\n\n\n\n\nApril 7\n\n\nProblem set 1  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 2\n\n\n\n\nApril 8\n\n\nLinear models\n\n\n\n\n\n\n\n\n\n\nApril 10\n\n\nCategories\n\n\n\n\n\n\n\n\n\n\nApril 14\n\n\nProblem set 2  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 3\n\n\n\n\nApril 15\n\n\nDAG models\n\n\n\n\n\n\n\n\n\n\nApril 17\n\n\nMore DAG moodels\n\n\n\n\n\n\n\n\n\n\nApril 21\n\n\nProblem set 3  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 4\n\n\n\n\nApril 22\n\n\nGood prediction\n\n\n\n\n\n\n\n\n\n\nApril 24\n\n\nMCMC\n\n\n\n\n\n\n\n\n\n\nApril 28\n\n\nProblem set 4  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 5\n\n\n\n\nApril 29\n\n\nBinomial regression\n\n\n\n\n\n\n\n\n\n\nMay 1\n\n\nPoisson regression\n\n\n\n\n\n\n\n\n\n\nMay 5\n\n\nProblem set 5  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 6\n\n\n\n\nMay 6\n\n\nMultinomial regression\n\n\n\n\n\n\n\n\n\n\nMay 8\n\n\nMultilevel models\n\n\n\n\n\n\n\n\n\n\nMay 12\n\n\nProblem set 6  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 7\n\n\n\n\nMay 13\n\n\nMore multilevel models\n\n\n\n\n\n\n\n\n\n\nMay 15\n\n\nMultivariate priors\n\n\n\n\n\n\n\n\n\n\nMay 19\n\n\nProblem set 7  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 8\n\n\n\n\nMay 20\n\n\nSocial networks\n\n\n\n\n\n\n\n\n\n\nMay 22\n\n\nGaussian processes\n\n\n\n\n\n\n\n\n\n\nMay 26\n\n\nProblem set 8  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 9\n\n\n\n\nMay 27\n\n\nMeasurement\n\n\n\n\n\n\n\n\n\n\nMay 29\n\n\nMissing data\n\n\n\n\n\n\n\n\n\n\nJune 2\n\n\nProblem set 9  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 10\n\n\n\n\nJune 3\n\n\nGeneralized linear models\n\n\n\n\n\n\n\n\n\n\nJune 5\n\n\nTBD\n\n\n\n\n\n\n\n\n\n\nJune 9\n\n\nProblem set 10  (submit by 23:59:00)"
+    "text": "The Golum of Prague (51 min)\n The Garden of Forking Data (1 h 37 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "2: Bayes as counting"
+    ]
   },
   {
-    "objectID": "schedule.html#course-schedule",
-    "href": "schedule.html#course-schedule",
-    "title": "Schedule",
+    "objectID": "content/02-content.html#during-class",
+    "href": "content/02-content.html#during-class",
+    "title": "Bayes as coutning",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "2: Bayes as counting"
+    ]
+  },
+  {
+    "objectID": "assignment/CopyOf02-problem-set.html",
+    "href": "assignment/CopyOf02-problem-set.html",
+    "title": "Problem set 2",
     "section": "",
-    "text": "Below is the schedule for the course. Note that this schedule may change as the course progresses.\n\n\n\n\n\n\nSchedule Notes\n\n\n\n\nAll deadlines are at 11:59 PM Pacific Time on the specified date\nSchedule is subject to change based on course needs\nAdditional readings and resources will be posted on the course website\n\n\n\n\nHere’s your roadmap for the semester!\n\nContent (): This page contains the recorded lectures and slides for the week. Watch the lectures before our in-person class.\nAssignment (): This page contains the instructions for each assignment.\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 1\n\n\n\n\nApril 1\n\n\nIntroduction and Bayes’ theorem\n\n\n\n\n\n\n\n\n\n\nApril 3\n\n\nBayes as counting\n\n\n\n\n\n\n\n\n\n\nApril 7\n\n\nProblem set 1  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 2\n\n\n\n\nApril 8\n\n\nLinear models\n\n\n\n\n\n\n\n\n\n\nApril 10\n\n\nCategories\n\n\n\n\n\n\n\n\n\n\nApril 14\n\n\nProblem set 2  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 3\n\n\n\n\nApril 15\n\n\nDAG models\n\n\n\n\n\n\n\n\n\n\nApril 17\n\n\nMore DAG moodels\n\n\n\n\n\n\n\n\n\n\nApril 21\n\n\nProblem set 3  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 4\n\n\n\n\nApril 22\n\n\nGood prediction\n\n\n\n\n\n\n\n\n\n\nApril 24\n\n\nMCMC\n\n\n\n\n\n\n\n\n\n\nApril 28\n\n\nProblem set 4  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 5\n\n\n\n\nApril 29\n\n\nBinomial regression\n\n\n\n\n\n\n\n\n\n\nMay 1\n\n\nPoisson regression\n\n\n\n\n\n\n\n\n\n\nMay 5\n\n\nProblem set 5  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 6\n\n\n\n\nMay 6\n\n\nMultinomial regression\n\n\n\n\n\n\n\n\n\n\nMay 8\n\n\nMultilevel models\n\n\n\n\n\n\n\n\n\n\nMay 12\n\n\nProblem set 6  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 7\n\n\n\n\nMay 13\n\n\nMore multilevel models\n\n\n\n\n\n\n\n\n\n\nMay 15\n\n\nMultivariate priors\n\n\n\n\n\n\n\n\n\n\nMay 19\n\n\nProblem set 7  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 8\n\n\n\n\nMay 20\n\n\nSocial networks\n\n\n\n\n\n\n\n\n\n\nMay 22\n\n\nGaussian processes\n\n\n\n\n\n\n\n\n\n\nMay 26\n\n\nProblem set 8  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 9\n\n\n\n\nMay 27\n\n\nMeasurement\n\n\n\n\n\n\n\n\n\n\nMay 29\n\n\nMissing data\n\n\n\n\n\n\n\n\n\n\nJune 2\n\n\nProblem set 9  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 10\n\n\n\n\nJune 3\n\n\nGeneralized linear models\n\n\n\n\n\n\n\n\n\n\nJune 5\n\n\nTBD\n\n\n\n\n\n\n\n\n\n\nJune 9\n\n\nProblem set 10  (submit by 23:59:00)"
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explanations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas."
+  },
+  {
+    "objectID": "assignment/CopyOf02-problem-set.html#instructions",
+    "href": "assignment/CopyOf02-problem-set.html#instructions",
+    "title": "Problem set 2",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explanations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas."
+  },
+  {
+    "objectID": "assignment/CopyOf02-problem-set.html#questions",
+    "href": "assignment/CopyOf02-problem-set.html#questions",
+    "title": "Problem set 2",
+    "section": "Questions",
+    "text": "Questions\nFrom the Howell1 dataset, consider only people younger than 13 years old. Estimate the causal association between age and weight. Assume that age influences weight through two paths. First, age influences height, and height influences weight. Second, age directly influences weight through age-related changes in muscle growth and body proportions.\n\nDraw the DAG that represents these causal relationships.\n\n\n\nClick to see the answer\n\n\n# Load required packages\nlibrary(dagitty)\nlibrary(ggplot2)\n\n# Create the DAG\ndag &lt;- dagitty(\"dag {\n  A [age]\n  H [height]\n  W [weight]\n  A -&gt; H\n  H -&gt; W\n  A -&gt; W\n}\")\n\n# Plot the DAG\nplot(dag)\n\nPlot coordinates for graph not supplied! Generating coordinates, see ?coordinates for how to set your own.\n\n\n\n\n\n\n\n\n\nThe DAG shows three variables (age, height, and weight) with directed edges representing causal relationships. There are two paths from age to weight: 1. A direct path: age → weight (representing age-related changes in muscle growth and body proportions) 2. An indirect path: age → height → weight (representing the influence of age on height, which then affects weight)\n\n\nWrite a generative simulation that takes age as an input and simulates height and weight, obeying the relationships in the DAG.\n\n\n\nClick to see the answer\n\n\nset.seed(1)\n# Function to simulate data\n# i'm using feet/pounds, but you can stick with metric if you prefer\nsimulate_growth &lt;- function(age, bAH=0.35, bHW=5, bAW=5) {\n  N &lt;- length(age) # num individuals\n  # simulate heights (caused by age plus variation)\n  height &lt;- rnorm(N, bAH*age, .2) \n  # simulate heights (caused by age and height plus variation)\n  weight &lt;- rnorm(N, bAW*age + bHW*height, 4) \n  #return data frame\n  data.frame(age, height, weight)\n  \n}\n\nsim = simulate_growth( runif(n=20, min=1, max=12)  )\n\npar(mfrow = c(1, 3))\nplot(sim$age, sim$height)\nplot(sim$age, sim$weight)\nplot(sim$height, sim$weight)\n\n\n\n\n\n\n\n\nThis simulation: 1. Takes age as input 2. Generates height using a function of age 3. Generates weight as a function of both age (direct effect) and height (indirect effect) 4. Includes random variation (noise) in both height and weight\nThe plots show the expected relationships: both height and weight increase with age and height and weight are linearlly related.\n\n\nEstimate the total causal effect of each year of growth on weight. Be sure to simulate your priors before estimating the model on the data.\n\n\n\nClick to see the answer\n\n\n# Load the Howell1 dataset\nlibrary(rethinking)\ndata(Howell1)\n\n# Filter for children under 13\nd &lt;- Howell1[Howell1$age &lt; 13,]\n\n# convert to lbs\nlibrary(measurements)\nd$weight &lt;- conv_unit(d$weight, from = \"kg\", to = \"lbs\")\n\nThe linear model for this relationship includes both an intercept and a slope – I need priors for these. The intercept is the weight of a child who is 0 (i.e., weight at birth). The slope is expected (average) change (gain) in weight each year.\n\n# priors\nn &lt;- 10 #number of lines to simulate\na_prior = rnorm(n, 7, 2) #intercept\nb_prior = runif(n, 0, 8) #slope\nplot(NULL, \n     xlim = range(d$age),    xlab = \"age\",\n     ylim = range(d$weight), ylab=\"weight\")\nfor( i in 1:n ) abline( a_prior[i], b_prior[i], col = \"#1c5253\")\n\n\n\n\n\n\n\n\nThat’s fine. I’ll estimate the model usinbg quap.\n\nm &lt;- quap(\n  data = d, \n  alist(\n    weight ~ dnorm( mu, sigma),\n    mu &lt;- a + b*age, \n    a ~ dnorm(7,2),\n    b ~ dunif(0,8),\n    sigma ~ dexp(1)\n  )\n)\nprecis(m)\n\n           mean        sd      5.5%     94.5%\na     15.142366 0.7464192 13.949444 16.335288\nb      3.115430 0.1151904  2.931333  3.299526\nsigma  5.510017 0.3183555  5.001224  6.018811\n\n\nThe total causal effect represents the combined impact of age on weight through both paths in the DAG: 1. Direct effect: age → weight (changes in muscle growth and body proportions) 2. Indirect effect: age → height → weight (growth in height affecting weight)\nThe posterior distribution shows our uncertainty about this total effect. The mean effect tells us how much weight we expect to increase per year of age, on average, taking into account both direct and indirect paths."
   },
   {
     "objectID": "resource/install.html",

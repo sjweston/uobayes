@@ -1,0 +1,142 @@
+---
+title: "Problem set 2"
+date: "2025-04-14"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.align = "center")
+```
+
+## Instructions
+
+Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explanations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas. 
+
+## Questions
+
+From the `Howell1` dataset, consider only people younger than 13 years old. Estimate the causal association between age and weight. Assume that age influences weight through two paths. First, age influences height, and
+height influences weight. Second, age directly influences weight through age-related changes in muscle growth and body proportions. 
+
+1. Draw the DAG that represents these causal relationships. 
+
+<details>
+<summary>Click to see the answer</summary>
+
+```{r}
+# Load required packages
+library(dagitty)
+library(ggplot2)
+
+# Create the DAG
+dag <- dagitty("dag {
+  A [age]
+  H [height]
+  W [weight]
+  A -> H
+  H -> W
+  A -> W
+}")
+
+# Plot the DAG
+plot(dag)
+```
+
+The DAG shows three variables (age, height, and weight) with directed edges representing causal relationships. There are two paths from age to weight:
+1. A direct path: age → weight (representing age-related changes in muscle growth and body proportions)
+2. An indirect path: age → height → weight (representing the influence of age on height, which then affects weight)
+
+</details>
+
+2. Write a generative simulation that takes age as an input and simulates height and weight, obeying the relationships in the DAG.
+
+<details>
+<summary>Click to see the answer</summary>
+
+```{r}
+set.seed(1)
+# Function to simulate data
+# i'm using feet/pounds, but you can stick with metric if you prefer
+simulate_growth <- function(age, bAH=0.35, bHW=5, bAW=5) {
+  N <- length(age) # num individuals
+  # simulate heights (caused by age plus variation)
+  height <- rnorm(N, bAH*age, .2) 
+  # simulate heights (caused by age and height plus variation)
+  weight <- rnorm(N, bAW*age + bHW*height, 4) 
+  #return data frame
+  data.frame(age, height, weight)
+  
+}
+
+sim = simulate_growth( runif(n=20, min=1, max=12)  )
+
+par(mfrow = c(1, 3))
+plot(sim$age, sim$height)
+plot(sim$age, sim$weight)
+plot(sim$height, sim$weight)
+
+```
+
+This simulation:
+1. Takes age as input
+2. Generates height using a function of age 
+3. Generates weight as a function of both age (direct effect) and height (indirect effect)
+4. Includes random variation (noise) in both height and weight
+
+The plots show the expected relationships: both height and weight increase with age and height and weight are linearlly related. 
+
+</details>
+
+3. Estimate the **total** causal effect of each year of growth on weight. Be sure to simulate your priors before estimating the model on the data. 
+
+<details>
+<summary>Click to see the answer</summary>
+
+```{r, message=F, warning=F}
+# Load the Howell1 dataset
+library(rethinking)
+data(Howell1)
+
+# Filter for children under 13
+d <- Howell1[Howell1$age < 13,]
+
+# convert to lbs
+library(measurements)
+d$weight <- conv_unit(d$weight, from = "kg", to = "lbs")
+```
+
+The linear model for this relationship includes both an intercept and a slope -- I need priors for these. The intercept is the weight of a child who is 0 (i.e., weight at birth). The slope is expected (average) change (gain) in weight each year. 
+
+```{r}
+# priors
+n <- 10 #number of lines to simulate
+a_prior = rnorm(n, 7, 2) #intercept
+b_prior = runif(n, 0, 8) #slope
+plot(NULL, 
+     xlim = range(d$age),    xlab = "age",
+     ylim = range(d$weight), ylab="weight")
+for( i in 1:n ) abline( a_prior[i], b_prior[i], col = "#1c5253")
+```
+
+That's fine. I'll estimate the model usinbg `quap`.
+
+```{r}
+m <- quap(
+  data = d, 
+  alist(
+    weight ~ dnorm( mu, sigma),
+    mu <- a + b*age, 
+    a ~ dnorm(7,2),
+    b ~ dunif(0,8),
+    sigma ~ dexp(1)
+  )
+)
+precis(m)
+```
+
+
+The total causal effect represents the combined impact of age on weight through both paths in the DAG:
+1. Direct effect: age → weight (changes in muscle growth and body proportions)
+2. Indirect effect: age → height → weight (growth in height affecting weight)
+
+The posterior distribution shows our uncertainty about this total effect. The mean effect tells us how much weight we expect to increase per year of age, on average, taking into account both direct and indirect paths.
+
+</details>

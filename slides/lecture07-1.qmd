@@ -44,36 +44,6 @@ options(ggplot2.discrete.fill = default_palettes,
         ggplot2.discrete.colour = default_palettes)
 ```
 
-### more than one type of cluster
-
-McElreath doesn't cover this in his video lecture, but this is from the textbook and worth discussing.
-
-::::: columns
-
-::: {.column width="50%"}
-
-```{r}
-data(chimpanzees, package="rethinking")
-d <- chimpanzees
-str(d, vec.len=5)
-```
-
-:::
-
-::: {.column width="50%"}
-Data from [Silk et al. (2005)](https://www.nature.com/articles/nature04243)
-
-![](images/7-1_chimp.png)
-:::
-
-:::::
-
-
-
-
-------------------------------------------------------------------------
-
-------------------------------------------------------------------------
 
 ## divergent transitions
 
@@ -83,7 +53,39 @@ From McElreath:
 
 > But in a numerical system, it might not be. Sometimes the total energy is not the same at the end as it was at the start. In these cases, the energy is divergent. How can this happen? It tends to happen when the posterior distribution is very steep in some region of parameter space. Steep changes in probability are hard for a discrete physics simulation to follow. When that happens, the algorithm notices by comparing the energy at the start to the energy at the end. When they don’t match, it indicates numerical problems exploring that part of the posterior distribution.
 
+---
+
+### centered parameterization
+
+In his lecture, McElreath uses **CENTERED PARAMETERIZATION** to demonstrate divergent transitions. A very simple example:
+
+\begin{align*}
+y_i &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &\sim \text{Normal}(0,1) \\
+\sigma &\sim \text{Exponential}(1) \\
+\end{align*}
+
+This expression is centered because one set of priors (the priors for $y_i$) are centered around another prior (the prior for $\mu_i$). It's intuitive, but this can cause a lot of problems with Stan, which is probably why McElreath used this for his example. In short, when there is limited data within our groups or the population variance is small, the parameters $y_i$ and $mu_i$ become highly correlated. This geometry is challenging for MCMC to sample. (Think of a long and narrow groove, not a bowl, for your Hamiltonian skateboard.)
+
+---
+
+
+The way to fix this is by using an uncentered parameterization:
+
+\begin{align*}
+y &= \mu + (\sigma \times z_i) \\
+z_i &\sim \text{Normal}(0, 1) \\
+\mu &\sim \text{Normal}(0,1) \\
+\sigma &\sim \text{Exponential}(1) \\
+\end{align*}
+
+It's an important point, except the issues of [centered parameterization are so prevalent](https://mc-stan.org/docs/2_18/stan-users-guide/reparameterization-section.html)[^1], that `brms` generally doesn't allow centered parameterization (with some exceptions). So we can't recreate this divergent transition. 
+
+[^1]: [this video](https://www.youtube.com/watch?v=gSd1msFFZTw) is a great explanation
+
 ------------------------------------------------------------------------
+
+McElreath describes the problem of fertility in Bangladesh as such: 
 
 \begin{align*}
 C &\sim \text{Bernoulli}(p_i) \\
@@ -92,6 +94,28 @@ C &\sim \text{Bernoulli}(p_i) \\
 \bar{\alpha} &\sim \text{Normal}(0, 1) \\
 \sigma &\sim \text{Exponential}(1) \\
 \end{align*}
+
+But to fit this using `brms`, we'll rewrite as:
+
+\begin{align*}
+C &\sim \text{Bernoulli}(p_i) \\
+\text{logit}(p_i) &= \alpha + \alpha_{D[i]} \\
+\alpha &\sim \text{Normal}(0, 1) \\
+\alpha_{D[j]} &\sim \text{Normal}(0, \sigma_{D}) \\
+\sigma_{D} &\sim \text{Exponential}(1)
+\end{align*}
+
+---
+
+
+\begin{align*}
+C &\sim \text{Bernoulli}(p_i) \\
+\text{logit}(p_i) &= \alpha + \alpha_{D[i]} \\
+\alpha &\sim \text{Normal}(0, 1) \\
+\alpha_{D[j]} &\sim \text{Normal}(0, \sigma_{D}) \\
+\sigma_{D} &\sim \text{Exponential}(1)
+\end{align*}
+
 
 ```{r}
 data(bangladesh, package="rethinking")
@@ -109,16 +133,45 @@ m1 <- brm(
   file = here("files/data/generated_data/m71.1"))
 ```
 
-------------------------------------------------------------------------
+---
+
+```{r}
+m1
+```
+
+---
+
+```{r}
+gather_draws(m1, b_Intercept, r_district[district, ]) %>% 
+  with_groups(c(.variable, district), median_qi, .value)
+```
+
+---
+
+
+```{r}
+#| code-fold: true
+
+gather_draws(m1, b_Intercept, r_district[district, ]) %>% 
+  with_groups(c(.variable, district), median_qi, .value) %>% 
+  ggplot(aes( x=district, y=.value)) +
+  geom_pointinterval( aes(ymin = .lower, ymax = .upper), 
+                      alpha=.5) +
+  labs(y="District distance from mean") +
+  coord_flip()
+```
+
+---
 
 \begin{align*}
 C &\sim \text{Bernoulli}(p_i) \\
-\text{logit}(p_i) &= \alpha_{D_{[i]}} + \beta_{D_{[i]}}U_i\\
-\alpha_j &\sim \text{Normal}(\bar{\alpha}, \sigma) \\
-\beta_j &\sim \text{Normal}(\bar{\beta}, \tau) \\
-\bar{\alpha}, \bar{\beta} &\sim \text{Normal}(0, 1) \\
+\text{logit}(p_i) &= \alpha + \alpha_{D[i]} + \beta U_i + \beta_{D[i]}U_i \\
+\alpha, \beta &\sim \text{Normal}(0, 1) \\
+\alpha_{D[j]} &\sim \text{Normal}(0, \sigma_{D}) \\
+\beta_{D[j]} &\sim \text{Normal}(0, \tau_{D}) \\
 \sigma, \tau &\sim \text{Exponential}(1) \\
 \end{align*}
+
 
 ```{r, message=F}
 m2 <- brm(
@@ -141,3 +194,160 @@ Oops, no divergent transitions.
 ```{r}
 m2
 ```
+
+---
+
+### more about divergent transitions
+
+* [Divergent transitions -- a primer](https://discourse.mc-stan.org/t/divergent-transitions-a-primer/17099)
+
+* [Towards a principled Bayesian workflow](https://betanalpha.github.io/assets/case_studies/principled_bayesian_workflow.html)
+
+* [Bayesian workflow](https://arxiv.org/abs/2011.01808)
+
+
+---
+
+![](images/7-1_workflow.png)
+
+From Gelman et al [(2020)](https://arxiv.org/abs/2011.01808)
+---
+
+## more than one type of cluster
+
+McElreath doesn't cover this in his video lecture, but this is from the textbook and worth discussing.
+
+::::: columns
+
+::: {.column width="50%"}
+
+```{r}
+data(chimpanzees, package="rethinking")
+d <- chimpanzees
+str(d)
+```
+
+:::
+
+::: {.column width="50%"}
+Data from [Silk et al. (2005)](https://www.nature.com/articles/nature04243)
+
+![](images/7-1_chimp.png)
+:::
+
+:::::
+
+:::{.notes}
+From McElreath: 
+
+The data for this example come from an experiment aimed at evaluating the prosocial tendencies of chimpanzees (_Pan troglodytes_). The experimental structure mimics many common experiments conducted on human students (_Homo sapiens studiensis_) by economists and psychologists. A focal chimpanzee sits at one end of a long table with two levers, one on the left and one on the right in this figure. On the table are four dishes which may contain desirable food items. The two dishes on the right side of the table are attached by a mechanism to the right-hand lever. The two dishes on the left side are similarly attached to the left-hand lever.
+
+When either the left or right lever is pulled by the focal animal, the two dishes on the same side slide towards opposite ends of the table. This delivers whatever is in those dishes to the opposite ends. In all experimental trials, both dishes on the focal animal’s side contain food items. But only one of the dishes on the other side of the table contains a food item. Therefore while both levers deliver food to the focal animal, only one of the levers delivers food to the other side of the table.
+
+There are two experimental conditions. In the partner condition, another chimpanzee is seated at the opposite end of the table, as pictured in the figure. In the control condition, the other side of the table is empty. Finally, two counterbalancing treatments alternate which side, left or right, has a food item for the other side of the table. This helps detect any handedness preferences for individual focal animals.
+
+When human students participate in an experiment like this, they nearly always choose the lever linked to two pieces of food, the prosocial option, but only when another student sits on the opposite side of the table. The motivating question is whether a focal chimpanzee behaves similarly, choosing the prosocial option more often when another animal is present. In terms of linear models, we want to estimate the interaction between condition (presence or absence of another animal) and option (which side is prosocial).
+:::
+
+
+------------------------------------------------------------------------
+
+```{r}
+unique(d$actor)
+unique(d$block)
+unique(d$prosoc_left)
+unique(d$condition)
+```
+
+
+We could model the interaction between condition (presence/absence of another animal) and option (which side is prosocial), but it is more difficult to assign sensible priors to interaction effects. Another option, because we're working with categorical variables, is to turn our 2x2 into one variable with 4 levels. 
+
+```{r}
+d$treatment <- 1 + d$prosoc_left + 2*d$condition
+d %>% count(treatment, prosoc_left, condition)
+```
+
+---
+
+In this experiment, each pull is within a cluster of pulls belonging to an individual chimpanzee. But each pull is also within an experimental block, which represents a collection of observations that happened on the same day. So each observed pull belongs to both an actor (1 to 7) and a block (1 to 6). There may be unique intercepts for each actor as well as for each block.
+
+Mathematical model:
+
+\begin{align*}
+L_i &\sim \text{Binomial}(1, p_i) \\
+\text{logit}(p_i) &= \bar{\alpha} + \alpha_{\text{ACTOR[i]}} + \bar{\gamma} + \gamma_{\text{BLOCK[i]}} +  \beta_{\text{TREATMENT[i]}} \\
+\beta_j &\sim \text{Normal}(0, 0.5) \text{ , for }j=1..4\\
+\alpha_j &\sim \text{Normal}(0, \sigma_{\alpha}) \text{ , for }j=1..7\\
+\gamma_j &\sim \text{Normal}(0, \sigma_{\gamma}) \text{ , for }j=1..7\\
+\bar{\alpha} &\sim \text{Normal}(0, 1.5) \\
+\bar{\gamma} &\sim \text{Normal}(0, 1.5) \\
+\sigma_{\alpha} &\sim \text{Exponential}(1) \\
+\sigma_{\gamma} &\sim \text{Exponential}(1) \\
+\end{align*}
+
+----
+
+
+```{r}
+m3 <- 
+  brm(
+    family = bernoulli,
+    data = d, 
+    bf(
+      pulled_left ~ a + b, 
+      a ~ 1 + (1 | actor) + (1 | block), 
+      b ~ 0 + treatment, 
+      nl = TRUE),
+    prior = c(prior(normal(0, 0.5), nlpar = b),
+              prior(normal(0, 1.5), class = b, coef = Intercept, nlpar = a),
+              prior(exponential(1), class = sd, group = actor, nlpar = a),
+              prior(exponential(1), class = sd, group = block, nlpar = a)),
+  chains=4, cores=4, iter=2000, warmup=1000,
+  seed = 1,
+  file = here("files/data/generated_data/m71.3")
+  )
+```
+
+------------------------------------------------------------------------
+
+```{r}
+m3
+```
+
+---
+
+```{r}
+posterior_summary(m3)
+```
+
+---
+
+```{r}
+m3 %>% 
+  mcmc_plot(variable = c("^r_", "^b_", "^sd_"), regex = T) +
+  theme(axis.text.y = element_text(hjust = 0))
+```
+
+---
+
+```{r}
+#| code-fold: true
+as_draws_df(m3) %>% 
+  select(starts_with("sd")) %>% 
+  pivot_longer(everything()) %>% 
+  ggplot(aes(x = value, fill = name)) +
+  geom_density(linewidth = 0, alpha = 3/4, adjust = 2/3, show.legend = F) +
+  annotate(geom = "text", x = 0.67, y = 2, label = "block", color = "#5e8485") +
+  annotate(geom = "text", x = 2.725, y = 0.5, label = "actor", color = "#0f393a") +
+  scale_fill_manual(values = c("#0f393a", "#5e8485")) +
+  scale_y_continuous(NULL, breaks = NULL) +
+  ggtitle(expression(sigma["group"])) +
+  coord_cartesian(xlim = c(0, 4))
+```
+
+---
+
+### predictions
+
+predictions for chimps in our sample
+predictions for new chimps

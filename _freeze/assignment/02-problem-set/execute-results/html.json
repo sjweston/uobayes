@@ -1,8 +1,8 @@
 {
-  "hash": "10f7c22d786fa9dfeb413901f9782d2c",
+  "hash": "24532f668e4b22175123545d1298d254",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Problem set 2\"\ndate: \"2025-04-14\"\n---\n\n\n\n\n\n## Instructions\n\nPlease use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas. \n\n## Questions\n\nTBD ",
+    "markdown": "---\ntitle: \"Problem set 2\"\ndate: \"2025-04-14\"\n---\n\n\n\n\n\n\n## Instructions\n\nPlease use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explanations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas. \n\n## Questions\n\nFrom the `Howell1` dataset, consider only people younger than 13 years old. Estimate the causal association between age and weight. Assume that age influences weight through two paths. First, age influences height, and\nheight influences weight. Second, age directly influences weight through age-related changes in muscle growth and body proportions. \n\n1. Draw the DAG that represents these causal relationships. \n\n2. Write a generative simulation that takes age as an input and simulates height and weight, obeying the relationships in the DAG.\n\n3. Estimate the **total** causal effect of each year of growth on weight. Be sure to simulate your priors before estimating the model on the data. \n",
     "supporting": [
       "02-problem-set_files"
     ],

@@ -9,8 +9,15 @@ knitr::opts_chunk$set(fig.align = "center")
 
 ## Instructions
 
-Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas. 
+Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explanations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas. 
 
 ## Questions
 
-TBD 
+From the `Howell1` dataset, consider only people younger than 13 years old. Estimate the causal association between age and weight. Assume that age influences weight through two paths. First, age influences height, and
+height influences weight. Second, age directly influences weight through age-related changes in muscle growth and body proportions. 
+
+1. Draw the DAG that represents these causal relationships. 
+
+2. Write a generative simulation that takes age as an input and simulates height and weight, obeying the relationships in the DAG.
+
+3. Estimate the **total** causal effect of each year of growth on weight. Be sure to simulate your priors before estimating the model on the data. 

@@ -1,0 +1,17 @@
+{
+  "hash": "a7561f471ffaece1d0b8ada9ce985325",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Problem set 1\"\ndate: \"2025-04-07\"\n---\n\n\n\n\n\n## Instructions\n\nPlease use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas. \n\n## Questions\n\n1. Suppose the globe tossing experiment turned out to be 3 water and 11 land. Construct the posterior distribution.\n\n<details>\n<summary>Click to see the answer</summary>\n\n\n\n::: {.cell layout-align=\"center\"}\n\n```{.r .cell-code}\n# Create a sequence of p values from 0 to 1\np_grid <- seq(0, 1, length.out = 1000)\n\n# Prior (uniform)\nprior <- rep(1, 1000)\n\n# Likelihood (binomial)\nlikelihood <- dbinom(3, size = 14, prob = p_grid)\n\n# Posterior (proportional to likelihood * prior)\nposterior <- likelihood * prior\nposterior <- posterior / sum(posterior)\n\n# Plot the posterior\nplot(p_grid, posterior, type = \"l\", \n     xlab = \"Proportion of water (p)\", \n     ylab = \"Posterior probability\",\n     main = \"Posterior distribution for p\")\n```\n\n::: {.cell-output-display}\n![](CopyOf01-problem-set_files/figure-html/unnamed-chunk-1-1.png){fig-align='center' width=672}\n:::\n:::\n\n\n\nThe posterior distribution shows the probability of different values of p (proportion of water) given our data (3 water, 11 land). Since we used a uniform prior, the posterior is proportional to the likelihood. The peak of the distribution is around p = 0.21, which makes sense given our data (3/14 ≈ 0.21).\n\n</details>\n\n2. Using the posterior distribution from **1**, compute the posterior predictive distribution for the next 5 tosses of the globe. \n\n<details>\n<summary>Click to see the answer</summary>\n\n\n\n::: {.cell layout-align=\"center\"}\n\n```{.r .cell-code}\n# Number of samples from posterior\nn_samples <- 10000\n\n# Sample p values from posterior\np_samples <- sample(p_grid, prob = posterior, size = n_samples, replace = TRUE)\n\n# Generate predictions for 5 tosses\nn_tosses <- 5\npredictions <- rbinom(n_samples, size = n_tosses, prob = p_samples)\n\n# Plot the posterior predictive distribution\nhist(predictions, \n     xlab = \"Number of water in 5 tosses\",\n     ylab = \"Count\",\n     main = \"Posterior predictive distribution\",\n     breaks = seq(-0.5, 5.5, by = 1))\n```\n\n::: {.cell-output-display}\n![](CopyOf01-problem-set_files/figure-html/unnamed-chunk-2-1.png){fig-align='center' width=672}\n:::\n:::\n\n\n\nThe posterior predictive distribution shows the probability of different outcomes for the next 5 tosses, taking into account our uncertainty about p. The most likely outcome is 1 water (since our posterior mean for p is around 0.21, we expect about 1 water in 5 tosses). The distribution is right-skewed because p is less than 0.5.\n\n</details>\n\nYou can download a template file [here](ps1_template.Rmd) to help you get started.\n",
+    "supporting": [
+      "CopyOf01-problem-set_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

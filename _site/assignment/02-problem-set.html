@@ -264,11 +264,16 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="instructions" class="level2">
 <h2 class="anchored" data-anchor-id="instructions">Instructions</h2>
-<p>Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.</p>
+<p>Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explanations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.</p>
 </section>
 <section id="questions" class="level2">
 <h2 class="anchored" data-anchor-id="questions">Questions</h2>
-<p>TBD</p>
+<p>From the <code>Howell1</code> dataset, consider only people younger than 13 years old. Estimate the causal association between age and weight. Assume that age influences weight through two paths. First, age influences height, and height influences weight. Second, age directly influences weight through age-related changes in muscle growth and body proportions.</p>
+<ol type="1">
+<li><p>Draw the DAG that represents these causal relationships.</p></li>
+<li><p>Write a generative simulation that takes age as an input and simulates height and weight, obeying the relationships in the DAG.</p></li>
+<li><p>Estimate the <strong>total</strong> causal effect of each year of growth on weight. Be sure to simulate your priors before estimating the model on the data.</p></li>
+</ol>
 
 
 </section>
