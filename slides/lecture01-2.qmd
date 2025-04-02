@@ -12,6 +12,7 @@ format:
     self-contained: false  # Ensures correct embedding
     embed-resources: true  # Embeds required assets
     slide-number: true
+    code-annotations: hover
 execute:
   echo: false  
 ---
@@ -52,13 +53,45 @@ You can get there via some calculus, but there are other, more intuitive ways of
 
 ---
 
-## Globe tossing experiment
+## writing functions
+
+```{r, eval = F}
+#
+fun_name = function( argument=1 ){  # <1>
+  y = exp(argument)                 # <2>
+  y^2
+}                                   # <3>
+```
+
+1. Define the function name and arguments. Add defaults. 
+2. What should be done to the objects established in the arguments.
+3. By default, the function will return the last calculation (note this is not assigned to an object.) Or, you can create a list of objects to be returned using `return = list(...)` at the end of your function.
+
+An example:
+
+```{r}
+dice_roll = function( N=1 ){
+  sample( x=c(1:6), size=N, replace=T)
+}
+
+dice_roll()
+dice_roll(5)
+```
+
+---
+
+## Generative models
 
 Suppose you have a globe representing the planet, and you want to estimate how much of the surface is covered in water. You adopt the following strategy: You toss the globe in the air, and when you catch it, you write down whether the surface under your right thumb is water or land.
+
+
+### exercise 
 
 Write a function to simulate tosses of this globe. Make sure your function allows you to vary `N`, the number of tosses, and `p`, the true proportion of water on the globe. 
 
 ---
+
+### solution
 
 ```{r}
 # function to toss a globe covered p by water N times
@@ -86,7 +119,7 @@ $$
   
   What probability distribution would represent the likelihood of a specific sample of water and land given a known propotion of water?
   
---
+:::{.fragment}
 
 The **binomial distribution**.
 
@@ -94,20 +127,23 @@ The **binomial distribution**.
 dbinom(x = 6, size = 9, prob = .7)
 ```
 
+:::
+
 ---
 
-## exercise
+## exercise: grid approximation
 
 
-Write a function that computes the posterior distribution of $p$, the true proportion of water, based on a given sample and a flat prior. 
+Write a function that computes the posterior distribution of $p$, the true proportion of water, based on a given sample and a flat prior. The input of this function should be (1) a sample and (2) a vector of possible parameter values of $p$. Within the function, you'll need to caluculate the following value:
 
 $$
-P(H|D) = \frac{P(H)P(D|H)}{P(D)}
+P(p_i|D) = \frac{P(p_i)P(D|p_i)}{P(D)}
 $$
+Where $p_i$ is each value of $p$ that you fed into the function and $D$ is the sample in hand. As a reminder: 
 
-  * $P(H)$ is the prior, and that is set by the researcher. 
-  * $P(D)$ is the probability of the data given all possible hypotheses, and is therefore the sum of all the $P(H) \times P(D|H)$.
-  * So we only need to find $P(D|H)$ or the likelihood of a sample given a specific, hypothetical value of $H$.
+  * $P(p_i)$ is the prior, and that is set by the researcher. I've asked you to set a flat prior, so this should be the same for all values of $p$.
+  * $P(D)$ is the probability of the data given all possible hypotheses, and is therefore the sum of all the $P(p_i) \times P(D|p_i)$.
+  * $P(D|p_i)$ or the likelihood of a given a specific, hypothetical value of $p$. This is calculated using the binomial distribution. 
 
 
 ---
@@ -230,7 +266,9 @@ plot(seq(0,1,length.out=100), compute_posterior(sample), type = "l")
 
 Suppose the globe tossing data had turned out to be 8 water in 15 tosses. Construct the posterior distribution, using grid approximation. Use the same flat prior as before.
 
-Draw 10,000 samples from the grid approximation from above. Then use the samples to calculate the 90% HPDI for $p$.
+Draw 10,000 samples from the grid approximation from above using the `sample()` function.
+
+Then use the samples to calculate the 90% HPDI for $p$ using the function `HPDI()` in the `rethinking` package.
 
 ---
 
