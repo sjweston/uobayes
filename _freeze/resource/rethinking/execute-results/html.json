@@ -1,0 +1,17 @@
+{
+  "hash": "710f456a58c8899204b10fd9dfdfbc4d",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: Stan and rethinking\n---\n\n\n\n\n\n\n\n## Installing Stan and `rethinking`\n\nYou'll need to download a few packages in order to code starting in Week 2, and they're not as simple as going to CRAN. According to McElreath, there are 3 steps. (See here for his explaination, but I'll try to help here too):\n\n### Install C++ toolchain\n\n* On a Mac, download and install the app Xcode. \n* On a Windows, install C++ in [Visual Studio](https://learn.microsoft.com/en-us/cpp/build/vscpp-step-0-installation?view=msvc-170).\n\n### Install `CmdStanR`\n\nIn R, run this code:\n\n\n\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\ninstall.packages(\"cmdstanr\", \n                 repos = c('https://stan-dev.r-universe.dev', getOption(\"repos\")))\n```\n:::\n\n\n\n\n\n\n\n### Install `rethinking`\n\nIn R, run this code:\n\n\n\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\ninstall.packages(\"rethinking\", \n                 repos=c(cran=\"https://cloud.r-project.org\",\n                         rethinking=\"http://xcelab.net/R\"))\n```\n:::\n",
+    "supporting": [
+      "rethinking_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

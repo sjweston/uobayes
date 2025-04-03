@@ -134,7 +134,7 @@ dbinom(x = 6, size = 9, prob = .7)
 ## exercise: grid approximation
 
 
-Write a function that computes the posterior distribution of $p$, the true proportion of water, based on a given sample and a flat prior. The input of this function should be (1) a sample and (2) a vector of possible parameter values of $p$. Within the function, you'll need to caluculate the following value:
+Write a function that computes the posterior distribution of $p$, the true proportion of water, based on a given sample and a flat prior. The input of this function should be (1) a sample and (2) a vector of possible parameter values of $p$. Within the function, you'll need to calculate the following value:
 
 $$
 P(p_i|D) = \frac{P(p_i)P(D|p_i)}{P(D)}
@@ -142,8 +142,9 @@ $$
 Where $p_i$ is each value of $p$ that you fed into the function and $D$ is the sample in hand. As a reminder: 
 
   * $P(p_i)$ is the prior, and that is set by the researcher. I've asked you to set a flat prior, so this should be the same for all values of $p$.
-  * $P(D)$ is the probability of the data given all possible hypotheses, and is therefore the sum of all the $P(p_i) \times P(D|p_i)$.
   * $P(D|p_i)$ or the likelihood of a given a specific, hypothetical value of $p$. This is calculated using the binomial distribution. 
+  * $P(D)$ is the probability of the data given all possible hypotheses, and is therefore the sum of all the $P(p_i) \times P(D|p_i)$.
+
 
 
 ---
@@ -156,9 +157,11 @@ compute_posterior = function(sample, poss = seq(0,1,length.out=100)){
   W = sum(sample == "W")
   L = sum(sample == "L")
   
+  prior = rep(1, length(poss))
+  
   likelihood = sapply( poss, function(x) dbinom(x = W, size = W+L, prob = x))
   
-  post = ( likelihood ) / sum( likelihood)
+  post = ( prior*likelihood ) / sum( prior*likelihood)
   
   return(post)
 }

@@ -140,6 +140,7 @@ website:
           contents:
             - resource/install.qmd
             - resource/markdown.qmd
+            - resource/rethinking.qmd
 
   page-footer:
     left: |

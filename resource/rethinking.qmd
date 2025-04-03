@@ -1,0 +1,52 @@
+---
+title: Stan and rethinking
+---
+
+## Installing Stan and `rethinking`
+
+You'll need to download a few packages in order to code starting in Week 2, and they're not as simple as going to CRAN. According to McElreath, there are 3 steps. (See here for his explaination, but I'll try to help here too):
+
+### Install C++ toolchain
+
+You might have one of these already. On a Mac, check by opening the Terminal app and running this code:
+
+```
+clang++ --version
+```
+
+If you get anything other than `command not found`, you're gold.
+
+* On a Mac, download and install the app Xcode. 
+* On a Windows, install C++ in [Visual Studio](https://learn.microsoft.com/en-us/cpp/build/vscpp-step-0-installation?view=msvc-170).
+
+### Install `CmdStanR`
+
+In R, run this code:
+
+```{r, eval = F}
+install.packages("cmdstanr", 
+                 repos = c('https://stan-dev.r-universe.dev', getOption("repos")))
+
+```
+
+### Install `rethinking`
+
+In R, run this code:
+
+```{r, eval = F}
+install.packages("shape")
+install.packages("rethinking", 
+                 repos=c(cran="https://cloud.r-project.org",
+                         rethinking="http://xcelab.net/R"))
+```
+
+If you're asked whether you want to install from these sources (compilation of C/C++/Fortran), say yes.
+
+### Install `brms` and `tidybayes`
+
+While you're here, install these packages for later.
+
+```{r, eval=F}
+install.packages(c("brms", "tidybayes"))
+```
+
