@@ -266,6 +266,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#install-c-toolchain" id="toc-install-c-toolchain" class="nav-link" data-scroll-target="#install-c-toolchain">Install C++ toolchain</a></li>
   <li><a href="#install-cmdstanr" id="toc-install-cmdstanr" class="nav-link" data-scroll-target="#install-cmdstanr">Install <code>CmdStanR</code></a></li>
   <li><a href="#install-rethinking" id="toc-install-rethinking" class="nav-link" data-scroll-target="#install-rethinking">Install <code>rethinking</code></a></li>
+  <li><a href="#install-brms-and-tidybayes" id="toc-install-brms-and-tidybayes" class="nav-link" data-scroll-target="#install-brms-and-tidybayes">Install <code>brms</code> and <code>tidybayes</code></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -297,6 +298,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>You’ll need to download a few packages in order to code starting in Week 2, and they’re not as simple as going to CRAN. According to McElreath, there are 3 steps. (See here for his explaination, but I’ll try to help here too):</p>
 <section id="install-c-toolchain" class="level3">
 <h3 class="anchored" data-anchor-id="install-c-toolchain">Install C++ toolchain</h3>
+<p>You might have one of these already. On a Mac, check by opening the Terminal app and running this code:</p>
+<pre><code>clang++ --version</code></pre>
+<p>If you get anything other than <code>command not found</code>, you’re gold.</p>
 <ul>
 <li>On a Mac, download and install the app Xcode.</li>
 <li>On a Windows, install C++ in <a href="https://learn.microsoft.com/en-us/cpp/build/vscpp-step-0-installation?view=msvc-170">Visual Studio</a>.</li>
@@ -306,17 +310,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="install-cmdstanr">Install <code>CmdStanR</code></h3>
 <p>In R, run this code:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"cmdstanr"</span>, </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">repos =</span> <span class="fu">c</span>(<span class="st">'https://stan-dev.r-universe.dev'</span>, <span class="fu">getOption</span>(<span class="st">"repos"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"cmdstanr"</span>, </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">repos =</span> <span class="fu">c</span>(<span class="st">'https://stan-dev.r-universe.dev'</span>, <span class="fu">getOption</span>(<span class="st">"repos"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="install-rethinking" class="level3">
 <h3 class="anchored" data-anchor-id="install-rethinking">Install <code>rethinking</code></h3>
 <p>In R, run this code:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rethinking"</span>, </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">repos=</span><span class="fu">c</span>(<span class="at">cran=</span><span class="st">"https://cloud.r-project.org"</span>,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">rethinking=</span><span class="st">"http://xcelab.net/R"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"shape"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rethinking"</span>, </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">repos=</span><span class="fu">c</span>(<span class="at">cran=</span><span class="st">"https://cloud.r-project.org"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">rethinking=</span><span class="st">"http://xcelab.net/R"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If you’re asked whether you want to install from these sources (compilation of C/C++/Fortran), say yes.</p>
+</section>
+<section id="install-brms-and-tidybayes" class="level3">
+<h3 class="anchored" data-anchor-id="install-brms-and-tidybayes">Install <code>brms</code> and <code>tidybayes</code></h3>
+<p>While you’re here, install these packages for later.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"brms"</span>, <span class="st">"tidybayes"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

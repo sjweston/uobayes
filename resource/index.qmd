@@ -11,10 +11,15 @@ I also recommend bookmarking [the `tidybayes` site](https://mjskay.github.io/tid
 
 The rest of this section contains resources and tutorials. Some were developed by [Andrew Heiss](https://www.andrewheiss.com/blog/), whose website code I used to develop this class website. (Bookmark his site too and check it regularly. You'll never know what you'll learn from him, but it'll always make your science better.)
 
-Here are some additional Bayes resources to check out.
-- [This new *Bayes Rules* book](https://www.bayesrulesbook.com/) is designed to be an introductory textbook for a stats class teaching Bayesian stuff. It’s really accessible and good (and free!). 
-- [This post from 2016](https://thinkinator.com/2016/01/12/r-users-will-now-inevitably-become-bayesians/) is a great short introduction. 
-- [This post shows how to do one simple task](https://www.andrewheiss.com/blog/2019/01/29/diff-means-half-dozen-ways/) (a difference-in-means test) with regular old frequentist methods, bootstrapping, and with Bayesian stats both with brms and raw Stan code
-- [This short post](https://www.tjmahr.com/bayes-theorem-in-three-panels/) gives a helpful overview of the intuition behind Bayesianism
-- [*The Theory That Would Not Die*](https://www.amazon.com/Theory-That-Would-Not-Die/dp/0300188226) is a fun little general introduction to the history of Bayesianism and why it kind of disappeared in the 20th century and was replaced by frequentism and p-values and null hypothesis testing
+Here are some additional Bayes resources to check out:
+
+  - [This new *Bayes Rules* book](https://www.bayesrulesbook.com/) is designed to be an introductory textbook for a stats class teaching Bayesian stuff. It’s really accessible and good (and free!). 
+
+  - [This post from 2016](https://thinkinator.com/2016/01/12/r-users-will-now-inevitably-become-bayesians/) is a great short introduction. 
+
+  - [This post shows how to do one simple task](https://www.andrewheiss.com/blog/2019/01/29/diff-means-half-dozen-ways/) (a difference-in-means test) with regular old frequentist methods, bootstrapping, and with Bayesian stats both with brms and raw Stan code
+
+  - [This short post](https://www.tjmahr.com/bayes-theorem-in-three-panels/) gives a helpful overview of the intuition behind Bayesianism
+
+  - [*The Theory That Would Not Die*](https://www.amazon.com/Theory-That-Would-Not-Die/dp/0300188226) is a fun little general introduction to the history of Bayesianism and why it kind of disappeared in the 20th century and was replaced by frequentism and p-values and null hypothesis testing
 
