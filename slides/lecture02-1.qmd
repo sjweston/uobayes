@@ -12,6 +12,7 @@ format:
     self-contained: false  # Ensures correct embedding
     embed-resources: true  # Embeds required assets
     slide-number: true
+    code-annotations: hover
 execute:
   echo: false        
 ---
@@ -19,13 +20,17 @@ execute:
 Workspace setup:
 
 ```{r, results='hide', echo =T, message = F, warning = F}
+library(here)
 library(tidyverse)
 library(cowplot)
-library(rethinking)
+library(brms)
+library(tidybayes)
 library(patchwork)
 ```
 
-```{r, echo = F}
+```{r}
+# here's a bunch of stuff I include at the beginning of each qmd file. 
+# it's mostly setting the color palette for figures, but it also controls the default code chunk option (showing you, i.e., echo) and setting the figure quality to ensure that it looks nice 
 knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
 theme_set(theme_cowplot())
 default_palettes <- list(
@@ -42,17 +47,9 @@ options(ggplot2.discrete.fill = default_palettes,
         ggplot2.discrete.colour = default_palettes)
 ```
 
-# Gaussian distributions
-
-Aka, normal distributions.
-
-These distributions are unimodal and symmetric. They tend to naturally occur. And they tend to be consistent with our assumptions. (e.g., measures are continuous values on a real number line, centered around a specific value).
-
-Later in the course, we'll move away from Gaussian distributions, but they're a useful place to start.
-
 ------------------------------------------------------------------------
 
-## Recipes for models
+## Model "recipes"
 
 1.  Recognize a set of variables to work with. (Data and parameters.)
 2.  Define each variable either in terms of the other variables OR in terms of a probability distribution.
@@ -79,20 +76,16 @@ W &\sim \text{Binomial}(N,p) \\
 p &\sim \text{Uniform}(0,1) \\
 \end{align*}
 
-:::{.fragment}
-
+::: fragment
 -   $W$ is the observed count of water.
 -   $N$ is the total number of tosses.
 -   $p$ is the proportion of water on the globe.
-
 :::
 
-:::{.fragment}
-
+::: fragment
 The whole model can be read as:
 
 > The count $W$ is distributed binomially with sample size $N$ and probability $p$. The prior for $p$ is assumed to be uniform between 0 and 1.
-
 :::
 
 ------------------------------------------------------------------------
@@ -106,48 +99,117 @@ W &\sim \text{Binomial}(N,p) \\
 p &\sim \text{Uniform}(0,1) \\
 \end{align*}
 
-#### Estimating the posterior
+#### Estimating the posterior using `brms`
 
-We can use grid approximation to estimate the posterior distribution.
+Last week, we used grid approximation to estimate the posterior distribution. In the video you watched for today, McElreath moves on to something called **QUADRATIC APPROXIMATION**. It's good to understand what that's doing, but you and I are moving right along to MCMC. We won't go into the details of what's happening for a few weeks, but let's start with the code to estimate the model.
+
+Let's say we tossed the globe 9 times and observed 6 waters:
+
+```{r, warning=F, message=F,results='hide'}
+m1 <-
+  brm(data = list(w = 6),                            # <1>
+      family = binomial(link = "identity"),          # <2>
+      w | trials(9) ~ 0 + Intercept,                 # <3>
+      prior(beta(1, 1), class = b, lb = 0, ub = 1),  # <4>
+      iter = 5000, warmup = 1000, seed = 3, chains=1,          # <5>
+      file = here("files/models/m21.1"))# <6>
+```
+
+1.  Data can be a data frame or a list. Just make sure the variable names match what's in your formula.
+2.  How you assume your **outcome** variable is distributed.
+3.  The formula for your outcome.
+4.  Priors for *every* parameter in your model. Here, we only have one parameter, so we only need 1 prior. This happens to be a flat prior between 0 and 1.
+5.  Some choices about how we want our model to run. We'll go more into this later.
+6.  These models can take a long time to run. You can automatically save the output to a file; when you do this, the next time you run this code, it won't actually estimate the model, but will instead pull the output from your stated file. Be WARNED: if you change the data or the model code, it will NOT restimate your model until you delete the file.
+
+------------------------------------------------------------------------
+
+### Sampling from the posterior
+
+Grid approximation gave us the calculated probability of each possible value of our parameter, $p$. But our method of conducting bayes will no longer give us such a neat solution. Here's how you get the posterior distribution for $p$:
 
 ```{r}
-w <- 6; n <- 9
-p_grid <- seq( from=0, to=1, length.out=100 )
-posterior <- dbinom( w,n,p_grid )*dunif( p_grid,0,1 )
-posterior <- posterior / sum(posterior)
+samples_from_post = as_draws_df(m1)
+samples_from_post
 ```
 
 ------------------------------------------------------------------------
 
+```{r}
+samples_from_post %>%  
+  ggplot(aes(x=b_Intercept)) +
+  geom_density(fill = "grey", color = "white") +
+  labs(x="Proportion water")
+```
+
+------------------------------------------------------------------------
+
+### Posterior predictive distribution
+
+```{r}
+ppd = posterior_predict(m1)
+ppd
+```
+
+------------------------------------------------------------------------
+
+```{r}
+data.frame(obs = ppd) %>% 
+  ggplot(aes(x=obs)) +
+  geom_histogram() +
+  labs(x="Observed water (out of 9)")
+```
+
+------------------------------------------------------------------------
+
+### Sampling parameters from the **prior**
+
+Oops, we've jumped ahead of ourselves! Best practice is to simulate values from your prior **first** and check to see if those priors are reasonable.
+
+```{r, message=F,warning=F,results='hide'}
+#| code-line-numbers: "7"
+m1p <-
+  brm(data = list(w = 6),                            
+      family = binomial(link = "identity"),          
+      w | trials(9) ~ 0 + Intercept,                 
+      prior(beta(1, 1), class = b, lb = 0, ub = 1),  
+      iter = 5000, warmup = 1000, seed = 3, chains=1,          
+      sample_prior = "only")
+```
+
 ::::: columns
-::: {.column width="80%"}
-```{r, fig.retina = 3, fig.height = 3, fig.width = 5}
-plot(p_grid, posterior, type = "l")
+::: {.column width="50%"}
+```{r prior-samples, eval=F}
+samples_from_prior = as_draws_df(m1p)
+samples_from_prior %>% 
+  ggplot(aes(x=b_Intercept)) +
+  geom_density(fill = "grey", color = "white") +
+  labs(x="Proportion water", title="Prior")
 ```
 :::
 
-::: {.column width="30%"}
-Look familiar?
+::: {.column width="50%"}
+```{r, ref.label="prior-samples", echo=F}
+```
 :::
 :::::
 
-------------------------------------------------------------------------
 
-### Simulating parameters from the prior
 
-```{r, fig.height = 5}
-nsims = 1e4
-sim_p <- runif( nsims, 0, 1)
-dens(sim_p)
-```
+
 
 ------------------------------------------------------------------------
 
 ### Simulating observations from the prior
 
-```{r, fig.retina = 3, fig.height = 5}
-sim_w <- rbinom( nsims, 9, sim_p)
-simplehist(sim_w)
+We may also want the **PRIOR PREDICTIVE DISTRIBUTION** which is the expected observiations given our prior.
+
+```{r}
+prior_pd = posterior_predict(m1p)
+data.frame(obs = prior_pd) %>% 
+  ggplot(aes(x=obs)) +
+  geom_histogram() +
+  labs(x="Observed water (out of 9)")
 ```
 
 Simulating from your priors -- **prior predictive simulation** -- is an essential part of modeling. This allows you to see what your choices imply about the data. You'll be able to diagnose bad choices.
@@ -156,7 +218,7 @@ Simulating from your priors -- **prior predictive simulation** -- is an essentia
 
 ### an aside about learning in R
 
-At this point in the course, I'm going to start throwing a lot of code at you. Do I expect you to memorize this code? Of course not. 
+At this point in the course, I'm going to start throwing a lot of code at you. Do I expect you to memorize this code? Of course not.
 
 Do you need to understand every single thing that's happening in the code? Nope.
 
@@ -168,89 +230,54 @@ dim() # what are the dimensions (rows/columns) of this object
 head() # give me the first bit of this object
 ```
 
-:::{.fragment}
-
+::: fragment
 ```{r}
-str(sim_w)
-dim(sim_w)
-head(sim_w)
+str(prior_pd)
+dim(prior_pd)
+head(prior_pd)
 ```
-
 :::
 
 ------------------------------------------------------------------------
 
-### exercise
+### Continous outcomes
 
-For the model defined below, simulate observed $y$ values from the prior:
+The globe tossing example is cute and easy to work with, but let's move towards the kinds of variables we more frequently work with. Let's create a model for some outcome, $y$ that is continuous.
 
 \begin{align*}
 y_i &\sim \text{Normal}(\mu, \sigma) \\
 \mu &\sim \text{Normal}(0, 10) \\
-\sigma &\sim \text{Exponential}(1)
+\sigma &\sim \text{Uniform}(0, 5)
 \end{align*}
 
-:::::{.fragment}
-### solution
-
-:::: columns
-
-::: {.column width="50%"}
-```{r ex1-hist, eval = F}
-set.seed(128); nsims <- 1e4
-sim_mu = rnorm( nsims, 0, 10)
-sim_sig = rexp( nsims, 1)
-sim_y = rnorm(nsims,sim_mu,sim_sig)
-dens(sim_y)
+```{r, warning=F, message=F,results='hide'}
+set.seed(9)
+y = rnorm(n = 31, mean = 4, sd = .5)
+m2 = brm(
+  data = list(y=y),
+  family = gaussian,
+  y ~ 1,
+  prior = c(prior( normal(0,10), class=Intercept),
+            prior( uniform(0,5), class=sigma)),  
+      iter = 5000, warmup = 1000, seed = 3, chains=1,
+  file = here("files/models/m21.2")
+)
 ```
-:::
-
-::: {.column width="50%"}
-```{r ref.label="ex1-hist", echo = F, fig.retina =3}
-dens(sim_y)
-```
-:::
-:::::
-:::::
-
-------------------------------------------------------------------------
-
-### exercise
-
-A sample of students is measured for height each year for 3 years. After the third year, you want to fit a linear regression predicting height using year as a predictor. Write down the mathematical model definition for this regression, using any variable names and priors you choose. Be prepared to defend your choice of priors.
-
-:::{.fragment}
-Remember that every student got taller each year. Does this change your choice of priors? How?
-:::
-
-:::{.fragment}
-The variance in heights for students of the same age is never more than 2.10 feet. Does this lead you to revise your priors?
-:::
-
-::: notes
-\begin{align*}
-y_i &\sim \mathcal{N}(\mu_i, \sigma^2) \\
-\mu_i &= \beta_0 + \beta_1 x_i \\
-\beta_0 &\sim \mathcal{N}(5, 1^2) \\
-\beta_1 &\sim \mathcal{N}(.1, .1^2) \\
-\sigma &\sim \text{Half-Normal}(0, 10)
-\end{align*}
-:::
 
 ------------------------------------------------------------------------
 
 ## An example: weight and height
 
-Using the Howell data (make sure you have the `rethinking` package loaded).
+Using the Howell data (don't load the `rethinking` package because it can interfere with `brms`).
 
 ```{r}
-data("Howell1")
+data("Howell1", package = "rethinking")
 d <- Howell1
 str(d)
 library(measurements)
 d$height <- conv_unit(d$height, from = "cm", to = "feet")
 d$weight <- conv_unit(d$weight, from = "kg", to = "lbs")
-precis(d)
+rethinking::precis(d)
 
 d2 <- d[ d$age >= 18, ]
 ```
@@ -259,11 +286,9 @@ d2 <- d[ d$age >= 18, ]
 
 ### exercise
 
-Write a mathematical model for the weights in this data set. (Don't predict from other variables yet.) 
+Write a mathematical model for the weights in this data set. (Don't worry about predicting from other variables yet.)
 
-Simulate both your priors and the expected observed weight values from the prior.
-
-:::{.fragment}
+::: fragment
 ### solution
 
 \begin{align*}
@@ -275,164 +300,112 @@ w &\sim \text{Normal}(\mu, \sigma) \\
 
 ------------------------------------------------------------------------
 
+\begin{align*}
+w &\sim \text{Normal}(\mu, \sigma) \\
+\mu &\sim \text{Normal}(130, 20) \\
+\sigma &\sim \text{Uniform}(0, 25) \\
+\end{align*}
+
+### exercise
+
+Simulate from your priors (parameters values and prior predictive values).
+
+::: fragment
 ### solution
 
-Simulate your priors
+Sample from your priors:
 
-```{r, fig.retina=3, out.weight='300px'}
-nsims <- 1e4 # number of simulations
-set.seed(128) # reproducibility
-sim_mu <- rnorm( nsims, 130, 20) # simulate values of mu
-sim_sig <- runif(nsims, 0, 25) # simulate values of sigma
-par(mfrow = c(1,3)) # plot display has 1 row, 3 columns
-dens_mu <- dens(sim_mu) # density of mu
-dens_sig <- dens(sim_sig) # density of sigma
-dens_both <- plot(sim_mu, sim_sig, cex = .5, pch = 16,
-                  col=col.alpha("#1c5253",0.1) ) # both together
+```{r, fig.retina=3, out.weight='300px', message=F, warning=F,results='hide'}
+m3p = brm(
+  data = d2,
+  family = gaussian,
+  weight ~ 1,
+  prior = c(prior( normal(130,20), class=Intercept),
+            prior( uniform(0,25), class=sigma, lb=0, ub=25)),  
+      iter = 5000, warmup = 1000, seed = 3, chains=1,
+  sample_prior = "only")
+
 ```
+:::
+
+------------------------------------------------------------------------
+
+Sampling parameter estimates for the Intercept.
 
 ```{r}
-dev.off() # turn off display settings
+pairs(m3p)
 ```
+
+This is a different (shorter) way to plot your posterior. Good things: it automatically includes the scatterplot so you can see the implications of how these parameters correlate. Bad things: not customizable and not useable when you have a lot of parameters.
 
 ------------------------------------------------------------------------
 
 Simulate values of weight.
 
 ```{r, fig.retina=3, fig.weight=4}
-sim_h <- rnorm( nsims, sim_mu, sim_sig)
-dens(sim_h)
-PI(sim_h, .89)
+prior_pd = posterior_predict(m3p)
+dim(prior_pd)
+as.data.frame(prior_pd) %>% 
+  pivot_longer(everything()) %>% 
+  ggplot(aes(x=value)) +
+  geom_histogram() +
+  labs(x="Expected observed weights (based on prior)")
 ```
-
-
 
 ------------------------------------------------------------------------
 
-Use grid approximation to calculate posterior distribution.
-
-(Not necessary to copy, just for teaching purposes.)
+Another shorter way:
 
 ```{r}
-# values of mu and sigma to test
-mu.list <- seq( from=75, to=165, length.out=200 )
-sigma.list <- seq( from=0, to=25 , length.out=200 )
-# fit every possible combination of m and s
-post <- expand.grid( mu=mu.list , sigma=sigma.list )
-
-# calculate log-likelihood of weights for each combination of m and s
-post$LL <- sapply( 1:nrow(post) , function(i) sum(
-  dnorm( d2$weight , post$mu[i] , post$sigma[i] , log=TRUE ) ) )
-
-# add priors
-post$prod <- post$LL + 
-  dnorm( post$mu , 130 , 20 , TRUE ) +
-  dunif( post$sigma , 0 , 25 , TRUE )
-
-# convert from LL to p
-post$prob <- exp( post$prod - max(post$prod) )
+pp_check(m3p)
 ```
 
 ------------------------------------------------------------------------
 
-```{r, fig.retina = 3, fig.weight=6, fig.width=6}
-post %>% 
-  ggplot(aes(x = mu, y = sigma, color = prob)) +
-  geom_point() +
-  scale_color_gradient(low = "white", high = "#1c5253") +
-  theme_cowplot()
+### Fit the model
+
+```{r, warning=F, message=F,results='hide'}
+m3 = brm(
+  data = d2,
+  family = gaussian,
+  weight ~ 1,
+  prior = c(prior( normal(130,20), class=Intercept),
+            prior( uniform(0,25), class=sigma, lb=0, ub=25)),  
+      iter = 5000, warmup = 1000, seed = 3, chains=1,
+  file = here("files/models/m21.3"))
 ```
-
-------------------------------------------------------------------------
-
-Go back to your code and change the range of values you estimate.
 
 ```{r}
-# values of mu and sigma to test
-mu.list <- seq( from=90, to=105 , length.out=200 )
-sigma.list <- seq( from=12, to=16 , length.out=200 )
-```
-
-Rerun all the earlier code.
-
-```{r, echo = F}
-# fit every possible combination of m and s
-post <- expand.grid( mu=mu.list , sigma=sigma.list )
-
-# calculate log-likelihood of weights for each combination of m and s
-post$LL <- sapply( 1:nrow(post) , function(i) sum(
-  dnorm( d2$weight , post$mu[i] , post$sigma[i] , log=TRUE ) ) )
-
-# add priors
-post$prod <- post$LL + 
-  dnorm( post$mu , 130 , 20 , TRUE ) +
-  dunif( post$sigma , 0 , 25 , TRUE )
-
-# convert from LL to p
-post$prob <- exp( post$prod - max(post$prod) )
+posterior_summary(m3)
 ```
 
 ------------------------------------------------------------------------
-
-```{r, fig.retina = 3, fig.weight=6, fig.width=6}
-post %>% 
-  ggplot(aes(x = mu, y = sigma, color = prob)) +
-  geom_point() +
-  scale_color_gradient(low = "white", high = "#1c5253") +
-  theme_cowplot()
-```
-
-------------------------------------------------------------------------
-
-Cool, but we said last week that grid approximation is unwieldy and going to quickly become unmanageable. So let's repeat this process with **quadratic approximation.**
-
-We won't be calculating the probability or likelihood of values directly (too costly), but we can make some assumptions about the shapes of distributions and get an approximation of the shape of the posterior.
 
 ```{r}
-flist <- alist(
-  weight ~ dnorm( mu , sigma ) ,
-  mu ~ dnorm( 130 , 20 ) ,
-  sigma ~ dunif( 0 , 25 )
-)
-
-m4.1 <- quap( flist , data=d2 )
-precis( m4.1 )
+pairs(m3)
 ```
 
-These numbers provide Gaussian approximations for each parameter’s **marginal distribution**. This means the plausibility of each value of $\mu$, after averaging over the plausibilities of each value of $\sigma$, is given by a Gaussian distribution with mean `r round(precis( m4.1 )$mean[1], 2)` and standard deviation `r round(precis( m4.1 )$sd[1], 2)`.
-
-:::: notes
-The function `alist()` does not evaluate the code, whereas the code `list()` does.
-
-Our interest in quadratic approximation, recall, is as a handy way to quickly make inferences about the shape of the posterior. The posterior’s peak will lie at the MAXIMUM A POSTERIORI estimate (MAP), and we can get a useful image of the posterior’s shape by using the quadratic approximation of the posterior distribution at this peak.
-
-To build the quadratic approximation, we’ll use quap, a command in the rethinking package. The quap function works by using the model definition you were introduced to earlier in this chapter. Each line in the definition has a corresponding definition in the form of R code. The engine inside quap then uses these definitions to define the posterior probability at each combination of parameter values. Then it can climb the posterior distribution and find the peak, its MAP. Finally, it estimates the quadratic curvature at the MAP to produce an approximation of the posterior distribution. Remember: This procedure is very similar to what many non-Bayesian procedures do, just without any priors.
-
-:::
-
 ------------------------------------------------------------------------
-
-`quap()` has approximated a **multivariate** Gaussian distribution -- more than one parameter, and these parameters may be related.
 
 ```{r}
-vcov( m4.1 )
-diag( vcov( m4.1 ) )
-cov2cor( vcov( m4.1 ) )
+#| code-fold: true
+posterior_predict(m3) %>% 
+  as.data.frame() %>% 
+  pivot_longer(everything()) %>% 
+  ggplot(aes(x=value)) +
+  geom_density(fill = "grey", color = "white") +
+  geom_density( aes(x = weight), data=d2, inherit.aes = F) 
 ```
 
 ------------------------------------------------------------------------
-
-You can extract samples.
 
 ```{r}
-post <- extract.samples( m4.1 , n=1e4 )
-head(post)
-precis(post)
+pp_check(m3)
 ```
 
 ------------------------------------------------------------------------
 
-### Adding in a linear component
+## Adding in a linear component
 
 We might assume that height and weight are associated with each other. Indeed, within our sample:
 
@@ -444,13 +417,13 @@ plot(d2$weight ~ d2$height)
 
 ### exercise
 
-Update your mathematical model to incorporate height. Simulate from your priors to see the implied regression lines.
+Update your mathematical model to incorporate height.
 
-:::{.fragment}
+::: fragment
 \begin{align*}
 w_i &\sim \text{Normal}(\mu_i, \sigma) \\
-\mu_i &= \alpha + \beta (h_i - \bar{h}) \\
-\alpha &\sim \text{Normal}(130, 20) \\
+\mu_i &= \alpha + \beta h_i \\
+\alpha &\sim \text{Normal}(??, ??) \\
 \beta &\sim \text{Normal}(0, 25) \\
 \sigma &\sim \text{Uniform}(0, 25) \\
 \end{align*}
@@ -464,149 +437,188 @@ made-up parameters are the targets of learning
 
 ------------------------------------------------------------------------
 
-To simulate from our priors:
+### exercise
 
-```{r sim-lines, eval = F}
-# simulate 100 lines
-nsims <- 100
-sim_alpha = rnorm(nsims, 130, 20)
-sim_beta = rnorm(nsims, 0, 25)
+Update your mathematical model to incorporate height.
 
-# calculate height
-xbar = mean(d2$height)
-# plot with nothing in it
-plot(NULL, xlim = range(d2$height), ylim = c(50, 175),
-     xlab = "height", ylab = "weight")
-abline(h = 0, lty = 2) #line at 0
-#plot each line
-for(i in 1:nsims){
- curve(sim_alpha[i] +sim_beta[i]*(x-xbar), 
-       add = T,
-       col=col.alpha("#1c5253",0.4))  
-}
+\begin{align*}
+w_i &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \alpha + \beta (h_i - \bar{h}) \\
+\alpha &\sim \text{Normal}(130, 20) \\
+\beta &\sim \text{Normal}(0, 25) \\
+\sigma &\sim \text{Uniform}(0, 25) \\
+\end{align*}
+
+::: notes
+$=$ is deterministic -- once we know other variables, $\mu_i$ is known with certainty
+
+made-up parameters are the targets of learning
+:::
+
+------------------------------------------------------------------------
+
+\begin{align*}
+w_i &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \alpha + \beta (h_i - \bar{h}) \\
+\alpha &\sim \text{Normal}(130, 20) \\
+\beta &\sim \text{Normal}(0, 25) \\
+\sigma &\sim \text{Uniform}(0, 25) \\
+\end{align*}
+
+To update our brms code:
+
+```{r message=F, warning=F, results='hide'}
+d2$height_c = d2$height - mean(d2$height)
+  
+m4p = brm(
+  data = d2,
+  family = gaussian,
+  weight ~ 1 + height_c,
+  prior = c(prior( normal(130,20), class=Intercept),
+            prior( normal(0,25),   class=b),
+            prior( uniform(0,25),  class=sigma, lb=0, ub=25)),  
+      iter = 5000, warmup = 1000, seed = 3, chains=1,
+  sample_prior = "only")
+
 ```
 
 ------------------------------------------------------------------------
 
-::::: columns
-::: {.column width="80%"}
-
-```{r ref.label="sim-lines", fig.weight=7, fig.width=10, echo = F}
-
+```{r}
+set.seed(9)
+samples_from_prior = as_draws_df(m4p)
+str(samples_from_prior)
 ```
 
-:::
+------------------------------------------------------------------------
 
-::: {.column width="20%"}
+
+```{r}
+#| code-fold: true
+
+d2 %>% 
+  ggplot(aes(x=height_c, y=weight)) +
+  geom_blank() +
+  geom_abline( aes(intercept=b_Intercept, slope=b_height_c), 
+               data=samples_from_prior[1:50, ],
+               alpha=.3) +
+  scale_x_continuous(name = "height(feet)", 
+                     breaks=seq(4,6,by=.5)-mean(d2$height),
+                     labels=seq(4,6,by=.5))
+```
 
 Describe in words what's wrong with our priors.
 
-:::{.fragment}
+::: fragment
 Slope should not be negative. How can we fix this?
 :::
-:::{.fragment}
+
+::: fragment
 Could use a uniform distribution bounded by 0.
 :::
 
-:::
-::::
-
 ------------------------------------------------------------------------
 
-```{r sim-lines2, eval = F}
-# simulate 100 lines
-nsims <- 100
-sim_alpha = rnorm(nsims, 130, 20)
-sim_beta = runif(nsims, 0, 50)
+```{r warning=FALSE, message=F, results='hide'}
+m4p = brm(
+  data = d2,
+  family = gaussian,
+  weight ~ 1 + height_c,
+  prior = c(prior( normal(130,20), class=Intercept),
+            prior( uniform(0,25),   class=b),
+            prior( uniform(0,25),  class=sigma, lb=0, ub=25)),  
+      iter = 5000, warmup = 1000, seed = 3, chains=1,
+  sample_prior = "only")
 
-# calculate height
-xbar = mean(d2$height)
-# plot with nothing in it
-plot(NULL, xlim = range(d2$height), ylim = c(50, 175),
-     xlab = "height", ylab = "weight")
-abline(h = 0, lty = 2) #line at 0
-#plot each line
-for(i in 1:nsims){
- curve(sim_alpha[i] +sim_beta[i]*(x-xbar), 
-       add = T,
-       col=col.alpha("#1c5253",0.4))  
-}
 ```
 
 ------------------------------------------------------------------------
 
-```{r ref.label="sim-lines2", fig.weight=7, fig.width=10, echo = F}
+```{r, echo = F}
 
+set.seed(9)
+samples_from_prior = as_draws_df(m4p)
+
+d2 %>% 
+  ggplot(aes(x=height_c, y=weight)) +
+  geom_blank() +
+  geom_abline( aes(intercept=b_Intercept, slope=b_height_c), 
+               data=samples_from_prior[1:50, ],
+               alpha=.5,
+               color="#1c5253") +
+  scale_x_continuous(name = "height(feet)", 
+                     breaks=seq(4,6,by=.5)-mean(d2$height),
+                     labels=seq(4,6,by=.5))
 ```
 
 ------------------------------------------------------------------------
 
 ### exercise
 
-Fit the new weight model using the quadratic approximation.
+Fit the new weight model to the data.
 
-:::{.fragment}
-
+::: fragment
 ### solution
 
-```{r}
-flist <- alist(
-  weight ~ dnorm( mu , sigma ) ,
-  mu <- a + b*(height - mean(height)),
-  a ~ dnorm( 130 , 20 ) ,
-  b ~ dunif(0, 50), 
-  sigma ~ dunif( 0 , 25 )
-)
-
-m2 <- quap( flist , data=d2 )
-precis( m2 )
+```{r, warning=F, message=F}
+m4 = brm(
+  data = d2,
+  family = gaussian,
+  weight ~ 1 + height_c,
+  prior = c(prior( normal(130,20), class=Intercept),
+            prior( uniform(0,25),   class=b),
+            prior( uniform(0,25),  class=sigma, lb=0, ub=25)),  
+      iter = 5000, warmup = 1000, seed = 3, chains=1,
+  file=here("files/models/m21.4"))
+posterior_summary(m4)
 ```
 :::
+
 ------------------------------------------------------------------------
 
 ### exercise
 
 Draw lines from the posterior distribution and plot with the data.
 
-:::{.fragment}
+::: fragment
+
 ### solution
 
-```{r sim-post, fig.weight = 3, eval = F}
-sample_post = extract.samples(m2, n = 100)
-plot(d2$height, d2$weight, cex = .5, pch = 16,
-     xlim = range(d2$height), 
-     xlab = "height", ylab = "weight")
-#plot each line
-for(i in 1:nrow(sample_post)){
- curve(sample_post$a[i] +sample_post$b[i]*(x-xbar), 
-       add = T,
-       col=col.alpha("#1c5253",0.1))  
-}
+```{r sim-post, fig.weight = 3}
+#| code-fold: true
+#| 
+set.seed(9)
+samples_from_posterior = as_draws_df(m4)
+d2%>% 
+  ggplot(aes(x=height_c, y=weight)) +
+  geom_point(size=.5) +
+  geom_abline( aes(intercept=b_Intercept, slope=b_height_c), 
+               data=samples_from_posterior[1:50, ],
+               alpha=.3,
+               color="#1c5253") +
+  scale_x_continuous(name = "height(feet)", 
+                     breaks=seq(4,6,by=.5)-mean(d2$height),
+                     labels=seq(4,6,by=.5))
 ```
 :::
 
-------------------------------------------------------------------------
-
-```{r ref.label = "sim-post", fig.weight = 8, fig.width = 8, echo = F}
-
-```
 
 ------------------------------------------------------------------------
 
 A side note: a major concern or critique of Bayesian analysis is that the subjectivity of the priors allow for nefarious behavior. "Putting our thumbs on the scale," so to speak. But priors are quickly overwhelmed by data. Case in point:
 
-```{r}
-#| code-line-numbers: "5"
-flist <- alist(
-  weight ~ dnorm( mu , sigma ) ,
-  mu <- a + b*(height - mean(height)),
-  a ~ dnorm( 130 , 20 ) ,
-  b ~ dnorm(-5, 20),  
-  sigma ~ dunif( 0 , 50 )
-)
-
-m2 <- quap( flist , data=d2 )
-precis( m2 )
+```{r, warning=F, message=F}
+#| code-line-numbers: "6"
+m4e = brm(
+  data = d2,
+  family = gaussian,
+  weight ~ 1 + height_c,
+  prior = c(prior( normal(130,20), class=Intercept),
+            prior( normal(-5,5),   class=b),
+            prior( uniform(0,25),  class=sigma, lb=0, ub=25)),  
+      iter = 5000, warmup = 1000, seed = 3, chains=1,
+  file=here("files/models/m21.4e"))
+posterior_summary(m4e)
 ```
 
-You'll only really get into trouble with uniform priors that have a boundary, if true population parameter is outside your boundary. A good rule of thumb is to avoid the uniform distribution. We'll cover other options for priors for $\sigma$ in future lectures, but as a preview, the exponential function works very well for this!
+You'll only really get into trouble with uniform priors that have a boundary, if true population parameter is outside your boundary. A good rule of thumb is to avoid the uniform distribution. We'll cover other options for priors for $\sigma$ in future lectures, but as a preview, the exponential distribution works very well for this! 
