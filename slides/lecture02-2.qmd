@@ -20,7 +20,8 @@ Workspace setup:
 
 library(tidyverse)
 library(cowplot)
-library(rethinking)
+library(brms)
+library(tidybayes)
 library(patchwork)
 
 ```
@@ -62,13 +63,14 @@ Where $Y$ is a continuous outcome and $D$ is a dummy coded variable (0 = control
 Forget dummy codes. From here on out, we will incorporate categorical causes into our models by using index variables. An **index variable** contains integers that correspond to different categories. The numbers have no inherent meaning -- rather, they stand as placeholders or shorthand for categories.
 
 ```{r}
-data("Howell1")
+data("Howell1", package = "rethinking")
 d <- Howell1
 library(measurements)
 d$height <- conv_unit(d$height, from = "cm", to = "feet")
 d$weight <- conv_unit(d$weight, from = "kg", to = "lbs")
 d <- d[d$age >= 18, ]
 d$sex <- ifelse(d$male == 1, 2, 1) # 1 = female, 2 = male
+d$sex <- factor(d$sex)
 head(d[, c("male", "sex")])
 ```
 
@@ -82,37 +84,36 @@ Let's write a mathematical model to express weight in terms of sex.
 w_i &\sim \text{Normal}(\mu_i, \sigma) \\
 \mu_i &=     \alpha_{SEX[i]} \\
 \alpha_j &\sim \text{Normal}(130, 20)\text{ for }j = 1..2 \\
-\sigma &\sim \text{Uniform}(0, 50)
+\sigma &\sim \text{Uniform}(0, 25)
 \end{align*}
 
+
+### Fitting the model using `brms()`
+
 ```{r}
-flist <- alist(
-  weight ~ dnorm( mu , sigma) ,
-  mu <- a[sex] ,
-  a[sex] ~ dnorm( 130, 20 ) ,
-  sigma ~ dunif(0, 50)
+m1 <- brm(
+  data = d,
+  family = gaussian,
+  weight ~ 0 + sex,
+  prior = c(prior( normal(130, 20), class=b),
+            prior( uniform(0, 25),  class=sigma, ub=25)),
+  iter = 2000, warmup = 1000, seed = 3, chains=1,
+  file = here("files/models/22.1")
 )
+posterior_summary(m1)
 ```
 
-------------------------------------------------------------------------
-
-### Fitting the model using `quap()`
-
-```{r}
-m1 <- quap( flist, data=d )
-precis(m1, depth=2)
-```
-
-Here, we are given the estimates of the parameters specified in our model: the average weight of women (`a[1]`) and the average weight of men (`a[2]`). But our question is whether these average weights are different. How do we get that?
+Here, we are given the estimates of the parameters specified in our model: the average weight of women (`b_sex1`) and the average weight of men (`b_sex2`). But our question is whether these average weights are different. How do we get that?
 
 ------------------------------------------------------------------------
 
 ```{r}
-post <- extract.samples( m1 )
-str(post)
-head(post$a)
-post$diff_fm <- post$a[,1] - post$a[,2]
-precis(post, depth=2 )
+post = as_draws_df(m1) 
+post %>% 
+  mutate(diff_fm = b_sex1 - b_sex2) %>% 
+  pivot_longer(cols = c(b_sex1:sigma, diff_fm)) %>% 
+  group_by(name) %>% 
+  mean_qi(value, .width = .89)
 ```
 
 ------------------------------------------------------------------------
@@ -123,14 +124,15 @@ We can create two plots. One is the posterior distributions of average female an
 
 ```{r post-sex, eval = F}
 
-p1 <- post %>% as.data.frame() %>% 
-  pivot_longer(starts_with("a")) %>% 
-  mutate(sex = ifelse(name == "a.1", "female", "male")) %>% 
+p1 <- post %>% 
+  pivot_longer(starts_with("b")) %>% 
+  mutate(sex = ifelse(str_detect(name, "1"), "female", "male")) %>% 
   ggplot(aes(x=value, color = sex)) +
   geom_density(linewidth = 2) +
   labs(x = "weight(lbs)") 
 
-p2 <- post %>% as.data.frame() %>% 
+p2 <- post %>% 
+  mutate(diff_fm = b_sex1 - b_sex2) %>%
   ggplot(aes(x=diff_fm)) +
   geom_density(linewidth = 2) +
   labs(x = "difference in weight(lbs)") 
@@ -148,26 +150,45 @@ p2 <- post %>% as.data.frame() %>%
 
 ### Expected values vs predicted values
 
-A note that the distributions of the *mean* weights is not the same as the distribution of weights period. For that, we need the posterior predictive distributions.
+A note that the distributions of the *mean* weights is not the same as the distribution of weights period. For that, we need the posterior predictive distributions. Here are two methods for getting predicted values. 
 
-```{r post-sex2, eval = F}
+First, simulate using the `rnorm()`function. This is more intuitive and will help you mentally reconnect the parameters of your statistical model with the causal model you started with. But there's more room for human error.
 
-pred_f  <- rnorm(1e4, mean = post$a[,1], sd = post$sigma )
-pred_m  <- rnorm(1e4, mean = post$a[,2], sd = post$sigma )
+```{r post-sex2}
+
+pred_f  <- rnorm(nrow(post), mean = post$b_sex1, sd = post$sigma )
+pred_m  <- rnorm(nrow(post), mean = post$b_sex2, sd = post$sigma )
 
 pred_post = data.frame(pred_f, pred_m) %>%
   mutate(diff = pred_f-pred_m)
+head(pred_post)
+```
 
-# plot distributions
+Second, use the `predicted_draws()` function. This is less intuitive, but there's less room for you to make a mistake. 
+
+```{r}
+nd = distinct(d, sex)
+pred_all = predicted_draws(object=m1, newdata=nd) %>% 
+  ungroup %>% select(-.row) %>% 
+  pivot_wider(names_from = sex, names_prefix = "sex", values_from = .prediction) %>% 
+  mutate(diff = sex1-sex2)
+head(pred_all)
+```
+
+---
+
+```{r, fig.align = "center"}
+#| code-fold: true
+# plot male and female distributions using the first version
 p1 <- pred_post %>% pivot_longer(starts_with("pred")) %>% 
   mutate(sex = ifelse(name == "pred_f", "female", "male")) %>% 
   ggplot(aes(x = value, color = sex)) +
   geom_density(linewidth = 2) +
   labs(x = "weight (lbs)")
 
-# plot difference
+# plot difference distribution using the second version
 # Compute density first
-density_data <- density(pred_post$diff)
+density_data <- density(pred_all$diff)
 
 # Convert to a tibble for plotting
 density_df <- tibble(
@@ -186,11 +207,6 @@ p2 <- ggplot(density_df, aes(x = x, y = y, fill = fill_group)) +
 (p1 | p2)
 ```
 
-------------------------------------------------------------------------
-
-```{r ref.label="post-sex2", fig.weight=5, fig.width=8, fig.align = "center", ,echo =F}
-
-```
 
 ------------------------------------------------------------------------
 
@@ -207,9 +223,10 @@ In the `rethinking` package, the dataset `milk` contains information about the c
 ### solution
 
 ```{r}
-data("milk")
+data("milk", package="rethinking")
 str(milk)
 milk$clade_id <- as.integer(milk$clade)
+milk$clade_id <- as.factor(milk$clade_id)
 milk$K <- standardize(milk$kcal.per.g)
 ```
 
@@ -227,32 +244,19 @@ K_i &\sim \text{Normal}(\mu_i, \sigma) \\
 ### solution
 
 ```{r}
-flist <- alist(
-  K ~ dnorm( mu , sigma ) ,
-  mu <- a[clade_id] , 
-  a[clade_id] ~ dnorm( 0 , 0.5 ) , 
-  sigma ~ dexp( 1 )
+m2 <- brm(
+  data=milk,
+  family=gaussian,
+  K ~ 0 + clade_id, 
+  prior = c( prior(normal(0,.5), class=b),
+             prior(exponential(1), class=sigma)),
+  iter = 2000, warmup = 1000, seed = 3, chains=1,
+  file = here("files/models/22.2")
 )
 
-m2 <- quap(
-  flist, data = milk
-)
-
-precis( m2, depth=2 )
+posterior_summary(m2)
 ```
 
-------------------------------------------------------------------------
-
-### Plotting with `rethinking`
-
-```{r, fig.weight=5, fig.width=8}
-labels <- paste( "a[" , 1:4, "]:", levels(milk$clade),  sep="" )
-plot(
-  precis(m2, depth=2, pars = "a"),
-  labels=labels, 
-  xlab="expected kcal (std)"
-)
-```
 
 ------------------------------------------------------------------------
 
@@ -294,6 +298,23 @@ data.frame(a.1, a.2, a.3, a.4) %>%
   ggplot(aes(x = value, color = name)) +
   geom_density(linewidth = 2) +
   labs(title = "Posterior distribution of predicted milk energy")
+```
+
+------------------------------------------------------------------------
+
+### Plotting with `brms` and `tidybayes`
+
+```{r, fig.weight=5, fig.width=8}
+as_draws_df(m2) %>% 
+  pivot_longer(starts_with("b")) %>% 
+  mutate(
+    clade = str_extract(name, "[0-9]"),
+    clade = as.numeric(clade),
+    clade = factor(clade, labels=levels(milk$clade))
+  ) %>%
+  ggplot(aes(y = clade, x = value)) +
+  stat_halfeye() +
+  labs(x="mean", y=NULL)
 ```
 
 ------------------------------------------------------------------------

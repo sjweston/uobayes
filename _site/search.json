@@ -682,7 +682,7 @@
     "href": "assignment/02-problem-set.html#questions",
     "title": "Problem set 2",
     "section": "Questions",
-    "text": "Questions\nFrom the Howell1 dataset, consider only people younger than 13 years old. Estimate the causal association between age and weight. Assume that age influences weight through two paths. First, age influences height, and height influences weight. Second, age directly influences weight through age-related changes in muscle growth and body proportions.\n\nDraw the DAG that represents these causal relationships.\nWrite a generative simulation that takes age as an input and simulates height and weight, obeying the relationships in the DAG.\nEstimate the total causal effect of each year of growth on weight. Be sure to simulate your priors before estimating the model on the data.",
+    "text": "Questions\nFrom the Howell1 dataset, consider only people younger than 13 years old. Estimate the causal association between age and weight. Assume that age influences weight through two paths. First, age influences height, and height influences weight. Second, age directly influences weight through age-related changes in muscle growth and body proportions.\n\nWrite a generative simulation that takes age as an input and simulates height and weight.\nWrite out a mathematical model to estimate the relationship between age and weight.\nFit this model using brms. Create two plots: one of regression lines implied by your prior and one of the regression lines implied by the posterior.",
     "crumbs": [
       "Assignments",
       "Problem sets",

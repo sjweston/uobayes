@@ -17,7 +17,19 @@ execute:
   echo: false        
 ---
 
-Workspace setup:
+### Annoucements and such
+
+* We will start using `brms` today! Install this package now, if you haven't already. 
+
+```{r, eval=F, echo=TRUE}
+install.packages(c("brms","tidybayes"))
+```
+
+* No office hours Friday
+* [Lori Olsen](https://hr.uoregon.edu/outstanding-employee-awards)
+* Projects
+
+### Workspace setup
 
 ```{r, results='hide', echo =T, message = F, warning = F}
 library(here)
@@ -27,6 +39,8 @@ library(brms)
 library(tidybayes)
 library(patchwork)
 ```
+
+
 
 ```{r}
 # here's a bunch of stuff I include at the beginning of each qmd file. 
@@ -46,6 +60,29 @@ default_palettes <- list(
 options(ggplot2.discrete.fill = default_palettes, 
         ggplot2.discrete.colour = default_palettes)
 ```
+
+------------------------------------------------------------------------
+
+::::: columns
+::: {.column width="50%"}
+![](images/2-1_owl.png)
+:::
+
+::: {.column width="50%"}
+
+### Workflow
+
+1.  State a clear question.
+
+2.  Sketch your causal assumptions.
+
+3.  Use the sketch to define a generative model.
+
+4.  Use the generative model to build an estimator.
+
+5.  Profit.
+:::
+:::::
 
 ------------------------------------------------------------------------
 
@@ -107,12 +144,12 @@ Let's say we tossed the globe 9 times and observed 6 waters:
 
 ```{r, warning=F, message=F,results='hide'}
 m1 <-
-  brm(data = list(w = 6),                            # <1>
-      family = binomial(link = "identity"),          # <2>
-      w | trials(9) ~ 0 + Intercept,                 # <3>
-      prior(beta(1, 1), class = b, lb = 0, ub = 1),  # <4>
-      iter = 5000, warmup = 1000, seed = 3, chains=1,          # <5>
-      file = here("files/models/m21.1"))# <6>
+  brm(data = list(w = 6),                             # <1>
+      family = binomial(link = "identity"),           # <2>
+      w | trials(9) ~ 0 + Intercept,                  # <3>
+      prior(uniform(0, 1), class = b),                # <4>
+      iter = 5000, warmup = 1000, seed = 3, chains=1, # <5>
+      file = here("files/models/m21.1"))              # <6>
 ```
 
 1.  Data can be a data frame or a list. Just make sure the variable names match what's in your formula.
@@ -148,6 +185,7 @@ samples_from_post %>%
 
 ```{r}
 ppd = posterior_predict(m1)
+dim(ppd)
 ppd
 ```
 
@@ -193,10 +231,6 @@ samples_from_prior %>%
 ```
 :::
 :::::
-
-
-
-
 
 ------------------------------------------------------------------------
 
@@ -492,7 +526,6 @@ str(samples_from_prior)
 
 ------------------------------------------------------------------------
 
-
 ```{r}
 #| code-fold: true
 
@@ -581,7 +614,6 @@ posterior_summary(m4)
 Draw lines from the posterior distribution and plot with the data.
 
 ::: fragment
-
 ### solution
 
 ```{r sim-post, fig.weight = 3}
@@ -602,7 +634,6 @@ d2%>%
 ```
 :::
 
-
 ------------------------------------------------------------------------
 
 A side note: a major concern or critique of Bayesian analysis is that the subjectivity of the priors allow for nefarious behavior. "Putting our thumbs on the scale," so to speak. But priors are quickly overwhelmed by data. Case in point:
@@ -621,4 +652,4 @@ m4e = brm(
 posterior_summary(m4e)
 ```
 
-You'll only really get into trouble with uniform priors that have a boundary, if true population parameter is outside your boundary. A good rule of thumb is to avoid the uniform distribution. We'll cover other options for priors for $\sigma$ in future lectures, but as a preview, the exponential distribution works very well for this! 
+You'll only really get into trouble with uniform priors that have a boundary, if true population parameter is outside your boundary. A good rule of thumb is to avoid the uniform distribution. We'll cover other options for priors for $\sigma$ in future lectures, but as a preview, the exponential distribution works very well for this!

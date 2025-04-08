@@ -270,9 +270,9 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="questions">Questions</h2>
 <p>From the <code>Howell1</code> dataset, consider only people younger than 13 years old. Estimate the causal association between age and weight. Assume that age influences weight through two paths. First, age influences height, and height influences weight. Second, age directly influences weight through age-related changes in muscle growth and body proportions.</p>
 <ol type="1">
-<li><p>Draw the DAG that represents these causal relationships.</p></li>
-<li><p>Write a generative simulation that takes age as an input and simulates height and weight, obeying the relationships in the DAG.</p></li>
-<li><p>Estimate the <strong>total</strong> causal effect of each year of growth on weight. Be sure to simulate your priors before estimating the model on the data.</p></li>
+<li><p>Write a generative simulation that takes age as an input and simulates height and weight.</p></li>
+<li><p>Write out a mathematical model to estimate the relationship between age and weight.</p></li>
+<li><p>Fit this model using <code>brms</code>. Create two plots: one of regression lines implied by your prior and one of the regression lines implied by the posterior.</p></li>
 </ol>
 
 
