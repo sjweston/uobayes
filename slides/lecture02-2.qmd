@@ -23,7 +23,7 @@ library(cowplot)
 library(brms)
 library(tidybayes)
 library(patchwork)
-
+library(here)
 ```
 
 ```{r, echo = F}
@@ -227,7 +227,7 @@ data("milk", package="rethinking")
 str(milk)
 milk$clade_id <- as.integer(milk$clade)
 milk$clade_id <- as.factor(milk$clade_id)
-milk$K <- standardize(milk$kcal.per.g)
+milk$K <- rethinking::standardize(milk$kcal.per.g)
 ```
 
 \begin{align*}
@@ -272,14 +272,16 @@ Plot the following distributions:
 ### solution
 
 ```{r}
-post <- extract.samples( m2 )
-names(labels) = paste("a.", 1:4, sep = "")
-post %>% as.data.frame() %>% 
-  pivot_longer(starts_with("a")) %>% 
-  mutate(name = recode(name, !!!labels)) %>% 
+post <- as_draws_df( m2 )
+post %>% 
+  pivot_longer(starts_with("b")) %>% 
+  mutate(
+    name = str_extract(name, "[0-9]"),
+    name = factor(name, labels = levels(milk$clade))) %>% 
   ggplot(aes(x = value, color = name)) +
   geom_density(linewidth = 2) +
-  labs(title = "Posterior distribution of expected milk energy")
+  labs(title = "Posterior distribution of expected milk energy") +
+  theme(legend.position = "bottom")
 ```
 
 ------------------------------------------------------------------------
@@ -287,17 +289,16 @@ post %>% as.data.frame() %>%
 ### solution
 
 ```{r}
-post <- extract.samples( m2 )
-a.1 = rnorm(1e4, post$a[,1], post$sigma)
-a.2 = rnorm(1e4, post$a[,2], post$sigma)
-a.3 = rnorm(1e4, post$a[,3], post$sigma)
-a.4 = rnorm(1e4, post$a[,4], post$sigma)
-data.frame(a.1, a.2, a.3, a.4) %>% 
+nd = distinct(milk, clade_id)
+ppd <- posterior_predict( m2, newdata = nd)
+ppd = as.data.frame(ppd)
+names(ppd) = levels(milk$clade)
+ppd %>% 
   pivot_longer(everything()) %>% 
-  mutate(name = recode(name, !!!labels)) %>% 
   ggplot(aes(x = value, color = name)) +
   geom_density(linewidth = 2) +
-  labs(title = "Posterior distribution of predicted milk energy")
+  labs(title = "Posterior predictive distribution of predicted milk energy") +
+  theme(legend.position = "bottom")
 ```
 
 ------------------------------------------------------------------------
@@ -333,77 +334,60 @@ w_i &\sim \text{Normal}(\mu_i, \sigma) \\
 
 ::: fragment
 ```{r}
-dat <- list(
-  weight = d$weight,
-  height = d$height,
-  Hbar <- mean(d$height),
-  sex = d$male + 1
+d$height_c <- d$height - mean(d$height)
+m3 <- brm(
+  data = d,
+  family = gaussian,
+  bf(weight ~ 0 + a + b*height_c,
+     a ~ 0 + sex,
+     b ~ 0 + sex,
+     nl = TRUE),
+  prior = c(prior(normal(130, 20), class = b, nlpar = a),
+            prior(normal(  0, 25), class = b, nlpar = b),
+            prior(uniform( 0, 50), class = sigma, lb=0, ub=50)),
+  iter = 2000, warmup = 1000, seed = 3, chains=1,
+  file = here("files/models/22.3")
 )
-
-flist <- alist(
-  weight ~ dnorm( mu , sigma) ,
-  mu <- a[sex] + b[sex]*(height-Hbar),
-  a[sex] ~ dnorm( 150, 20 ) ,
-  b[sex] ~ dnorm( 0, 25 ) ,
-  sigma ~ dunif(0, 50)
-)
-
-m3 <- quap(flist, data=dat)
+posterior_summary(m3)
 ```
 :::
 
-------------------------------------------------------------------------
-
-```{r}
-precis(m3, depth=3)
-post <- extract.samples(m3)
-str(post)
-```
 
 ------------------------------------------------------------------------
 
-Plot the slopes using `extract.samples()`
+Plot the slopes from the posterior
 
 ```{r}
 #| code-fold: true
 
-xbar = mean(d$height) # need this because we centered
-post <- extract.samples(m3) # sample intercepts and slopes from the posterior
-plot(d$weight ~ d$height, cex=0.5, pch=16, col=col.alpha("darkgrey",0.5),
-     xlab = "height", ylab = "weight")
-#plot the lines implied by the first 50 draws from the posterior
-for(i in 1:50){
- curve(post$a[i, 1] +post$b[i, 1]*(x-xbar), 
-       add = T,
-       col=col.alpha("#1c5253",0.1))  
-  curve(post$a[i, 2] +post$b[i, 2]*(x-xbar), 
-       add = T,
-       col=col.alpha("#e07a5f",0.1))  
-}
+post = as_draws_df(m3) %>% 
+  pivot_longer(starts_with("b"),
+               names_to = c("parameter","sex"),
+               names_sep = 3) %>% 
+  mutate(sex = str_extract(sex, "[0-9]")) %>% 
+  pivot_wider(names_from = parameter, values_from = value)
+xlabs = seq(4,6,by=.5)
+
+d %>% 
+  ggplot(aes(x=height_c, y=weight)) +
+  geom_point(aes(color=sex)) + 
+  geom_abline(
+    aes(intercept=b_a, slope=b_b, color=sex), 
+    data=post[1:40, ],
+    alpha=.2
+  ) + 
+  scale_x_continuous("height(feet)",
+                     breaks=xlabs-mean(d$height),
+                     labels=xlabs) +
+  facet_wrap(~sex)
 ```
 
-------------------------------------------------------------------------
-
-Plot the slopes using `link()`. (Run this yourself and open up the objects `muF` and `muM` to determine what the `link()` function is doing.)
-
-```{r}
-#| code-fold: true  
-
-xseq <- seq( min(d$height), max(d$height), len=100) # some values for X
-plot(d$weight ~ d$height, cex=0.5, pch=16, col=col.alpha("darkgrey",0.3),
-     xlim = range(d$height), ylim = range(d$weight), 
-     xlab = "height", ylab = "weight")
-muF <- link(m3, data=list(sex=rep(1,100), height=xseq, Hbar = mean(d$height)))
-lines(xseq, apply(muF, 2, mean), lwd = 2, col = "#1c5253" )
-muM <- link(m3, data=list(sex=rep(2,100), height=xseq, Hbar = mean(d$height)))
-lines(xseq, apply(muM, 2, mean), lwd = 2, col =  "#e07a5f")
-```
 
 ------------------------------------------------------------------------
 
 ### exercise
 
-Return to the `milk` data. Write a mathematical model expressing the energy of milk as a function of the species body mass (`mass`) and clade category. Be sure to include priors. Fit your model using `quap()`.
+Return to the `milk` data. Write a mathematical model expressing the energy of milk as a function of the species body mass (`mass`) and clade category. Be sure to include priors. Fit your model using `brms()`.
 
 ------------------------------------------------------------------------
 
@@ -419,23 +403,21 @@ K_i &\sim \text{Normal}(\mu_i, \sigma) \\
 
 ::: fragment
 ```{r}
-dat <- list(
-  K        = standardize(milk$kcal.per.g),
-  M        = milk$mass,
-  Mbar     = mean(milk$mass),
-  clade_id = milk$clade_id
-)
 
-flist <- alist(
-  K ~ dnorm( mu , sigma ) ,
-  mu <- a[clade_id] +b[clade_id]*(M-Mbar), 
-  a[clade_id] ~ dnorm( 0 , 0.5 ) , 
-  b[clade_id] ~ dnorm( 0 , 0.5 ) , 
-  sigma ~ dexp( 1 )
-)
+milk$mass_c = milk$mass- mean(milk$mass)
 
-m4 <- quap(
-  flist, data = dat
+m4 <- brm(
+  data = milk,
+  family = gaussian,
+  bf(K ~ 0 + a + b*mass_c,
+     a ~ 0 + clade_id,
+     b ~ 0 + clade_id,
+     nl = TRUE),
+  prior = c(prior( normal(0,.5), class=b, nlpar = a),
+            prior( normal(0,.5), class=b, nlpar = b),
+            prior( exponential(1),  class=sigma)),
+  iter = 2000, warmup = 1000, seed = 3, chains=1,
+  file = here("files/models/22.4")
 )
 ```
 :::
@@ -443,50 +425,33 @@ m4 <- quap(
 ------------------------------------------------------------------------
 
 ```{r}
-precis( m4, depth=2 )
+posterior_summary(m4)
 ```
 
 ------------------------------------------------------------------------
 
 
+```{r}
+#| code-fold: true
 
+post = as_draws_df(m4) %>% 
+  pivot_longer(starts_with("b"),
+               names_to = c("parameter","clade_id"),
+               names_sep = 3) %>% 
+  mutate(clade_id = str_extract(clade_id, "[0-9]")) %>% 
+  pivot_wider(names_from = parameter, values_from = value)
 
-::::: columns
-::: {.column width="50%"}
-```{r plot-apes, eval = F}
-xseq <- seq( min(milk$mass), max(milk$mass), len=100)
-Mbar = mean(milk$mass)
-custom_colors = c("#1c5253", "#e07a5f", "#f2cc8f", "#81b29a")
-colors = custom_colors[milk$clade_id]
-plot(milk$K ~ milk$mass, col = colors, 
-     pch = 16,
-     xlim = range(milk$mass), ylim = range(milk$K), 
-     xlab = "height", ylab = "weight")
-mu1 <- 
-  link(m4, data=list(clade_id=rep(1,100), M=xseq, Mbar = Mbar))
-lines(xseq, apply(mu1, 2, mean), lwd = 2, col = "#1c5253" )
-mu2 <- 
-  link(m4, data=list(clade_id=rep(2,100), M=xseq, Mbar = Mbar))
-lines(xseq, apply(mu2, 2, mean), lwd = 2, col = "#e07a5f" )
-mu3 <- 
-  link(m4, data=list(clade_id=rep(3,100), M=xseq, Mbar = Mbar))
-lines(xseq, apply(mu3, 2, mean), lwd = 2, col = "#f2cc8f" )
-mu4 <- 
-  link(m4, data=list(clade_id=rep(4,100), M=xseq, Mbar = Mbar))
-lines(xseq, apply(mu4, 2, mean), lwd = 2, col = "#81b29a" )
-legend("topright", legend = levels(milk$clade), 
-       col = custom_colors, pch = 16)
-
+milk %>% 
+  ggplot(aes(x=mass_c, y=K)) +
+  geom_point(aes(color=clade_id)) + 
+  geom_abline(
+    aes(intercept=b_a, slope=b_b, color=clade_id), 
+    data=post[1:80, ],
+    alpha=.2
+  ) +
+  facet_wrap(~clade_id) +
+  guides(color="none")
 ```
-:::
-
-::: {.column width="50%"}
-```{r, ref.label="plot-apes", echo=F, fig.weight=12}
-
-```
-
-:::
-:::::
 
 [^lecture02-2-1]: You don't need to be an expert in primate biology to have a sense of what is reasonable for these values after we standardize.
 

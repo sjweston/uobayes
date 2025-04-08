@@ -113,18 +113,40 @@
     ]
   },
   {
-    "objectID": "schedule.html",
-    "href": "schedule.html",
-    "title": "Schedule",
+    "objectID": "content/02-content.html",
+    "href": "content/02-content.html",
+    "title": "Bayes as coutning",
     "section": "",
-    "text": "Below is the schedule for the course. Note that this schedule may change as the course progresses.\n\n\n\n\n\n\nSchedule Notes\n\n\n\n\nAll deadlines are at 11:59 PM Pacific Time on the specified date\nSchedule is subject to change based on course needs\nAdditional readings and resources will be posted on the course website\n\n\n\n\nHere’s your roadmap for the semester!\n\nContent (): This page contains the recorded lectures and slides for the week. Watch the lectures before our in-person class.\nAssignment (): This page contains the instructions for each assignment.\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 1\n\n\n\n\nApril 1\n\n\nIntroduction and Bayes’ theorem\n\n\n\n\n\n\n\n\n\n\nApril 3\n\n\nBayes as counting\n\n\n\n\n\n\n\n\n\n\nApril 7\n\n\nProblem set 1  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 2\n\n\n\n\nApril 8\n\n\nLinear models\n\n\n\n\n\n\n\n\n\n\nApril 10\n\n\nCategories\n\n\n\n\n\n\n\n\n\n\nApril 14\n\n\nProblem set 2  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 3\n\n\n\n\nApril 15\n\n\nDAG models\n\n\n\n\n\n\n\n\n\n\nApril 17\n\n\nMore DAG moodels\n\n\n\n\n\n\n\n\n\n\nApril 21\n\n\nProblem set 3  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 4\n\n\n\n\nApril 22\n\n\nGood prediction\n\n\n\n\n\n\n\n\n\n\nApril 24\n\n\nMCMC\n\n\n\n\n\n\n\n\n\n\nApril 28\n\n\nProblem set 4  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 5\n\n\n\n\nApril 29\n\n\nBinomial regression\n\n\n\n\n\n\n\n\n\n\nMay 1\n\n\nPoisson regression\n\n\n\n\n\n\n\n\n\n\nMay 5\n\n\nProblem set 5  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 6\n\n\n\n\nMay 6\n\n\nMultinomial regression\n\n\n\n\n\n\n\n\n\n\nMay 8\n\n\nMultilevel models\n\n\n\n\n\n\n\n\n\n\nMay 12\n\n\nProblem set 6  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 7\n\n\n\n\nMay 13\n\n\nMore multilevel models\n\n\n\n\n\n\n\n\n\n\nMay 15\n\n\nMultivariate priors\n\n\n\n\n\n\n\n\n\n\nMay 19\n\n\nProblem set 7  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 8\n\n\n\n\nMay 20\n\n\nSocial networks\n\n\n\n\n\n\n\n\n\n\nMay 22\n\n\nGaussian processes\n\n\n\n\n\n\n\n\n\n\nMay 26\n\n\nProblem set 8  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 9\n\n\n\n\nMay 27\n\n\nMeasurement\n\n\n\n\n\n\n\n\n\n\nMay 29\n\n\nMissing data\n\n\n\n\n\n\n\n\n\n\nJune 2\n\n\nProblem set 9  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 10\n\n\n\n\nJune 3\n\n\nGeneralized linear models\n\n\n\n\n\n\n\n\n\n\nJune 5\n\n\nTBD\n\n\n\n\n\n\n\n\n\n\nJune 9\n\n\nProblem set 10  (submit by 23:59:00)"
+    "text": "The Golum of Prague (51 min)\n The Garden of Forking Data (1 h 37 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "2: Bayes as counting"
+    ]
   },
   {
-    "objectID": "schedule.html#course-schedule",
-    "href": "schedule.html#course-schedule",
-    "title": "Schedule",
+    "objectID": "content/02-content.html#before-class",
+    "href": "content/02-content.html#before-class",
+    "title": "Bayes as coutning",
     "section": "",
-    "text": "Below is the schedule for the course. Note that this schedule may change as the course progresses.\n\n\n\n\n\n\nSchedule Notes\n\n\n\n\nAll deadlines are at 11:59 PM Pacific Time on the specified date\nSchedule is subject to change based on course needs\nAdditional readings and resources will be posted on the course website\n\n\n\n\nHere’s your roadmap for the semester!\n\nContent (): This page contains the recorded lectures and slides for the week. Watch the lectures before our in-person class.\nAssignment (): This page contains the instructions for each assignment.\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 1\n\n\n\n\nApril 1\n\n\nIntroduction and Bayes’ theorem\n\n\n\n\n\n\n\n\n\n\nApril 3\n\n\nBayes as counting\n\n\n\n\n\n\n\n\n\n\nApril 7\n\n\nProblem set 1  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 2\n\n\n\n\nApril 8\n\n\nLinear models\n\n\n\n\n\n\n\n\n\n\nApril 10\n\n\nCategories\n\n\n\n\n\n\n\n\n\n\nApril 14\n\n\nProblem set 2  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 3\n\n\n\n\nApril 15\n\n\nDAG models\n\n\n\n\n\n\n\n\n\n\nApril 17\n\n\nMore DAG moodels\n\n\n\n\n\n\n\n\n\n\nApril 21\n\n\nProblem set 3  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 4\n\n\n\n\nApril 22\n\n\nGood prediction\n\n\n\n\n\n\n\n\n\n\nApril 24\n\n\nMCMC\n\n\n\n\n\n\n\n\n\n\nApril 28\n\n\nProblem set 4  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 5\n\n\n\n\nApril 29\n\n\nBinomial regression\n\n\n\n\n\n\n\n\n\n\nMay 1\n\n\nPoisson regression\n\n\n\n\n\n\n\n\n\n\nMay 5\n\n\nProblem set 5  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 6\n\n\n\n\nMay 6\n\n\nMultinomial regression\n\n\n\n\n\n\n\n\n\n\nMay 8\n\n\nMultilevel models\n\n\n\n\n\n\n\n\n\n\nMay 12\n\n\nProblem set 6  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 7\n\n\n\n\nMay 13\n\n\nMore multilevel models\n\n\n\n\n\n\n\n\n\n\nMay 15\n\n\nMultivariate priors\n\n\n\n\n\n\n\n\n\n\nMay 19\n\n\nProblem set 7  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 8\n\n\n\n\nMay 20\n\n\nSocial networks\n\n\n\n\n\n\n\n\n\n\nMay 22\n\n\nGaussian processes\n\n\n\n\n\n\n\n\n\n\nMay 26\n\n\nProblem set 8  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 9\n\n\n\n\nMay 27\n\n\nMeasurement\n\n\n\n\n\n\n\n\n\n\nMay 29\n\n\nMissing data\n\n\n\n\n\n\n\n\n\n\nJune 2\n\n\nProblem set 9  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 10\n\n\n\n\nJune 3\n\n\nGeneralized linear models\n\n\n\n\n\n\n\n\n\n\nJune 5\n\n\nTBD\n\n\n\n\n\n\n\n\n\n\nJune 9\n\n\nProblem set 10  (submit by 23:59:00)"
+    "text": "The Golum of Prague (51 min)\n The Garden of Forking Data (1 h 37 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "2: Bayes as counting"
+    ]
+  },
+  {
+    "objectID": "content/02-content.html#during-class",
+    "href": "content/02-content.html#during-class",
+    "title": "Bayes as coutning",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "2: Bayes as counting"
+    ]
   },
   {
     "objectID": "resource/rethinking.html",
@@ -496,197 +518,281 @@
     "text": "Questions\n\nSuppose the globe tossing experiment turned out to be 3 water and 11 land. Construct the posterior distribution.\n\n\n\nClick to see the answer\n\n\n# Create a sequence of p values from 0 to 1\np_grid &lt;- seq(0, 1, length.out = 1000)\n\n# Prior (uniform)\nprior &lt;- rep(1, 1000)\n\n# Likelihood (binomial)\nlikelihood &lt;- dbinom(3, size = 14, prob = p_grid)\n\n# Posterior (proportional to likelihood * prior)\nposterior &lt;- likelihood * prior\nposterior &lt;- posterior / sum(posterior)\n\n# Plot the posterior\nplot(p_grid, posterior, type = \"l\", \n     xlab = \"Proportion of water (p)\", \n     ylab = \"Posterior probability\",\n     main = \"Posterior distribution for p\")\n\n\n\n\n\n\n\n\nThe posterior distribution shows the probability of different values of p (proportion of water) given our data (3 water, 11 land). Since we used a uniform prior, the posterior is proportional to the likelihood. The peak of the distribution is around p = 0.21, which makes sense given our data (3/14 ≈ 0.21).\n\n\nUsing the posterior distribution from 1, compute the posterior predictive distribution for the next 5 tosses of the globe.\n\n\n\nClick to see the answer\n\n\n# Number of samples from posterior\nn_samples &lt;- 10000\n\n# Sample p values from posterior\np_samples &lt;- sample(p_grid, prob = posterior, size = n_samples, replace = TRUE)\n\n# Generate predictions for 5 tosses\nn_tosses &lt;- 5\npredictions &lt;- rbinom(n_samples, size = n_tosses, prob = p_samples)\n\n# Plot the posterior predictive distribution\nhist(predictions, \n     xlab = \"Number of water in 5 tosses\",\n     ylab = \"Count\",\n     main = \"Posterior predictive distribution\",\n     breaks = seq(-0.5, 5.5, by = 1))\n\n\n\n\n\n\n\n\nThe posterior predictive distribution shows the probability of different outcomes for the next 5 tosses, taking into account our uncertainty about p. The most likely outcome is 1 water (since our posterior mean for p is around 0.21, we expect about 1 water in 5 tosses). The distribution is right-skewed because p is less than 0.5.\n\nYou can download a template file here to help you get started."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "\n            Bayesian Analysis\n        ",
+    "objectID": "content/01-content.html",
+    "href": "content/01-content.html",
+    "title": "Introduction to Bayes",
     "section": "",
-    "text": "Bayesian Analysis\n        \n        \n            Model building, estimation, interpretation, visualization\n        \n        \n            PSY 607 • Spring 2025 Psychology University of Oregon\n        \n    \n    \n      \n        \n        \n        \n      \n    \n\n\n\n\n\n\nInstructor\n\n   Dr. Sara Weston\n   Straub 325\n   sweston2@uoregon.edu\n   Schedule an appointment\n\n\n\nCourse details\n\n   Tuesdays and Thursdays\n   Spring 2025\n   2:00–3:20 PM\n   119 FEN\n   Slack\n\n\n\nContacting me\nEmail is the best way to get in contact with me. I will try to respond to all course-related emails within one business day during normal business hours (9am-5pm, Mon-Fri).\n\n\n```"
+    "text": "Nothing. But if you want to get familiar with the site or ee what I’m using as the basis for the first lecture, here you go:\n\nThe syllabus, content, examples, and assignments pages for this class\n Introduction to Bayesian Inference for Psychology (Etz & Vandekerckhove, 2018)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "1: Introduction to Bayesian Analysis"
+    ]
   },
   {
-    "objectID": "news/index.html",
-    "href": "news/index.html",
-    "title": "Course News",
+    "objectID": "content/01-content.html#before-class",
+    "href": "content/01-content.html#before-class",
+    "title": "Introduction to Bayes",
     "section": "",
-    "text": "Date\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\n\nNo matching items"
+    "text": "Nothing. But if you want to get familiar with the site or ee what I’m using as the basis for the first lecture, here you go:\n\nThe syllabus, content, examples, and assignments pages for this class\n Introduction to Bayesian Inference for Psychology (Etz & Vandekerckhove, 2018)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "1: Introduction to Bayesian Analysis"
+    ]
   },
   {
-    "objectID": "assignment/10-problem-set.html",
-    "href": "assignment/10-problem-set.html",
-    "title": "Problem set 10",
+    "objectID": "content/01-content.html#during-class",
+    "href": "content/01-content.html#during-class",
+    "title": "Introduction to Bayes",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "1: Introduction to Bayesian Analysis"
+    ]
+  },
+  {
+    "objectID": "syllabus.html",
+    "href": "syllabus.html",
+    "title": "PSY 607 Bayesian Analysis",
+    "section": "",
+    "text": "Instructor: Dr. Sara Weston\nEmail: sweston2@uoregon.edu\nOffice: Straub 325\nOffice Hours: Friday 10:00 AM - 12:00 PM, and by appointment (schedule here)\nClass Meetings: Tuesday/Thursday 2:00-3:20 PM\nLocation: 119 FEN\nCourse Website: uobayes.netlify.app"
+  },
+  {
+    "objectID": "syllabus.html#course-information",
+    "href": "syllabus.html#course-information",
+    "title": "PSY 607 Bayesian Analysis",
+    "section": "",
+    "text": "Instructor: Dr. Sara Weston\nEmail: sweston2@uoregon.edu\nOffice: Straub 325\nOffice Hours: Friday 10:00 AM - 12:00 PM, and by appointment (schedule here)\nClass Meetings: Tuesday/Thursday 2:00-3:20 PM\nLocation: 119 FEN\nCourse Website: uobayes.netlify.app"
+  },
+  {
+    "objectID": "syllabus.html#course-description",
+    "href": "syllabus.html#course-description",
+    "title": "PSY 607 Bayesian Analysis",
+    "section": "Course Description",
+    "text": "Course Description\nThis advanced statistics course introduces students to Bayesian methods with a focus on practical application using modern computational tools. Through a combination of theoretical foundations and hands-on programming, students learn to build, interpret, and critique Bayesian models using the R programming language, with particular emphasis on the brms package."
+  },
+  {
+    "objectID": "syllabus.html#course-structure",
+    "href": "syllabus.html#course-structure",
+    "title": "PSY 607 Bayesian Analysis",
+    "section": "Course Structure",
+    "text": "Course Structure\nThis course is a mix of asynchronous lectures, in-class activities, and homework assignments:\n\nBefore each class, you will watch a video lecture. These will be posted on the course website alongside each lecture.\nAt the beginning of each class, there will be a short quiz to check your understanding of the lecture and help me know what to review.\nClass time will be used for in-class activities, including group work and discussion.\nEach week will have a homework assignment. These will be posted on Canvas.\nYou can find all the materials for each week on the course website."
+  },
+  {
+    "objectID": "syllabus.html#materials",
+    "href": "syllabus.html#materials",
+    "title": "PSY 607 Bayesian Analysis",
+    "section": "Materials",
+    "text": "Materials\nRequired:\n\nR and RStudio (free)\nRequired R packages:\n\nrethinking\nbrms\ntidybase\ntidyverse\n\n\nRecommended:\n\nStatistical Rethinking by Richard McElreath (2nd ed.)\n\nAdditional course materials, including lecture notes and code, will be provided on the course website."
+  },
+  {
+    "objectID": "syllabus.html#assignment-submission",
+    "href": "syllabus.html#assignment-submission",
+    "title": "PSY 607 Bayesian Analysis",
+    "section": "Assignment Submission",
+    "text": "Assignment Submission\n\nAll assignments should be submitted through Canvas\nSubmissions must be in PDF format, knitted from R Markdown\nAssignments are posted on Friday and due the following Monday at 11:59pm\nThere is a one-week grace period for each assignment"
+  },
+  {
+    "objectID": "syllabus.html#grading",
+    "href": "syllabus.html#grading",
+    "title": "PSY 607 Bayesian Analysis",
+    "section": "Grading",
+    "text": "Grading\n\nHomework (95%)\n\n10 assignments\nGraded on completion (not accuracy)\nPosted on Friday, due the following Monday at 11:59pm\nOne week grace period for each assignment\n\nQuizzes (5%)\n\n19 quizzes\nCover material from the day’s recorded lecture\nCompleted in class\nNo makeup opportunities for missed quizzes"
+  },
+  {
+    "objectID": "syllabus.html#slack",
+    "href": "syllabus.html#slack",
+    "title": "PSY 607 Bayesian Analysis",
+    "section": "Slack",
+    "text": "Slack\nI have created a Slack workspace for this course, open to anyone (registerd or not) who is attending. The goal of this space is for us to support each other as we learn the material. Anyone can post a question, and anyone can answer a question. I will not be as active here as I am in class, nor as responsive as I am over email. But if I see a question has the class stumped or it feels like an important concept hasn’t clicked yet, I will update lecture materials to help us get on track.\nI especially encourage using this space to coordinate working on probelm sets together, sharing resources you find online, and sharing ways you’ve used technology (R/RMarkdown/AI) that have supported your research. I also encourage memes."
+  },
+  {
+    "objectID": "syllabus.html#course-policies",
+    "href": "syllabus.html#course-policies",
+    "title": "PSY 607 Bayesian Analysis",
+    "section": "Course Policies",
+    "text": "Course Policies\n\nCommunication\nIf you have questions about course policies, have trouble submitting an assignment, or want to schedule a meeting, please email. I will make an effort to respond to emails within one business day. Note that I neither plan nor commit to checking email outside of normal business hours (9am-5pm, Mon-Fri).\nIf you are having trouble understanding a concept covered in class, please come to office hours, schedule a meeting with me, ask for clarification during class periods, or use the class Slack to get help from the group. I will not explain course concepts over email.\nOccasionally, I will send out announcements to the entire class via Canvas announcements. These will typically appear when you open Canvas, but you can update your Canvas settings to receive these announcements as emails. It is strongly recommended that you do so.\n\n\nClassroom Expectations\nAll members of the class (students and instructor) can expect to:\nParticipate and Contribute: All students are expected to participate by sharing ideas and contributing to the learning environment. This entails preparing, following instructions, and engaging respectfully and thoughtfully with others.\nWhile all students should participate, participation is not just talking, and a range of participation activities support learning. Participation might look like speaking aloud in the full class and in small groups and collaborating on homework assignments.\nExpect and Respect Diversity: All classes at the University of Oregon welcome and respect diverse experiences, perspectives, and approaches. What is not welcome are behaviors or contributions that undermine, demean, or marginalize others based on race, ethnicity, gender, sex, age, sexual orientation, religion, ability, or socioeconomic status. We will value differences and communicate disagreements with respect.\nHelp Everyone Learn: Part of how we learn together is by learning from one another. To do this effectively, we need to be patient with each other, identify ways we can assist others, and be open-minded to receiving help and feedback from others. Don’t hesitate to contact me to ask for assistance or offer suggestions that might help us learn better.\n\n\nWorkload\nThis is a 3-credit hour course, so you should expect to complete 120 hours of work for the course—an average of about 12 hours each week (this includes time in-class).\n\n\nGenerative AI Policy\nWhile generative AI tools (such as ChatGPT, Claude, and Cursor) can be useful for assisting with certain tasks, it’s important to use these technologies responsibly and ethically.\nGood uses of AI:\n\nExploring concepts, generating code ideas, and providing explanations for topics covered in the course\nCreating preliminary drafts of code, data analysis plans, or written reports (with review and testing)\nBrainstorming research questions, identifying key terms, or helping summarize complex literature\n\nBad uses of AI:\n\nGenerating entire assignments, projects, or reports without manual oversight\nUsing AI in place of collaborating with peers\nSubmitting AI-generated content without proper attribution\n\nRequired Disclosure: Students who use AI tools must include a brief statement at the end of their submission describing how and where the tool was used. Failure to disclose AI use may result in grade reduction or disciplinary action.\n\n\nAcademic Integrity\nFrankly, you’re in graduate school, and the purpose of work is to create opportunities to learn and improve. Even if cheating helps you in the short term, you’ll quickly find yourself ill-prepared for the career you have chosen. If you find yourself tempted to cheat, please come speak to Dr. Weston about an extension and developing tools to improve your success.\n\n\nAccessibility\nThe University of Oregon and I are dedicated to fostering inclusive learning environments for all students and welcomes students with disabilities into all of the University’s educational programs. The Accessible Education Center (AEC) assists students with disabilities in reducing campus-wide and classroom-related barriers. If you have or think you have a disability (https://aec.uoregon.edu/content/what-disability) and experience academic barriers, please contact the AEC to discuss appropriate accommodations or support. Visit 360 Oregon Hall or aec.uoregon.edu for more information. You can contact AEC at 541-346-1155 or via email at uoaec@uoregon.edu.\n\n\nBasic Needs\nBeing able to meet your basic needs is foundational to your success as a student at the University of Oregon. If you are having difficulty affording food, don’t have a stable, safe place to live, or are struggling to meet another need, visit the UO Basic Needs Resource page for information on how to get support. They have information food, housing, healthcare, childcare, transportation, technology, finances (including emergency funds), and legal support.\nIf your need is urgent, please contact the Care and Advocacy Program by calling 541-346-3216, filling out the Community Care and Support form, or by scheduling an appointment with an advocate.\n\n\nReporting Obligations\nI am a designated reporter. For information about my reporting obligations as an employee, please see Employee Reporting Obligations on the Office of Investigations and Civil Rights Compliance (OICRC) website. Students experiencing sex- or gender-based discrimination, harassment or violence should call the 24-7 hotline 541-346-SAFE [7244] or visit safe.uoregon.edu for help. Students experiencing all forms of prohibited discrimination or harassment may contact the Dean of Students Office at 541-346-3216 or the non-confidential Title IX Coordinator/OICRC at 541-346-3123 to request information and resources. Students are not required to participate in an investigation to receive support, including requesting academic supportive measures. Additional resources are available at investigations.uoregon.edu/how-get-support.\nI am also a mandatory reporter of child abuse. Please find more information at Mandatory Reporting of Child Abuse and Neglect.\n\n\nPregnancy Accommodations\nPregnant and parenting students are eligible for academic and work modifications related to pregnancy, childbirth, loss of pregnancy, termination of pregnancy, lactation, and related medical conditions. To request pregnancy-related modifications, students should complete the Request for Pregnancy Modifications form on the OICRC website. OICRC coordinates academic and other modifications for pregnant and parenting students to ensure students can continue to access their education and university programs and activities.\n\n\nCampus Emergencies\nIn the event of a campus emergency that disrupts academic activities, course requirements, deadlines, and grading percentages are subject to change. Information about changes in this course will be communicated as soon as possible by email, and on Canvas. If we are not able to meet face-to-face, students should immediately log onto Canvas and read any announcements and/or access alternative assignments. Students are also expected to continue coursework as outlined in this syllabus or other instructions on Canvas."
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html",
+    "href": "example/rstudio-tidyverse.html",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "",
+    "text": "This course assumes that you’re already familiar with R, RStudio, Markdown, and the tidyverse. If you’re not, or if you’re looking to brush up, here are some resources for helping you get up to speed."
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html#part-1-the-basics-of-r-and-dplyr",
+    "href": "example/rstudio-tidyverse.html#part-1-the-basics-of-r-and-dplyr",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "Part 1: The basics of R and dplyr",
+    "text": "Part 1: The basics of R and dplyr\n\nThe Basics\n\nVisualization Basics\nProgramming Basics\n\nWork with Data\n\nWorking with Tibbles\nIsolating Data with dplyr\nDeriving Information with dplyr\n\nVisualize Data\n\nExploratory Data Analysis\nBar Charts\nHistograms\nBoxplots and Counts\nScatterplots\nLine plots\nOverplotting and Big Data\nCustomize Your Plots\n\nTidy Your Data\n\nReshape Data\n\n\n\n\n\n\n\n\nNote\n\n\n\nRecent versions of tidyr have renamed these core functions: gather() is now pivot_longer() and spread() is now pivot_wider(). The syntax for these pivot_*() functions is slightly different from what it was in gather() and spread(), so you can’t just replace the names. Fortunately, both gather() and spread() still work and won’t go away for a while, so you can still use them as you learn about reshaping and tidying data. It would be worth learning how the newer pivot_*() functions work, eventually, though (see here for examples).\n\n\nThe content from these primers comes from the (free and online!) book R for Data Science by Garrett Grolemund and Hadley Wickham. I highly recommend the book as a reference and for continuing to learn and use R in the future."
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html#part-2-getting-familiar-with-rstudio",
+    "href": "example/rstudio-tidyverse.html#part-2-getting-familiar-with-rstudio",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "Part 2: Getting familiar with RStudio",
+    "text": "Part 2: Getting familiar with RStudio\nThe RStudio primers you just worked through are a great introduction to writing and running R code, but you typically won’t type code in a browser when you work with R. Instead, you’ll use a nicer programming environment like RStudio, which lets you type and save code in scripts, run code from those scripts, and see the output of that code, all in the same program.\nTo get familiar with RStudio, watch this video by Andrew Heiss:"
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html#part-3-rstudio-projects",
+    "href": "example/rstudio-tidyverse.html#part-3-rstudio-projects",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "Part 3: RStudio Projects",
+    "text": "Part 3: RStudio Projects\nOne of the most powerful and useful aspects of RStudio is its ability to manage projects.\nWhen you first open R, it is “pointed” at some folder on your computer, and anything you do will be relative to that folder. The technical term for this is a “working directory.”\nWhen you first open RStudio, look in the area right at the top of the Console pane to see your current working directory. Most likely you’ll see something cryptic: ~/\n\n\n\n\n\n\n\n\n\nThat tilde sign (~) is a shortcut that stands for your user directory. On Windows this is C:\\Users\\your_user_name\\; on macOS this is /Users/your_user_name/. With the working directory set to ~/, R is “pointed” at that folder, and anything you save will end up in that folder, and R will expect any data that you load to be there too.\nIt’s always best to point R at some other directory. If you don’t use RStudio, you need to manually set the working directory to where you want it with setwd(), and many R scripts in the wild include something like setwd(\"C:\\\\Users\\\\bill\\\\Desktop\\\\Important research project\") at the beginning to change the directory. THIS IS BAD THOUGH (see here for an explanation). If you ever move that directory somewhere else, or run the script on a different computer, or share the project with someone, the path will be wrong and nothing will run and you will be sad.\nThe best way to deal with working directories with RStudio is to use RStudio Projects. These are special files that RStudio creates for you that end in a .Rproj extension. When you open one of these special files, a new RStudio instance will open up and be pointed at the correct directory automatically. If you move the folder later or open it on a different computer, it will work just fine and you will not be sad.\nRead this super short chapter on RStudio projects to learn how to create and use them\nIn general, you can create a new project by going to File &gt; New Project &gt; New Directory &gt; Empty Project, which will create a new folder on your computer that is empty except for a single .Rproj file. Double click on that file to open an RStudio instance that is pointed at the correct folder."
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html#part-4-getting-familiar-with-r-markdown",
+    "href": "example/rstudio-tidyverse.html#part-4-getting-familiar-with-r-markdown",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "Part 4: Getting familiar with R Markdown",
+    "text": "Part 4: Getting familiar with R Markdown\nTo ensure that the analysis and graphics you make are reproducible, you’ll do the majority of your work in this class using R Markdown files.\nDo the following things:\n\nWatch this video:\n\n\n\n\n\n \n\nSkim through the content at these pages:\n\nUsing Markdown\nUsing R Markdown\nHow it Works\nCode Chunks\nInline Code\nMarkdown Basics (The R Markdown Reference Guide is super useful here.)\nOutput Formats"
+  },
+  {
+    "objectID": "assignment/09-problem-set.html",
+    "href": "assignment/09-problem-set.html",
+    "title": "Problem set 9",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 10"
+      "Problem set 9"
     ]
   },
   {
-    "objectID": "assignment/10-problem-set.html#instructions",
-    "href": "assignment/10-problem-set.html#instructions",
-    "title": "Problem set 10",
+    "objectID": "assignment/09-problem-set.html#instructions",
+    "href": "assignment/09-problem-set.html#instructions",
+    "title": "Problem set 9",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 10"
+      "Problem set 9"
     ]
   },
   {
-    "objectID": "assignment/10-problem-set.html#questions",
-    "href": "assignment/10-problem-set.html#questions",
-    "title": "Problem set 10",
+    "objectID": "assignment/09-problem-set.html#questions",
+    "href": "assignment/09-problem-set.html#questions",
+    "title": "Problem set 9",
     "section": "Questions",
     "text": "Questions\nTBD",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 10"
+      "Problem set 9"
     ]
   },
   {
-    "objectID": "assignment/08-problem-set.html",
-    "href": "assignment/08-problem-set.html",
-    "title": "Problem set 8",
+    "objectID": "assignment/07-problem-set.html",
+    "href": "assignment/07-problem-set.html",
+    "title": "Problem set 7",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 8"
+      "Problem set 7"
     ]
   },
   {
-    "objectID": "assignment/08-problem-set.html#instructions",
-    "href": "assignment/08-problem-set.html#instructions",
-    "title": "Problem set 8",
+    "objectID": "assignment/07-problem-set.html#instructions",
+    "href": "assignment/07-problem-set.html#instructions",
+    "title": "Problem set 7",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 8"
+      "Problem set 7"
     ]
   },
   {
-    "objectID": "assignment/08-problem-set.html#questions",
-    "href": "assignment/08-problem-set.html#questions",
-    "title": "Problem set 8",
+    "objectID": "assignment/07-problem-set.html#questions",
+    "href": "assignment/07-problem-set.html#questions",
+    "title": "Problem set 7",
     "section": "Questions",
     "text": "Questions\nTBD",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 8"
+      "Problem set 7"
     ]
   },
   {
-    "objectID": "assignment/06-problem-set.html",
-    "href": "assignment/06-problem-set.html",
-    "title": "Problem set 6",
+    "objectID": "assignment/05-problem-set.html",
+    "href": "assignment/05-problem-set.html",
+    "title": "Problem set 5",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 6"
+      "Problem set 5"
     ]
   },
   {
-    "objectID": "assignment/06-problem-set.html#instructions",
-    "href": "assignment/06-problem-set.html#instructions",
-    "title": "Problem set 6",
+    "objectID": "assignment/05-problem-set.html#instructions",
+    "href": "assignment/05-problem-set.html#instructions",
+    "title": "Problem set 5",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 6"
+      "Problem set 5"
     ]
   },
   {
-    "objectID": "assignment/06-problem-set.html#questions",
-    "href": "assignment/06-problem-set.html#questions",
-    "title": "Problem set 6",
+    "objectID": "assignment/05-problem-set.html#questions",
+    "href": "assignment/05-problem-set.html#questions",
+    "title": "Problem set 5",
     "section": "Questions",
     "text": "Questions\nTBD",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 6"
+      "Problem set 5"
     ]
   },
   {
-    "objectID": "assignment/04-problem-set.html",
-    "href": "assignment/04-problem-set.html",
-    "title": "Problem set 4",
+    "objectID": "assignment/03-problem-set.html",
+    "href": "assignment/03-problem-set.html",
+    "title": "Problem set 3",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 4"
+      "Problem set 3"
     ]
   },
   {
-    "objectID": "assignment/04-problem-set.html#instructions",
-    "href": "assignment/04-problem-set.html#instructions",
-    "title": "Problem set 4",
+    "objectID": "assignment/03-problem-set.html#instructions",
+    "href": "assignment/03-problem-set.html#instructions",
+    "title": "Problem set 3",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 4"
+      "Problem set 3"
     ]
   },
   {
-    "objectID": "assignment/04-problem-set.html#questions",
-    "href": "assignment/04-problem-set.html#questions",
-    "title": "Problem set 4",
+    "objectID": "assignment/03-problem-set.html#questions",
+    "href": "assignment/03-problem-set.html#questions",
+    "title": "Problem set 3",
     "section": "Questions",
     "text": "Questions\nTBD",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 4"
-    ]
-  },
-  {
-    "objectID": "assignment/02-problem-set.html",
-    "href": "assignment/02-problem-set.html",
-    "title": "Problem set 2",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explanations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 2"
-    ]
-  },
-  {
-    "objectID": "assignment/02-problem-set.html#instructions",
-    "href": "assignment/02-problem-set.html#instructions",
-    "title": "Problem set 2",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explanations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 2"
-    ]
-  },
-  {
-    "objectID": "assignment/02-problem-set.html#questions",
-    "href": "assignment/02-problem-set.html#questions",
-    "title": "Problem set 2",
-    "section": "Questions",
-    "text": "Questions\nFrom the Howell1 dataset, consider only people younger than 13 years old. Estimate the causal association between age and weight. Assume that age influences weight through two paths. First, age influences height, and height influences weight. Second, age directly influences weight through age-related changes in muscle growth and body proportions.\n\nWrite a generative simulation that takes age as an input and simulates height and weight.\nWrite out a mathematical model to estimate the linear relationship between age and weight.\nFit this model using brms. Create two plots: one of regression lines implied by your prior and one of the regression lines implied by the posterior.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 2"
+      "Problem set 3"
     ]
   },
   {
@@ -812,6 +918,200 @@
     ]
   },
   {
+    "objectID": "assignment/02-problem-set.html",
+    "href": "assignment/02-problem-set.html",
+    "title": "Problem set 2",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explanations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 2"
+    ]
+  },
+  {
+    "objectID": "assignment/02-problem-set.html#instructions",
+    "href": "assignment/02-problem-set.html#instructions",
+    "title": "Problem set 2",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explanations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 2"
+    ]
+  },
+  {
+    "objectID": "assignment/02-problem-set.html#questions",
+    "href": "assignment/02-problem-set.html#questions",
+    "title": "Problem set 2",
+    "section": "Questions",
+    "text": "Questions\nFrom the Howell1 dataset, consider only people younger than 13 years old. Estimate the causal association between age and weight. Assume that age influences weight through two paths. First, age influences height, and height influences weight. Second, age directly influences weight through age-related changes in muscle growth and body proportions.\n\nWrite a generative simulation that takes age as an input and simulates height and weight. (Note: don’t worry about getting the perfect model. Some of you have more expertise in these relationships than others. Just try to build something that approximates the relationship.)\nWrite out a mathematical model to estimate the linear relationship between age and weight. (Just age. Not height!)\nFit this model using brms. Create two plots: one of regression lines implied by your prior and one of the regression lines implied by the posterior.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 2"
+    ]
+  },
+  {
+    "objectID": "assignment/04-problem-set.html",
+    "href": "assignment/04-problem-set.html",
+    "title": "Problem set 4",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 4"
+    ]
+  },
+  {
+    "objectID": "assignment/04-problem-set.html#instructions",
+    "href": "assignment/04-problem-set.html#instructions",
+    "title": "Problem set 4",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 4"
+    ]
+  },
+  {
+    "objectID": "assignment/04-problem-set.html#questions",
+    "href": "assignment/04-problem-set.html#questions",
+    "title": "Problem set 4",
+    "section": "Questions",
+    "text": "Questions\nTBD",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 4"
+    ]
+  },
+  {
+    "objectID": "assignment/06-problem-set.html",
+    "href": "assignment/06-problem-set.html",
+    "title": "Problem set 6",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 6"
+    ]
+  },
+  {
+    "objectID": "assignment/06-problem-set.html#instructions",
+    "href": "assignment/06-problem-set.html#instructions",
+    "title": "Problem set 6",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 6"
+    ]
+  },
+  {
+    "objectID": "assignment/06-problem-set.html#questions",
+    "href": "assignment/06-problem-set.html#questions",
+    "title": "Problem set 6",
+    "section": "Questions",
+    "text": "Questions\nTBD",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 6"
+    ]
+  },
+  {
+    "objectID": "assignment/08-problem-set.html",
+    "href": "assignment/08-problem-set.html",
+    "title": "Problem set 8",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 8"
+    ]
+  },
+  {
+    "objectID": "assignment/08-problem-set.html#instructions",
+    "href": "assignment/08-problem-set.html#instructions",
+    "title": "Problem set 8",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 8"
+    ]
+  },
+  {
+    "objectID": "assignment/08-problem-set.html#questions",
+    "href": "assignment/08-problem-set.html#questions",
+    "title": "Problem set 8",
+    "section": "Questions",
+    "text": "Questions\nTBD",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 8"
+    ]
+  },
+  {
+    "objectID": "assignment/10-problem-set.html",
+    "href": "assignment/10-problem-set.html",
+    "title": "Problem set 10",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 10"
+    ]
+  },
+  {
+    "objectID": "assignment/10-problem-set.html#instructions",
+    "href": "assignment/10-problem-set.html#instructions",
+    "title": "Problem set 10",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 10"
+    ]
+  },
+  {
+    "objectID": "assignment/10-problem-set.html#questions",
+    "href": "assignment/10-problem-set.html#questions",
+    "title": "Problem set 10",
+    "section": "Questions",
+    "text": "Questions\nTBD",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 10"
+    ]
+  },
+  {
+    "objectID": "news/index.html",
+    "href": "news/index.html",
+    "title": "Course News",
+    "section": "",
+    "text": "Date\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "\n            Bayesian Analysis\n        ",
+    "section": "",
+    "text": "Bayesian Analysis\n        \n        \n            Model building, estimation, interpretation, visualization\n        \n        \n            PSY 607 • Spring 2025 Psychology University of Oregon\n        \n    \n    \n      \n        \n        \n        \n      \n    \n\n\n\n\n\n\nInstructor\n\n   Dr. Sara Weston\n   Straub 325\n   sweston2@uoregon.edu\n   Schedule an appointment\n\n\n\nCourse details\n\n   Tuesdays and Thursdays\n   Spring 2025\n   2:00–3:20 PM\n   119 FEN\n   Slack\n\n\n\nContacting me\nEmail is the best way to get in contact with me. I will try to respond to all course-related emails within one business day during normal business hours (9am-5pm, Mon-Fri).\n\n\n```"
+  },
+  {
     "objectID": "assignment/01-problem-set.html",
     "href": "assignment/01-problem-set.html",
     "title": "Problem set 1",
@@ -845,284 +1145,6 @@
       "Assignments",
       "Problem sets",
       "Problem set 1"
-    ]
-  },
-  {
-    "objectID": "assignment/03-problem-set.html",
-    "href": "assignment/03-problem-set.html",
-    "title": "Problem set 3",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 3"
-    ]
-  },
-  {
-    "objectID": "assignment/03-problem-set.html#instructions",
-    "href": "assignment/03-problem-set.html#instructions",
-    "title": "Problem set 3",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 3"
-    ]
-  },
-  {
-    "objectID": "assignment/03-problem-set.html#questions",
-    "href": "assignment/03-problem-set.html#questions",
-    "title": "Problem set 3",
-    "section": "Questions",
-    "text": "Questions\nTBD",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 3"
-    ]
-  },
-  {
-    "objectID": "assignment/05-problem-set.html",
-    "href": "assignment/05-problem-set.html",
-    "title": "Problem set 5",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 5"
-    ]
-  },
-  {
-    "objectID": "assignment/05-problem-set.html#instructions",
-    "href": "assignment/05-problem-set.html#instructions",
-    "title": "Problem set 5",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 5"
-    ]
-  },
-  {
-    "objectID": "assignment/05-problem-set.html#questions",
-    "href": "assignment/05-problem-set.html#questions",
-    "title": "Problem set 5",
-    "section": "Questions",
-    "text": "Questions\nTBD",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 5"
-    ]
-  },
-  {
-    "objectID": "assignment/07-problem-set.html",
-    "href": "assignment/07-problem-set.html",
-    "title": "Problem set 7",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 7"
-    ]
-  },
-  {
-    "objectID": "assignment/07-problem-set.html#instructions",
-    "href": "assignment/07-problem-set.html#instructions",
-    "title": "Problem set 7",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 7"
-    ]
-  },
-  {
-    "objectID": "assignment/07-problem-set.html#questions",
-    "href": "assignment/07-problem-set.html#questions",
-    "title": "Problem set 7",
-    "section": "Questions",
-    "text": "Questions\nTBD",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 7"
-    ]
-  },
-  {
-    "objectID": "assignment/09-problem-set.html",
-    "href": "assignment/09-problem-set.html",
-    "title": "Problem set 9",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 9"
-    ]
-  },
-  {
-    "objectID": "assignment/09-problem-set.html#instructions",
-    "href": "assignment/09-problem-set.html#instructions",
-    "title": "Problem set 9",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 9"
-    ]
-  },
-  {
-    "objectID": "assignment/09-problem-set.html#questions",
-    "href": "assignment/09-problem-set.html#questions",
-    "title": "Problem set 9",
-    "section": "Questions",
-    "text": "Questions\nTBD",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 9"
-    ]
-  },
-  {
-    "objectID": "example/rstudio-tidyverse.html",
-    "href": "example/rstudio-tidyverse.html",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "",
-    "text": "This course assumes that you’re already familiar with R, RStudio, Markdown, and the tidyverse. If you’re not, or if you’re looking to brush up, here are some resources for helping you get up to speed."
-  },
-  {
-    "objectID": "example/rstudio-tidyverse.html#part-1-the-basics-of-r-and-dplyr",
-    "href": "example/rstudio-tidyverse.html#part-1-the-basics-of-r-and-dplyr",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "Part 1: The basics of R and dplyr",
-    "text": "Part 1: The basics of R and dplyr\n\nThe Basics\n\nVisualization Basics\nProgramming Basics\n\nWork with Data\n\nWorking with Tibbles\nIsolating Data with dplyr\nDeriving Information with dplyr\n\nVisualize Data\n\nExploratory Data Analysis\nBar Charts\nHistograms\nBoxplots and Counts\nScatterplots\nLine plots\nOverplotting and Big Data\nCustomize Your Plots\n\nTidy Your Data\n\nReshape Data\n\n\n\n\n\n\n\n\nNote\n\n\n\nRecent versions of tidyr have renamed these core functions: gather() is now pivot_longer() and spread() is now pivot_wider(). The syntax for these pivot_*() functions is slightly different from what it was in gather() and spread(), so you can’t just replace the names. Fortunately, both gather() and spread() still work and won’t go away for a while, so you can still use them as you learn about reshaping and tidying data. It would be worth learning how the newer pivot_*() functions work, eventually, though (see here for examples).\n\n\nThe content from these primers comes from the (free and online!) book R for Data Science by Garrett Grolemund and Hadley Wickham. I highly recommend the book as a reference and for continuing to learn and use R in the future."
-  },
-  {
-    "objectID": "example/rstudio-tidyverse.html#part-2-getting-familiar-with-rstudio",
-    "href": "example/rstudio-tidyverse.html#part-2-getting-familiar-with-rstudio",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "Part 2: Getting familiar with RStudio",
-    "text": "Part 2: Getting familiar with RStudio\nThe RStudio primers you just worked through are a great introduction to writing and running R code, but you typically won’t type code in a browser when you work with R. Instead, you’ll use a nicer programming environment like RStudio, which lets you type and save code in scripts, run code from those scripts, and see the output of that code, all in the same program.\nTo get familiar with RStudio, watch this video by Andrew Heiss:"
-  },
-  {
-    "objectID": "example/rstudio-tidyverse.html#part-3-rstudio-projects",
-    "href": "example/rstudio-tidyverse.html#part-3-rstudio-projects",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "Part 3: RStudio Projects",
-    "text": "Part 3: RStudio Projects\nOne of the most powerful and useful aspects of RStudio is its ability to manage projects.\nWhen you first open R, it is “pointed” at some folder on your computer, and anything you do will be relative to that folder. The technical term for this is a “working directory.”\nWhen you first open RStudio, look in the area right at the top of the Console pane to see your current working directory. Most likely you’ll see something cryptic: ~/\n\n\n\n\n\n\n\n\n\nThat tilde sign (~) is a shortcut that stands for your user directory. On Windows this is C:\\Users\\your_user_name\\; on macOS this is /Users/your_user_name/. With the working directory set to ~/, R is “pointed” at that folder, and anything you save will end up in that folder, and R will expect any data that you load to be there too.\nIt’s always best to point R at some other directory. If you don’t use RStudio, you need to manually set the working directory to where you want it with setwd(), and many R scripts in the wild include something like setwd(\"C:\\\\Users\\\\bill\\\\Desktop\\\\Important research project\") at the beginning to change the directory. THIS IS BAD THOUGH (see here for an explanation). If you ever move that directory somewhere else, or run the script on a different computer, or share the project with someone, the path will be wrong and nothing will run and you will be sad.\nThe best way to deal with working directories with RStudio is to use RStudio Projects. These are special files that RStudio creates for you that end in a .Rproj extension. When you open one of these special files, a new RStudio instance will open up and be pointed at the correct directory automatically. If you move the folder later or open it on a different computer, it will work just fine and you will not be sad.\nRead this super short chapter on RStudio projects to learn how to create and use them\nIn general, you can create a new project by going to File &gt; New Project &gt; New Directory &gt; Empty Project, which will create a new folder on your computer that is empty except for a single .Rproj file. Double click on that file to open an RStudio instance that is pointed at the correct folder."
-  },
-  {
-    "objectID": "example/rstudio-tidyverse.html#part-4-getting-familiar-with-r-markdown",
-    "href": "example/rstudio-tidyverse.html#part-4-getting-familiar-with-r-markdown",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "Part 4: Getting familiar with R Markdown",
-    "text": "Part 4: Getting familiar with R Markdown\nTo ensure that the analysis and graphics you make are reproducible, you’ll do the majority of your work in this class using R Markdown files.\nDo the following things:\n\nWatch this video:\n\n\n\n\n\n \n\nSkim through the content at these pages:\n\nUsing Markdown\nUsing R Markdown\nHow it Works\nCode Chunks\nInline Code\nMarkdown Basics (The R Markdown Reference Guide is super useful here.)\nOutput Formats"
-  },
-  {
-    "objectID": "syllabus.html",
-    "href": "syllabus.html",
-    "title": "PSY 607 Bayesian Analysis",
-    "section": "",
-    "text": "Instructor: Dr. Sara Weston\nEmail: sweston2@uoregon.edu\nOffice: Straub 325\nOffice Hours: Friday 10:00 AM - 12:00 PM, and by appointment (schedule here)\nClass Meetings: Tuesday/Thursday 2:00-3:20 PM\nLocation: 119 FEN\nCourse Website: uobayes.netlify.app"
-  },
-  {
-    "objectID": "syllabus.html#course-information",
-    "href": "syllabus.html#course-information",
-    "title": "PSY 607 Bayesian Analysis",
-    "section": "",
-    "text": "Instructor: Dr. Sara Weston\nEmail: sweston2@uoregon.edu\nOffice: Straub 325\nOffice Hours: Friday 10:00 AM - 12:00 PM, and by appointment (schedule here)\nClass Meetings: Tuesday/Thursday 2:00-3:20 PM\nLocation: 119 FEN\nCourse Website: uobayes.netlify.app"
-  },
-  {
-    "objectID": "syllabus.html#course-description",
-    "href": "syllabus.html#course-description",
-    "title": "PSY 607 Bayesian Analysis",
-    "section": "Course Description",
-    "text": "Course Description\nThis advanced statistics course introduces students to Bayesian methods with a focus on practical application using modern computational tools. Through a combination of theoretical foundations and hands-on programming, students learn to build, interpret, and critique Bayesian models using the R programming language, with particular emphasis on the brms package."
-  },
-  {
-    "objectID": "syllabus.html#course-structure",
-    "href": "syllabus.html#course-structure",
-    "title": "PSY 607 Bayesian Analysis",
-    "section": "Course Structure",
-    "text": "Course Structure\nThis course is a mix of asynchronous lectures, in-class activities, and homework assignments:\n\nBefore each class, you will watch a video lecture. These will be posted on the course website alongside each lecture.\nAt the beginning of each class, there will be a short quiz to check your understanding of the lecture and help me know what to review.\nClass time will be used for in-class activities, including group work and discussion.\nEach week will have a homework assignment. These will be posted on Canvas.\nYou can find all the materials for each week on the course website."
-  },
-  {
-    "objectID": "syllabus.html#materials",
-    "href": "syllabus.html#materials",
-    "title": "PSY 607 Bayesian Analysis",
-    "section": "Materials",
-    "text": "Materials\nRequired:\n\nR and RStudio (free)\nRequired R packages:\n\nrethinking\nbrms\ntidybase\ntidyverse\n\n\nRecommended:\n\nStatistical Rethinking by Richard McElreath (2nd ed.)\n\nAdditional course materials, including lecture notes and code, will be provided on the course website."
-  },
-  {
-    "objectID": "syllabus.html#assignment-submission",
-    "href": "syllabus.html#assignment-submission",
-    "title": "PSY 607 Bayesian Analysis",
-    "section": "Assignment Submission",
-    "text": "Assignment Submission\n\nAll assignments should be submitted through Canvas\nSubmissions must be in PDF format, knitted from R Markdown\nAssignments are posted on Friday and due the following Monday at 11:59pm\nThere is a one-week grace period for each assignment"
-  },
-  {
-    "objectID": "syllabus.html#grading",
-    "href": "syllabus.html#grading",
-    "title": "PSY 607 Bayesian Analysis",
-    "section": "Grading",
-    "text": "Grading\n\nHomework (95%)\n\n10 assignments\nGraded on completion (not accuracy)\nPosted on Friday, due the following Monday at 11:59pm\nOne week grace period for each assignment\n\nQuizzes (5%)\n\n19 quizzes\nCover material from the day’s recorded lecture\nCompleted in class\nNo makeup opportunities for missed quizzes"
-  },
-  {
-    "objectID": "syllabus.html#slack",
-    "href": "syllabus.html#slack",
-    "title": "PSY 607 Bayesian Analysis",
-    "section": "Slack",
-    "text": "Slack\nI have created a Slack workspace for this course, open to anyone (registerd or not) who is attending. The goal of this space is for us to support each other as we learn the material. Anyone can post a question, and anyone can answer a question. I will not be as active here as I am in class, nor as responsive as I am over email. But if I see a question has the class stumped or it feels like an important concept hasn’t clicked yet, I will update lecture materials to help us get on track.\nI especially encourage using this space to coordinate working on probelm sets together, sharing resources you find online, and sharing ways you’ve used technology (R/RMarkdown/AI) that have supported your research. I also encourage memes."
-  },
-  {
-    "objectID": "syllabus.html#course-policies",
-    "href": "syllabus.html#course-policies",
-    "title": "PSY 607 Bayesian Analysis",
-    "section": "Course Policies",
-    "text": "Course Policies\n\nCommunication\nIf you have questions about course policies, have trouble submitting an assignment, or want to schedule a meeting, please email. I will make an effort to respond to emails within one business day. Note that I neither plan nor commit to checking email outside of normal business hours (9am-5pm, Mon-Fri).\nIf you are having trouble understanding a concept covered in class, please come to office hours, schedule a meeting with me, ask for clarification during class periods, or use the class Slack to get help from the group. I will not explain course concepts over email.\nOccasionally, I will send out announcements to the entire class via Canvas announcements. These will typically appear when you open Canvas, but you can update your Canvas settings to receive these announcements as emails. It is strongly recommended that you do so.\n\n\nClassroom Expectations\nAll members of the class (students and instructor) can expect to:\nParticipate and Contribute: All students are expected to participate by sharing ideas and contributing to the learning environment. This entails preparing, following instructions, and engaging respectfully and thoughtfully with others.\nWhile all students should participate, participation is not just talking, and a range of participation activities support learning. Participation might look like speaking aloud in the full class and in small groups and collaborating on homework assignments.\nExpect and Respect Diversity: All classes at the University of Oregon welcome and respect diverse experiences, perspectives, and approaches. What is not welcome are behaviors or contributions that undermine, demean, or marginalize others based on race, ethnicity, gender, sex, age, sexual orientation, religion, ability, or socioeconomic status. We will value differences and communicate disagreements with respect.\nHelp Everyone Learn: Part of how we learn together is by learning from one another. To do this effectively, we need to be patient with each other, identify ways we can assist others, and be open-minded to receiving help and feedback from others. Don’t hesitate to contact me to ask for assistance or offer suggestions that might help us learn better.\n\n\nWorkload\nThis is a 3-credit hour course, so you should expect to complete 120 hours of work for the course—an average of about 12 hours each week (this includes time in-class).\n\n\nGenerative AI Policy\nWhile generative AI tools (such as ChatGPT, Claude, and Cursor) can be useful for assisting with certain tasks, it’s important to use these technologies responsibly and ethically.\nGood uses of AI:\n\nExploring concepts, generating code ideas, and providing explanations for topics covered in the course\nCreating preliminary drafts of code, data analysis plans, or written reports (with review and testing)\nBrainstorming research questions, identifying key terms, or helping summarize complex literature\n\nBad uses of AI:\n\nGenerating entire assignments, projects, or reports without manual oversight\nUsing AI in place of collaborating with peers\nSubmitting AI-generated content without proper attribution\n\nRequired Disclosure: Students who use AI tools must include a brief statement at the end of their submission describing how and where the tool was used. Failure to disclose AI use may result in grade reduction or disciplinary action.\n\n\nAcademic Integrity\nFrankly, you’re in graduate school, and the purpose of work is to create opportunities to learn and improve. Even if cheating helps you in the short term, you’ll quickly find yourself ill-prepared for the career you have chosen. If you find yourself tempted to cheat, please come speak to Dr. Weston about an extension and developing tools to improve your success.\n\n\nAccessibility\nThe University of Oregon and I are dedicated to fostering inclusive learning environments for all students and welcomes students with disabilities into all of the University’s educational programs. The Accessible Education Center (AEC) assists students with disabilities in reducing campus-wide and classroom-related barriers. If you have or think you have a disability (https://aec.uoregon.edu/content/what-disability) and experience academic barriers, please contact the AEC to discuss appropriate accommodations or support. Visit 360 Oregon Hall or aec.uoregon.edu for more information. You can contact AEC at 541-346-1155 or via email at uoaec@uoregon.edu.\n\n\nBasic Needs\nBeing able to meet your basic needs is foundational to your success as a student at the University of Oregon. If you are having difficulty affording food, don’t have a stable, safe place to live, or are struggling to meet another need, visit the UO Basic Needs Resource page for information on how to get support. They have information food, housing, healthcare, childcare, transportation, technology, finances (including emergency funds), and legal support.\nIf your need is urgent, please contact the Care and Advocacy Program by calling 541-346-3216, filling out the Community Care and Support form, or by scheduling an appointment with an advocate.\n\n\nReporting Obligations\nI am a designated reporter. For information about my reporting obligations as an employee, please see Employee Reporting Obligations on the Office of Investigations and Civil Rights Compliance (OICRC) website. Students experiencing sex- or gender-based discrimination, harassment or violence should call the 24-7 hotline 541-346-SAFE [7244] or visit safe.uoregon.edu for help. Students experiencing all forms of prohibited discrimination or harassment may contact the Dean of Students Office at 541-346-3216 or the non-confidential Title IX Coordinator/OICRC at 541-346-3123 to request information and resources. Students are not required to participate in an investigation to receive support, including requesting academic supportive measures. Additional resources are available at investigations.uoregon.edu/how-get-support.\nI am also a mandatory reporter of child abuse. Please find more information at Mandatory Reporting of Child Abuse and Neglect.\n\n\nPregnancy Accommodations\nPregnant and parenting students are eligible for academic and work modifications related to pregnancy, childbirth, loss of pregnancy, termination of pregnancy, lactation, and related medical conditions. To request pregnancy-related modifications, students should complete the Request for Pregnancy Modifications form on the OICRC website. OICRC coordinates academic and other modifications for pregnant and parenting students to ensure students can continue to access their education and university programs and activities.\n\n\nCampus Emergencies\nIn the event of a campus emergency that disrupts academic activities, course requirements, deadlines, and grading percentages are subject to change. Information about changes in this course will be communicated as soon as possible by email, and on Canvas. If we are not able to meet face-to-face, students should immediately log onto Canvas and read any announcements and/or access alternative assignments. Students are also expected to continue coursework as outlined in this syllabus or other instructions on Canvas."
-  },
-  {
-    "objectID": "content/01-content.html",
-    "href": "content/01-content.html",
-    "title": "Introduction to Bayes",
-    "section": "",
-    "text": "Nothing. But if you want to get familiar with the site or ee what I’m using as the basis for the first lecture, here you go:\n\nThe syllabus, content, examples, and assignments pages for this class\n Introduction to Bayesian Inference for Psychology (Etz & Vandekerckhove, 2018)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "1: Introduction to Bayesian Analysis"
-    ]
-  },
-  {
-    "objectID": "content/01-content.html#before-class",
-    "href": "content/01-content.html#before-class",
-    "title": "Introduction to Bayes",
-    "section": "",
-    "text": "Nothing. But if you want to get familiar with the site or ee what I’m using as the basis for the first lecture, here you go:\n\nThe syllabus, content, examples, and assignments pages for this class\n Introduction to Bayesian Inference for Psychology (Etz & Vandekerckhove, 2018)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "1: Introduction to Bayesian Analysis"
-    ]
-  },
-  {
-    "objectID": "content/01-content.html#during-class",
-    "href": "content/01-content.html#during-class",
-    "title": "Introduction to Bayes",
-    "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "1: Introduction to Bayesian Analysis"
     ]
   },
   {
@@ -1546,42 +1568,6 @@
     ]
   },
   {
-    "objectID": "content/02-content.html",
-    "href": "content/02-content.html",
-    "title": "Bayes as coutning",
-    "section": "",
-    "text": "The Golum of Prague (51 min)\n The Garden of Forking Data (1 h 37 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "2: Bayes as counting"
-    ]
-  },
-  {
-    "objectID": "content/02-content.html#before-class",
-    "href": "content/02-content.html#before-class",
-    "title": "Bayes as coutning",
-    "section": "",
-    "text": "The Golum of Prague (51 min)\n The Garden of Forking Data (1 h 37 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "2: Bayes as counting"
-    ]
-  },
-  {
-    "objectID": "content/02-content.html#during-class",
-    "href": "content/02-content.html#during-class",
-    "title": "Bayes as coutning",
-    "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "2: Bayes as counting"
-    ]
-  },
-  {
     "objectID": "assignment/CopyOf02-problem-set.html",
     "href": "assignment/CopyOf02-problem-set.html",
     "title": "Problem set 2",
@@ -1600,7 +1586,21 @@
     "href": "assignment/CopyOf02-problem-set.html#questions",
     "title": "Problem set 2",
     "section": "Questions",
-    "text": "Questions\nFrom the Howell1 dataset, consider only people younger than 13 years old. Estimate the causal association between age and weight. Assume that age influences weight through two paths. First, age influences height, and height influences weight. Second, age directly influences weight through age-related changes in muscle growth and body proportions.\n\nWrite a generative simulation that takes age as an input and simulates height and weight.\n\n\n\nClick to see the answer\n\n\n# Define the simulation function\nsimulate_growth &lt;- function(age) {\n  n = length(age)\n  # Simulate height (in feet)\n  height &lt;- rnorm(n, \n                 mean = 1.5 + .3*age + 0.005*age^2,  # Quadratic growth pattern\n                 sd = .3)                           # Random variation\n  \n  # Simulate weight (in lb)\n  weight &lt;- rnorm(n,\n                 mean = 6.5 + 5*age + 0.25*height, # Linear relationship with age and height\n                 sd = 4)                           # Random variation\n  \n  data.frame(age=age, height=height, weight=weight)\n}\n\n# Generate data for ages 0-12\nages &lt;- runif(100, 0, 12)\nsim_data = simulate_growth(ages)\n\n# Plot the simulated relationships\npar(mfrow=c(2,1))\nplot(sim_data$age, sim_data$height, \n     xlab=\"Age (years)\", ylab=\"Height (feet)\",\n     main=\"Age vs Height\")\nplot(sim_data$age, sim_data$weight,\n     xlab=\"Age (years)\", ylab=\"Weight (lb)\",\n     main=\"Age vs Weight\")\n\n\n\n\n\n\n\n\nThis simulation: 1. Takes age as input and generates both height and weight 2. Uses a quadratic function for height to capture the non-linear growth pattern 3. Uses a linear function for weight that depends on both age and height 4. Includes random variation (noise) in both height and weight 5. The plots show the expected relationships: both height and weight increase with age\n\n\nWrite out a mathematical model to estimate the linear relationship between age and weight.\n\n\n\nClick to see the answer\n\nThere are many priors that could be appropriate here. Don’t worry if yours looks different from mine. Here’s just one example:\n\\[\nW_i \\sim \\text{Normal}(\\mu_i, \\sigma) \\\\\n\\mu_i = \\alpha + (\\beta_A * A_i)\\\\\n\\alpha \\sim  \\text{Normal}(7, 1.5)  \\\\\n\\beta_A \\sim \\text{Normal}(0, 1) \\\\\n\\sigma \\sim \\text{Exponential}(1)\n\\]\nWhere: - \\(W_i\\) is the weight of individual \\(i\\) - \\(A_i\\) is the age of individual \\(i\\) - \\(\\alpha\\) is the intercept - \\(\\beta_A\\) is the effect of age on weight - \\(\\sigma\\) is the standard deviation of the weight distribution\nThis model: 1. Assumes weight is normally distributed around a mean \\(\\mu\\) 2. The mean \\(\\mu\\) is a linear function of age 3. Uses weakly informative priors for all parameters 4. The exponential prior on \\(\\sigma\\) ensures it’s positive\n\n\nFit this model using brms. Create two plots: one of regression lines implied by your prior and one of the regression lines implied by the posterior.\n\n\n\nClick to see the answer\n\n\n# Load required packages\nlibrary(brms)\n\nLoading required package: Rcpp\n\n\nLoading 'brms' package (version 2.22.0). Useful instructions\ncan be found by typing help('brms'). A more detailed introduction\nto the package is available through vignette('brms_overview').\n\n\n\nAttaching package: 'brms'\n\n\nThe following object is masked from 'package:stats':\n\n    ar\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.1     ✔ tibble    3.2.1\n✔ lubridate 1.9.3     ✔ tidyr     1.3.1\n✔ purrr     1.0.2     \n\n\n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nlibrary(cowplot)\n\n\nAttaching package: 'cowplot'\n\nThe following object is masked from 'package:lubridate':\n\n    stamp\n\ndata(\"Howell1\", package=\"rethinking\")\n\n# Filter for children under 13\nd &lt;- Howell1[Howell1$age &lt; 13,]\n\n# Define the model\nmp &lt;- brm(\n  weight ~ age,\n  data = d,\n  prior = c(\n    prior(normal(7, 1.5), class = Intercept),\n    prior(normal(0, 1), class = b),\n    prior(exponential(1), class = sigma)\n  ),\n  sample_prior = \"only\"  # First get prior samples\n)\n\nCompiling Stan program...\nTrying to compile a simple C file\n\n\nRunning /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c\nusing C compiler: ‘Apple clang version 16.0.0 (clang-1600.0.26.6)’\nusing SDK: ‘MacOSX15.2.sdk’\nclang -arch arm64 -I\"/Library/Frameworks/R.framework/Resources/include\" -DNDEBUG   -I\"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/Rcpp/include/\"  -I\"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/\"  -I\"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/unsupported\"  -I\"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/BH/include\" -I\"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/StanHeaders/include/src/\"  -I\"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/StanHeaders/include/\"  -I\"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppParallel/include/\"  -I\"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/rstan/include\" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DUSE_STANC3 -DSTRICT_R_HEADERS  -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION  -D_HAS_AUTO_PTR_ETC=0  -include '/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/opt/R/arm64/include    -fPIC  -falign-functions=64 -Wall -g -O2  -c foo.c -o foo.o\nIn file included from &lt;built-in&gt;:1:\nIn file included from /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:\nIn file included from /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/Eigen/Dense:1:\nIn file included from /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/Eigen/Core:19:\n/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:679:10: fatal error: 'cmath' file not found\n  679 | #include &lt;cmath&gt;\n      |          ^~~~~~~\n1 error generated.\nmake: *** [foo.o] Error 1\n\n\nStart sampling\n\n\n\nSAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).\nChain 1: \nChain 1: Gradient evaluation took 1.9e-05 seconds\nChain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.19 seconds.\nChain 1: Adjust your expectations accordingly!\nChain 1: \nChain 1: \nChain 1: Iteration:    1 / 2000 [  0%]  (Warmup)\nChain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)\nChain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)\nChain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)\nChain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)\nChain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)\nChain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)\nChain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)\nChain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)\nChain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)\nChain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)\nChain 1: Iteration: 2000 / 2000 [100%]  (Sampling)\nChain 1: \nChain 1:  Elapsed Time: 0.005 seconds (Warm-up)\nChain 1:                0.005 seconds (Sampling)\nChain 1:                0.01 seconds (Total)\nChain 1: \n\nSAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).\nChain 2: \nChain 2: Gradient evaluation took 1e-06 seconds\nChain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.01 seconds.\nChain 2: Adjust your expectations accordingly!\nChain 2: \nChain 2: \nChain 2: Iteration:    1 / 2000 [  0%]  (Warmup)\nChain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)\nChain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)\nChain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)\nChain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)\nChain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)\nChain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)\nChain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)\nChain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)\nChain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)\nChain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)\nChain 2: Iteration: 2000 / 2000 [100%]  (Sampling)\nChain 2: \nChain 2:  Elapsed Time: 0.006 seconds (Warm-up)\nChain 2:                0.006 seconds (Sampling)\nChain 2:                0.012 seconds (Total)\nChain 2: \n\nSAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).\nChain 3: \nChain 3: Gradient evaluation took 1e-06 seconds\nChain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.01 seconds.\nChain 3: Adjust your expectations accordingly!\nChain 3: \nChain 3: \nChain 3: Iteration:    1 / 2000 [  0%]  (Warmup)\nChain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)\nChain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)\nChain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)\nChain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)\nChain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)\nChain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)\nChain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)\nChain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)\nChain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)\nChain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)\nChain 3: Iteration: 2000 / 2000 [100%]  (Sampling)\nChain 3: \nChain 3:  Elapsed Time: 0.006 seconds (Warm-up)\nChain 3:                0.005 seconds (Sampling)\nChain 3:                0.011 seconds (Total)\nChain 3: \n\nSAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).\nChain 4: \nChain 4: Gradient evaluation took 3e-06 seconds\nChain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.03 seconds.\nChain 4: Adjust your expectations accordingly!\nChain 4: \nChain 4: \nChain 4: Iteration:    1 / 2000 [  0%]  (Warmup)\nChain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)\nChain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)\nChain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)\nChain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)\nChain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)\nChain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)\nChain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)\nChain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)\nChain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)\nChain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)\nChain 4: Iteration: 2000 / 2000 [100%]  (Sampling)\nChain 4: \nChain 4:  Elapsed Time: 0.005 seconds (Warm-up)\nChain 4:                0.005 seconds (Sampling)\nChain 4:                0.01 seconds (Total)\nChain 4: \n\n# Get prior samples\nprior_samples &lt;- as_draws_df(mp)\n\n\n# Now fit the model with the data\nm &lt;- brm(\n  weight ~ age,\n  data = d,\n  prior = c(\n    prior(normal(7, 1.5), class = Intercept),\n    prior(normal(0, 1), class = b),\n    prior(exponential(1), class = sigma)\n  )\n)\n\nCompiling Stan program...\nTrying to compile a simple C file\n\n\nRunning /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c\nusing C compiler: ‘Apple clang version 16.0.0 (clang-1600.0.26.6)’\nusing SDK: ‘MacOSX15.2.sdk’\nclang -arch arm64 -I\"/Library/Frameworks/R.framework/Resources/include\" -DNDEBUG   -I\"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/Rcpp/include/\"  -I\"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/\"  -I\"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/unsupported\"  -I\"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/BH/include\" -I\"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/StanHeaders/include/src/\"  -I\"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/StanHeaders/include/\"  -I\"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppParallel/include/\"  -I\"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/rstan/include\" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DUSE_STANC3 -DSTRICT_R_HEADERS  -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION  -D_HAS_AUTO_PTR_ETC=0  -include '/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/opt/R/arm64/include    -fPIC  -falign-functions=64 -Wall -g -O2  -c foo.c -o foo.o\nIn file included from &lt;built-in&gt;:1:\nIn file included from /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:\nIn file included from /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/Eigen/Dense:1:\nIn file included from /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/Eigen/Core:19:\n/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:679:10: fatal error: 'cmath' file not found\n  679 | #include &lt;cmath&gt;\n      |          ^~~~~~~\n1 error generated.\nmake: *** [foo.o] Error 1\n\n\nStart sampling\n\n\n\nSAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).\nChain 1: \nChain 1: Gradient evaluation took 2.3e-05 seconds\nChain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.23 seconds.\nChain 1: Adjust your expectations accordingly!\nChain 1: \nChain 1: \nChain 1: Iteration:    1 / 2000 [  0%]  (Warmup)\nChain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)\nChain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)\nChain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)\nChain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)\nChain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)\nChain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)\nChain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)\nChain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)\nChain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)\nChain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)\nChain 1: Iteration: 2000 / 2000 [100%]  (Sampling)\nChain 1: \nChain 1:  Elapsed Time: 0.009 seconds (Warm-up)\nChain 1:                0.007 seconds (Sampling)\nChain 1:                0.016 seconds (Total)\nChain 1: \n\nSAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).\nChain 2: \nChain 2: Gradient evaluation took 3e-06 seconds\nChain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.03 seconds.\nChain 2: Adjust your expectations accordingly!\nChain 2: \nChain 2: \nChain 2: Iteration:    1 / 2000 [  0%]  (Warmup)\nChain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)\nChain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)\nChain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)\nChain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)\nChain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)\nChain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)\nChain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)\nChain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)\nChain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)\nChain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)\nChain 2: Iteration: 2000 / 2000 [100%]  (Sampling)\nChain 2: \nChain 2:  Elapsed Time: 0.008 seconds (Warm-up)\nChain 2:                0.007 seconds (Sampling)\nChain 2:                0.015 seconds (Total)\nChain 2: \n\nSAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).\nChain 3: \nChain 3: Gradient evaluation took 3e-06 seconds\nChain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.03 seconds.\nChain 3: Adjust your expectations accordingly!\nChain 3: \nChain 3: \nChain 3: Iteration:    1 / 2000 [  0%]  (Warmup)\nChain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)\nChain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)\nChain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)\nChain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)\nChain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)\nChain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)\nChain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)\nChain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)\nChain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)\nChain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)\nChain 3: Iteration: 2000 / 2000 [100%]  (Sampling)\nChain 3: \nChain 3:  Elapsed Time: 0.008 seconds (Warm-up)\nChain 3:                0.007 seconds (Sampling)\nChain 3:                0.015 seconds (Total)\nChain 3: \n\nSAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).\nChain 4: \nChain 4: Gradient evaluation took 1e-06 seconds\nChain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.01 seconds.\nChain 4: Adjust your expectations accordingly!\nChain 4: \nChain 4: \nChain 4: Iteration:    1 / 2000 [  0%]  (Warmup)\nChain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)\nChain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)\nChain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)\nChain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)\nChain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)\nChain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)\nChain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)\nChain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)\nChain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)\nChain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)\nChain 4: Iteration: 2000 / 2000 [100%]  (Sampling)\nChain 4: \nChain 4:  Elapsed Time: 0.009 seconds (Warm-up)\nChain 4:                0.006 seconds (Sampling)\nChain 4:                0.015 seconds (Total)\nChain 4: \n\n# Get posterior samples\npost_samples &lt;- as_draws_df(m)\n\np1 &lt;- ggplot(d, aes(x=age, y=weight)) + \n  geom_blank() +\n  geom_abline(aes(intercept=b_Intercept, slope=b_age),\n              data=prior_samples[1:50, ],\n              alpha=.2)\np2 &lt;- ggplot(d, aes(x=age, y=weight)) + \n  geom_point() +\n  geom_abline(aes(intercept=b_Intercept, slope=b_age),\n              data=post_samples[1:50, ],\n              alpha=.2)\nlibrary(patchwork)\n\n\nAttaching package: 'patchwork'\n\nThe following object is masked from 'package:cowplot':\n\n    align_plots\n\n(p1 | p2)\n\n\n\n\n\n\n\n\nThe plots show: 1. Prior regression lines: These show our uncertainty before seeing the data. The lines are widely spread, reflecting our weak priors. 2. Posterior regression lines: These show our uncertainty after seeing the data. The lines are much more concentrated, showing that the data has informed our estimates.\nThe model summary shows the estimated effects of age and height on weight, along with their uncertainty. The standardized coefficients allow us to compare the relative importance of age and height in predicting weight."
+    "text": "Questions\nFrom the Howell1 dataset, consider only people younger than 13 years old. Estimate the causal association between age and weight. Assume that age influences weight through two paths. First, age influences height, and height influences weight. Second, age directly influences weight through age-related changes in muscle growth and body proportions.\n\nWrite a generative simulation that takes age as an input and simulates height and weight.\n\n\n\nClick to see the answer\n\n\n# Define the simulation function\nsimulate_growth &lt;- function(age) {\n  n = length(age)\n  # Simulate height (in feet)\n  height &lt;- rnorm(n, \n                 mean = 1.5 + .3*age + 0.005*age^2,  # Quadratic growth pattern\n                 sd = .3)                           # Random variation\n  \n  # Simulate weight (in lb)\n  weight &lt;- rnorm(n,\n                 mean = 6.5 + 5*age + 0.25*height, # Linear relationship with age and height\n                 sd = 4)                           # Random variation\n  \n  data.frame(age=age, height=height, weight=weight)\n}\n\n# Generate data for ages 0-12\nages &lt;- runif(100, 0, 12)\nsim_data = simulate_growth(ages)\n\n# Plot the simulated relationships\npar(mfrow=c(2,1))\nplot(sim_data$age, sim_data$height, \n     xlab=\"Age (years)\", ylab=\"Height (feet)\",\n     main=\"Age vs Height\")\nplot(sim_data$age, sim_data$weight,\n     xlab=\"Age (years)\", ylab=\"Weight (lb)\",\n     main=\"Age vs Weight\")\n\n\n\n\n\n\n\n\nThis simulation:\n\nTakes age as input and generates both height and weight\nUses a quadratic function for height to capture the non-linear growth pattern\nUses a linear function for weight that depends on both age and height\nIncludes random variation (noise) in both height and weight\nThe plots show the expected relationships: both height and weight increase with age\n\n\n\nWrite out a mathematical model to estimate the linear relationship between age and weight.\n\n\n\nClick to see the answer\n\nThere are many priors that could be appropriate here. Don’t worry if yours looks different from mine. Here’s just one example:\n\\[\\begin{align*}\nW_i &\\sim \\text{Normal}(\\mu_i, \\sigma) \\\\\n\\mu_i &= \\alpha + (\\beta_A * A_i)\\\\\n\\alpha &\\sim  \\text{Normal}(7, 1.5)  \\\\\n\\beta_A &\\sim \\text{Normal}(0, 1) \\\\\n\\sigma &\\sim \\text{Exponential}(1)\n\\end{align*}\\]\nWhere:\n\n\\(W_i\\) is the weight of individual \\(i\\)\n\\(A_i\\) is the age of individual \\(i\\)\n\\(\\alpha\\) is the intercept\n\\(\\beta_A\\) is the effect of age on weight\n\\(\\sigma\\) is the standard deviation of the weight distribution\n\nThis model:\n\nAssumes weight is normally distributed around a mean \\(\\mu\\)\nThe mean \\(\\mu\\) is a linear function of age\nUses weakly informative priors for all parameters\nThe exponential prior on \\(\\sigma\\) ensures it’s positive\n\n\n\nFit this model using brms. Create two plots: one of regression lines implied by your prior and one of the regression lines implied by the posterior.\n\n\n\nClick to see the answer\n\n\n# Load required packages\nlibrary(brms)\nlibrary(tidyverse)\nlibrary(cowplot)\ndata(\"Howell1\", package=\"rethinking\")\n\n# Filter for children under 13\nd &lt;- Howell1[Howell1$age &lt; 13,]\n\n# Define the model\nmp &lt;- brm(\n  weight ~ age,\n  data = d,\n  prior = c(\n    prior(normal(7, 1.5), class = Intercept),\n    prior(normal(0, 1), class = b),\n    prior(exponential(1), class = sigma)\n  ),\n  sample_prior = \"only\"  # First get prior samples\n)\n\n# Get prior samples\nprior_samples &lt;- as_draws_df(mp)\n\n\n# Now fit the model with the data\nm &lt;- brm(\n  weight ~ age,\n  data = d,\n  prior = c(\n    prior(normal(7, 1.5), class = Intercept),\n    prior(normal(0, 1), class = b),\n    prior(exponential(1), class = sigma)\n  )\n)\n\n# Get posterior samples\npost_samples &lt;- as_draws_df(m)\n\np1 &lt;- ggplot(d, aes(x=age, y=weight)) + \n  geom_blank() +\n  geom_abline(aes(intercept=b_Intercept, slope=b_age),\n              data=prior_samples[1:50, ],\n              alpha=.2)\np2 &lt;- ggplot(d, aes(x=age, y=weight)) + \n  geom_point() +\n  geom_abline(aes(intercept=b_Intercept, slope=b_age),\n              data=post_samples[1:50, ],\n              alpha=.2)\n\n\nlibrary(patchwork)\n\n\nAttaching package: 'patchwork'\n\n\nThe following object is masked from 'package:cowplot':\n\n    align_plots\n\n(p1 | p2)\n\n\n\n\n\n\n\n\nThe plots show:\n\nPrior regression lines: These show our uncertainty before seeing the data. The lines are widely spread, reflecting our weak priors.\nPosterior regression lines: These show our uncertainty after seeing the data. The lines are much more concentrated, showing that the data has informed our estimates.\n\nThe model summary shows the estimated effects of age and height on weight, along with their uncertainty. The standardized coefficients allow us to compare the relative importance of age and height in predicting weight."
+  },
+  {
+    "objectID": "schedule.html",
+    "href": "schedule.html",
+    "title": "Schedule",
+    "section": "",
+    "text": "Below is the schedule for the course. Note that this schedule may change as the course progresses.\n\n\n\n\n\n\nSchedule Notes\n\n\n\n\nAll deadlines are at 11:59 PM Pacific Time on the specified date\nSchedule is subject to change based on course needs\nAdditional readings and resources will be posted on the course website\n\n\n\n\nHere’s your roadmap for the semester!\n\nContent (): This page contains the recorded lectures and slides for the week. Watch the lectures before our in-person class.\nAssignment (): This page contains the instructions for each assignment.\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 1\n\n\n\n\nApril 1\n\n\nIntroduction and Bayes’ theorem\n\n\n\n\n\n\n\n\n\n\nApril 3\n\n\nBayes as counting\n\n\n\n\n\n\n\n\n\n\nApril 7\n\n\nProblem set 1  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 2\n\n\n\n\nApril 8\n\n\nLinear models\n\n\n\n\n\n\n\n\n\n\nApril 10\n\n\nCategories\n\n\n\n\n\n\n\n\n\n\nApril 14\n\n\nProblem set 2  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 3\n\n\n\n\nApril 15\n\n\nDAG models\n\n\n\n\n\n\n\n\n\n\nApril 17\n\n\nMore DAG moodels\n\n\n\n\n\n\n\n\n\n\nApril 21\n\n\nProblem set 3  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 4\n\n\n\n\nApril 22\n\n\nGood prediction\n\n\n\n\n\n\n\n\n\n\nApril 24\n\n\nMCMC\n\n\n\n\n\n\n\n\n\n\nApril 28\n\n\nProblem set 4  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 5\n\n\n\n\nApril 29\n\n\nBinomial regression\n\n\n\n\n\n\n\n\n\n\nMay 1\n\n\nPoisson regression\n\n\n\n\n\n\n\n\n\n\nMay 5\n\n\nProblem set 5  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 6\n\n\n\n\nMay 6\n\n\nMultinomial regression\n\n\n\n\n\n\n\n\n\n\nMay 8\n\n\nMultilevel models\n\n\n\n\n\n\n\n\n\n\nMay 12\n\n\nProblem set 6  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 7\n\n\n\n\nMay 13\n\n\nMore multilevel models\n\n\n\n\n\n\n\n\n\n\nMay 15\n\n\nMultivariate priors\n\n\n\n\n\n\n\n\n\n\nMay 19\n\n\nProblem set 7  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 8\n\n\n\n\nMay 20\n\n\nSocial networks\n\n\n\n\n\n\n\n\n\n\nMay 22\n\n\nGaussian processes\n\n\n\n\n\n\n\n\n\n\nMay 26\n\n\nProblem set 8  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 9\n\n\n\n\nMay 27\n\n\nMeasurement\n\n\n\n\n\n\n\n\n\n\nMay 29\n\n\nMissing data\n\n\n\n\n\n\n\n\n\n\nJune 2\n\n\nProblem set 9  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 10\n\n\n\n\nJune 3\n\n\nGeneralized linear models\n\n\n\n\n\n\n\n\n\n\nJune 5\n\n\nTBD\n\n\n\n\n\n\n\n\n\n\nJune 9\n\n\nProblem set 10  (submit by 23:59:00)"
+  },
+  {
+    "objectID": "schedule.html#course-schedule",
+    "href": "schedule.html#course-schedule",
+    "title": "Schedule",
+    "section": "",
+    "text": "Below is the schedule for the course. Note that this schedule may change as the course progresses.\n\n\n\n\n\n\nSchedule Notes\n\n\n\n\nAll deadlines are at 11:59 PM Pacific Time on the specified date\nSchedule is subject to change based on course needs\nAdditional readings and resources will be posted on the course website\n\n\n\n\nHere’s your roadmap for the semester!\n\nContent (): This page contains the recorded lectures and slides for the week. Watch the lectures before our in-person class.\nAssignment (): This page contains the instructions for each assignment.\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 1\n\n\n\n\nApril 1\n\n\nIntroduction and Bayes’ theorem\n\n\n\n\n\n\n\n\n\n\nApril 3\n\n\nBayes as counting\n\n\n\n\n\n\n\n\n\n\nApril 7\n\n\nProblem set 1  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 2\n\n\n\n\nApril 8\n\n\nLinear models\n\n\n\n\n\n\n\n\n\n\nApril 10\n\n\nCategories\n\n\n\n\n\n\n\n\n\n\nApril 14\n\n\nProblem set 2  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 3\n\n\n\n\nApril 15\n\n\nDAG models\n\n\n\n\n\n\n\n\n\n\nApril 17\n\n\nMore DAG moodels\n\n\n\n\n\n\n\n\n\n\nApril 21\n\n\nProblem set 3  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 4\n\n\n\n\nApril 22\n\n\nGood prediction\n\n\n\n\n\n\n\n\n\n\nApril 24\n\n\nMCMC\n\n\n\n\n\n\n\n\n\n\nApril 28\n\n\nProblem set 4  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 5\n\n\n\n\nApril 29\n\n\nBinomial regression\n\n\n\n\n\n\n\n\n\n\nMay 1\n\n\nPoisson regression\n\n\n\n\n\n\n\n\n\n\nMay 5\n\n\nProblem set 5  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 6\n\n\n\n\nMay 6\n\n\nMultinomial regression\n\n\n\n\n\n\n\n\n\n\nMay 8\n\n\nMultilevel models\n\n\n\n\n\n\n\n\n\n\nMay 12\n\n\nProblem set 6  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 7\n\n\n\n\nMay 13\n\n\nMore multilevel models\n\n\n\n\n\n\n\n\n\n\nMay 15\n\n\nMultivariate priors\n\n\n\n\n\n\n\n\n\n\nMay 19\n\n\nProblem set 7  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTitle\n\n\nContent\n\n\nAssignment\n\n\n\n\n\n\nWeek 8\n\n\n\n\nMay 20\n\n\nSocial networks\n\n\n\n\n\n\n\n\n\n\nMay 22\n\n\nGaussian processes\n\n\n\n\n\n\n\n\n\n\nMay 26\n\n\nProblem set 8  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 9\n\n\n\n\nMay 27\n\n\nMeasurement\n\n\n\n\n\n\n\n\n\n\nMay 29\n\n\nMissing data\n\n\n\n\n\n\n\n\n\n\nJune 2\n\n\nProblem set 9  (submit by 23:59:00)\n\n\n\n\n\n\n\n\n\n\nWeek 10\n\n\n\n\nJune 3\n\n\nGeneralized linear models\n\n\n\n\n\n\n\n\n\n\nJune 5\n\n\nTBD\n\n\n\n\n\n\n\n\n\n\nJune 9\n\n\nProblem set 10  (submit by 23:59:00)"
   },
   {
     "objectID": "resource/install.html",

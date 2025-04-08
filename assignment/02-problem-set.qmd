@@ -16,8 +16,8 @@ Please use an RMarkdown file to complete this assignment. Make sure you reserve 
 From the `Howell1` dataset, consider only people younger than 13 years old. Estimate the causal association between age and weight. Assume that age influences weight through two paths. First, age influences height, and
 height influences weight. Second, age directly influences weight through age-related changes in muscle growth and body proportions. 
 
-1. Write a generative simulation that takes age as an input and simulates height and weight.
+1. Write a generative simulation that takes age as an input and simulates height and weight. (Note: don't worry about getting the perfect model. Some of you have more expertise in these relationships than others. Just try to build something that approximates the relationship.)
 
-2. Write out a mathematical model to estimate the linear relationship between age and weight. 
+2. Write out a mathematical model to estimate the linear relationship between age and weight. (_Just age_. Not height!)
 
 3. Fit this model using `brms`. Create two plots: one of regression lines implied by your prior and one of the regression lines implied by the posterior.

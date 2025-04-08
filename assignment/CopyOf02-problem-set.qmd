@@ -53,11 +53,12 @@ plot(sim_data$age, sim_data$weight,
 ```
 
 This simulation:
-1. Takes age as input and generates both height and weight
-2. Uses a quadratic function for height to capture the non-linear growth pattern
-3. Uses a linear function for weight that depends on both age and height
-4. Includes random variation (noise) in both height and weight
-5. The plots show the expected relationships: both height and weight increase with age
+
+  1. Takes age as input and generates both height and weight
+  2. Uses a quadratic function for height to capture the non-linear growth pattern
+  3. Uses a linear function for weight that depends on both age and height
+  4. Includes random variation (noise) in both height and weight
+  5. The plots show the expected relationships: both height and weight increase with age
 
 </details>
 
@@ -77,17 +78,19 @@ W_i &\sim \text{Normal}(\mu_i, \sigma) \\
 \end{align*}
 
 Where:
-- $W_i$ is the weight of individual $i$
-- $A_i$ is the age of individual $i$
-- $\alpha$ is the intercept
-- $\beta_A$ is the effect of age on weight
-- $\sigma$ is the standard deviation of the weight distribution
+
+  - $W_i$ is the weight of individual $i$
+  - $A_i$ is the age of individual $i$
+  - $\alpha$ is the intercept
+  - $\beta_A$ is the effect of age on weight
+  - $\sigma$ is the standard deviation of the weight distribution
 
 This model:
-1. Assumes weight is normally distributed around a mean $\mu$
-2. The mean $\mu$ is a linear function of age
-3. Uses weakly informative priors for all parameters
-4. The exponential prior on $\sigma$ ensures it's positive
+
+  1. Assumes weight is normally distributed around a mean $\mu$
+  2. The mean $\mu$ is a linear function of age
+  3. Uses weakly informative priors for all parameters
+  4. The exponential prior on $\sigma$ ensures it's positive
 
 </details>
 
@@ -96,7 +99,7 @@ This model:
 <details>
 <summary>Click to see the answer</summary>
 
-```{r}
+```{r, message=F, warning=F, results='hide'}
 # Load required packages
 library(brms)
 library(tidyverse)
@@ -146,13 +149,16 @@ p2 <- ggplot(d, aes(x=age, y=weight)) +
   geom_abline(aes(intercept=b_Intercept, slope=b_age),
               data=post_samples[1:50, ],
               alpha=.2)
+```
+```{r}
 library(patchwork)
 (p1 | p2)
 ```
 
 The plots show:
-1. Prior regression lines: These show our uncertainty before seeing the data. The lines are widely spread, reflecting our weak priors.
-2. Posterior regression lines: These show our uncertainty after seeing the data. The lines are much more concentrated, showing that the data has informed our estimates.
+
+  1. Prior regression lines: These show our uncertainty before seeing the data. The lines are widely spread, reflecting our weak priors.
+  2. Posterior regression lines: These show our uncertainty after seeing the data. The lines are much more concentrated, showing that the data has informed our estimates.
 
 The model summary shows the estimated effects of age and height on weight, along with their uncertainty. The standardized coefficients allow us to compare the relative importance of age and height in predicting weight.
 
