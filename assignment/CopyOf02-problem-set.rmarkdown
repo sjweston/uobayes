@@ -7,6 +7,8 @@ date: "2025-04-14"
 knitr::opts_chunk$set(fig.align = "center")
 ```
 
+
+
 ## Instructions
 
 Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explanations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas. 
@@ -20,6 +22,8 @@ height influences weight. Second, age directly influences weight through age-rel
 
 <details>
 <summary>Click to see the answer</summary>
+
+
 
 ```{r}
 # Define the simulation function
@@ -51,6 +55,8 @@ plot(sim_data$age, sim_data$weight,
      xlab="Age (years)", ylab="Weight (lb)",
      main="Age vs Weight")
 ```
+
+
 
 This simulation:
 1. Takes age as input and generates both height and weight
@@ -95,6 +101,8 @@ This model:
 
 <details>
 <summary>Click to see the answer</summary>
+
+
 
 ```{r}
 # Load required packages
@@ -150,6 +158,8 @@ library(patchwork)
 (p1 | p2)
 ```
 
+
+
 The plots show:
 1. Prior regression lines: These show our uncertainty before seeing the data. The lines are widely spread, reflecting our weak priors.
 2. Posterior regression lines: These show our uncertainty after seeing the data. The lines are much more concentrated, showing that the data has informed our estimates.
@@ -157,3 +167,4 @@ The plots show:
 The model summary shows the estimated effects of age and height on weight, along with their uncertainty. The standardized coefficients allow us to compare the relative importance of age and height in predicting weight.
 
 </details>
+

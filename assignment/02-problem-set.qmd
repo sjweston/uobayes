@@ -18,6 +18,6 @@ height influences weight. Second, age directly influences weight through age-rel
 
 1. Write a generative simulation that takes age as an input and simulates height and weight.
 
-2. Write out a mathematical model to estimate the relationship between age and weight. 
+2. Write out a mathematical model to estimate the linear relationship between age and weight. 
 
 3. Fit this model using `brms`. Create two plots: one of regression lines implied by your prior and one of the regression lines implied by the posterior.
