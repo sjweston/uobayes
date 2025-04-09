@@ -12,6 +12,7 @@ format:
     self-contained: false  # Ensures correct embedding
     embed-resources: true  # Embeds required assets
     slide-number: true
+    code-annotations: hover
 ---
 
 Workspace setup:
@@ -55,14 +56,35 @@ Where $Y$ is a continuous outcome and $D$ is a dummy coded variable (0 = control
   * What does $b_0$ represent? 
   * What does $b_1$ represent? 
   * How would you calculate or estimate the means of both groups from this model?
+  
 
 ------------------------------------------------------------------------
 
 ## Categories
 
+If you were to fit the dummy variable model in R, your formula would be:
+
+```
+y ~ 1 + D
+```
+or
+```
+y ~ D # intercept is implied
+```
+
 Forget dummy codes. From here on out, we will incorporate categorical causes into our models by using index variables. An **index variable** contains integers that correspond to different categories. The numbers have no inherent meaning -- rather, they stand as placeholders or shorthand for categories.
 
+To fit these models in R, we're going to force the model to drop the intercept. 
+
+```
+y ~ 0 + I
+```
+
+---
+
 ```{r}
+#| code-line-numbers: "7-9"
+
 data("Howell1", package = "rethinking")
 d <- Howell1
 library(measurements)
@@ -91,27 +113,42 @@ w_i &\sim \text{Normal}(\mu_i, \sigma) \\
 ### Fitting the model using `brms()`
 
 ```{r}
+#| code-annotations: hover
+#| 
 m1 <- brm(
   data = d,
   family = gaussian,
-  weight ~ 0 + sex,
-  prior = c(prior( normal(130, 20), class=b),
+  bf(weight ~ 0 + a, # <1>
+     a ~ 0 + sex, # <2>
+     nl = TRUE), # <3>
+  prior = c(prior( normal(130, 20), class=b, nlpar = a), # <4>
             prior( uniform(0, 25),  class=sigma, ub=25)),
   iter = 2000, warmup = 1000, seed = 3, chains=1,
   file = here("files/models/22.1")
 )
+```
+
+  1. A few things to note: first is that we've wrapped our formula in the function `bf()`, which allows us to build a model with multiple formulas. Cool. Next, we've forced the model to drop the intercept by using 0 instead of 1. Finally, we've created a parameter `a` which is a constant, but we're going to write another formula to determine `a` in the next line. By the way, you can call this anything you want. Try using `mean` or anything that will make sense to you. Just make sure you replace `a` everywhere else in the code.
+  2. Defining `a`. Again, we drop the intercept, and now `a` is determined by the index variable or group.  
+  3. This simply allows us to use non-linear language to fit our models, even though this is a linear model.
+  4. Once you put yourself in non-linear land, you have to specify which parameter each prior is for.
+
+---
+
+```{r}
 posterior_summary(m1)
 ```
 
-Here, we are given the estimates of the parameters specified in our model: the average weight of women (`b_sex1`) and the average weight of men (`b_sex2`). But our question is whether these average weights are different. How do we get that?
+Here, we are given the estimates of the parameters specified in our model: the average weight of women (`b_a_sex1`) and the average weight of men (`b_a_sex2`). But our question is whether these average weights are different. How do we get that?
 
 ------------------------------------------------------------------------
 
 ```{r}
 post = as_draws_df(m1) 
+head(post)
 post %>% 
-  mutate(diff_fm = b_sex1 - b_sex2) %>% 
-  pivot_longer(cols = c(b_sex1:sigma, diff_fm)) %>% 
+  mutate(diff_fm = b_a_sex1 - b_a_sex2) %>% 
+  pivot_longer(cols = c(b_a_sex1:sigma, diff_fm)) %>% 
   group_by(name) %>% 
   mean_qi(value, .width = .89)
 ```
@@ -132,7 +169,7 @@ p1 <- post %>%
   labs(x = "weight(lbs)") 
 
 p2 <- post %>% 
-  mutate(diff_fm = b_sex1 - b_sex2) %>%
+  mutate(diff_fm = b_a_sex1 - b_a_sex2) %>%
   ggplot(aes(x=diff_fm)) +
   geom_density(linewidth = 2) +
   labs(x = "difference in weight(lbs)") 
@@ -152,19 +189,23 @@ p2 <- post %>%
 
 A note that the distributions of the *mean* weights is not the same as the distribution of weights period. For that, we need the posterior predictive distributions. Here are two methods for getting predicted values. 
 
-First, simulate using the `rnorm()`function. This is more intuitive and will help you mentally reconnect the parameters of your statistical model with the causal model you started with. But there's more room for human error.
+**Method 1:** simulate using the `rnorm()`function. This is more intuitive and will help you mentally reconnect the parameters of your statistical model with the causal model you started with. But there's more room for human error.
 
 ```{r post-sex2}
 
-pred_f  <- rnorm(nrow(post), mean = post$b_sex1, sd = post$sigma )
-pred_m  <- rnorm(nrow(post), mean = post$b_sex2, sd = post$sigma )
+pred_f  <- rnorm(nrow(post), mean = post$b_a_sex1, sd = post$sigma )
+pred_m  <- rnorm(nrow(post), mean = post$b_a_sex2, sd = post$sigma )
 
 pred_post = data.frame(pred_f, pred_m) %>%
   mutate(diff = pred_f-pred_m)
 head(pred_post)
 ```
 
-Second, use the `predicted_draws()` function. This is less intuitive, but there's less room for you to make a mistake. 
+------------------------------------------------------------------------
+
+### Expected values vs predicted values
+
+**Method 2:** use the `predicted_draws()` function. This is less intuitive, but there's less room for you to make a mistake. 
 
 ```{r}
 nd = distinct(d, sex)
@@ -230,6 +271,8 @@ milk$clade_id <- as.factor(milk$clade_id)
 milk$K <- rethinking::standardize(milk$kcal.per.g)
 ```
 
+---
+
 \begin{align*}
 K_i &\sim \text{Normal}(\mu_i, \sigma) \\
 \mu_i &= \alpha_{\text{CLADE}[i]} \\
@@ -237,7 +280,7 @@ K_i &\sim \text{Normal}(\mu_i, \sigma) \\
 \sigma &\sim \text{Exponential}(1) \\
 \end{align*}
 
-**Exercise:** Now fit your model using `quap()`. It's ok if your mathematical model is a bit different from mine.
+**Exercise:** Now fit your model using `brms()`. It's ok if your mathematical model is a bit different from mine.
 
 ------------------------------------------------------------------------
 
@@ -247,8 +290,10 @@ K_i &\sim \text{Normal}(\mu_i, \sigma) \\
 m2 <- brm(
   data=milk,
   family=gaussian,
-  K ~ 0 + clade_id, 
-  prior = c( prior(normal(0,.5), class=b),
+  bf(K ~ 0 + a,
+     a ~ 0 + clade_id,
+     nl = TRUE),
+  prior = c( prior(normal(0,.5), class=b, nlpar=a),
              prior(exponential(1), class=sigma)),
   iter = 2000, warmup = 1000, seed = 3, chains=1,
   file = here("files/models/22.2")
@@ -348,10 +393,14 @@ m3 <- brm(
   iter = 2000, warmup = 1000, seed = 3, chains=1,
   file = here("files/models/22.3")
 )
-posterior_summary(m3)
 ```
 :::
 
+---
+
+```{r}
+posterior_summary(m3)
+```
 
 ------------------------------------------------------------------------
 
