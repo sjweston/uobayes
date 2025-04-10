@@ -13,6 +13,12 @@ format:
     embed-resources: true  # Embeds required assets
     slide-number: true
     code-annotations: hover
+  pdf: 
+    nature:
+      highlightStyle: solarized-dark
+      highlightLines: true
+      countIncrementalSlides: false
+      mathjax: "default"
 ---
 
 Workspace setup:

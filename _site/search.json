@@ -425,6 +425,27 @@
     ]
   },
   {
+    "objectID": "assignment/CopyOf01-problem-set.html",
+    "href": "assignment/CopyOf01-problem-set.html",
+    "title": "Problem set 1",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas."
+  },
+  {
+    "objectID": "assignment/CopyOf01-problem-set.html#instructions",
+    "href": "assignment/CopyOf01-problem-set.html#instructions",
+    "title": "Problem set 1",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas."
+  },
+  {
+    "objectID": "assignment/CopyOf01-problem-set.html#questions",
+    "href": "assignment/CopyOf01-problem-set.html#questions",
+    "title": "Problem set 1",
+    "section": "Questions",
+    "text": "Questions\n\nSuppose the globe tossing experiment turned out to be 3 water and 11 land. Construct the posterior distribution.\n\n\n\nClick to see the answer\n\n\n# Create a sequence of p values from 0 to 1\np_grid &lt;- seq(0, 1, length.out = 1000)\n\n# Prior (uniform)\nprior &lt;- rep(1, 1000)\n\n# Likelihood (binomial)\nlikelihood &lt;- dbinom(3, size = 14, prob = p_grid)\n\n# Posterior (proportional to likelihood * prior)\nposterior &lt;- likelihood * prior\nposterior &lt;- posterior / sum(posterior)\n\n# Plot the posterior\nplot(p_grid, posterior, type = \"l\", \n     xlab = \"Proportion of water (p)\", \n     ylab = \"Posterior probability\",\n     main = \"Posterior distribution for p\")\n\n\n\n\n\n\n\n\nThe posterior distribution shows the probability of different values of p (proportion of water) given our data (3 water, 11 land). Since we used a uniform prior, the posterior is proportional to the likelihood. The peak of the distribution is around p = 0.21, which makes sense given our data (3/14 ≈ 0.21).\n\n\nUsing the posterior distribution from 1, compute the posterior predictive distribution for the next 5 tosses of the globe.\n\n\n\nClick to see the answer\n\n\n# Number of samples from posterior\nn_samples &lt;- 10000\n\n# Sample p values from posterior\np_samples &lt;- sample(p_grid, prob = posterior, size = n_samples, replace = TRUE)\n\n# Generate predictions for 5 tosses\nn_tosses &lt;- 5\npredictions &lt;- rbinom(n_samples, size = n_tosses, prob = p_samples)\n\n# Plot the posterior predictive distribution\nhist(predictions, \n     xlab = \"Number of water in 5 tosses\",\n     ylab = \"Count\",\n     main = \"Posterior predictive distribution\",\n     breaks = seq(-0.5, 5.5, by = 1))\n\n\n\n\n\n\n\n\nThe posterior predictive distribution shows the probability of different outcomes for the next 5 tosses, taking into account our uncertainty about p. The most likely outcome is 1 water (since our posterior mean for p is around 0.21, we expect about 1 water in 5 tosses). The distribution is right-skewed because p is less than 0.5.\n\nYou can download a template file here to help you get started."
+  },
+  {
     "objectID": "content/06-content.html",
     "href": "content/06-content.html",
     "title": "More causal modeling",
@@ -453,7 +474,7 @@
     "href": "content/06-content.html#during-class",
     "title": "More causal modeling",
     "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
+    "text": "During class\nTo save these slides as a PDF on your computer, open the menu (three horizontal bars in the bottom left of the slides), then Tools (gear symbol in the top), and PDF export (or ``e’’). You can then right-click on the slides, select Print, and save as PDF.\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
     "crumbs": [
       "Content",
       "Course content",
@@ -489,33 +510,12 @@
     "href": "content/04-content.html#during-class",
     "title": "Categories",
     "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
+    "text": "During class\nTo save these slides as a PDF on your computer, open the menu (three horizontal bars in the bottom left of the slides), then Tools (gear symbol in the top), and PDF export (or ``e’’). You can then right-click on the slides, select Print, and save as PDF.\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
     "crumbs": [
       "Content",
       "Course content",
       "4: Categories"
     ]
-  },
-  {
-    "objectID": "assignment/CopyOf01-problem-set.html",
-    "href": "assignment/CopyOf01-problem-set.html",
-    "title": "Problem set 1",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas."
-  },
-  {
-    "objectID": "assignment/CopyOf01-problem-set.html#instructions",
-    "href": "assignment/CopyOf01-problem-set.html#instructions",
-    "title": "Problem set 1",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas."
-  },
-  {
-    "objectID": "assignment/CopyOf01-problem-set.html#questions",
-    "href": "assignment/CopyOf01-problem-set.html#questions",
-    "title": "Problem set 1",
-    "section": "Questions",
-    "text": "Questions\n\nSuppose the globe tossing experiment turned out to be 3 water and 11 land. Construct the posterior distribution.\n\n\n\nClick to see the answer\n\n\n# Create a sequence of p values from 0 to 1\np_grid &lt;- seq(0, 1, length.out = 1000)\n\n# Prior (uniform)\nprior &lt;- rep(1, 1000)\n\n# Likelihood (binomial)\nlikelihood &lt;- dbinom(3, size = 14, prob = p_grid)\n\n# Posterior (proportional to likelihood * prior)\nposterior &lt;- likelihood * prior\nposterior &lt;- posterior / sum(posterior)\n\n# Plot the posterior\nplot(p_grid, posterior, type = \"l\", \n     xlab = \"Proportion of water (p)\", \n     ylab = \"Posterior probability\",\n     main = \"Posterior distribution for p\")\n\n\n\n\n\n\n\n\nThe posterior distribution shows the probability of different values of p (proportion of water) given our data (3 water, 11 land). Since we used a uniform prior, the posterior is proportional to the likelihood. The peak of the distribution is around p = 0.21, which makes sense given our data (3/14 ≈ 0.21).\n\n\nUsing the posterior distribution from 1, compute the posterior predictive distribution for the next 5 tosses of the globe.\n\n\n\nClick to see the answer\n\n\n# Number of samples from posterior\nn_samples &lt;- 10000\n\n# Sample p values from posterior\np_samples &lt;- sample(p_grid, prob = posterior, size = n_samples, replace = TRUE)\n\n# Generate predictions for 5 tosses\nn_tosses &lt;- 5\npredictions &lt;- rbinom(n_samples, size = n_tosses, prob = p_samples)\n\n# Plot the posterior predictive distribution\nhist(predictions, \n     xlab = \"Number of water in 5 tosses\",\n     ylab = \"Count\",\n     main = \"Posterior predictive distribution\",\n     breaks = seq(-0.5, 5.5, by = 1))\n\n\n\n\n\n\n\n\nThe posterior predictive distribution shows the probability of different outcomes for the next 5 tosses, taking into account our uncertainty about p. The most likely outcome is 1 water (since our posterior mean for p is around 0.21, we expect about 1 water in 5 tosses). The distribution is right-skewed because p is less than 0.5.\n\nYou can download a template file here to help you get started."
   },
   {
     "objectID": "content/01-content.html",
@@ -1112,42 +1112,6 @@
     "text": "Bayesian Analysis\n        \n        \n            Model building, estimation, interpretation, visualization\n        \n        \n            PSY 607 • Spring 2025 Psychology University of Oregon\n        \n    \n    \n      \n        \n        \n        \n      \n    \n\n\n\n\n\n\nInstructor\n\n   Dr. Sara Weston\n   Straub 325\n   sweston2@uoregon.edu\n   Schedule an appointment\n\n\n\nCourse details\n\n   Tuesdays and Thursdays\n   Spring 2025\n   2:00–3:20 PM\n   119 FEN\n   Slack\n\n\n\nContacting me\nEmail is the best way to get in contact with me. I will try to respond to all course-related emails within one business day during normal business hours (9am-5pm, Mon-Fri).\n\n\n```"
   },
   {
-    "objectID": "assignment/01-problem-set.html",
-    "href": "assignment/01-problem-set.html",
-    "title": "Problem set 1",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 1"
-    ]
-  },
-  {
-    "objectID": "assignment/01-problem-set.html#instructions",
-    "href": "assignment/01-problem-set.html#instructions",
-    "title": "Problem set 1",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 1"
-    ]
-  },
-  {
-    "objectID": "assignment/01-problem-set.html#questions",
-    "href": "assignment/01-problem-set.html#questions",
-    "title": "Problem set 1",
-    "section": "Questions",
-    "text": "Questions\n\nSuppose the globe tossing experiment turned out to be 3 water and 11 land. Construct the posterior distribution.\n\n\n\nClick to see the answer\n\n\n# Create a sequence of p values from 0 to 1\np_grid &lt;- seq(0, 1, length.out = 1000)\n\n# Prior (uniform)\nprior &lt;- rep(1, 1000)\n\n# Likelihood (binomial)\nlikelihood &lt;- dbinom(3, size = 14, prob = p_grid)\n\n# Posterior (proportional to likelihood * prior)\nposterior &lt;- likelihood * prior\nposterior &lt;- posterior / sum(posterior)\n\n# Plot the posterior\nplot(p_grid, posterior, type = \"l\", \n     xlab = \"Proportion of water (p)\", \n     ylab = \"Posterior probability\",\n     main = \"Posterior distribution for p\")\n\n\n\n\n\n\n\n\nThe posterior distribution shows the probability of different values of p (proportion of water) given our data (3 water, 11 land). Since we used a uniform prior, the posterior is proportional to the likelihood. The peak of the distribution is around p = 0.21, which makes sense given our data (3/14 ≈ 0.21).\n\n\nUsing the posterior distribution from 1, compute the posterior predictive distribution for the next 5 tosses of the globe.\n\n\n\nClick to see the answer\n\n\n# Number of samples from posterior\nn_samples &lt;- 10000\n\n# Sample p values from posterior\np_samples &lt;- sample(p_grid, prob = posterior, size = n_samples, replace = TRUE)\n\n# Generate predictions for 5 tosses\nn_tosses &lt;- 5\npredictions &lt;- rbinom(n_samples, size = n_tosses, prob = p_samples)\n\n# Plot the posterior predictive distribution\nhist(predictions, \n     xlab = \"Number of water in 5 tosses\",\n     ylab = \"Count\",\n     main = \"Posterior predictive distribution\",\n     breaks = seq(-0.5, 5.5, by = 1))\n\n\n\n\n\n\n\n\nThe posterior predictive distribution shows the probability of different outcomes for the next 5 tosses, taking into account our uncertainty about p. The most likely outcome is 1 water (since our posterior mean for p is around 0.21, we expect about 1 water in 5 tosses). The distribution is right-skewed because p is less than 0.5.\n\nYou can download a template file here to help you get started.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 1"
-    ]
-  },
-  {
     "objectID": "content/03-content.html",
     "href": "content/03-content.html",
     "title": "Linear models",
@@ -1176,7 +1140,7 @@
     "href": "content/03-content.html#during-class",
     "title": "Linear models",
     "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
+    "text": "During class\nTo save these slides as a PDF on your computer, open the menu (three horizontal bars in the bottom left of the slides), then Tools (gear symbol in the top), and PDF export (or ``e’’). You can then right-click on the slides, select Print, and save as PDF.\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
     "crumbs": [
       "Content",
       "Course content",
@@ -1212,11 +1176,47 @@
     "href": "content/05-content.html#during-class",
     "title": "Causal modeling",
     "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
+    "text": "During class\nTo save these slides as a PDF on your computer, open the menu (three horizontal bars in the bottom left of the slides), then Tools (gear symbol in the top), and PDF export (or ``e’’). You can then right-click on the slides, select Print, and save as PDF.\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
     "crumbs": [
       "Content",
       "Course content",
       "5: Causal modeling"
+    ]
+  },
+  {
+    "objectID": "assignment/01-problem-set.html",
+    "href": "assignment/01-problem-set.html",
+    "title": "Problem set 1",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 1"
+    ]
+  },
+  {
+    "objectID": "assignment/01-problem-set.html#instructions",
+    "href": "assignment/01-problem-set.html#instructions",
+    "title": "Problem set 1",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 1"
+    ]
+  },
+  {
+    "objectID": "assignment/01-problem-set.html#questions",
+    "href": "assignment/01-problem-set.html#questions",
+    "title": "Problem set 1",
+    "section": "Questions",
+    "text": "Questions\n\nSuppose the globe tossing experiment turned out to be 3 water and 11 land. Construct the posterior distribution.\n\n\n\nClick to see the answer\n\n\n# Create a sequence of p values from 0 to 1\np_grid &lt;- seq(0, 1, length.out = 1000)\n\n# Prior (uniform)\nprior &lt;- rep(1, 1000)\n\n# Likelihood (binomial)\nlikelihood &lt;- dbinom(3, size = 14, prob = p_grid)\n\n# Posterior (proportional to likelihood * prior)\nposterior &lt;- likelihood * prior\nposterior &lt;- posterior / sum(posterior)\n\n# Plot the posterior\nplot(p_grid, posterior, type = \"l\", \n     xlab = \"Proportion of water (p)\", \n     ylab = \"Posterior probability\",\n     main = \"Posterior distribution for p\")\n\n\n\n\n\n\n\n\nThe posterior distribution shows the probability of different values of p (proportion of water) given our data (3 water, 11 land). Since we used a uniform prior, the posterior is proportional to the likelihood. The peak of the distribution is around p = 0.21, which makes sense given our data (3/14 ≈ 0.21).\n\n\nUsing the posterior distribution from 1, compute the posterior predictive distribution for the next 5 tosses of the globe.\n\n\n\nClick to see the answer\n\n\n# Number of samples from posterior\nn_samples &lt;- 10000\n\n# Sample p values from posterior\np_samples &lt;- sample(p_grid, prob = posterior, size = n_samples, replace = TRUE)\n\n# Generate predictions for 5 tosses\nn_tosses &lt;- 5\npredictions &lt;- rbinom(n_samples, size = n_tosses, prob = p_samples)\n\n# Plot the posterior predictive distribution\nhist(predictions, \n     xlab = \"Number of water in 5 tosses\",\n     ylab = \"Count\",\n     main = \"Posterior predictive distribution\",\n     breaks = seq(-0.5, 5.5, by = 1))\n\n\n\n\n\n\n\n\nThe posterior predictive distribution shows the probability of different outcomes for the next 5 tosses, taking into account our uncertainty about p. The most likely outcome is 1 water (since our posterior mean for p is around 0.21, we expect about 1 water in 5 tosses). The distribution is right-skewed because p is less than 0.5.\n\nYou can download a template file here to help you get started.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 1"
     ]
   },
   {
