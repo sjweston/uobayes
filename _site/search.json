@@ -554,217 +554,177 @@
     ]
   },
   {
-    "objectID": "syllabus.html",
-    "href": "syllabus.html",
-    "title": "PSY 607 Bayesian Analysis",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "\n            Bayesian Analysis\n        ",
     "section": "",
-    "text": "Instructor: Dr. Sara Weston\nEmail: sweston2@uoregon.edu\nOffice: Straub 325\nOffice Hours: Friday 10:00 AM - 12:00 PM, and by appointment (schedule here)\nClass Meetings: Tuesday/Thursday 2:00-3:20 PM\nLocation: 119 FEN\nCourse Website: uobayes.netlify.app"
+    "text": "Bayesian Analysis\n        \n        \n            Model building, estimation, interpretation, visualization\n        \n        \n            PSY 607 • Spring 2025 Psychology University of Oregon\n        \n    \n    \n      \n        \n        \n        \n      \n    \n\n\n\n\n\n\nInstructor\n\n   Dr. Sara Weston\n   Straub 325\n   sweston2@uoregon.edu\n   Schedule an appointment\n\n\n\nCourse details\n\n   Tuesdays and Thursdays\n   Spring 2025\n   2:00–3:20 PM\n   119 FEN\n   Slack\n\n\n\nContacting me\nEmail is the best way to get in contact with me. I will try to respond to all course-related emails within one business day during normal business hours (9am-5pm, Mon-Fri).\n\n\n```"
   },
   {
-    "objectID": "syllabus.html#course-information",
-    "href": "syllabus.html#course-information",
-    "title": "PSY 607 Bayesian Analysis",
+    "objectID": "resource/sara_defaults.html",
+    "href": "resource/sara_defaults.html",
+    "title": "Sara’s defaults",
     "section": "",
-    "text": "Instructor: Dr. Sara Weston\nEmail: sweston2@uoregon.edu\nOffice: Straub 325\nOffice Hours: Friday 10:00 AM - 12:00 PM, and by appointment (schedule here)\nClass Meetings: Tuesday/Thursday 2:00-3:20 PM\nLocation: 119 FEN\nCourse Website: uobayes.netlify.app"
+    "text": "You maybe noticed that my plots look a bit different to yours in class. That’s because I set defaults in my Markdown files for plot themes and colors. The ensures that all my plots have a similar vibe but I don’t have to manually specify colors each time. Here’s what I use:\n\nknitr::opts_chunk$set(fig.retina=3, echo=TRUE)\ntheme_set(theme_cowplot())\ndefault_palettes &lt;- list(\n  c(\"#5e8485\" , \"#0f393a\") ,\n  c(\"#1c5253\" , \"#5e8485\" , \"#0f393a\") , \n  # palette with 5 colours\n c( \"#1c5253\" , \"#e07a5f\", \"#f2cc8f\" , \"#81b29a\" , \"#3d405b\" ) ,\n  # same palette interpolated to 8 colours\n c( \"#1c5253\" , \"#e07a5f\", \"#f2cc8f\" , \"#81b29a\" , \"#3d405b\" , \"#a7a844\" , \"#69306d\" ) \n  \n)\n\noptions(ggplot2.discrete.fill = default_palettes, \n        ggplot2.discrete.colour = default_palettes)\n\nI wrap this inside a code chunk at the beginning of my Markdown files. It comes just after the code chunk with my packages.",
+    "crumbs": [
+      "Resources",
+      "Guides",
+      "Sara's defaults"
+    ]
   },
   {
-    "objectID": "syllabus.html#course-description",
-    "href": "syllabus.html#course-description",
-    "title": "PSY 607 Bayesian Analysis",
-    "section": "Course Description",
-    "text": "Course Description\nThis advanced statistics course introduces students to Bayesian methods with a focus on practical application using modern computational tools. Through a combination of theoretical foundations and hands-on programming, students learn to build, interpret, and critique Bayesian models using the R programming language, with particular emphasis on the brms package."
-  },
-  {
-    "objectID": "syllabus.html#course-structure",
-    "href": "syllabus.html#course-structure",
-    "title": "PSY 607 Bayesian Analysis",
-    "section": "Course Structure",
-    "text": "Course Structure\nThis course is a mix of asynchronous lectures, in-class activities, and homework assignments:\n\nBefore each class, you will watch a video lecture. These will be posted on the course website alongside each lecture.\nAt the beginning of each class, there will be a short quiz to check your understanding of the lecture and help me know what to review.\nClass time will be used for in-class activities, including group work and discussion.\nEach week will have a homework assignment. These will be posted on Canvas.\nYou can find all the materials for each week on the course website."
-  },
-  {
-    "objectID": "syllabus.html#materials",
-    "href": "syllabus.html#materials",
-    "title": "PSY 607 Bayesian Analysis",
-    "section": "Materials",
-    "text": "Materials\nRequired:\n\nR and RStudio (free)\nRequired R packages:\n\nrethinking\nbrms\ntidybase\ntidyverse\n\n\nRecommended:\n\nStatistical Rethinking by Richard McElreath (2nd ed.)\n\nAdditional course materials, including lecture notes and code, will be provided on the course website."
-  },
-  {
-    "objectID": "syllabus.html#assignment-submission",
-    "href": "syllabus.html#assignment-submission",
-    "title": "PSY 607 Bayesian Analysis",
-    "section": "Assignment Submission",
-    "text": "Assignment Submission\n\nAll assignments should be submitted through Canvas\nSubmissions must be in PDF format, knitted from R Markdown\nAssignments are posted on Friday and due the following Monday at 11:59pm\nThere is a one-week grace period for each assignment"
-  },
-  {
-    "objectID": "syllabus.html#grading",
-    "href": "syllabus.html#grading",
-    "title": "PSY 607 Bayesian Analysis",
-    "section": "Grading",
-    "text": "Grading\n\nHomework (95%)\n\n10 assignments\nGraded on completion (not accuracy)\nPosted on Friday, due the following Monday at 11:59pm\nOne week grace period for each assignment\n\nQuizzes (5%)\n\n19 quizzes\nCover material from the day’s recorded lecture\nCompleted in class\nNo makeup opportunities for missed quizzes"
-  },
-  {
-    "objectID": "syllabus.html#slack",
-    "href": "syllabus.html#slack",
-    "title": "PSY 607 Bayesian Analysis",
-    "section": "Slack",
-    "text": "Slack\nI have created a Slack workspace for this course, open to anyone (registerd or not) who is attending. The goal of this space is for us to support each other as we learn the material. Anyone can post a question, and anyone can answer a question. I will not be as active here as I am in class, nor as responsive as I am over email. But if I see a question has the class stumped or it feels like an important concept hasn’t clicked yet, I will update lecture materials to help us get on track.\nI especially encourage using this space to coordinate working on probelm sets together, sharing resources you find online, and sharing ways you’ve used technology (R/RMarkdown/AI) that have supported your research. I also encourage memes."
-  },
-  {
-    "objectID": "syllabus.html#course-policies",
-    "href": "syllabus.html#course-policies",
-    "title": "PSY 607 Bayesian Analysis",
-    "section": "Course Policies",
-    "text": "Course Policies\n\nCommunication\nIf you have questions about course policies, have trouble submitting an assignment, or want to schedule a meeting, please email. I will make an effort to respond to emails within one business day. Note that I neither plan nor commit to checking email outside of normal business hours (9am-5pm, Mon-Fri).\nIf you are having trouble understanding a concept covered in class, please come to office hours, schedule a meeting with me, ask for clarification during class periods, or use the class Slack to get help from the group. I will not explain course concepts over email.\nOccasionally, I will send out announcements to the entire class via Canvas announcements. These will typically appear when you open Canvas, but you can update your Canvas settings to receive these announcements as emails. It is strongly recommended that you do so.\n\n\nClassroom Expectations\nAll members of the class (students and instructor) can expect to:\nParticipate and Contribute: All students are expected to participate by sharing ideas and contributing to the learning environment. This entails preparing, following instructions, and engaging respectfully and thoughtfully with others.\nWhile all students should participate, participation is not just talking, and a range of participation activities support learning. Participation might look like speaking aloud in the full class and in small groups and collaborating on homework assignments.\nExpect and Respect Diversity: All classes at the University of Oregon welcome and respect diverse experiences, perspectives, and approaches. What is not welcome are behaviors or contributions that undermine, demean, or marginalize others based on race, ethnicity, gender, sex, age, sexual orientation, religion, ability, or socioeconomic status. We will value differences and communicate disagreements with respect.\nHelp Everyone Learn: Part of how we learn together is by learning from one another. To do this effectively, we need to be patient with each other, identify ways we can assist others, and be open-minded to receiving help and feedback from others. Don’t hesitate to contact me to ask for assistance or offer suggestions that might help us learn better.\n\n\nWorkload\nThis is a 3-credit hour course, so you should expect to complete 120 hours of work for the course—an average of about 12 hours each week (this includes time in-class).\n\n\nGenerative AI Policy\nWhile generative AI tools (such as ChatGPT, Claude, and Cursor) can be useful for assisting with certain tasks, it’s important to use these technologies responsibly and ethically.\nGood uses of AI:\n\nExploring concepts, generating code ideas, and providing explanations for topics covered in the course\nCreating preliminary drafts of code, data analysis plans, or written reports (with review and testing)\nBrainstorming research questions, identifying key terms, or helping summarize complex literature\n\nBad uses of AI:\n\nGenerating entire assignments, projects, or reports without manual oversight\nUsing AI in place of collaborating with peers\nSubmitting AI-generated content without proper attribution\n\nRequired Disclosure: Students who use AI tools must include a brief statement at the end of their submission describing how and where the tool was used. Failure to disclose AI use may result in grade reduction or disciplinary action.\n\n\nAcademic Integrity\nFrankly, you’re in graduate school, and the purpose of work is to create opportunities to learn and improve. Even if cheating helps you in the short term, you’ll quickly find yourself ill-prepared for the career you have chosen. If you find yourself tempted to cheat, please come speak to Dr. Weston about an extension and developing tools to improve your success.\n\n\nAccessibility\nThe University of Oregon and I are dedicated to fostering inclusive learning environments for all students and welcomes students with disabilities into all of the University’s educational programs. The Accessible Education Center (AEC) assists students with disabilities in reducing campus-wide and classroom-related barriers. If you have or think you have a disability (https://aec.uoregon.edu/content/what-disability) and experience academic barriers, please contact the AEC to discuss appropriate accommodations or support. Visit 360 Oregon Hall or aec.uoregon.edu for more information. You can contact AEC at 541-346-1155 or via email at uoaec@uoregon.edu.\n\n\nBasic Needs\nBeing able to meet your basic needs is foundational to your success as a student at the University of Oregon. If you are having difficulty affording food, don’t have a stable, safe place to live, or are struggling to meet another need, visit the UO Basic Needs Resource page for information on how to get support. They have information food, housing, healthcare, childcare, transportation, technology, finances (including emergency funds), and legal support.\nIf your need is urgent, please contact the Care and Advocacy Program by calling 541-346-3216, filling out the Community Care and Support form, or by scheduling an appointment with an advocate.\n\n\nReporting Obligations\nI am a designated reporter. For information about my reporting obligations as an employee, please see Employee Reporting Obligations on the Office of Investigations and Civil Rights Compliance (OICRC) website. Students experiencing sex- or gender-based discrimination, harassment or violence should call the 24-7 hotline 541-346-SAFE [7244] or visit safe.uoregon.edu for help. Students experiencing all forms of prohibited discrimination or harassment may contact the Dean of Students Office at 541-346-3216 or the non-confidential Title IX Coordinator/OICRC at 541-346-3123 to request information and resources. Students are not required to participate in an investigation to receive support, including requesting academic supportive measures. Additional resources are available at investigations.uoregon.edu/how-get-support.\nI am also a mandatory reporter of child abuse. Please find more information at Mandatory Reporting of Child Abuse and Neglect.\n\n\nPregnancy Accommodations\nPregnant and parenting students are eligible for academic and work modifications related to pregnancy, childbirth, loss of pregnancy, termination of pregnancy, lactation, and related medical conditions. To request pregnancy-related modifications, students should complete the Request for Pregnancy Modifications form on the OICRC website. OICRC coordinates academic and other modifications for pregnant and parenting students to ensure students can continue to access their education and university programs and activities.\n\n\nCampus Emergencies\nIn the event of a campus emergency that disrupts academic activities, course requirements, deadlines, and grading percentages are subject to change. Information about changes in this course will be communicated as soon as possible by email, and on Canvas. If we are not able to meet face-to-face, students should immediately log onto Canvas and read any announcements and/or access alternative assignments. Students are also expected to continue coursework as outlined in this syllabus or other instructions on Canvas."
-  },
-  {
-    "objectID": "news/index.html",
-    "href": "news/index.html",
-    "title": "Course News",
+    "objectID": "resource/sara_defaults.html#context",
+    "href": "resource/sara_defaults.html#context",
+    "title": "Sara’s defaults",
     "section": "",
-    "text": "Date\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\n\nNo matching items"
+    "text": "You maybe noticed that my plots look a bit different to yours in class. That’s because I set defaults in my Markdown files for plot themes and colors. The ensures that all my plots have a similar vibe but I don’t have to manually specify colors each time. Here’s what I use:\n\nknitr::opts_chunk$set(fig.retina=3, echo=TRUE)\ntheme_set(theme_cowplot())\ndefault_palettes &lt;- list(\n  c(\"#5e8485\" , \"#0f393a\") ,\n  c(\"#1c5253\" , \"#5e8485\" , \"#0f393a\") , \n  # palette with 5 colours\n c( \"#1c5253\" , \"#e07a5f\", \"#f2cc8f\" , \"#81b29a\" , \"#3d405b\" ) ,\n  # same palette interpolated to 8 colours\n c( \"#1c5253\" , \"#e07a5f\", \"#f2cc8f\" , \"#81b29a\" , \"#3d405b\" , \"#a7a844\" , \"#69306d\" ) \n  \n)\n\noptions(ggplot2.discrete.fill = default_palettes, \n        ggplot2.discrete.colour = default_palettes)\n\nI wrap this inside a code chunk at the beginning of my Markdown files. It comes just after the code chunk with my packages.",
+    "crumbs": [
+      "Resources",
+      "Guides",
+      "Sara's defaults"
+    ]
   },
   {
-    "objectID": "assignment/10-problem-set.html",
-    "href": "assignment/10-problem-set.html",
-    "title": "Problem set 10",
+    "objectID": "example/rstudio-tidyverse.html",
+    "href": "example/rstudio-tidyverse.html",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "",
+    "text": "This course assumes that you’re already familiar with R, RStudio, Markdown, and the tidyverse. If you’re not, or if you’re looking to brush up, here are some resources for helping you get up to speed."
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html#part-1-the-basics-of-r-and-dplyr",
+    "href": "example/rstudio-tidyverse.html#part-1-the-basics-of-r-and-dplyr",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "Part 1: The basics of R and dplyr",
+    "text": "Part 1: The basics of R and dplyr\n\nThe Basics\n\nVisualization Basics\nProgramming Basics\n\nWork with Data\n\nWorking with Tibbles\nIsolating Data with dplyr\nDeriving Information with dplyr\n\nVisualize Data\n\nExploratory Data Analysis\nBar Charts\nHistograms\nBoxplots and Counts\nScatterplots\nLine plots\nOverplotting and Big Data\nCustomize Your Plots\n\nTidy Your Data\n\nReshape Data\n\n\n\n\n\n\n\n\nNote\n\n\n\nRecent versions of tidyr have renamed these core functions: gather() is now pivot_longer() and spread() is now pivot_wider(). The syntax for these pivot_*() functions is slightly different from what it was in gather() and spread(), so you can’t just replace the names. Fortunately, both gather() and spread() still work and won’t go away for a while, so you can still use them as you learn about reshaping and tidying data. It would be worth learning how the newer pivot_*() functions work, eventually, though (see here for examples).\n\n\nThe content from these primers comes from the (free and online!) book R for Data Science by Garrett Grolemund and Hadley Wickham. I highly recommend the book as a reference and for continuing to learn and use R in the future."
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html#part-2-getting-familiar-with-rstudio",
+    "href": "example/rstudio-tidyverse.html#part-2-getting-familiar-with-rstudio",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "Part 2: Getting familiar with RStudio",
+    "text": "Part 2: Getting familiar with RStudio\nThe RStudio primers you just worked through are a great introduction to writing and running R code, but you typically won’t type code in a browser when you work with R. Instead, you’ll use a nicer programming environment like RStudio, which lets you type and save code in scripts, run code from those scripts, and see the output of that code, all in the same program.\nTo get familiar with RStudio, watch this video by Andrew Heiss:"
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html#part-3-rstudio-projects",
+    "href": "example/rstudio-tidyverse.html#part-3-rstudio-projects",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "Part 3: RStudio Projects",
+    "text": "Part 3: RStudio Projects\nOne of the most powerful and useful aspects of RStudio is its ability to manage projects.\nWhen you first open R, it is “pointed” at some folder on your computer, and anything you do will be relative to that folder. The technical term for this is a “working directory.”\nWhen you first open RStudio, look in the area right at the top of the Console pane to see your current working directory. Most likely you’ll see something cryptic: ~/\n\n\n\n\n\n\n\n\n\nThat tilde sign (~) is a shortcut that stands for your user directory. On Windows this is C:\\Users\\your_user_name\\; on macOS this is /Users/your_user_name/. With the working directory set to ~/, R is “pointed” at that folder, and anything you save will end up in that folder, and R will expect any data that you load to be there too.\nIt’s always best to point R at some other directory. If you don’t use RStudio, you need to manually set the working directory to where you want it with setwd(), and many R scripts in the wild include something like setwd(\"C:\\\\Users\\\\bill\\\\Desktop\\\\Important research project\") at the beginning to change the directory. THIS IS BAD THOUGH (see here for an explanation). If you ever move that directory somewhere else, or run the script on a different computer, or share the project with someone, the path will be wrong and nothing will run and you will be sad.\nThe best way to deal with working directories with RStudio is to use RStudio Projects. These are special files that RStudio creates for you that end in a .Rproj extension. When you open one of these special files, a new RStudio instance will open up and be pointed at the correct directory automatically. If you move the folder later or open it on a different computer, it will work just fine and you will not be sad.\nRead this super short chapter on RStudio projects to learn how to create and use them\nIn general, you can create a new project by going to File &gt; New Project &gt; New Directory &gt; Empty Project, which will create a new folder on your computer that is empty except for a single .Rproj file. Double click on that file to open an RStudio instance that is pointed at the correct folder."
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html#part-4-getting-familiar-with-r-markdown",
+    "href": "example/rstudio-tidyverse.html#part-4-getting-familiar-with-r-markdown",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "Part 4: Getting familiar with R Markdown",
+    "text": "Part 4: Getting familiar with R Markdown\nTo ensure that the analysis and graphics you make are reproducible, you’ll do the majority of your work in this class using R Markdown files.\nDo the following things:\n\nWatch this video:\n\n\n\n\n\n \n\nSkim through the content at these pages:\n\nUsing Markdown\nUsing R Markdown\nHow it Works\nCode Chunks\nInline Code\nMarkdown Basics (The R Markdown Reference Guide is super useful here.)\nOutput Formats"
+  },
+  {
+    "objectID": "assignment/09-problem-set.html",
+    "href": "assignment/09-problem-set.html",
+    "title": "Problem set 9",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 10"
+      "Problem set 9"
     ]
   },
   {
-    "objectID": "assignment/10-problem-set.html#instructions",
-    "href": "assignment/10-problem-set.html#instructions",
-    "title": "Problem set 10",
+    "objectID": "assignment/09-problem-set.html#instructions",
+    "href": "assignment/09-problem-set.html#instructions",
+    "title": "Problem set 9",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 10"
+      "Problem set 9"
     ]
   },
   {
-    "objectID": "assignment/10-problem-set.html#questions",
-    "href": "assignment/10-problem-set.html#questions",
-    "title": "Problem set 10",
+    "objectID": "assignment/09-problem-set.html#questions",
+    "href": "assignment/09-problem-set.html#questions",
+    "title": "Problem set 9",
     "section": "Questions",
     "text": "Questions\nTBD",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 10"
+      "Problem set 9"
     ]
   },
   {
-    "objectID": "assignment/08-problem-set.html",
-    "href": "assignment/08-problem-set.html",
-    "title": "Problem set 8",
+    "objectID": "assignment/07-problem-set.html",
+    "href": "assignment/07-problem-set.html",
+    "title": "Problem set 7",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 8"
+      "Problem set 7"
     ]
   },
   {
-    "objectID": "assignment/08-problem-set.html#instructions",
-    "href": "assignment/08-problem-set.html#instructions",
-    "title": "Problem set 8",
+    "objectID": "assignment/07-problem-set.html#instructions",
+    "href": "assignment/07-problem-set.html#instructions",
+    "title": "Problem set 7",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 8"
+      "Problem set 7"
     ]
   },
   {
-    "objectID": "assignment/08-problem-set.html#questions",
-    "href": "assignment/08-problem-set.html#questions",
-    "title": "Problem set 8",
+    "objectID": "assignment/07-problem-set.html#questions",
+    "href": "assignment/07-problem-set.html#questions",
+    "title": "Problem set 7",
     "section": "Questions",
     "text": "Questions\nTBD",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 8"
+      "Problem set 7"
     ]
   },
   {
-    "objectID": "assignment/06-problem-set.html",
-    "href": "assignment/06-problem-set.html",
-    "title": "Problem set 6",
+    "objectID": "assignment/05-problem-set.html",
+    "href": "assignment/05-problem-set.html",
+    "title": "Problem set 5",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 6"
+      "Problem set 5"
     ]
   },
   {
-    "objectID": "assignment/06-problem-set.html#instructions",
-    "href": "assignment/06-problem-set.html#instructions",
-    "title": "Problem set 6",
+    "objectID": "assignment/05-problem-set.html#instructions",
+    "href": "assignment/05-problem-set.html#instructions",
+    "title": "Problem set 5",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 6"
+      "Problem set 5"
     ]
   },
   {
-    "objectID": "assignment/06-problem-set.html#questions",
-    "href": "assignment/06-problem-set.html#questions",
-    "title": "Problem set 6",
+    "objectID": "assignment/05-problem-set.html#questions",
+    "href": "assignment/05-problem-set.html#questions",
+    "title": "Problem set 5",
     "section": "Questions",
     "text": "Questions\nTBD",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 6"
-    ]
-  },
-  {
-    "objectID": "assignment/04-problem-set.html",
-    "href": "assignment/04-problem-set.html",
-    "title": "Problem set 4",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 4"
-    ]
-  },
-  {
-    "objectID": "assignment/04-problem-set.html#instructions",
-    "href": "assignment/04-problem-set.html#instructions",
-    "title": "Problem set 4",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 4"
-    ]
-  },
-  {
-    "objectID": "assignment/04-problem-set.html#questions",
-    "href": "assignment/04-problem-set.html#questions",
-    "title": "Problem set 4",
-    "section": "Questions",
-    "text": "Questions\nTBD",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 4"
+      "Problem set 5"
     ]
   },
   {
@@ -926,6 +886,220 @@
     ]
   },
   {
+    "objectID": "assignment/04-problem-set.html",
+    "href": "assignment/04-problem-set.html",
+    "title": "Problem set 4",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 4"
+    ]
+  },
+  {
+    "objectID": "assignment/04-problem-set.html#instructions",
+    "href": "assignment/04-problem-set.html#instructions",
+    "title": "Problem set 4",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 4"
+    ]
+  },
+  {
+    "objectID": "assignment/04-problem-set.html#questions",
+    "href": "assignment/04-problem-set.html#questions",
+    "title": "Problem set 4",
+    "section": "Questions",
+    "text": "Questions\nTBD",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 4"
+    ]
+  },
+  {
+    "objectID": "assignment/06-problem-set.html",
+    "href": "assignment/06-problem-set.html",
+    "title": "Problem set 6",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 6"
+    ]
+  },
+  {
+    "objectID": "assignment/06-problem-set.html#instructions",
+    "href": "assignment/06-problem-set.html#instructions",
+    "title": "Problem set 6",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 6"
+    ]
+  },
+  {
+    "objectID": "assignment/06-problem-set.html#questions",
+    "href": "assignment/06-problem-set.html#questions",
+    "title": "Problem set 6",
+    "section": "Questions",
+    "text": "Questions\nTBD",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 6"
+    ]
+  },
+  {
+    "objectID": "assignment/08-problem-set.html",
+    "href": "assignment/08-problem-set.html",
+    "title": "Problem set 8",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 8"
+    ]
+  },
+  {
+    "objectID": "assignment/08-problem-set.html#instructions",
+    "href": "assignment/08-problem-set.html#instructions",
+    "title": "Problem set 8",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 8"
+    ]
+  },
+  {
+    "objectID": "assignment/08-problem-set.html#questions",
+    "href": "assignment/08-problem-set.html#questions",
+    "title": "Problem set 8",
+    "section": "Questions",
+    "text": "Questions\nTBD",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 8"
+    ]
+  },
+  {
+    "objectID": "assignment/10-problem-set.html",
+    "href": "assignment/10-problem-set.html",
+    "title": "Problem set 10",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 10"
+    ]
+  },
+  {
+    "objectID": "assignment/10-problem-set.html#instructions",
+    "href": "assignment/10-problem-set.html#instructions",
+    "title": "Problem set 10",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 10"
+    ]
+  },
+  {
+    "objectID": "assignment/10-problem-set.html#questions",
+    "href": "assignment/10-problem-set.html#questions",
+    "title": "Problem set 10",
+    "section": "Questions",
+    "text": "Questions\nTBD",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 10"
+    ]
+  },
+  {
+    "objectID": "news/index.html",
+    "href": "news/index.html",
+    "title": "Course News",
+    "section": "",
+    "text": "Date\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "syllabus.html",
+    "href": "syllabus.html",
+    "title": "PSY 607 Bayesian Analysis",
+    "section": "",
+    "text": "Instructor: Dr. Sara Weston\nEmail: sweston2@uoregon.edu\nOffice: Straub 325\nOffice Hours: Friday 10:00 AM - 12:00 PM, and by appointment (schedule here)\nClass Meetings: Tuesday/Thursday 2:00-3:20 PM\nLocation: 119 FEN\nCourse Website: uobayes.netlify.app"
+  },
+  {
+    "objectID": "syllabus.html#course-information",
+    "href": "syllabus.html#course-information",
+    "title": "PSY 607 Bayesian Analysis",
+    "section": "",
+    "text": "Instructor: Dr. Sara Weston\nEmail: sweston2@uoregon.edu\nOffice: Straub 325\nOffice Hours: Friday 10:00 AM - 12:00 PM, and by appointment (schedule here)\nClass Meetings: Tuesday/Thursday 2:00-3:20 PM\nLocation: 119 FEN\nCourse Website: uobayes.netlify.app"
+  },
+  {
+    "objectID": "syllabus.html#course-description",
+    "href": "syllabus.html#course-description",
+    "title": "PSY 607 Bayesian Analysis",
+    "section": "Course Description",
+    "text": "Course Description\nThis advanced statistics course introduces students to Bayesian methods with a focus on practical application using modern computational tools. Through a combination of theoretical foundations and hands-on programming, students learn to build, interpret, and critique Bayesian models using the R programming language, with particular emphasis on the brms package."
+  },
+  {
+    "objectID": "syllabus.html#course-structure",
+    "href": "syllabus.html#course-structure",
+    "title": "PSY 607 Bayesian Analysis",
+    "section": "Course Structure",
+    "text": "Course Structure\nThis course is a mix of asynchronous lectures, in-class activities, and homework assignments:\n\nBefore each class, you will watch a video lecture. These will be posted on the course website alongside each lecture.\nAt the beginning of each class, there will be a short quiz to check your understanding of the lecture and help me know what to review.\nClass time will be used for in-class activities, including group work and discussion.\nEach week will have a homework assignment. These will be posted on Canvas.\nYou can find all the materials for each week on the course website."
+  },
+  {
+    "objectID": "syllabus.html#materials",
+    "href": "syllabus.html#materials",
+    "title": "PSY 607 Bayesian Analysis",
+    "section": "Materials",
+    "text": "Materials\nRequired:\n\nR and RStudio (free)\nRequired R packages:\n\nrethinking\nbrms\ntidybase\ntidyverse\n\n\nRecommended:\n\nStatistical Rethinking by Richard McElreath (2nd ed.)\n\nAdditional course materials, including lecture notes and code, will be provided on the course website."
+  },
+  {
+    "objectID": "syllabus.html#assignment-submission",
+    "href": "syllabus.html#assignment-submission",
+    "title": "PSY 607 Bayesian Analysis",
+    "section": "Assignment Submission",
+    "text": "Assignment Submission\n\nAll assignments should be submitted through Canvas\nSubmissions must be in PDF format, knitted from R Markdown\nAssignments are posted on Friday and due the following Monday at 11:59pm\nThere is a one-week grace period for each assignment"
+  },
+  {
+    "objectID": "syllabus.html#grading",
+    "href": "syllabus.html#grading",
+    "title": "PSY 607 Bayesian Analysis",
+    "section": "Grading",
+    "text": "Grading\n\nHomework (95%)\n\n10 assignments\nGraded on completion (not accuracy)\nPosted on Friday, due the following Monday at 11:59pm\nOne week grace period for each assignment\n\nQuizzes (5%)\n\n19 quizzes\nCover material from the day’s recorded lecture\nCompleted in class\nNo makeup opportunities for missed quizzes"
+  },
+  {
+    "objectID": "syllabus.html#slack",
+    "href": "syllabus.html#slack",
+    "title": "PSY 607 Bayesian Analysis",
+    "section": "Slack",
+    "text": "Slack\nI have created a Slack workspace for this course, open to anyone (registerd or not) who is attending. The goal of this space is for us to support each other as we learn the material. Anyone can post a question, and anyone can answer a question. I will not be as active here as I am in class, nor as responsive as I am over email. But if I see a question has the class stumped or it feels like an important concept hasn’t clicked yet, I will update lecture materials to help us get on track.\nI especially encourage using this space to coordinate working on probelm sets together, sharing resources you find online, and sharing ways you’ve used technology (R/RMarkdown/AI) that have supported your research. I also encourage memes."
+  },
+  {
+    "objectID": "syllabus.html#course-policies",
+    "href": "syllabus.html#course-policies",
+    "title": "PSY 607 Bayesian Analysis",
+    "section": "Course Policies",
+    "text": "Course Policies\n\nCommunication\nIf you have questions about course policies, have trouble submitting an assignment, or want to schedule a meeting, please email. I will make an effort to respond to emails within one business day. Note that I neither plan nor commit to checking email outside of normal business hours (9am-5pm, Mon-Fri).\nIf you are having trouble understanding a concept covered in class, please come to office hours, schedule a meeting with me, ask for clarification during class periods, or use the class Slack to get help from the group. I will not explain course concepts over email.\nOccasionally, I will send out announcements to the entire class via Canvas announcements. These will typically appear when you open Canvas, but you can update your Canvas settings to receive these announcements as emails. It is strongly recommended that you do so.\n\n\nClassroom Expectations\nAll members of the class (students and instructor) can expect to:\nParticipate and Contribute: All students are expected to participate by sharing ideas and contributing to the learning environment. This entails preparing, following instructions, and engaging respectfully and thoughtfully with others.\nWhile all students should participate, participation is not just talking, and a range of participation activities support learning. Participation might look like speaking aloud in the full class and in small groups and collaborating on homework assignments.\nExpect and Respect Diversity: All classes at the University of Oregon welcome and respect diverse experiences, perspectives, and approaches. What is not welcome are behaviors or contributions that undermine, demean, or marginalize others based on race, ethnicity, gender, sex, age, sexual orientation, religion, ability, or socioeconomic status. We will value differences and communicate disagreements with respect.\nHelp Everyone Learn: Part of how we learn together is by learning from one another. To do this effectively, we need to be patient with each other, identify ways we can assist others, and be open-minded to receiving help and feedback from others. Don’t hesitate to contact me to ask for assistance or offer suggestions that might help us learn better.\n\n\nWorkload\nThis is a 3-credit hour course, so you should expect to complete 120 hours of work for the course—an average of about 12 hours each week (this includes time in-class).\n\n\nGenerative AI Policy\nWhile generative AI tools (such as ChatGPT, Claude, and Cursor) can be useful for assisting with certain tasks, it’s important to use these technologies responsibly and ethically.\nGood uses of AI:\n\nExploring concepts, generating code ideas, and providing explanations for topics covered in the course\nCreating preliminary drafts of code, data analysis plans, or written reports (with review and testing)\nBrainstorming research questions, identifying key terms, or helping summarize complex literature\n\nBad uses of AI:\n\nGenerating entire assignments, projects, or reports without manual oversight\nUsing AI in place of collaborating with peers\nSubmitting AI-generated content without proper attribution\n\nRequired Disclosure: Students who use AI tools must include a brief statement at the end of their submission describing how and where the tool was used. Failure to disclose AI use may result in grade reduction or disciplinary action.\n\n\nAcademic Integrity\nFrankly, you’re in graduate school, and the purpose of work is to create opportunities to learn and improve. Even if cheating helps you in the short term, you’ll quickly find yourself ill-prepared for the career you have chosen. If you find yourself tempted to cheat, please come speak to Dr. Weston about an extension and developing tools to improve your success.\n\n\nAccessibility\nThe University of Oregon and I are dedicated to fostering inclusive learning environments for all students and welcomes students with disabilities into all of the University’s educational programs. The Accessible Education Center (AEC) assists students with disabilities in reducing campus-wide and classroom-related barriers. If you have or think you have a disability (https://aec.uoregon.edu/content/what-disability) and experience academic barriers, please contact the AEC to discuss appropriate accommodations or support. Visit 360 Oregon Hall or aec.uoregon.edu for more information. You can contact AEC at 541-346-1155 or via email at uoaec@uoregon.edu.\n\n\nBasic Needs\nBeing able to meet your basic needs is foundational to your success as a student at the University of Oregon. If you are having difficulty affording food, don’t have a stable, safe place to live, or are struggling to meet another need, visit the UO Basic Needs Resource page for information on how to get support. They have information food, housing, healthcare, childcare, transportation, technology, finances (including emergency funds), and legal support.\nIf your need is urgent, please contact the Care and Advocacy Program by calling 541-346-3216, filling out the Community Care and Support form, or by scheduling an appointment with an advocate.\n\n\nReporting Obligations\nI am a designated reporter. For information about my reporting obligations as an employee, please see Employee Reporting Obligations on the Office of Investigations and Civil Rights Compliance (OICRC) website. Students experiencing sex- or gender-based discrimination, harassment or violence should call the 24-7 hotline 541-346-SAFE [7244] or visit safe.uoregon.edu for help. Students experiencing all forms of prohibited discrimination or harassment may contact the Dean of Students Office at 541-346-3216 or the non-confidential Title IX Coordinator/OICRC at 541-346-3123 to request information and resources. Students are not required to participate in an investigation to receive support, including requesting academic supportive measures. Additional resources are available at investigations.uoregon.edu/how-get-support.\nI am also a mandatory reporter of child abuse. Please find more information at Mandatory Reporting of Child Abuse and Neglect.\n\n\nPregnancy Accommodations\nPregnant and parenting students are eligible for academic and work modifications related to pregnancy, childbirth, loss of pregnancy, termination of pregnancy, lactation, and related medical conditions. To request pregnancy-related modifications, students should complete the Request for Pregnancy Modifications form on the OICRC website. OICRC coordinates academic and other modifications for pregnant and parenting students to ensure students can continue to access their education and university programs and activities.\n\n\nCampus Emergencies\nIn the event of a campus emergency that disrupts academic activities, course requirements, deadlines, and grading percentages are subject to change. Information about changes in this course will be communicated as soon as possible by email, and on Canvas. If we are not able to meet face-to-face, students should immediately log onto Canvas and read any announcements and/or access alternative assignments. Students are also expected to continue coursework as outlined in this syllabus or other instructions on Canvas."
+  },
+  {
     "objectID": "assignment/03-problem-set.html",
     "href": "assignment/03-problem-set.html",
     "title": "Problem set 3",
@@ -954,186 +1128,12 @@
     "href": "assignment/03-problem-set.html#questions",
     "title": "Problem set 3",
     "section": "Questions",
-    "text": "Questions\nTBD",
+    "text": "Questions\nThe following problems are based on the dataset foxes in the rethinking package. There are 116 foxes in 30 different urban groups living in England. Group sizes (groupsize) range from 2 to 8 individuals. Each group maintains its own urban territory. (Fox groups = street gangs.) Some territories are larger than others (area). Some territories have more food (avgfood) than others. We want to model the weight of each fox.\n\n\n\n\n\n\n\n\n\n\nUse the backdoor criterion and estimate the total causal influence of area on avgfood. What effect would increasing the area of a territory have on the amount of food inside it?\nNow infer the total causal impact of adding food to a territory on weight. Can you calculate a causal effect by simulating an intervention on food?\nNow infer the direct causal impact of group size on weight.\nGiven all of these models, what do you think is going on with the foxes?",
     "crumbs": [
       "Assignments",
       "Problem sets",
       "Problem set 3"
     ]
-  },
-  {
-    "objectID": "assignment/05-problem-set.html",
-    "href": "assignment/05-problem-set.html",
-    "title": "Problem set 5",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 5"
-    ]
-  },
-  {
-    "objectID": "assignment/05-problem-set.html#instructions",
-    "href": "assignment/05-problem-set.html#instructions",
-    "title": "Problem set 5",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 5"
-    ]
-  },
-  {
-    "objectID": "assignment/05-problem-set.html#questions",
-    "href": "assignment/05-problem-set.html#questions",
-    "title": "Problem set 5",
-    "section": "Questions",
-    "text": "Questions\nTBD",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 5"
-    ]
-  },
-  {
-    "objectID": "assignment/07-problem-set.html",
-    "href": "assignment/07-problem-set.html",
-    "title": "Problem set 7",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 7"
-    ]
-  },
-  {
-    "objectID": "assignment/07-problem-set.html#instructions",
-    "href": "assignment/07-problem-set.html#instructions",
-    "title": "Problem set 7",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 7"
-    ]
-  },
-  {
-    "objectID": "assignment/07-problem-set.html#questions",
-    "href": "assignment/07-problem-set.html#questions",
-    "title": "Problem set 7",
-    "section": "Questions",
-    "text": "Questions\nTBD",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 7"
-    ]
-  },
-  {
-    "objectID": "assignment/09-problem-set.html",
-    "href": "assignment/09-problem-set.html",
-    "title": "Problem set 9",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 9"
-    ]
-  },
-  {
-    "objectID": "assignment/09-problem-set.html#instructions",
-    "href": "assignment/09-problem-set.html#instructions",
-    "title": "Problem set 9",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 9"
-    ]
-  },
-  {
-    "objectID": "assignment/09-problem-set.html#questions",
-    "href": "assignment/09-problem-set.html#questions",
-    "title": "Problem set 9",
-    "section": "Questions",
-    "text": "Questions\nTBD",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 9"
-    ]
-  },
-  {
-    "objectID": "example/rstudio-tidyverse.html",
-    "href": "example/rstudio-tidyverse.html",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "",
-    "text": "This course assumes that you’re already familiar with R, RStudio, Markdown, and the tidyverse. If you’re not, or if you’re looking to brush up, here are some resources for helping you get up to speed."
-  },
-  {
-    "objectID": "example/rstudio-tidyverse.html#part-1-the-basics-of-r-and-dplyr",
-    "href": "example/rstudio-tidyverse.html#part-1-the-basics-of-r-and-dplyr",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "Part 1: The basics of R and dplyr",
-    "text": "Part 1: The basics of R and dplyr\n\nThe Basics\n\nVisualization Basics\nProgramming Basics\n\nWork with Data\n\nWorking with Tibbles\nIsolating Data with dplyr\nDeriving Information with dplyr\n\nVisualize Data\n\nExploratory Data Analysis\nBar Charts\nHistograms\nBoxplots and Counts\nScatterplots\nLine plots\nOverplotting and Big Data\nCustomize Your Plots\n\nTidy Your Data\n\nReshape Data\n\n\n\n\n\n\n\n\nNote\n\n\n\nRecent versions of tidyr have renamed these core functions: gather() is now pivot_longer() and spread() is now pivot_wider(). The syntax for these pivot_*() functions is slightly different from what it was in gather() and spread(), so you can’t just replace the names. Fortunately, both gather() and spread() still work and won’t go away for a while, so you can still use them as you learn about reshaping and tidying data. It would be worth learning how the newer pivot_*() functions work, eventually, though (see here for examples).\n\n\nThe content from these primers comes from the (free and online!) book R for Data Science by Garrett Grolemund and Hadley Wickham. I highly recommend the book as a reference and for continuing to learn and use R in the future."
-  },
-  {
-    "objectID": "example/rstudio-tidyverse.html#part-2-getting-familiar-with-rstudio",
-    "href": "example/rstudio-tidyverse.html#part-2-getting-familiar-with-rstudio",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "Part 2: Getting familiar with RStudio",
-    "text": "Part 2: Getting familiar with RStudio\nThe RStudio primers you just worked through are a great introduction to writing and running R code, but you typically won’t type code in a browser when you work with R. Instead, you’ll use a nicer programming environment like RStudio, which lets you type and save code in scripts, run code from those scripts, and see the output of that code, all in the same program.\nTo get familiar with RStudio, watch this video by Andrew Heiss:"
-  },
-  {
-    "objectID": "example/rstudio-tidyverse.html#part-3-rstudio-projects",
-    "href": "example/rstudio-tidyverse.html#part-3-rstudio-projects",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "Part 3: RStudio Projects",
-    "text": "Part 3: RStudio Projects\nOne of the most powerful and useful aspects of RStudio is its ability to manage projects.\nWhen you first open R, it is “pointed” at some folder on your computer, and anything you do will be relative to that folder. The technical term for this is a “working directory.”\nWhen you first open RStudio, look in the area right at the top of the Console pane to see your current working directory. Most likely you’ll see something cryptic: ~/\n\n\n\n\n\n\n\n\n\nThat tilde sign (~) is a shortcut that stands for your user directory. On Windows this is C:\\Users\\your_user_name\\; on macOS this is /Users/your_user_name/. With the working directory set to ~/, R is “pointed” at that folder, and anything you save will end up in that folder, and R will expect any data that you load to be there too.\nIt’s always best to point R at some other directory. If you don’t use RStudio, you need to manually set the working directory to where you want it with setwd(), and many R scripts in the wild include something like setwd(\"C:\\\\Users\\\\bill\\\\Desktop\\\\Important research project\") at the beginning to change the directory. THIS IS BAD THOUGH (see here for an explanation). If you ever move that directory somewhere else, or run the script on a different computer, or share the project with someone, the path will be wrong and nothing will run and you will be sad.\nThe best way to deal with working directories with RStudio is to use RStudio Projects. These are special files that RStudio creates for you that end in a .Rproj extension. When you open one of these special files, a new RStudio instance will open up and be pointed at the correct directory automatically. If you move the folder later or open it on a different computer, it will work just fine and you will not be sad.\nRead this super short chapter on RStudio projects to learn how to create and use them\nIn general, you can create a new project by going to File &gt; New Project &gt; New Directory &gt; Empty Project, which will create a new folder on your computer that is empty except for a single .Rproj file. Double click on that file to open an RStudio instance that is pointed at the correct folder."
-  },
-  {
-    "objectID": "example/rstudio-tidyverse.html#part-4-getting-familiar-with-r-markdown",
-    "href": "example/rstudio-tidyverse.html#part-4-getting-familiar-with-r-markdown",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "Part 4: Getting familiar with R Markdown",
-    "text": "Part 4: Getting familiar with R Markdown\nTo ensure that the analysis and graphics you make are reproducible, you’ll do the majority of your work in this class using R Markdown files.\nDo the following things:\n\nWatch this video:\n\n\n\n\n\n \n\nSkim through the content at these pages:\n\nUsing Markdown\nUsing R Markdown\nHow it Works\nCode Chunks\nInline Code\nMarkdown Basics (The R Markdown Reference Guide is super useful here.)\nOutput Formats"
-  },
-  {
-    "objectID": "resource/sara_defaults.html",
-    "href": "resource/sara_defaults.html",
-    "title": "Sara’s defaults",
-    "section": "",
-    "text": "You maybe noticed that my plots look a bit different to yours in class. That’s because I set defaults in my Markdown files for plot themes and colors. The ensures that all my plots have a similar vibe but I don’t have to manually specify colors each time. Here’s what I use:\n\nknitr::opts_chunk$set(fig.retina=3, echo=TRUE)\ntheme_set(theme_cowplot())\ndefault_palettes &lt;- list(\n  c(\"#5e8485\" , \"#0f393a\") ,\n  c(\"#1c5253\" , \"#5e8485\" , \"#0f393a\") , \n  # palette with 5 colours\n c( \"#1c5253\" , \"#e07a5f\", \"#f2cc8f\" , \"#81b29a\" , \"#3d405b\" ) ,\n  # same palette interpolated to 8 colours\n c( \"#1c5253\" , \"#e07a5f\", \"#f2cc8f\" , \"#81b29a\" , \"#3d405b\" , \"#a7a844\" , \"#69306d\" ) \n  \n)\n\noptions(ggplot2.discrete.fill = default_palettes, \n        ggplot2.discrete.colour = default_palettes)\n\nI wrap this inside a code chunk at the beginning of my Markdown files. It comes just after the code chunk with my packages.",
-    "crumbs": [
-      "Resources",
-      "Guides",
-      "Sara's defaults"
-    ]
-  },
-  {
-    "objectID": "resource/sara_defaults.html#context",
-    "href": "resource/sara_defaults.html#context",
-    "title": "Sara’s defaults",
-    "section": "",
-    "text": "You maybe noticed that my plots look a bit different to yours in class. That’s because I set defaults in my Markdown files for plot themes and colors. The ensures that all my plots have a similar vibe but I don’t have to manually specify colors each time. Here’s what I use:\n\nknitr::opts_chunk$set(fig.retina=3, echo=TRUE)\ntheme_set(theme_cowplot())\ndefault_palettes &lt;- list(\n  c(\"#5e8485\" , \"#0f393a\") ,\n  c(\"#1c5253\" , \"#5e8485\" , \"#0f393a\") , \n  # palette with 5 colours\n c( \"#1c5253\" , \"#e07a5f\", \"#f2cc8f\" , \"#81b29a\" , \"#3d405b\" ) ,\n  # same palette interpolated to 8 colours\n c( \"#1c5253\" , \"#e07a5f\", \"#f2cc8f\" , \"#81b29a\" , \"#3d405b\" , \"#a7a844\" , \"#69306d\" ) \n  \n)\n\noptions(ggplot2.discrete.fill = default_palettes, \n        ggplot2.discrete.colour = default_palettes)\n\nI wrap this inside a code chunk at the beginning of my Markdown files. It comes just after the code chunk with my packages.",
-    "crumbs": [
-      "Resources",
-      "Guides",
-      "Sara's defaults"
-    ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "\n            Bayesian Analysis\n        ",
-    "section": "",
-    "text": "Bayesian Analysis\n        \n        \n            Model building, estimation, interpretation, visualization\n        \n        \n            PSY 607 • Spring 2025 Psychology University of Oregon\n        \n    \n    \n      \n        \n        \n        \n      \n    \n\n\n\n\n\n\nInstructor\n\n   Dr. Sara Weston\n   Straub 325\n   sweston2@uoregon.edu\n   Schedule an appointment\n\n\n\nCourse details\n\n   Tuesdays and Thursdays\n   Spring 2025\n   2:00–3:20 PM\n   119 FEN\n   Slack\n\n\n\nContacting me\nEmail is the best way to get in contact with me. I will try to respond to all course-related emails within one business day during normal business hours (9am-5pm, Mon-Fri).\n\n\n```"
   },
   {
     "objectID": "content/03-content.html",

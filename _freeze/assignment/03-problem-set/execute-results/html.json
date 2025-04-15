@@ -1,8 +1,8 @@
 {
-  "hash": "e39cb9c9704592ac63c660661e33b317",
+  "hash": "65dbe89f7961641110554c2f297e72a2",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Problem set 3\"\ndate: \"2025-04-21\"\n---\n\n\n\n\n\n\n## Instructions\n\nPlease use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas. \n\n## Questions\n\nTBD ",
+    "markdown": "---\ntitle: \"Problem set 3\"\ndate: \"2025-04-21\"\n---\n\n\n\n\n\n\n## Instructions\n\nPlease use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas. \n\n## Questions\n\nThe following problems are based on the dataset `foxes` in the `rethinking` package. There are 116 foxes in 30 different urban groups living in England. Group sizes (`groupsize`) range from 2 to 8 individuals. Each group maintains its own urban territory. (Fox groups = street gangs.) Some territories are larger than others (`area`). Some territories have more food (`avgfood`) than others. We want to model the `weight` of each fox.\n\n\n\n\n::: {.cell layout-align=\"center\"}\n::: {.cell-output-display}\n![](03-problem-set_files/figure-html/unnamed-chunk-1-1.png){fig-align='center' width=672}\n:::\n:::\n\n\n\n\n1. Use the backdoor criterion and estimate the total causal influence of `area` on `avgfood.` What effect would increasing the area of a territory have on the amount of food inside it?\n\n2. Now infer the total causal impact of adding food to a territory on `weight.` Can you calculate a causal effect by simulating an intervention on food?\n\n3. Now infer the direct causal impact of group size on `weight.` \n\n4. Given all of these models, what do you think is going on with the foxes?\n",
     "supporting": [
       "03-problem-set_files"
     ],

@@ -13,4 +13,20 @@ Please use an RMarkdown file to complete this assignment. Make sure you reserve 
 
 ## Questions
 
-TBD 
+The following problems are based on the dataset `foxes` in the `rethinking` package. There are 116 foxes in 30 different urban groups living in England. Group sizes (`groupsize`) range from 2 to 8 individuals. Each group maintains its own urban territory. (Fox groups = street gangs.) Some territories are larger than others (`area`). Some territories have more food (`avgfood`) than others. We want to model the `weight` of each fox.
+
+```{r, echo = F}
+library(dagitty)
+dag3 <- dagitty( "dag{ area -> avgfood; avgfood -> groupsize; avgfood -> weight; groupsize -> weight }" )
+coordinates(dag3) <- list( x=c(area=0,avgfood=-1,groupsize=1, weight=0) , 
+                           y=c(area=-1,avgfood=0,groupsize=0, weight=1) )
+rethinking::drawdag( dag3, cex = 1, lwd = 3 )
+```
+
+1. Use the backdoor criterion and estimate the total causal influence of `area` on `avgfood.` What effect would increasing the area of a territory have on the amount of food inside it?
+
+2. Now infer the total causal impact of adding food to a territory on `weight.` Can you calculate a causal effect by simulating an intervention on food?
+
+3. Now infer the direct causal impact of group size on `weight.` 
+
+4. Given all of these models, what do you think is going on with the foxes?
