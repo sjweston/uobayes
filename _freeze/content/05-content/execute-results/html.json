@@ -1,11 +1,9 @@
 {
-  "hash": "0ee60a9c4a177cca2d2533f8bd1254b2",
+  "hash": "b6ded352a9c02038425c7de6b3f78ffd",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Causal modeling\"\ndate: \"2025-04-15\"\n---\n\n\n\n\n\n\n\n## Before class\n\n- <i class=\"fab fa-youtube\"></i> Elemental confounds (1 h 05 min)\n\n\n\n\n\n\n```{=html}\n<div class=\"vembedr\">\n<div>\n<iframe src=\"https://www.youtube.com/embed/mBEA7PKDmiY\" width=\"533\" height=\"300\" frameborder=\"0\" allowfullscreen=\"\" data-external=\"1\"></iframe>\n</div>\n</div>\n```\n\n\n\n\n## During class\n\nTo save these slides as a PDF on your computer, open the menu (three horizontal bars in the bottom left of the slides), then Tools (gear symbol in the top), and PDF export (or ``e''). You can then right-click on the slides, select Print, and save as PDF. \n\n<iframe src=\"/slides/lecture03-1.html\" width=\"100%\" height=\"500px\"></iframe>\n\n:::{.callout-tip}\n**Fun fact**: If you type <kbd>?</kbd> (or <kbd>shift</kbd> + <kbd>/</kbd>) while going through the slides, you can see a list of special slide-specific commands.\n::: \n",
-    "supporting": [
-      "05-content_files"
-    ],
+    "markdown": "---\ntitle: \"Causal modeling\"\ndate: \"2025-04-15\"\n---\n\n\n\n\n\n\n## Before class\n\n- <i class=\"fab fa-youtube\"></i> Elemental confounds (1 h 05 min)\n\n\n\n\n\n```{=html}\n<div class=\"vembedr\">\n<div>\n<iframe src=\"https://www.youtube.com/embed/mBEA7PKDmiY\" width=\"533\" height=\"300\" frameborder=\"0\" allowfullscreen=\"\" data-external=\"1\"></iframe>\n</div>\n</div>\n```\n\n\n\n## During class\n\nTo save these slides as a PDF on your computer, open the menu (three horizontal bars in the bottom left of the slides), then Tools (gear symbol in the top), and PDF export (or ``e''). You can then right-click on the slides, select Print, and save as PDF. \n\n\n\n<p class=\"buttons\"><a class=\"btn btn-danger\" target=\"_blank\"\nhref=\"/slides/lecture03-1.html\"><i class=\"fa-solid fa-arrow-up-right-from-square\"></i>\nView all slides in new window</a></p>\n\n\n\n<iframe src=\"/slides/lecture03-1.html\" width=\"100%\" height=\"500px\"></iframe>\n\n:::{.callout-tip}\n**Fun fact**: If you type <kbd>?</kbd> (or <kbd>shift</kbd> + <kbd>/</kbd>) while going through the slides, you can see a list of special slide-specific commands.\n::: \n",
+    "supporting": [],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],
