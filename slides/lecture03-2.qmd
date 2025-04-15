@@ -17,7 +17,8 @@ format:
 ```{r, message = F, warning = F}
 library(tidyverse)
 library(cowplot)
-library(rethinking)
+library(brms)
+library(tidybayes)
 library(patchwork)
 ```
 
@@ -73,7 +74,7 @@ dag4.1 <- dagitty( "dag{
 coordinates(dag4.1) <- list( 
   x=c(Exercise=0, Health=1, Diet=2, Motivation=0, Age=1) ,
   y=c(Exercise=0, Health=0, Diet=0, Motivation=-1, Age=1) )
-drawdag( dag4.1, lwd = 3 )
+rethinking::drawdag( dag4.1, lwd = 3 )
 ```
 
 ------------------------------------------------------------------------
@@ -81,7 +82,7 @@ drawdag( dag4.1, lwd = 3 )
 ### exercise
 
 ```{r, fig.width=4, fig.height = 2, echo = F}
-drawdag( dag4.1 )
+rethinking::drawdag( dag4.1 )
 ```
 
 1.  List all paths between Exercise and Health
@@ -104,7 +105,7 @@ Valid adjustment sets:
 
 ### exercise: simulate simple confounding {.scrollable}
 
-Copy this code from the slides or the class book (Simulation 1: Simple Confounding).
+Copy the code below.
 
 1.  Run the base simulation and observe results
 
@@ -122,6 +123,8 @@ Copy this code from the slides or the class book (Simulation 1: Simple Confoundi
 
 ```{r, eval = F}
 #| code-fold: true
+
+set.seed(9)
 #number of sims
 N = 1000
 # Generate data
@@ -141,27 +144,36 @@ flist1 <- alist(
   sigma ~ dexp(1)
 )
 
-m32.1 <- quap(flist1, d)
-precis(m32.1)
-
-# Fit models
-flist2 <- alist(
-  Y ~ dnorm(mu, sigma),
-  mu <- a + bX*X +bZ*Z,
-  a ~ dnorm(0, .5),
-  bX ~ dnorm(0, .25),
-  bZ ~ dnorm(0, .25),
-  sigma ~ dexp(1)
+m1 <- brm(
+  data=d,
+  family=gaussian,
+  Y ~ 1 + X,
+  prior = c( prior(normal(0, .50), class=Intercept),
+             prior(normal(0, .25), class=b),
+             prior(exponential(1), class=sigma)),
+  iter=2000, warmup=1000, seed=3, chains=1
 )
 
-m32.2 <- quap(flist2, d)
-precis(m32.2)
+posterior_summary(m1)
 
-post.1 <- extract.samples(m32.1)
-post.2 <- extract.samples(m32.2)
 
-results_df = data.frame(naive = post.1$bX,
-                        adjusted = post.2$bX)
+m2 <- brm(
+  data=d,
+  family=gaussian,
+  Y ~ 1 + X + Z,
+  prior = c( prior(normal(0, .50), class=Intercept),
+             prior(normal(0, .25), class=b),
+             prior(exponential(1), class=sigma)),
+  iter=2000, warmup=1000, seed=3, chains=1
+)
+
+posterior_summary(m2)
+
+post.1 <- as_draws_df(m1)
+post.2 <- as_draws_df(m2)
+
+results_df = data.frame(naive    = post.1$b_X,
+                        adjusted = post.2$b_X)
 results_df %>% 
   pivot_longer(everything()) %>% 
   ggplot(aes(x = value, fill = name)) +
@@ -260,11 +272,22 @@ For example, imagine studying how education affects income, with job type as a m
 -   Education → Job Type → Income
 -   Education also directly affects Income
 
+---
+
 If you include both education and job type in the same regression model, the coefficient for education represents only its direct effect on income (not mediated through job type), not its total effect. However, researchers often mistakenly interpret it as the total effect.
 
-This fallacy becomes particularly problematic when: 1. The research question involves understanding total causal effects 2. There are multiple pathways between variables 3. Some variables act as both confounders and mediators
+This fallacy becomes particularly problematic when: 
 
-To avoid this fallacy, researchers should: - Clearly specify which effects (total vs direct) they're interested in - Use appropriate methods like path analysis or mediation analysis when studying causal relationships - Be precise in their interpretation of regression coefficients - Consider creating separate models for different research questions
+  1. The research question involves understanding total causal effects 
+  2. There are multiple pathways between variables 
+    3. Some variables act as both confounders and mediators
+
+To avoid this fallacy, researchers should: 
+  
+  - Clearly specify which effects (total vs direct) they're interested in 
+  - Use appropriate methods like path analysis or mediation analysis when studying causal relationships 
+  - Be precise in their interpretation of regression coefficients 
+  - Consider creating separate models for different research questions
 
 ::: notes
 As you know, the covariates in a statistical analysis can have a variety of different roles from a causal inference perspective: they can be mediators, confounders, proxy confounders, or competing exposures. If a suitable set of covariates can be identified that removes confounding, we may proceed to estimate our causal effect using a multivariable regression model. In linear regression models, there are only two types of variables: the dependent variable (DV) and independent variables (IVs, or predictors). No further distinction is made between the IVs – specifically, the exposure is by no means a "special" IV and is treated just like any other IV. Thus, as you can see, there is a conceptual mismatch between causal theory (DAG) that leads us to formulate a multivariable regression model (that highlights the exposure-outcome relationship and associated statistical adjustment for confounding) and the regression model itself. This conceptual mismatch can easily lead to misinterpretation of the results from a multivariable regression model.

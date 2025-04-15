@@ -368,16 +368,19 @@ rethinking::drawdag( dag3.2, cex = 3, lwd = 3)
 
 ::: {.column width="50%"}
 ```{r do-M, echo = F}
-post = as_draws_df(m2)
-n = nrow(post)
-As <- sample(d$A, size=n, replace=T) #sample from original data
+set.seed(9)
+As = sample(d$A, replace=T, size=1000)
+nd0 = data.frame(A = As, M=0)
+nd1 = data.frame(A = As, M=1)
+ppd0 = predicted_draws(m2, newdata = nd0) 
+ppd1 = predicted_draws(m2, newdata = nd1) 
 
-M0 = with(post,
-          rnorm(n, mean=b_Intercept + b_A*As, sd=sigma))
-M1= with(post,
-          rnorm(n, mean=b_Intercept + b_M + b_A*As, sd=sigma))
+ppd = full_join(ppd0, ppd1) %>% 
+  pivot_wider(names_from = M, names_prefix = "M",
+              values_from = .prediction) %>% 
+  mutate(diff=M1-M0)
      
-data.frame(M0, M1, diff=M1-M0)  %>% 
+ppd  %>% 
   ggplot(aes(x=diff)) +
   geom_density() +
   labs(title="Implied causal effect of marriage rates on divorce")
