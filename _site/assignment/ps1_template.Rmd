@@ -1,0 +1,54 @@
+---
+title: "Problem Set 1"
+author: "Your Name Here"
+date: "2025-04-07"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.align = "center")
+library(tidyverse)  # Load any packages you need here
+```
+
+## Problem 1: Globe Tossing Posterior Distribution
+
+*Suppose the globe tossing experiment turned out to be 3 water and 11 land. Construct the posterior distribution.*
+
+```{r problem1}
+# Your code here
+# Hint: You might want to:
+# 1. Create a grid of probability values
+# 2. Calculate likelihood and prior
+# 3. Calculate posterior probability
+# 4. Create a plot of the posterior distribution
+
+
+```
+
+Your interpretation here:
+
+
+## Problem 2: Posterior Predictive Distribution
+
+*Using the posterior distribution from Problem 1, compute the posterior predictive distribution for the next 5 tosses of the globe.*
+
+```{r problem2}
+# Your code here
+# Hint: You might want to:
+# 1. Sample from your posterior distribution
+# 2. Use these samples to simulate new tosses
+# 3. Create a visualization of the predictions
+
+
+```
+
+Your interpretation here:
+
+
+## Session Information
+
+```{r session-info}
+# This will help with debugging and reproducibility
+sessionInfo()
+```
+
