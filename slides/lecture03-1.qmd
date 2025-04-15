@@ -17,9 +17,11 @@ format:
 Workspace setup:
 
 ```{r, echo = T, message = F, warning = F}
+library(here)
 library(tidyverse)
 library(cowplot)
-library(rethinking)
+library(brms)
+library(tidybayes)
 library(patchwork)
 ```
 
@@ -40,6 +42,87 @@ options(ggplot2.discrete.fill = default_palettes,
         ggplot2.discrete.colour = default_palettes)
 ```
 
+### Follow up from last week
+
+  * Exponential distributions
+  * b
+
+---
+
+### Exponentials
+
+We started by using uniform distributions for our priors on sigma (standard deviation). They do two nice things for us: (1) they're bounded, so we can limit our prior to a positive value, and (2) they're intuitive. However, they're extremely inefficient. There are a couple other distributions that are better suited to priors for variances/standard deviations. We're going to focus on one: the exponential.
+
+
+The exponential distribution models rates (time between discrete events), but time is also a distance, which is what standard deviations are. The parameter for this distribution ($\lambda$) is the inverse of the rate. In other words, if we think the typical deviation is 2, we should use a rate of 1/2 (or .5). This is a very intuitive way of thinking about deviations, so we'll use this function 
+
+---
+
+
+```{r}
+#| code-fold: true
+# Create a function to generate exponential distribution data
+generate_exponential_data <- function(rate, n = 1000) {
+  data.frame(
+    x = seq(0, 6, length.out = n),
+    density = dexp(seq(0, 6, length.out = n), rate = rate),
+    distribution = paste0("rate = ", rate)
+  )
+}
+
+# Generate data for three different exponential distributions
+dist1 <- generate_exponential_data(rate = 0.5)
+dist2 <- generate_exponential_data(rate = 1.0)
+dist3 <- generate_exponential_data(rate = 2.0)
+
+# Combine the data
+all_dists <- bind_rows(dist1, dist2, dist3)
+
+# Create the plot
+ggplot(all_dists, aes(x = x, y = density, color = distribution)) +
+  geom_line(size = 1.2) +
+  scale_color_manual(values = c("#1c5253", "#e07a5f", "#81b29a")) +
+  labs(
+    title = "Three Different Exponential Distributions",
+    x = "x",
+    y = "Density",
+    color = "Parameters"
+  ) +
+  theme(legend.position = "top")
+```
+
+---
+
+### b for beta
+
+Let me try to clarify the different classes in `brms`. This package uses a set vocabulary of terms to refer to the different parameters in a model. Right now, we're only working with three of these. Here's some example code and the different classes involved:
+
+```{r, eval=F}
+m <- brm(
+  data = d,
+  family = gaussian,
+  y ~ 1 + x, 
+  prior = c( prior(normal(0, 1),   class = "Intercept"),
+             prior(normal(0,.5),   class = "b"),
+             prior(exponential(1), class="sigma")),
+  < other stuff >
+)
+```
+
+Connecting these priors to the mathematical model:
+
+\begin{align*}
+y &\sim \text{Normal}(\mu, \sigma) \\
+\mu &= a + (b\times x) \\
+a &\sim \text{Normal}(0, 1) \\
+b &\sim \text{Normal}(0, .5) \\
+\sigma &\sim \text{Exponential}(1)
+\end{align*}
+
+
+
+---
+
 Last week, we started to build out multiple regression models, those that include both categorical and continuous variables as "main effects" or predictors in a model. These are simple multiple regression models, and they can be extremely useful for things like revealing **spurious correlations** -- zero-order correlations that suggest association even when the two variables are not causally related -- and important correlations that are masked by other variables.
 
 However, you cannot interpret the coefficients in any multiple regression model without identifying the underlying causal model. This week, we'll use **Directed Acyclic Graphs (DAGs)** to develop and visualize our causal models. These DAGs will then help us determine which variables, if any, to control for when trying to estimate causal pathways. Along the way, we'll discuss some common mistakes when it comes to controls and their disasterious consequences.
@@ -58,7 +141,7 @@ This will also be a good opportunity to practice the mathematical models and cod
 library(dagitty)
 dag3.1 <- dagitty( "dag{ Z -> X; Z -> Y }" )
 coordinates(dag3.1) <- list( x=c(X=-1,Z=0,Y=1) , y=c(X=0,Z=-1,Y=0) )
-drawdag( dag3.1, cex = 3, lwd = 3 )
+rethinking::drawdag( dag3.1, cex = 3, lwd = 3 )
 ```
 
 True confounds.
@@ -102,11 +185,9 @@ p2 <- d %>% ggplot(aes(x = MedianAgeMarriage, y = Divorce)) +
 
 ### exercise
 
-Model the relationship between Divorce Rate (D) and Marriage Rate (M). (Standardize both first.) Be sure to do the following:
+Model the relationship between Divorce Rate (D) and Marriage Rate (M). (rethinking::standardize both first.) Be sure to do the following:
 
 -   Write a mathematical model expressing this relationship including priors.
-
--   Sample from your priors to evaluate them.
 
 -   Calculate your posterior predictions for the relationship between D and M.
 
@@ -123,8 +204,8 @@ D_i &\sim \text{Normal}(\mu_i, \sigma) \\
 \end{align*}
 
 ```{r}
-d$D <- standardize(d$Divorce)
-d$M <- standardize(d$Marriage)
+d$D <- rethinking::standardize(d$Divorce)
+d$M <- rethinking::standardize(d$Marriage)
 ```
 
 :::
@@ -134,15 +215,16 @@ d$M <- standardize(d$Marriage)
 ### solution
 
 ```{r}
-flist <- alist(
-  D ~ dnorm( mu, sigma),
-  mu <- a + bM * M,
-  a ~ dnorm(0, 0.2),
-  bM ~ dnorm(0, 0.5),
-  sigma ~ dexp(1)
+m1 <- brm(
+  data = d,
+  family = gaussian,
+  D ~ 1 + M,
+  prior = c( prior(normal(0, .2),  class=Intercept),
+             prior(normal(0, .5),  class=b),
+             prior(exponential(1), class=sigma)),
+  iter=2000, warmup=1000, seed=2, chains=1,
+  file=here("files/models/31.1")
 )
-
-m3.1 <- quap(flist = flist, data = d)
 ```
 
 ------------------------------------------------------------------------
@@ -150,18 +232,7 @@ m3.1 <- quap(flist = flist, data = d)
 ### solution
 
 ```{r}
-priors <- extract.prior(m3.1)
-mu <- link( m3.1 , post=priors , data=list( M=c(-2,3) ) )
-plot( D ~ M , data=d, xlab = "marriage rate", ylab = "divorce rate" )
-for ( i in 1:50 ) lines( c(-2,3) , mu[i,] , col=col.alpha("#1c5253",0.4) )
-```
-
-------------------------------------------------------------------------
-
-### solution
-
-```{r}
-precis(m3.1)
+posterior_summary(m1)
 ```
 
 Bonus: a plot
@@ -169,17 +240,18 @@ Bonus: a plot
 ```{r}
 #| code-fold: true
 
-# compute percentile interval of mean
-M_seq <- seq( from=-3 , to=3.2 , length.out=30 )
-mu <- link( m3.1 , data=list(M=M_seq) )
-mu.mean <- apply( mu , 2, mean )
-mu.PI <- apply( mu , 2 , PI )
+post = as_draws_df(m1)
 
 
 # plot it all
-plot( D ~ M , data=d , col= "#1c5253", xlab = "marriage rate", ylab = "divorce rate" )
-lines( M_seq , mu.mean , lwd=2 )
-shade( mu.PI , M_seq )
+ggplot(d, aes(x = M, y = D)) +
+  geom_point() +
+  geom_abline( aes(intercept = b_Intercept, slope = b_M), 
+               data = post[1:20, ],
+               col= "#1c5253", 
+               alpha = .3) +
+  labs( x="marriage rate",
+        y="divorce rate")
 ```
 
 ------------------------------------------------------------------------
@@ -189,7 +261,7 @@ Now we're going to incorporate state age (median age at marriage) into our model
 ```{r}
 dag3.2 <- dagitty( "dag{ A -> D; A -> M; M -> D }" )
 coordinates(dag3.2) <- list( x=c(A=0,D=1,M=2) , y=c(A=0,D=1,M=0) )
-drawdag( dag3.2, cex = 3, lwd = 3 )
+rethinking::drawdag( dag3.2, cex = 3, lwd = 3 )
 ```
 
 ------------------------------------------------------------------------
@@ -216,7 +288,7 @@ How does this change with a new DAG?
 ```{r}
 dag3.3 <- dagitty( "dag{ A -> D; A -> M }" )
 coordinates(dag3.3) <- list( x=c(A=0,D=1,M=2) , y=c(A=0,D=1,M=0) )
-drawdag( dag3.3, cex = 3, lwd = 3 )
+rethinking::drawdag( dag3.3, cex = 3, lwd = 3 )
 impliedConditionalIndependencies( dag3.3 ) 
 ```
 
@@ -236,30 +308,52 @@ D_i &\sim \text{Normal}(\mu_i, \sigma) \\
 \end{align*}
 
 ```{r}
-d$A <- standardize(d$MedianAgeMarriage)
+d$A <- rethinking::standardize(d$MedianAgeMarriage)
+
 ```
 
 ------------------------------------------------------------------------
 
 ```{r}
-flist <- alist(
-  D ~ dnorm( mu, sigma),
-  mu <- a + bA * A + bM * M,
-  a ~ dnorm(0, 0.2),
-  bA ~ dnorm(0, 0.5),
-  bM ~ dnorm(0, 0.5),
-  sigma ~ dexp(1)
+m2 <- brm(
+  data=d,
+  family=gaussian,
+  D ~ 1 + A + M,
+  prior = c( prior(normal(0, .2),  class=Intercept),
+             prior(normal(0, .5),  class=b, coef="A"), #optional
+             prior(normal(0, .5),  class=b, coef="M"),
+             prior(exponential(1), class=sigma)),
+  iter=2000, warmup=1000, seed=3, chains=1,
+  file=here("files/models31.2")
 )
 
-m3.2 <- quap(flist = flist, data = d)
-precis(m3.2)
 ```
 
 ------------------------------------------------------------------------
 
+Let's compare the effect of marriage rate for these two models.
+
 ```{r}
-plot( coeftab(m3.1,m3.2), par=c("bA","bM") )
+post1 = as_draws_df(m1) %>% mutate(model="total effect")
+post2 = as_draws_df(m2) %>% mutate(model="direct effect")
+full_join(post1, post2) %>% 
+  group_by(model) %>% 
+  mean_qi(b_M)
 ```
+
+Bonus: a plot
+
+```{r}
+#| code-fold: true
+full_join(post1, post2) %>% 
+  ggplot( aes(y=model, x=b_M, fill = after_stat(x > 0) ) )  + 
+  stat_halfeye() +
+  geom_vline(xintercept=0, linetype="dashed") +
+  scale_fill_manual(values=c("grey", "#1c5253")) +
+  guides(fill="none") +
+  labs(x="Marriage effect", y=NULL)
+```
+
 
 ------------------------------------------------------------------------
 
@@ -268,26 +362,25 @@ If we want to simulate the effect of manipulating marriage, we use "do calculus.
 ::::: columns
 ::: {.column width="50%"}
 ```{r, echo = F}
-drawdag( dag3.2, cex = 3, lwd = 3)
+rethinking::drawdag( dag3.2, cex = 3, lwd = 3)
 ```
 :::
 
 ::: {.column width="50%"}
 ```{r do-M, echo = F}
-post <- extract.samples(m3.2) # get 10k samples of all parameters
-n <- 1e4
+post = as_draws_df(m2)
+n = nrow(post)
 As <- sample(d$A, size=n, replace=T) #sample from original data
 
-# simulate D for M=0
-DM0 <- with( post ,
-             rnorm(n, a + bM*0 + bA*As, sigma))
-# simulate D for M=1 -- SAME A values
-DM1 <- with( post ,
-             rnorm(n, a + bM*1 + bA*As, sigma))
-
-#contrast
-M10_con <- DM1 - DM0
-dens(M10_con, lwd=4, col = "#1c5253", xlab="effect of 1SD increase in M")
+M0 = with(post,
+          rnorm(n, mean=b_Intercept + b_A*As, sd=sigma))
+M1= with(post,
+          rnorm(n, mean=b_Intercept + b_M + b_A*As, sd=sigma))
+     
+data.frame(M0, M1, diff=M1-M0)  %>% 
+  ggplot(aes(x=diff)) +
+  geom_density() +
+  labs(title="Implied causal effect of marriage rates on divorce")
 ```
 :::
 :::::
@@ -296,8 +389,33 @@ dens(M10_con, lwd=4, col = "#1c5253", xlab="effect of 1SD increase in M")
 
 ```
 
+---
 
+### fitting the direct and total at once
 
+```{r}
+d_model <- bf(D ~ 1 + A + M)
+m_model <- bf(M ~ 1 + A)
+m2c <-
+  brm(data = d, 
+      family = gaussian,
+      d_model + m_model + set_rescor(FALSE),
+      prior = c(prior(normal(0, 0.2), class = Intercept, resp = D),
+                prior(normal(0, 0.5), class = b,         resp = D),
+                prior(exponential(1), class = sigma,     resp = D),
+                
+                prior(normal(0, 0.2), class = Intercept, resp = M),
+                prior(normal(0, 0.5), class = b,         resp = M),
+                prior(exponential(1), class = sigma,     resp = M)),
+      iter = 2000, warmup = 1000, chains = 1, seed = 5,
+      file = here("files/models/m31.2c"))
+```
+
+---
+
+```{r}
+posterior_summary(m2c) %>% round(2)
+```
 
 ------------------------------------------------------------------------
 
@@ -308,7 +426,7 @@ A pipe in a DAG model represents a situation where a variable acts as a mediator
 ```{r}
 dag_pipe <- dagitty("dag{ X -> M -> Y }")
 coordinates(dag_pipe) <- list(x=c(X=0, M=1, Y=2), y=c(X=0, M=1, Y=0))
-drawdag(dag_pipe, cex = 3, lwd = 3)
+rethinking::drawdag(dag_pipe, cex = 3, lwd = 3)
 ```
 
 One place that pipes show up is in **post-treatment bias.**
@@ -331,7 +449,7 @@ fungus <- rbinom( N , size=1 , prob=0.5 - treatment*0.4 )
 h1 <- h0 + rnorm(N, 5 - 3*fungus)
 # compose a clean data frame
 d <- data.frame( h0=h0 , h1=h1 , treatment=treatment , fungus=fungus )
-precis(d)
+rethinking::precis(d)
 ```
 
 ------------------------------------------------------------------------
@@ -355,7 +473,7 @@ plant_dag <- dagitty( "dag {
 coordinates( plant_dag ) <- list( x=c(H_0=1.0,T=0,F=0.5,H_1=1),
                                   y=c(H_0=-.5,T=0,F=0.5,H_1=0) )
 
-drawdag( plant_dag, cex = 3, lwd = 3 )
+rethinking::drawdag( plant_dag, cex = 3, lwd = 3 )
 impliedConditionalIndependencies(plant_dag)
 ```
 
@@ -371,15 +489,17 @@ p &\sim \text{Log Normal}(0, .25) \\
 \end{align*}
 
 ```{r}
-flist <- alist(
-  h1 ~ dnorm(mu, sigma),
-  mu <- h0*p,
-  p ~ dlnorm(0, .25),
-  sigma ~ dexp(1)
+m3 <- brm(
+  data=d,
+  family=gaussian,
+  h1 ~ 0 + h0,
+  prior = c( prior(lognormal(0, .25), class=b, lb=0),
+             prior(exponential(1),    class=sigma)),
+  iter=2000, warmup=1000, seed=3, chains=1,
+  file=here("files/models/31.3")
 )
 
-m3.3 <- quap(flist, d)
-precis(m3.3)
+posterior_summary(m3)
 ```
 
 ------------------------------------------------------------------------
@@ -389,27 +509,40 @@ Now add treatment to this model.
 \begin{align*}
 h_{1,i} &\sim \text{Normal}(\mu_i, \sigma) \\
 \mu_i &= h_{0,i} \times p \\
-p &= \alpha + \beta_TT_i \\
+p &= \alpha + \beta \text{treatment}_i \\
 \alpha &\sim \text{Log Normal}(0, .25) \\
 \beta_T &\sim \text{Normal}(0, .5) \\
 \sigma &\sim \text{Exponential}(1)
 \end{align*}
 
-```{r}
-flist <- alist(
-  h1 ~ dnorm(mu, sigma),
-  mu <- h0*p,
-  p <- a + bT * treatment,
-  a ~ dlnorm(0, .25),
-  bT ~ dnorm(0, .5),
-  sigma ~ dexp(1)
-)
+The trick to this is combining the two deterministic formulas:
 
-m3.4 <- quap(flist, d)
-precis(m3.4)
+$$
+\mu_i = h_{0i} \times (\alpha + \beta\text{treatment}_i)
+$$
+
+```{r}
+m4 <- brm(
+  data = d,
+  family = gaussian,
+  bf(
+    h1 ~ h0 * (a + t * treatment),
+    a + t ~ 1,
+    nl = TRUE),
+  prior = c( prior(normal(0, .25), nlpar=a),
+             prior(normal(0, .50), nlpar=t),
+             prior(exponential(1), class=sigma)),
+  iter=2000, warmup=1000, chains=1, seed=9,
+  file = here("files/models/31.4")
+)
 ```
 
 ------------------------------------------------------------------------
+
+```{r}
+posterior_summary(m4)
+```
+
 
 ### exercise
 
@@ -430,19 +563,40 @@ p &= \alpha + \beta_TT_i + \beta_FF_i \\
 \end{align*}
 
 ```{r}
-flist <- alist(
-  h1 ~ dnorm(mu, sigma),
-  mu <- h0*p,
-  p <- a + bT * treatment + bF * fungus,
-  a ~ dlnorm(0, .25),
-  bT ~ dnorm(0, .5),
-  bF ~ dnorm(0, .5),
-  sigma ~ dexp(1)
+m5 <- brm(
+  data = d,
+  family = gaussian,
+  bf(
+    h1 ~ h0 * (a + t * treatment + f * fungus),
+    a + t + f ~ 1,
+    nl = TRUE),
+  prior = c( prior(normal(0, .25), nlpar=a),
+             prior(normal(0, .50), nlpar=t),
+             prior(normal(0, .50), nlpar=f),
+             prior(exponential(1), class=sigma)),
+  iter=2000, warmup=1000, chains=1, seed=9,
+  file = here("files/models/31.5")
 )
-
-m3.4 <- quap(flist, d)
-precis(m3.4)
 ```
+
+
+---
+
+
+```{r}
+#| code-fold: true
+post4 = as_draws_df(m4) %>% mutate(model="without fungus")
+post5 = as_draws_df(m5) %>% mutate(model="with fungus")
+full_join(post4, post5) %>% 
+  ggplot( aes(y=model, x=b_t_Intercept, fill = after_stat(x > 0)) ) +
+  stat_halfeye() +
+  scale_fill_manual(values=c("grey", "#1c5253")) +
+  geom_vline(aes(xintercept=0), linetype = "dashed") +
+  guides(fill="none") +
+  labs(x = "Estimated effect of treatment",
+       y=NULL)
+```
+
 
 ------------------------------------------------------------------------
 
@@ -451,7 +605,7 @@ precis(m3.4)
 ```{r, fig.height=2, fig.width=8}
 dag3.4 <- dagitty( "dag{ X -> Z; Y -> Z }" )
 coordinates(dag3.4) <- list( x=c(X=-1,Z=0,Y=1) , y=c(X=0,Z=1,Y=0) )
-drawdag( dag3.4, cex = 3, lwd = 3 )
+rethinking::drawdag( dag3.4, cex = 3, lwd = 3 )
 ```
 
 Stratifying on Z opens up the association between X and Y. We do *not* want to stratify on Z.
@@ -469,8 +623,8 @@ We'll use the `rethinking` package to simulate data:
 -   After age 65, individuals leave the sample. (They move to Spain.)
 
 ```{r}
-d <- sim_happiness(seed = 1990, N_years = 1000)
-precis(d)
+d <- rethinking::sim_happiness(seed = 1990, N_years = 1000)
+rethinking::precis(d)
 ```
 
 ------------------------------------------------------------------------
@@ -497,7 +651,7 @@ Filter out people who are younger than 18. Then fit two models:
 (1) a model in which happiness is influenced by both marriage and age.
 (2) a model in which happiness is influenced only by age.
 
-(You may want to center or standardize age in some way.)
+(You may want to center or rethinking::standardize age in some way.)
 
 ------------------------------------------------------------------------
 
@@ -505,9 +659,22 @@ Filter out people who are younger than 18. Then fit two models:
 
 ```{r}
 d2 <- d[d$age >= 18, ]
-d2$A <- standardize(d2$age)
-d2$mid <- d2$married + 1
-precis(d2)
+d2$A <- rethinking::standardize(d2$age)
+d2$mid <- as.factor(d2$married + 1)
+
+m6 <- brm(
+  data=d2, 
+  family=gaussian,
+  bf( happiness ~ 0 + a + b*A, 
+      a ~ 0 + mid,
+      b ~ 0 + mid,
+      nl = TRUE),
+  prior = c( prior(normal(0, .50), nlpar=a),
+             prior(normal(0, .25), nlpar=b),
+             prior(exponential(1), class=sigma)),
+  iter=2000, warmup=1000, seed=9, chains=1,
+  file = here("files/models/31.6")
+)
 ```
 
 ------------------------------------------------------------------------
@@ -515,16 +682,18 @@ precis(d2)
 ### solution
 
 ```{r}
-flist <- alist(
-  happiness ~ dnorm( mu, sigma ),
-  mu <- a[mid] + bA*A,
-  a[mid] ~ dnorm( 0, 0.5),
-  bA ~ dnorm( 0, 0.25),
-  sigma ~ dexp(1)
-)
+posterior_summary(m6) %>% round(2)
 
-m3.5 <- quap(flist, d2)
-precis(m3.5, depth=2)
+m7 <- brm(
+  data=d2, 
+  family=gaussian,
+  happiness ~ A,
+  prior = c( prior(normal(0, .50), class=Intercept),
+             prior(normal(0, .25), class=b),
+             prior(exponential(1), class=sigma)),
+  iter=2000, warmup=1000, seed=9, chains=1,
+  file = here("files/models/31.7")
+)
 ```
 
 ------------------------------------------------------------------------
@@ -532,17 +701,32 @@ precis(m3.5, depth=2)
 ### solution
 
 ```{r}
-flist <- alist(
-  happiness ~ dnorm( mu, sigma ),
-  mu <- a + bA*A,
-  a ~ dnorm( 0, 0.5),
-  bA ~ dnorm( 0, 0.25),
-  sigma ~ dexp(1)
-)
-
-m3.6 <- quap(flist, d2)
-precis(m3.6, depth=2)
+posterior_summary(m7) %>% round(2)
 ```
+
+----
+
+```{r}
+post6 = as_draws_df(m6) 
+post7 = as_draws_df(m7)
+
+data.frame(b_b_mid1 = post6$b_b_mid1, 
+      b_b_mid2 = post6$b_b_mid2, 
+      b_A = post7$b_A) %>% 
+  pivot_longer(everything()) %>% 
+  mutate(name = case_when(
+    str_detect(name, "1") ~ "Within unmarried",
+    str_detect(name, "2") ~ "Within married",
+    TRUE ~ "Unstratified"
+  )) %>% 
+  ggplot(aes( y=name, x=value, fill = after_stat(x < 0) ) )  + 
+  stat_halfeye() +
+  geom_vline(xintercept=0, linetype="dashed") +
+  scale_fill_manual(values=c("grey", "#1c5253")) +
+  guides(fill="none") +
+  labs(x="Age effect", y=NULL)
+```
+
 
 ------------------------------------------------------------------------
 

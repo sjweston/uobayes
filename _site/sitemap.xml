@@ -69,72 +69,76 @@
     <lastmod>2025-03-23T21:22:17.932Z</lastmod>
   </url>
   <url>
-    <loc>https://uobayes.netlify.app/example/rstudio-tidyverse.html</loc>
-    <lastmod>2025-03-23T21:22:17.223Z</lastmod>
-  </url>
-  <url>
-    <loc>https://uobayes.netlify.app/assignment/09-problem-set.html</loc>
-    <lastmod>2025-03-23T21:22:17.219Z</lastmod>
-  </url>
-  <url>
-    <loc>https://uobayes.netlify.app/assignment/07-problem-set.html</loc>
-    <lastmod>2025-03-23T21:22:17.218Z</lastmod>
-  </url>
-  <url>
-    <loc>https://uobayes.netlify.app/assignment/05-problem-set.html</loc>
-    <lastmod>2025-03-23T21:22:17.218Z</lastmod>
-  </url>
-  <url>
-    <loc>https://uobayes.netlify.app/assignment/03-problem-set.html</loc>
-    <lastmod>2025-03-23T21:22:17.217Z</lastmod>
-  </url>
-  <url>
-    <loc>https://uobayes.netlify.app/resource/index.html</loc>
-    <lastmod>2025-04-03T23:11:47.936Z</lastmod>
-  </url>
-  <url>
-    <loc>https://uobayes.netlify.app/example/index.html</loc>
-    <lastmod>2025-03-23T21:22:17.223Z</lastmod>
-  </url>
-  <url>
-    <loc>https://uobayes.netlify.app/assignment/index.html</loc>
-    <lastmod>2025-03-23T21:22:17.219Z</lastmod>
-  </url>
-  <url>
-    <loc>https://uobayes.netlify.app/content/index.html</loc>
-    <lastmod>2025-03-23T21:22:17.221Z</lastmod>
-  </url>
-  <url>
-    <loc>https://uobayes.netlify.app/resource/citations.html</loc>
-    <lastmod>2025-03-23T21:22:17.345Z</lastmod>
-  </url>
-  <url>
-    <loc>https://uobayes.netlify.app/resource/r.html</loc>
-    <lastmod>2025-03-25T17:17:06.269Z</lastmod>
-  </url>
-  <url>
-    <loc>https://uobayes.netlify.app/assignment/02-problem-set.html</loc>
-    <lastmod>2025-04-08T23:43:28.862Z</lastmod>
-  </url>
-  <url>
-    <loc>https://uobayes.netlify.app/assignment/04-problem-set.html</loc>
-    <lastmod>2025-03-23T21:22:17.217Z</lastmod>
-  </url>
-  <url>
-    <loc>https://uobayes.netlify.app/assignment/06-problem-set.html</loc>
-    <lastmod>2025-03-23T21:22:17.218Z</lastmod>
-  </url>
-  <url>
-    <loc>https://uobayes.netlify.app/assignment/08-problem-set.html</loc>
-    <lastmod>2025-03-23T21:22:17.218Z</lastmod>
+    <loc>https://uobayes.netlify.app/news/index.html</loc>
+    <lastmod>2025-03-23T21:22:17.325Z</lastmod>
   </url>
   <url>
     <loc>https://uobayes.netlify.app/assignment/10-problem-set.html</loc>
     <lastmod>2025-03-23T21:22:17.219Z</lastmod>
   </url>
   <url>
-    <loc>https://uobayes.netlify.app/news/index.html</loc>
-    <lastmod>2025-03-23T21:22:17.325Z</lastmod>
+    <loc>https://uobayes.netlify.app/assignment/08-problem-set.html</loc>
+    <lastmod>2025-03-23T21:22:17.218Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uobayes.netlify.app/assignment/06-problem-set.html</loc>
+    <lastmod>2025-03-23T21:22:17.218Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uobayes.netlify.app/assignment/04-problem-set.html</loc>
+    <lastmod>2025-03-23T21:22:17.217Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uobayes.netlify.app/assignment/02-problem-set.html</loc>
+    <lastmod>2025-04-08T23:43:28.862Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uobayes.netlify.app/resource/r.html</loc>
+    <lastmod>2025-03-25T17:17:06.269Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uobayes.netlify.app/resource/citations.html</loc>
+    <lastmod>2025-03-23T21:22:17.345Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uobayes.netlify.app/content/index.html</loc>
+    <lastmod>2025-03-23T21:22:17.221Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uobayes.netlify.app/assignment/index.html</loc>
+    <lastmod>2025-03-23T21:22:17.219Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uobayes.netlify.app/example/index.html</loc>
+    <lastmod>2025-03-23T21:22:17.223Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uobayes.netlify.app/resource/index.html</loc>
+    <lastmod>2025-04-03T23:11:47.936Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uobayes.netlify.app/assignment/03-problem-set.html</loc>
+    <lastmod>2025-03-23T21:22:17.217Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uobayes.netlify.app/assignment/05-problem-set.html</loc>
+    <lastmod>2025-03-23T21:22:17.218Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uobayes.netlify.app/assignment/07-problem-set.html</loc>
+    <lastmod>2025-03-23T21:22:17.218Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uobayes.netlify.app/assignment/09-problem-set.html</loc>
+    <lastmod>2025-03-23T21:22:17.219Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uobayes.netlify.app/example/rstudio-tidyverse.html</loc>
+    <lastmod>2025-03-23T21:22:17.223Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uobayes.netlify.app/resource/sara_defaults.html</loc>
+    <lastmod>2025-04-10T22:27:22.971Z</lastmod>
   </url>
   <url>
     <loc>https://uobayes.netlify.app/index.html</loc>

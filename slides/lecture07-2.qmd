@@ -230,10 +230,13 @@ loo_compare(m_simple, m_varying, criterion = "loo") %>%
 ---
 
 ```{r}
-# posterior predictive check
 pp_check(m_simple, ndraws = 5, type="hist") +
   ggtitle("Simple Model")
+```
 
+---
+
+```{r}
 pp_check(m_varying, ndraws = 5, type="hist") +
   ggtitle("Varying Intercepts Model")
 ```
@@ -274,6 +277,7 @@ f %>%
               fill = "#0f393a",
               alpha=.3) +
   geom_line(color="#0f393a") +
+  scale_y_continuous(limits=c(0,1)) +
   facet_wrap(~actor)
 ```
 
@@ -444,6 +448,7 @@ f %>%
 Two new participants
 
 ```{r}
+#| code-fold: true
 # create data for 2 new participants
 nd <- distinct(Trolley, action, intention, contact) %>%
   slice(rep(1:n(), times = 2)) %>%

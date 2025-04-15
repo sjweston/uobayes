@@ -1,0 +1,26 @@
+---
+title: Sara's defaults
+---
+
+## Context
+
+You maybe noticed that my plots look a bit different to yours in class. That's because I set defaults in my Markdown files for plot themes and colors. The ensures that all my plots have a similar vibe but I don't have to manually specify colors each time. Here's what I use:
+
+```{r, eval = F}
+knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
+theme_set(theme_cowplot())
+default_palettes <- list(
+  c("#5e8485" , "#0f393a") ,
+  c("#1c5253" , "#5e8485" , "#0f393a") , 
+  # palette with 5 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" ) ,
+  # same palette interpolated to 8 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" ) 
+  
+)
+
+options(ggplot2.discrete.fill = default_palettes, 
+        ggplot2.discrete.colour = default_palettes)
+```
+
+I wrap this inside a code chunk at the beginning of my Markdown files. It comes just after the code chunk with my packages. 

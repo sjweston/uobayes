@@ -617,257 +617,191 @@
     "text": "Course Policies\n\nCommunication\nIf you have questions about course policies, have trouble submitting an assignment, or want to schedule a meeting, please email. I will make an effort to respond to emails within one business day. Note that I neither plan nor commit to checking email outside of normal business hours (9am-5pm, Mon-Fri).\nIf you are having trouble understanding a concept covered in class, please come to office hours, schedule a meeting with me, ask for clarification during class periods, or use the class Slack to get help from the group. I will not explain course concepts over email.\nOccasionally, I will send out announcements to the entire class via Canvas announcements. These will typically appear when you open Canvas, but you can update your Canvas settings to receive these announcements as emails. It is strongly recommended that you do so.\n\n\nClassroom Expectations\nAll members of the class (students and instructor) can expect to:\nParticipate and Contribute: All students are expected to participate by sharing ideas and contributing to the learning environment. This entails preparing, following instructions, and engaging respectfully and thoughtfully with others.\nWhile all students should participate, participation is not just talking, and a range of participation activities support learning. Participation might look like speaking aloud in the full class and in small groups and collaborating on homework assignments.\nExpect and Respect Diversity: All classes at the University of Oregon welcome and respect diverse experiences, perspectives, and approaches. What is not welcome are behaviors or contributions that undermine, demean, or marginalize others based on race, ethnicity, gender, sex, age, sexual orientation, religion, ability, or socioeconomic status. We will value differences and communicate disagreements with respect.\nHelp Everyone Learn: Part of how we learn together is by learning from one another. To do this effectively, we need to be patient with each other, identify ways we can assist others, and be open-minded to receiving help and feedback from others. Don’t hesitate to contact me to ask for assistance or offer suggestions that might help us learn better.\n\n\nWorkload\nThis is a 3-credit hour course, so you should expect to complete 120 hours of work for the course—an average of about 12 hours each week (this includes time in-class).\n\n\nGenerative AI Policy\nWhile generative AI tools (such as ChatGPT, Claude, and Cursor) can be useful for assisting with certain tasks, it’s important to use these technologies responsibly and ethically.\nGood uses of AI:\n\nExploring concepts, generating code ideas, and providing explanations for topics covered in the course\nCreating preliminary drafts of code, data analysis plans, or written reports (with review and testing)\nBrainstorming research questions, identifying key terms, or helping summarize complex literature\n\nBad uses of AI:\n\nGenerating entire assignments, projects, or reports without manual oversight\nUsing AI in place of collaborating with peers\nSubmitting AI-generated content without proper attribution\n\nRequired Disclosure: Students who use AI tools must include a brief statement at the end of their submission describing how and where the tool was used. Failure to disclose AI use may result in grade reduction or disciplinary action.\n\n\nAcademic Integrity\nFrankly, you’re in graduate school, and the purpose of work is to create opportunities to learn and improve. Even if cheating helps you in the short term, you’ll quickly find yourself ill-prepared for the career you have chosen. If you find yourself tempted to cheat, please come speak to Dr. Weston about an extension and developing tools to improve your success.\n\n\nAccessibility\nThe University of Oregon and I are dedicated to fostering inclusive learning environments for all students and welcomes students with disabilities into all of the University’s educational programs. The Accessible Education Center (AEC) assists students with disabilities in reducing campus-wide and classroom-related barriers. If you have or think you have a disability (https://aec.uoregon.edu/content/what-disability) and experience academic barriers, please contact the AEC to discuss appropriate accommodations or support. Visit 360 Oregon Hall or aec.uoregon.edu for more information. You can contact AEC at 541-346-1155 or via email at uoaec@uoregon.edu.\n\n\nBasic Needs\nBeing able to meet your basic needs is foundational to your success as a student at the University of Oregon. If you are having difficulty affording food, don’t have a stable, safe place to live, or are struggling to meet another need, visit the UO Basic Needs Resource page for information on how to get support. They have information food, housing, healthcare, childcare, transportation, technology, finances (including emergency funds), and legal support.\nIf your need is urgent, please contact the Care and Advocacy Program by calling 541-346-3216, filling out the Community Care and Support form, or by scheduling an appointment with an advocate.\n\n\nReporting Obligations\nI am a designated reporter. For information about my reporting obligations as an employee, please see Employee Reporting Obligations on the Office of Investigations and Civil Rights Compliance (OICRC) website. Students experiencing sex- or gender-based discrimination, harassment or violence should call the 24-7 hotline 541-346-SAFE [7244] or visit safe.uoregon.edu for help. Students experiencing all forms of prohibited discrimination or harassment may contact the Dean of Students Office at 541-346-3216 or the non-confidential Title IX Coordinator/OICRC at 541-346-3123 to request information and resources. Students are not required to participate in an investigation to receive support, including requesting academic supportive measures. Additional resources are available at investigations.uoregon.edu/how-get-support.\nI am also a mandatory reporter of child abuse. Please find more information at Mandatory Reporting of Child Abuse and Neglect.\n\n\nPregnancy Accommodations\nPregnant and parenting students are eligible for academic and work modifications related to pregnancy, childbirth, loss of pregnancy, termination of pregnancy, lactation, and related medical conditions. To request pregnancy-related modifications, students should complete the Request for Pregnancy Modifications form on the OICRC website. OICRC coordinates academic and other modifications for pregnant and parenting students to ensure students can continue to access their education and university programs and activities.\n\n\nCampus Emergencies\nIn the event of a campus emergency that disrupts academic activities, course requirements, deadlines, and grading percentages are subject to change. Information about changes in this course will be communicated as soon as possible by email, and on Canvas. If we are not able to meet face-to-face, students should immediately log onto Canvas and read any announcements and/or access alternative assignments. Students are also expected to continue coursework as outlined in this syllabus or other instructions on Canvas."
   },
   {
-    "objectID": "example/rstudio-tidyverse.html",
-    "href": "example/rstudio-tidyverse.html",
-    "title": "R, RStudio, and the tidyverse",
+    "objectID": "news/index.html",
+    "href": "news/index.html",
+    "title": "Course News",
     "section": "",
-    "text": "This course assumes that you’re already familiar with R, RStudio, Markdown, and the tidyverse. If you’re not, or if you’re looking to brush up, here are some resources for helping you get up to speed."
+    "text": "Date\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "example/rstudio-tidyverse.html#part-1-the-basics-of-r-and-dplyr",
-    "href": "example/rstudio-tidyverse.html#part-1-the-basics-of-r-and-dplyr",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "Part 1: The basics of R and dplyr",
-    "text": "Part 1: The basics of R and dplyr\n\nThe Basics\n\nVisualization Basics\nProgramming Basics\n\nWork with Data\n\nWorking with Tibbles\nIsolating Data with dplyr\nDeriving Information with dplyr\n\nVisualize Data\n\nExploratory Data Analysis\nBar Charts\nHistograms\nBoxplots and Counts\nScatterplots\nLine plots\nOverplotting and Big Data\nCustomize Your Plots\n\nTidy Your Data\n\nReshape Data\n\n\n\n\n\n\n\n\nNote\n\n\n\nRecent versions of tidyr have renamed these core functions: gather() is now pivot_longer() and spread() is now pivot_wider(). The syntax for these pivot_*() functions is slightly different from what it was in gather() and spread(), so you can’t just replace the names. Fortunately, both gather() and spread() still work and won’t go away for a while, so you can still use them as you learn about reshaping and tidying data. It would be worth learning how the newer pivot_*() functions work, eventually, though (see here for examples).\n\n\nThe content from these primers comes from the (free and online!) book R for Data Science by Garrett Grolemund and Hadley Wickham. I highly recommend the book as a reference and for continuing to learn and use R in the future."
-  },
-  {
-    "objectID": "example/rstudio-tidyverse.html#part-2-getting-familiar-with-rstudio",
-    "href": "example/rstudio-tidyverse.html#part-2-getting-familiar-with-rstudio",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "Part 2: Getting familiar with RStudio",
-    "text": "Part 2: Getting familiar with RStudio\nThe RStudio primers you just worked through are a great introduction to writing and running R code, but you typically won’t type code in a browser when you work with R. Instead, you’ll use a nicer programming environment like RStudio, which lets you type and save code in scripts, run code from those scripts, and see the output of that code, all in the same program.\nTo get familiar with RStudio, watch this video by Andrew Heiss:"
-  },
-  {
-    "objectID": "example/rstudio-tidyverse.html#part-3-rstudio-projects",
-    "href": "example/rstudio-tidyverse.html#part-3-rstudio-projects",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "Part 3: RStudio Projects",
-    "text": "Part 3: RStudio Projects\nOne of the most powerful and useful aspects of RStudio is its ability to manage projects.\nWhen you first open R, it is “pointed” at some folder on your computer, and anything you do will be relative to that folder. The technical term for this is a “working directory.”\nWhen you first open RStudio, look in the area right at the top of the Console pane to see your current working directory. Most likely you’ll see something cryptic: ~/\n\n\n\n\n\n\n\n\n\nThat tilde sign (~) is a shortcut that stands for your user directory. On Windows this is C:\\Users\\your_user_name\\; on macOS this is /Users/your_user_name/. With the working directory set to ~/, R is “pointed” at that folder, and anything you save will end up in that folder, and R will expect any data that you load to be there too.\nIt’s always best to point R at some other directory. If you don’t use RStudio, you need to manually set the working directory to where you want it with setwd(), and many R scripts in the wild include something like setwd(\"C:\\\\Users\\\\bill\\\\Desktop\\\\Important research project\") at the beginning to change the directory. THIS IS BAD THOUGH (see here for an explanation). If you ever move that directory somewhere else, or run the script on a different computer, or share the project with someone, the path will be wrong and nothing will run and you will be sad.\nThe best way to deal with working directories with RStudio is to use RStudio Projects. These are special files that RStudio creates for you that end in a .Rproj extension. When you open one of these special files, a new RStudio instance will open up and be pointed at the correct directory automatically. If you move the folder later or open it on a different computer, it will work just fine and you will not be sad.\nRead this super short chapter on RStudio projects to learn how to create and use them\nIn general, you can create a new project by going to File &gt; New Project &gt; New Directory &gt; Empty Project, which will create a new folder on your computer that is empty except for a single .Rproj file. Double click on that file to open an RStudio instance that is pointed at the correct folder."
-  },
-  {
-    "objectID": "example/rstudio-tidyverse.html#part-4-getting-familiar-with-r-markdown",
-    "href": "example/rstudio-tidyverse.html#part-4-getting-familiar-with-r-markdown",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "Part 4: Getting familiar with R Markdown",
-    "text": "Part 4: Getting familiar with R Markdown\nTo ensure that the analysis and graphics you make are reproducible, you’ll do the majority of your work in this class using R Markdown files.\nDo the following things:\n\nWatch this video:\n\n\n\n\n\n \n\nSkim through the content at these pages:\n\nUsing Markdown\nUsing R Markdown\nHow it Works\nCode Chunks\nInline Code\nMarkdown Basics (The R Markdown Reference Guide is super useful here.)\nOutput Formats"
-  },
-  {
-    "objectID": "assignment/09-problem-set.html",
-    "href": "assignment/09-problem-set.html",
-    "title": "Problem set 9",
+    "objectID": "assignment/10-problem-set.html",
+    "href": "assignment/10-problem-set.html",
+    "title": "Problem set 10",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 9"
+      "Problem set 10"
     ]
   },
   {
-    "objectID": "assignment/09-problem-set.html#instructions",
-    "href": "assignment/09-problem-set.html#instructions",
-    "title": "Problem set 9",
+    "objectID": "assignment/10-problem-set.html#instructions",
+    "href": "assignment/10-problem-set.html#instructions",
+    "title": "Problem set 10",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 9"
+      "Problem set 10"
     ]
   },
   {
-    "objectID": "assignment/09-problem-set.html#questions",
-    "href": "assignment/09-problem-set.html#questions",
-    "title": "Problem set 9",
+    "objectID": "assignment/10-problem-set.html#questions",
+    "href": "assignment/10-problem-set.html#questions",
+    "title": "Problem set 10",
     "section": "Questions",
     "text": "Questions\nTBD",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 9"
+      "Problem set 10"
     ]
   },
   {
-    "objectID": "assignment/07-problem-set.html",
-    "href": "assignment/07-problem-set.html",
-    "title": "Problem set 7",
+    "objectID": "assignment/08-problem-set.html",
+    "href": "assignment/08-problem-set.html",
+    "title": "Problem set 8",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 7"
+      "Problem set 8"
     ]
   },
   {
-    "objectID": "assignment/07-problem-set.html#instructions",
-    "href": "assignment/07-problem-set.html#instructions",
-    "title": "Problem set 7",
+    "objectID": "assignment/08-problem-set.html#instructions",
+    "href": "assignment/08-problem-set.html#instructions",
+    "title": "Problem set 8",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 7"
+      "Problem set 8"
     ]
   },
   {
-    "objectID": "assignment/07-problem-set.html#questions",
-    "href": "assignment/07-problem-set.html#questions",
-    "title": "Problem set 7",
+    "objectID": "assignment/08-problem-set.html#questions",
+    "href": "assignment/08-problem-set.html#questions",
+    "title": "Problem set 8",
     "section": "Questions",
     "text": "Questions\nTBD",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 7"
+      "Problem set 8"
     ]
   },
   {
-    "objectID": "assignment/05-problem-set.html",
-    "href": "assignment/05-problem-set.html",
-    "title": "Problem set 5",
+    "objectID": "assignment/06-problem-set.html",
+    "href": "assignment/06-problem-set.html",
+    "title": "Problem set 6",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 5"
+      "Problem set 6"
     ]
   },
   {
-    "objectID": "assignment/05-problem-set.html#instructions",
-    "href": "assignment/05-problem-set.html#instructions",
-    "title": "Problem set 5",
+    "objectID": "assignment/06-problem-set.html#instructions",
+    "href": "assignment/06-problem-set.html#instructions",
+    "title": "Problem set 6",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 5"
+      "Problem set 6"
     ]
   },
   {
-    "objectID": "assignment/05-problem-set.html#questions",
-    "href": "assignment/05-problem-set.html#questions",
-    "title": "Problem set 5",
+    "objectID": "assignment/06-problem-set.html#questions",
+    "href": "assignment/06-problem-set.html#questions",
+    "title": "Problem set 6",
     "section": "Questions",
     "text": "Questions\nTBD",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 5"
+      "Problem set 6"
     ]
   },
   {
-    "objectID": "assignment/03-problem-set.html",
-    "href": "assignment/03-problem-set.html",
-    "title": "Problem set 3",
+    "objectID": "assignment/04-problem-set.html",
+    "href": "assignment/04-problem-set.html",
+    "title": "Problem set 4",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 3"
+      "Problem set 4"
     ]
   },
   {
-    "objectID": "assignment/03-problem-set.html#instructions",
-    "href": "assignment/03-problem-set.html#instructions",
-    "title": "Problem set 3",
+    "objectID": "assignment/04-problem-set.html#instructions",
+    "href": "assignment/04-problem-set.html#instructions",
+    "title": "Problem set 4",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 3"
+      "Problem set 4"
     ]
   },
   {
-    "objectID": "assignment/03-problem-set.html#questions",
-    "href": "assignment/03-problem-set.html#questions",
-    "title": "Problem set 3",
+    "objectID": "assignment/04-problem-set.html#questions",
+    "href": "assignment/04-problem-set.html#questions",
+    "title": "Problem set 4",
     "section": "Questions",
     "text": "Questions\nTBD",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 3"
+      "Problem set 4"
     ]
   },
   {
-    "objectID": "resource/index.html",
-    "href": "resource/index.html",
-    "title": "Resources",
+    "objectID": "assignment/02-problem-set.html",
+    "href": "assignment/02-problem-set.html",
+    "title": "Problem set 2",
     "section": "",
-    "text": "First, some acknowledgements: this class is primarily built from the works of Richard McElreath and Solomon Kurz.\n\nMcElreath’s Statistical Rethinking (2024 version) course materials\nKurz’s translation of SR into brms and tidybayes\n\nI also recommend bookmarking the tidybayes site.\nThe rest of this section contains resources and tutorials. Some were developed by Andrew Heiss, whose website code I used to develop this class website. (Bookmark his site too and check it regularly. You’ll never know what you’ll learn from him, but it’ll always make your science better.)\nHere are some additional Bayes resources to check out:\n\nThis new Bayes Rules book is designed to be an introductory textbook for a stats class teaching Bayesian stuff. It’s really accessible and good (and free!).\nThis post from 2016 is a great short introduction.\nThis post shows how to do one simple task (a difference-in-means test) with regular old frequentist methods, bootstrapping, and with Bayesian stats both with brms and raw Stan code\nThis short post gives a helpful overview of the intuition behind Bayesianism\nThe Theory That Would Not Die is a fun little general introduction to the history of Bayesianism and why it kind of disappeared in the 20th century and was replaced by frequentism and p-values and null hypothesis testing",
-    "crumbs": [
-      "Resources",
-      "Overview",
-      "Resources"
-    ]
-  },
-  {
-    "objectID": "example/index.html",
-    "href": "example/index.html",
-    "title": "Code examples",
-    "section": "",
-    "text": "Visit this section after you have finished the readings and lecture videos. It contains fully annotated R code and other supplementary information and it will be indispensable as you work on your problem sets and project.\nMany sections also contain videos of me live coding the examples so you can see what it looks like to work with R in real time. You’ll notice me make all sorts of little errors, which is totally normal—everyone does!"
-  },
-  {
-    "objectID": "assignment/index.html",
-    "href": "assignment/index.html",
-    "title": "Assignments",
-    "section": "",
-    "text": "Quizzes will be completed in class using Poll Everywhere.",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explanations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
-      "Overview",
-      "Assignments"
+      "Problem sets",
+      "Problem set 2"
     ]
   },
   {
-    "objectID": "assignment/index.html#daily-quizzes",
-    "href": "assignment/index.html#daily-quizzes",
-    "title": "Assignments",
+    "objectID": "assignment/02-problem-set.html#instructions",
+    "href": "assignment/02-problem-set.html#instructions",
+    "title": "Problem set 2",
     "section": "",
-    "text": "Quizzes will be completed in class using Poll Everywhere.",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explanations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
-      "Overview",
-      "Assignments"
+      "Problem sets",
+      "Problem set 2"
     ]
   },
   {
-    "objectID": "assignment/index.html#problem-sets",
-    "href": "assignment/index.html#problem-sets",
-    "title": "Assignments",
-    "section": "Problem sets",
-    "text": "Problem sets\nThere will be a weekly problem set. These are due the Monday following each week. (For example, the problem set for Week 1 is due Monday of Week 2.) There is a one-week grace period for late assignments. All assignments are scored on completion, not on accuracy.",
+    "objectID": "assignment/02-problem-set.html#questions",
+    "href": "assignment/02-problem-set.html#questions",
+    "title": "Problem set 2",
+    "section": "Questions",
+    "text": "Questions\nFrom the Howell1 dataset, consider only people younger than 13 years old. Estimate the causal association between age and weight. Assume that age influences weight through two paths. First, age influences height, and height influences weight. Second, age directly influences weight through age-related changes in muscle growth and body proportions.\n\nWrite a generative simulation that takes age as an input and simulates height and weight. (Note: don’t worry about getting the perfect model. Some of you have more expertise in these relationships than others. Just try to build something that approximates the relationship.)\nWrite out a mathematical model to estimate the linear relationship between age and weight. (Just age. Not height!)\nFit this model using brms. Create two plots: one of regression lines implied by your prior and one of the regression lines implied by the posterior.",
     "crumbs": [
       "Assignments",
-      "Overview",
-      "Assignments"
+      "Problem sets",
+      "Problem set 2"
     ]
-  },
-  {
-    "objectID": "content/index.html",
-    "href": "content/index.html",
-    "title": "Readings, lectures, and videos",
-    "section": "",
-    "text": "Each class session has one or two videos that you should watch before coming to class. These videos are the lectures recorded by Richard McElreath.\nThe in-class lecture slides are special HTML files made with the R package xaringan (R can do so much!). On each class session page you’ll see buttons for opening the presentation in a new tab or for downloading a PDF of the slides in case you want to print them or store them on your computer:\n\n View all slides in new window  Download PDF of all slides\n\nThe slides are also embedded on each page. You can click in the slides and navigate through them with ← and →. If you type ? (or shift + /) while viewing the slides you can see a list of slide-specific commands (like f for fullscreen or p for presenter mode if you want to see my notes).\nI will note for each set of lecture slides which chapters in the 2nd edition of the McElreath book correspond with that day’s lesson. However, many of the functions we use – especially starting in week 4 – will not be from McElreath’s materials, but instead from the brms and tidybayes packages.",
-    "crumbs": [
-      "Content",
-      "Overview",
-      "Readings, lectures, and videos"
-    ]
-  },
-  {
-    "objectID": "resource/citations.html",
-    "href": "resource/citations.html",
-    "title": "Citations and bibliography",
-    "section": "",
-    "text": "You can download a BibTeX file of all the non-web-based readings in the course:\n\n references.bib\n\nYou can open the file in BibDesk on macOS, JabRef on Windows, or Zotero or Mendeley online."
   },
   {
     "objectID": "resource/r.html",
@@ -918,191 +852,281 @@
     ]
   },
   {
-    "objectID": "assignment/02-problem-set.html",
-    "href": "assignment/02-problem-set.html",
-    "title": "Problem set 2",
+    "objectID": "resource/citations.html",
+    "href": "resource/citations.html",
+    "title": "Citations and bibliography",
     "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explanations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 2"
-    ]
+    "text": "You can download a BibTeX file of all the non-web-based readings in the course:\n\n references.bib\n\nYou can open the file in BibDesk on macOS, JabRef on Windows, or Zotero or Mendeley online."
   },
   {
-    "objectID": "assignment/02-problem-set.html#instructions",
-    "href": "assignment/02-problem-set.html#instructions",
-    "title": "Problem set 2",
+    "objectID": "content/index.html",
+    "href": "content/index.html",
+    "title": "Readings, lectures, and videos",
     "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explanations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "text": "Each class session has one or two videos that you should watch before coming to class. These videos are the lectures recorded by Richard McElreath.\nThe in-class lecture slides are special HTML files made with the R package xaringan (R can do so much!). On each class session page you’ll see buttons for opening the presentation in a new tab or for downloading a PDF of the slides in case you want to print them or store them on your computer:\n\n View all slides in new window  Download PDF of all slides\n\nThe slides are also embedded on each page. You can click in the slides and navigate through them with ← and →. If you type ? (or shift + /) while viewing the slides you can see a list of slide-specific commands (like f for fullscreen or p for presenter mode if you want to see my notes).\nI will note for each set of lecture slides which chapters in the 2nd edition of the McElreath book correspond with that day’s lesson. However, many of the functions we use – especially starting in week 4 – will not be from McElreath’s materials, but instead from the brms and tidybayes packages.",
     "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 2"
+      "Content",
+      "Overview",
+      "Readings, lectures, and videos"
     ]
   },
   {
-    "objectID": "assignment/02-problem-set.html#questions",
-    "href": "assignment/02-problem-set.html#questions",
-    "title": "Problem set 2",
-    "section": "Questions",
-    "text": "Questions\nFrom the Howell1 dataset, consider only people younger than 13 years old. Estimate the causal association between age and weight. Assume that age influences weight through two paths. First, age influences height, and height influences weight. Second, age directly influences weight through age-related changes in muscle growth and body proportions.\n\nWrite a generative simulation that takes age as an input and simulates height and weight. (Note: don’t worry about getting the perfect model. Some of you have more expertise in these relationships than others. Just try to build something that approximates the relationship.)\nWrite out a mathematical model to estimate the linear relationship between age and weight. (Just age. Not height!)\nFit this model using brms. Create two plots: one of regression lines implied by your prior and one of the regression lines implied by the posterior.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 2"
-    ]
-  },
-  {
-    "objectID": "assignment/04-problem-set.html",
-    "href": "assignment/04-problem-set.html",
-    "title": "Problem set 4",
+    "objectID": "assignment/index.html",
+    "href": "assignment/index.html",
+    "title": "Assignments",
     "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "text": "Quizzes will be completed in class using Poll Everywhere.",
     "crumbs": [
       "Assignments",
-      "Problem sets",
-      "Problem set 4"
+      "Overview",
+      "Assignments"
     ]
   },
   {
-    "objectID": "assignment/04-problem-set.html#instructions",
-    "href": "assignment/04-problem-set.html#instructions",
-    "title": "Problem set 4",
+    "objectID": "assignment/index.html#daily-quizzes",
+    "href": "assignment/index.html#daily-quizzes",
+    "title": "Assignments",
     "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "text": "Quizzes will be completed in class using Poll Everywhere.",
     "crumbs": [
       "Assignments",
-      "Problem sets",
-      "Problem set 4"
+      "Overview",
+      "Assignments"
     ]
   },
   {
-    "objectID": "assignment/04-problem-set.html#questions",
-    "href": "assignment/04-problem-set.html#questions",
-    "title": "Problem set 4",
-    "section": "Questions",
-    "text": "Questions\nTBD",
+    "objectID": "assignment/index.html#problem-sets",
+    "href": "assignment/index.html#problem-sets",
+    "title": "Assignments",
+    "section": "Problem sets",
+    "text": "Problem sets\nThere will be a weekly problem set. These are due the Monday following each week. (For example, the problem set for Week 1 is due Monday of Week 2.) There is a one-week grace period for late assignments. All assignments are scored on completion, not on accuracy.",
     "crumbs": [
       "Assignments",
-      "Problem sets",
-      "Problem set 4"
+      "Overview",
+      "Assignments"
     ]
   },
   {
-    "objectID": "assignment/06-problem-set.html",
-    "href": "assignment/06-problem-set.html",
-    "title": "Problem set 6",
+    "objectID": "example/index.html",
+    "href": "example/index.html",
+    "title": "Code examples",
     "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "text": "Visit this section after you have finished the readings and lecture videos. It contains fully annotated R code and other supplementary information and it will be indispensable as you work on your problem sets and project.\nMany sections also contain videos of me live coding the examples so you can see what it looks like to work with R in real time. You’ll notice me make all sorts of little errors, which is totally normal—everyone does!"
+  },
+  {
+    "objectID": "resource/index.html",
+    "href": "resource/index.html",
+    "title": "Resources",
+    "section": "",
+    "text": "First, some acknowledgements: this class is primarily built from the works of Richard McElreath and Solomon Kurz.\n\nMcElreath’s Statistical Rethinking (2024 version) course materials\nKurz’s translation of SR into brms and tidybayes\n\nI also recommend bookmarking the tidybayes site.\nThe rest of this section contains resources and tutorials. Some were developed by Andrew Heiss, whose website code I used to develop this class website. (Bookmark his site too and check it regularly. You’ll never know what you’ll learn from him, but it’ll always make your science better.)\nHere are some additional Bayes resources to check out:\n\nThis new Bayes Rules book is designed to be an introductory textbook for a stats class teaching Bayesian stuff. It’s really accessible and good (and free!).\nThis post from 2016 is a great short introduction.\nThis post shows how to do one simple task (a difference-in-means test) with regular old frequentist methods, bootstrapping, and with Bayesian stats both with brms and raw Stan code\nThis short post gives a helpful overview of the intuition behind Bayesianism\nThe Theory That Would Not Die is a fun little general introduction to the history of Bayesianism and why it kind of disappeared in the 20th century and was replaced by frequentism and p-values and null hypothesis testing",
     "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 6"
+      "Resources",
+      "Overview",
+      "Resources"
     ]
   },
   {
-    "objectID": "assignment/06-problem-set.html#instructions",
-    "href": "assignment/06-problem-set.html#instructions",
-    "title": "Problem set 6",
+    "objectID": "assignment/03-problem-set.html",
+    "href": "assignment/03-problem-set.html",
+    "title": "Problem set 3",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 6"
+      "Problem set 3"
     ]
   },
   {
-    "objectID": "assignment/06-problem-set.html#questions",
-    "href": "assignment/06-problem-set.html#questions",
-    "title": "Problem set 6",
-    "section": "Questions",
-    "text": "Questions\nTBD",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 6"
-    ]
-  },
-  {
-    "objectID": "assignment/08-problem-set.html",
-    "href": "assignment/08-problem-set.html",
-    "title": "Problem set 8",
+    "objectID": "assignment/03-problem-set.html#instructions",
+    "href": "assignment/03-problem-set.html#instructions",
+    "title": "Problem set 3",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 8"
+      "Problem set 3"
     ]
   },
   {
-    "objectID": "assignment/08-problem-set.html#instructions",
-    "href": "assignment/08-problem-set.html#instructions",
-    "title": "Problem set 8",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 8"
-    ]
-  },
-  {
-    "objectID": "assignment/08-problem-set.html#questions",
-    "href": "assignment/08-problem-set.html#questions",
-    "title": "Problem set 8",
+    "objectID": "assignment/03-problem-set.html#questions",
+    "href": "assignment/03-problem-set.html#questions",
+    "title": "Problem set 3",
     "section": "Questions",
     "text": "Questions\nTBD",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 8"
+      "Problem set 3"
     ]
   },
   {
-    "objectID": "assignment/10-problem-set.html",
-    "href": "assignment/10-problem-set.html",
-    "title": "Problem set 10",
+    "objectID": "assignment/05-problem-set.html",
+    "href": "assignment/05-problem-set.html",
+    "title": "Problem set 5",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 10"
+      "Problem set 5"
     ]
   },
   {
-    "objectID": "assignment/10-problem-set.html#instructions",
-    "href": "assignment/10-problem-set.html#instructions",
-    "title": "Problem set 10",
+    "objectID": "assignment/05-problem-set.html#instructions",
+    "href": "assignment/05-problem-set.html#instructions",
+    "title": "Problem set 5",
     "section": "",
     "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 10"
+      "Problem set 5"
     ]
   },
   {
-    "objectID": "assignment/10-problem-set.html#questions",
-    "href": "assignment/10-problem-set.html#questions",
-    "title": "Problem set 10",
+    "objectID": "assignment/05-problem-set.html#questions",
+    "href": "assignment/05-problem-set.html#questions",
+    "title": "Problem set 5",
     "section": "Questions",
     "text": "Questions\nTBD",
     "crumbs": [
       "Assignments",
       "Problem sets",
-      "Problem set 10"
+      "Problem set 5"
     ]
   },
   {
-    "objectID": "news/index.html",
-    "href": "news/index.html",
-    "title": "Course News",
+    "objectID": "assignment/07-problem-set.html",
+    "href": "assignment/07-problem-set.html",
+    "title": "Problem set 7",
     "section": "",
-    "text": "Date\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\n\nNo matching items"
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 7"
+    ]
+  },
+  {
+    "objectID": "assignment/07-problem-set.html#instructions",
+    "href": "assignment/07-problem-set.html#instructions",
+    "title": "Problem set 7",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 7"
+    ]
+  },
+  {
+    "objectID": "assignment/07-problem-set.html#questions",
+    "href": "assignment/07-problem-set.html#questions",
+    "title": "Problem set 7",
+    "section": "Questions",
+    "text": "Questions\nTBD",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 7"
+    ]
+  },
+  {
+    "objectID": "assignment/09-problem-set.html",
+    "href": "assignment/09-problem-set.html",
+    "title": "Problem set 9",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 9"
+    ]
+  },
+  {
+    "objectID": "assignment/09-problem-set.html#instructions",
+    "href": "assignment/09-problem-set.html#instructions",
+    "title": "Problem set 9",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 9"
+    ]
+  },
+  {
+    "objectID": "assignment/09-problem-set.html#questions",
+    "href": "assignment/09-problem-set.html#questions",
+    "title": "Problem set 9",
+    "section": "Questions",
+    "text": "Questions\nTBD",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 9"
+    ]
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html",
+    "href": "example/rstudio-tidyverse.html",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "",
+    "text": "This course assumes that you’re already familiar with R, RStudio, Markdown, and the tidyverse. If you’re not, or if you’re looking to brush up, here are some resources for helping you get up to speed."
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html#part-1-the-basics-of-r-and-dplyr",
+    "href": "example/rstudio-tidyverse.html#part-1-the-basics-of-r-and-dplyr",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "Part 1: The basics of R and dplyr",
+    "text": "Part 1: The basics of R and dplyr\n\nThe Basics\n\nVisualization Basics\nProgramming Basics\n\nWork with Data\n\nWorking with Tibbles\nIsolating Data with dplyr\nDeriving Information with dplyr\n\nVisualize Data\n\nExploratory Data Analysis\nBar Charts\nHistograms\nBoxplots and Counts\nScatterplots\nLine plots\nOverplotting and Big Data\nCustomize Your Plots\n\nTidy Your Data\n\nReshape Data\n\n\n\n\n\n\n\n\nNote\n\n\n\nRecent versions of tidyr have renamed these core functions: gather() is now pivot_longer() and spread() is now pivot_wider(). The syntax for these pivot_*() functions is slightly different from what it was in gather() and spread(), so you can’t just replace the names. Fortunately, both gather() and spread() still work and won’t go away for a while, so you can still use them as you learn about reshaping and tidying data. It would be worth learning how the newer pivot_*() functions work, eventually, though (see here for examples).\n\n\nThe content from these primers comes from the (free and online!) book R for Data Science by Garrett Grolemund and Hadley Wickham. I highly recommend the book as a reference and for continuing to learn and use R in the future."
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html#part-2-getting-familiar-with-rstudio",
+    "href": "example/rstudio-tidyverse.html#part-2-getting-familiar-with-rstudio",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "Part 2: Getting familiar with RStudio",
+    "text": "Part 2: Getting familiar with RStudio\nThe RStudio primers you just worked through are a great introduction to writing and running R code, but you typically won’t type code in a browser when you work with R. Instead, you’ll use a nicer programming environment like RStudio, which lets you type and save code in scripts, run code from those scripts, and see the output of that code, all in the same program.\nTo get familiar with RStudio, watch this video by Andrew Heiss:"
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html#part-3-rstudio-projects",
+    "href": "example/rstudio-tidyverse.html#part-3-rstudio-projects",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "Part 3: RStudio Projects",
+    "text": "Part 3: RStudio Projects\nOne of the most powerful and useful aspects of RStudio is its ability to manage projects.\nWhen you first open R, it is “pointed” at some folder on your computer, and anything you do will be relative to that folder. The technical term for this is a “working directory.”\nWhen you first open RStudio, look in the area right at the top of the Console pane to see your current working directory. Most likely you’ll see something cryptic: ~/\n\n\n\n\n\n\n\n\n\nThat tilde sign (~) is a shortcut that stands for your user directory. On Windows this is C:\\Users\\your_user_name\\; on macOS this is /Users/your_user_name/. With the working directory set to ~/, R is “pointed” at that folder, and anything you save will end up in that folder, and R will expect any data that you load to be there too.\nIt’s always best to point R at some other directory. If you don’t use RStudio, you need to manually set the working directory to where you want it with setwd(), and many R scripts in the wild include something like setwd(\"C:\\\\Users\\\\bill\\\\Desktop\\\\Important research project\") at the beginning to change the directory. THIS IS BAD THOUGH (see here for an explanation). If you ever move that directory somewhere else, or run the script on a different computer, or share the project with someone, the path will be wrong and nothing will run and you will be sad.\nThe best way to deal with working directories with RStudio is to use RStudio Projects. These are special files that RStudio creates for you that end in a .Rproj extension. When you open one of these special files, a new RStudio instance will open up and be pointed at the correct directory automatically. If you move the folder later or open it on a different computer, it will work just fine and you will not be sad.\nRead this super short chapter on RStudio projects to learn how to create and use them\nIn general, you can create a new project by going to File &gt; New Project &gt; New Directory &gt; Empty Project, which will create a new folder on your computer that is empty except for a single .Rproj file. Double click on that file to open an RStudio instance that is pointed at the correct folder."
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html#part-4-getting-familiar-with-r-markdown",
+    "href": "example/rstudio-tidyverse.html#part-4-getting-familiar-with-r-markdown",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "Part 4: Getting familiar with R Markdown",
+    "text": "Part 4: Getting familiar with R Markdown\nTo ensure that the analysis and graphics you make are reproducible, you’ll do the majority of your work in this class using R Markdown files.\nDo the following things:\n\nWatch this video:\n\n\n\n\n\n \n\nSkim through the content at these pages:\n\nUsing Markdown\nUsing R Markdown\nHow it Works\nCode Chunks\nInline Code\nMarkdown Basics (The R Markdown Reference Guide is super useful here.)\nOutput Formats"
+  },
+  {
+    "objectID": "resource/sara_defaults.html",
+    "href": "resource/sara_defaults.html",
+    "title": "Sara’s defaults",
+    "section": "",
+    "text": "You maybe noticed that my plots look a bit different to yours in class. That’s because I set defaults in my Markdown files for plot themes and colors. The ensures that all my plots have a similar vibe but I don’t have to manually specify colors each time. Here’s what I use:\n\nknitr::opts_chunk$set(fig.retina=3, echo=TRUE)\ntheme_set(theme_cowplot())\ndefault_palettes &lt;- list(\n  c(\"#5e8485\" , \"#0f393a\") ,\n  c(\"#1c5253\" , \"#5e8485\" , \"#0f393a\") , \n  # palette with 5 colours\n c( \"#1c5253\" , \"#e07a5f\", \"#f2cc8f\" , \"#81b29a\" , \"#3d405b\" ) ,\n  # same palette interpolated to 8 colours\n c( \"#1c5253\" , \"#e07a5f\", \"#f2cc8f\" , \"#81b29a\" , \"#3d405b\" , \"#a7a844\" , \"#69306d\" ) \n  \n)\n\noptions(ggplot2.discrete.fill = default_palettes, \n        ggplot2.discrete.colour = default_palettes)\n\nI wrap this inside a code chunk at the beginning of my Markdown files. It comes just after the code chunk with my packages.",
+    "crumbs": [
+      "Resources",
+      "Guides",
+      "Sara's defaults"
+    ]
+  },
+  {
+    "objectID": "resource/sara_defaults.html#context",
+    "href": "resource/sara_defaults.html#context",
+    "title": "Sara’s defaults",
+    "section": "",
+    "text": "You maybe noticed that my plots look a bit different to yours in class. That’s because I set defaults in my Markdown files for plot themes and colors. The ensures that all my plots have a similar vibe but I don’t have to manually specify colors each time. Here’s what I use:\n\nknitr::opts_chunk$set(fig.retina=3, echo=TRUE)\ntheme_set(theme_cowplot())\ndefault_palettes &lt;- list(\n  c(\"#5e8485\" , \"#0f393a\") ,\n  c(\"#1c5253\" , \"#5e8485\" , \"#0f393a\") , \n  # palette with 5 colours\n c( \"#1c5253\" , \"#e07a5f\", \"#f2cc8f\" , \"#81b29a\" , \"#3d405b\" ) ,\n  # same palette interpolated to 8 colours\n c( \"#1c5253\" , \"#e07a5f\", \"#f2cc8f\" , \"#81b29a\" , \"#3d405b\" , \"#a7a844\" , \"#69306d\" ) \n  \n)\n\noptions(ggplot2.discrete.fill = default_palettes, \n        ggplot2.discrete.colour = default_palettes)\n\nI wrap this inside a code chunk at the beginning of my Markdown files. It comes just after the code chunk with my packages.",
+    "crumbs": [
+      "Resources",
+      "Guides",
+      "Sara's defaults"
+    ]
   },
   {
     "objectID": "index.html",

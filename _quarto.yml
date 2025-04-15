@@ -141,6 +141,7 @@ website:
             - resource/install.qmd
             - resource/markdown.qmd
             - resource/rethinking.qmd
+            - resource/sara_defaults.qmd
 
   page-footer:
     left: |

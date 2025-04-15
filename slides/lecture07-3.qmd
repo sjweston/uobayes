@@ -254,3 +254,80 @@ From Gelman et al [(2020)](https://arxiv.org/abs/2011.01808)
 
 ---
 
+## slopes
+
+Let's start by simulating the cafe data. 
+
+```{r}
+# ---- set population-level parameters -----
+a <- 3.5       # average morning wait time
+b <- (-1)      # average difference afternoon wait time
+sigma_a <- 1   # std dev in intercepts
+sigma_b <- 0.5 # std dev in slopes
+rho <- (-0.7)  #correlation between intercepts and slopes
+
+# ---- create vector of means ----
+Mu <- c(a, b)
+
+# ---- create matrix of variances and covariances ----
+sigmas <- c(sigma_a,sigma_b) # standard deviations
+Rho <- matrix( c(1,rho,rho,1) , nrow=2 ) # correlation matrix
+# now matrix multiply to get covariance matrix
+Sigma <- diag(sigmas) %*% Rho %*% diag(sigmas)
+
+# ---- simulate intercepts and slopes -----
+N_cafes = 20
+library(MASS)
+set.seed(5)
+vary_effects <- mvrnorm( n=N_cafes, mu = Mu, Sigma=Sigma)
+a_cafe <- vary_effects[, 1]
+b_cafe <- vary_effects[, 2]
+
+# ---- simulate observations -----
+
+set.seed(22)
+N_visits <- 10
+afternoon <- rep(0:1,N_visits*N_cafes/2)
+cafe_id <- rep( 1:N_cafes , each=N_visits )
+mu <- a_cafe[cafe_id] + b_cafe[cafe_id]*afternoon
+sigma <- 0.5 # std dev within cafes
+wait <- rnorm( N_visits*N_cafes , mu , sigma )
+d <- data.frame( cafe=cafe_id , afternoon=afternoon , wait=wait )
+
+```
+
+---
+
+### a simulation note from RM
+
+> In this exercise, we are simulating data from a generative process and then analyzing that data with a model that reflects exactly the correct structure of that process. But in the real world, we’re never so lucky. Instead we are always forced to analyze data with a model that is MISSPECIFIED: The true data-generating process is different than the model. Simulation can be used however to explore misspecification. Just simulate data from a process and then see how a number of models, none of which match exactly the data-generating process, perform. And always remember that Bayesian inference does not depend upon data-generating assumptions, such as the likelihood, being true. Non-Bayesian approaches may depend upon sampling distributions for their inferences, but this is not the case for a Bayesian model. In a Bayesian model, a likelihood is a prior for the data, and inference about parameters can be surprisingly insensitive to its details.
+
+---
+
+** Mathematical model:**
+
+likelihood function and linear model
+
+\begin{align*}
+W_i &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \alpha_{CAFE[i]} + \beta_{CAFE[i]}A_i
+\end{align*}
+
+varying intercepts and slopes
+
+\begin{align*}
+\begin{bmatrix} \alpha_{CAFE[i]} \\ \beta_{CAFE[i]} \end{bmatrix} &\sim \text{MVNormal}( \begin{bmatrix} \alpha \\ \beta \end{bmatrix}, \mathbf{S}) \\
+\mathbf{S} &\sim \begin{pmatrix} \sigma_{\alpha}, & 0 \\ 0, & \sigma_{\beta}\end{pmatrix}\mathbf{R}\begin{pmatrix} \sigma_{\alpha}, & 0 \\ 0, & \sigma_{\beta}\end{pmatrix} \\
+\end{align*}
+
+priors
+
+\begin{align*}
+\alpha &\sim \text{Normal}(5,2) \\
+\beta &\sim  \text{Normal}(-1,0.5) \\
+\sigma &\sim  \text{Exponential}(1) \\
+\sigma_{\alpha} &\sim  \text{Exponential}(1) \\
+\sigma_{\beta} &\sim  \text{Exponential}(1) \\
+\mathbf{R} &\sim \text{LKJcorr}(2)
+\end{align*}
+
