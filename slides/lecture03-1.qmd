@@ -665,18 +665,17 @@ d2 <- d[d$age >= 18, ]
 d2$A <- rethinking::standardize(d2$age)
 d2$mid <- as.factor(d2$married + 1)
 
-m6 <- brm(
+m6_c <- brm(
   data=d2, 
   family=gaussian,
-  bf( happiness ~ 0 + a + b*A, 
-      a ~ 0 + mid,
-      b ~ 0 + mid,
+  bf( happiness ~ a + b*A, 
+      a ~  mid,
+      b ~ mid,
       nl = TRUE),
   prior = c( prior(normal(0, .50), nlpar=a),
              prior(normal(0, .25), nlpar=b),
              prior(exponential(1), class=sigma)),
-  iter=2000, warmup=1000, seed=9, chains=1,
-  file = here("files/models/31.6")
+  iter=2000, warmup=1000, seed=9, chains=1
 )
 ```
 
@@ -685,8 +684,27 @@ m6 <- brm(
 ### solution
 
 ```{r}
-posterior_summary(m6) %>% round(2)
+d2 <- d[d$age >= 18, ]
+d2$A <- rethinking::standardize(d2$age)
+d2$mid <- as.factor(d2$married + 1)
 
+m6b <- brm(
+  data=d2, 
+  family=gaussian,
+  happiness ~ 1 + A + mid,
+  prior = c( prior(normal(0, .50), class=Intercept),
+             prior(normal(0, .25), class=b),
+             prior(exponential(1), class=sigma)),
+  iter=2000, warmup=1000, seed=9, chains=1,
+  file = here("files/models/31.6b")
+)
+```
+
+------------------------------------------------------------------------
+
+### solution
+
+```{r}
 m7 <- brm(
   data=d2, 
   family=gaussian,
@@ -704,22 +722,23 @@ m7 <- brm(
 ### solution
 
 ```{r}
-posterior_summary(m7) %>% round(2)
-```
+#| code-fold: true
 
-----
+post6a = as_draws_df(m6a) 
+post6b = as_draws_df(m6b)
+post7  = as_draws_df(m7)
 
-```{r}
-post6 = as_draws_df(m6) 
-post7 = as_draws_df(m7)
-
-data.frame(b_b_mid1 = post6$b_b_mid1, 
-      b_b_mid2 = post6$b_b_mid2, 
-      b_A = post7$b_A) %>% 
+data.frame(
+      b_mid1   = post6a$b_b_mid1, 
+      b_mid2   = post6a$b_b_mid2, 
+      b_A_avgb = post6b$b_A,
+      b_A      = post7$b_A) %>% 
+  mutate(b_A_avga = (b_mid1 + b_mid2)/2) %>% 
+  select(b_A_avga, b_A_avgb, b_A) %>% 
   pivot_longer(everything()) %>% 
   mutate(name = case_when(
-    str_detect(name, "1") ~ "Within unmarried",
-    str_detect(name, "2") ~ "Within married",
+    name == "b_A_avga" ~ "Moderated by marriage",
+    name == "b_A_avgb" ~ "Controlling for marriage",
     TRUE ~ "Unstratified"
   )) %>% 
   ggplot(aes( y=name, x=value, fill = after_stat(x < 0) ) )  + 

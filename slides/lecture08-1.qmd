@@ -1,0 +1,388 @@
+---
+title: "week 8: multilevel models"
+subtitle: "multilevel adventures"
+format: 
+  revealjs:
+    css: xaringan-themer2.css
+    nature:
+      highlightStyle: solarized-dark
+      highlightLines: true
+      countIncrementalSlides: false
+      mathjax: "default"
+    self-contained: false  # Ensures correct embedding
+    embed-resources: true  # Embeds required assets
+    slide-number: true
+    code-annotations: hover
+execute:
+  echo: false        
+---
+
+```{r, message = F, warning = F}
+library(tidyverse)
+library(psych)
+library(cowplot)
+library(patchwork)
+library(here)
+library(brms) 
+library(tidybayes) 
+```
+
+```{r, echo = F}
+knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
+theme_set(theme_cowplot())
+default_palettes <- list(
+  c("#5e8485" , "#0f393a") ,
+  c("#1c5253" , "#5e8485" , "#0f393a") , 
+  # palette with 5 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" ) ,
+  # same palette interpolated to 8 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" ) 
+  
+)
+
+options(ggplot2.discrete.fill = default_palettes, 
+        ggplot2.discrete.colour = default_palettes)
+```
+
+
+## slopes
+
+Let's start by simulating the cafe data. 
+
+```{r}
+# ---- set population-level parameters -----
+a <- 3.5       # average morning wait time
+b <- (-1)      # average difference afternoon wait time
+sigma_a <- 1   # std dev in intercepts
+sigma_b <- 0.5 # std dev in slopes
+rho <- (-0.7)  #correlation between intercepts and slopes
+
+# ---- create vector of means ----
+Mu <- c(a, b)
+
+# ---- create matrix of variances and covariances ----
+sigmas <- c(sigma_a,sigma_b) # standard deviations
+Rho <- matrix( c(1,rho,rho,1) , nrow=2 ) # correlation matrix
+# now matrix multiply to get covariance matrix
+Sigma <- diag(sigmas) %*% Rho %*% diag(sigmas)
+
+# ---- simulate intercepts and slopes -----
+N_cafes = 20
+library(MASS)
+set.seed(5)
+vary_effects <- mvrnorm( n=N_cafes, mu = Mu, Sigma=Sigma)
+a_cafe <- vary_effects[, 1]
+b_cafe <- vary_effects[, 2]
+
+# ---- simulate observations -----
+
+set.seed(22)
+N_visits <- 10
+afternoon <- rep(0:1,N_visits*N_cafes/2)
+cafe_id <- rep( 1:N_cafes , each=N_visits )
+mu <- a_cafe[cafe_id] + b_cafe[cafe_id]*afternoon
+sigma <- 0.5 # std dev within cafes
+wait <- rnorm( N_visits*N_cafes , mu , sigma )
+d <- data.frame( cafe=cafe_id , afternoon=afternoon , wait=wait )
+
+```
+
+---
+
+### a simulation note from RM
+
+> In this exercise, we are simulating data from a generative process and then analyzing that data with a model that reflects exactly the correct structure of that process. But in the real world, we’re never so lucky. Instead we are always forced to analyze data with a model that is MISSPECIFIED: The true data-generating process is different than the model. Simulation can be used however to explore misspecification. Just simulate data from a process and then see how a number of models, none of which match exactly the data-generating process, perform. And always remember that Bayesian inference does not depend upon data-generating assumptions, such as the likelihood, being true. Non-Bayesian approaches may depend upon sampling distributions for their inferences, but this is not the case for a Bayesian model. In a Bayesian model, a likelihood is a prior for the data, and inference about parameters can be surprisingly insensitive to its details.
+
+---
+
+**Mathematical model:**
+
+likelihood function and linear model
+
+\begin{align*}
+W_i &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \alpha_{CAFE[i]} + \beta_{CAFE[i]}A_i
+\end{align*}
+
+varying intercepts and slopes
+
+\begin{align*}
+\begin{bmatrix} \alpha_{CAFE[i]} \\ \beta_{CAFE[i]} \end{bmatrix} &\sim \text{MVNormal}( \begin{bmatrix} \alpha \\ \beta \end{bmatrix}, \mathbf{S}) \\
+\mathbf{S} &\sim \begin{pmatrix} \sigma_{\alpha}, & 0 \\ 0, & \sigma_{\beta}\end{pmatrix}\mathbf{R}\begin{pmatrix} \sigma_{\alpha}, & 0 \\ 0, & \sigma_{\beta}\end{pmatrix} \\
+\end{align*}
+
+priors
+
+\begin{align*}
+\alpha &\sim \text{Normal}(5,2) \\
+\beta &\sim  \text{Normal}(-1,0.5) \\
+\sigma &\sim  \text{Exponential}(1) \\
+\sigma_{\alpha} &\sim  \text{Exponential}(1) \\
+\sigma_{\beta} &\sim  \text{Exponential}(1) \\
+\mathbf{R} &\sim \text{LKJcorr}(2)
+\end{align*}
+
+---
+
+### LKJ correlation prior
+
+```{r}
+#| code-fold: true
+# examples
+rlkj_1 = rethinking::rlkjcorr(1e4, K=2, eta=1)
+rlkj_2 = rethinking::rlkjcorr(1e4, K=2, eta=2)
+rlkj_4 = rethinking::rlkjcorr(1e4, K=2, eta=4)
+rlkj_6 = rethinking::rlkjcorr(1e4, K=2, eta=6)
+data.frame(rlkj_1= rlkj_1[,1,2], 
+           rlkj_2= rlkj_2[,1,2], 
+           rlkj_4= rlkj_4[,1,2],
+           rlkj_6= rlkj_6[,1,2]) %>% 
+  ggplot() +
+  geom_density(aes(x=rlkj_1, color = "1"), alpha=.3) +
+  geom_density(aes(x=rlkj_2, color = "2"), alpha=.3) +
+  geom_density(aes(x=rlkj_4, color = "4"), alpha=.3) +
+  geom_density(aes(x=rlkj_6, color = "6"), alpha=.3) +
+  labs(x="R", color="eta") +
+  theme(legend.position = "top")
+```
+
+---
+
+```{r}
+m3 <- brm(
+  data = d,
+  family = gaussian,
+  wait ~ 1 + afternoon + (1 + afternoon | cafe),
+  prior = c(
+    prior( normal(5,2),    class=Intercept ), 
+    prior( normal(-1, .5), class=b),
+    prior( exponential(1), class=sd),
+    prior( exponential(1), class=sigma),
+    prior( lkj(2),         class=cor)
+  ), 
+  iter=2000, warmup=1000, chains=4, cores=4, seed=9,
+  file=here("files/models/81.3")
+)
+```
+
+---
+
+```{r}
+posterior_summary(m3)
+```
+
+---
+
+Let's get the slopes and intercepts for each cafe.
+
+```{r}
+#| code-fold: true
+intercepts = coef(m3)$cafe[ ,, "Intercept"]
+slopes = coef(m3)$cafe[,, "afternoon"]
+cafe_params = data.frame(
+  cafe=1:20,
+  intercepts=intercepts[, 1],
+  slopes=slopes[, 1]
+) 
+cafe_params
+```
+
+---
+
+```{r}
+#| code-fold: true
+cafe_params %>% 
+  ggplot( aes(x=intercepts, y=slopes) ) +
+  geom_point(size = 2) 
+
+```
+
+
+---
+
+```{r}
+#| code-fold: true
+cafe_params %>% 
+  ggplot( aes(x=intercepts, y=slopes) ) +
+  stat_ellipse() +
+  geom_point(size = 2) 
+
+```
+
+---
+
+```{r}
+#| code-fold: true
+cafe_params %>% 
+  ggplot( aes(x=intercepts, y=slopes) ) +
+  mapply(function(level) {
+    stat_ellipse(geom  = "polygon", type = "norm",
+                 linewidth = 0, alpha = .1, fill = "#1c5253",
+                 level = level)
+    }, 
+    # enter the levels here
+    level = c(1:9 / 10, .99)) +
+  geom_point(size = 2) 
+
+```
+
+More about `stat_ellipse` [here](https://ggplot2.tidyverse.org/reference/stat_ellipse.html).
+
+---
+
+### exercise
+
+Now use the slopes and intercepts to calculate the expected morning and afternoon wait times for each cafe. Plot these as a scatterplot. Bonus for ellipses. 
+
+---
+
+```{r}
+#| code-fold: true
+cafe_params %>% 
+  mutate(
+    morning = intercepts, 
+    afternoon = intercepts + slopes
+  ) %>% 
+  ggplot( aes(x=morning, y=afternoon) ) +
+  mapply(function(level) {
+    stat_ellipse(geom  = "polygon", type = "norm",
+                 linewidth = 0, alpha = .1, fill = "#1c5253",
+                 level = level)
+    }, 
+    # enter the levels here
+    level = c(1:9 / 10, .99)) +
+  geom_point(size = 2)+
+  labs(x="morning wait time",
+       y="afternoon wait time")
+```
+
+---
+
+What is the covariance of our intercepts and slopes?
+
+
+```{r}
+#| code-fold: true
+post = as_draws_df(m3)
+rlkj_2 = rethinking::rlkjcorr(nrow(post), K=2, eta=2)
+
+data.frame(prior= rlkj_2[,1,2],
+           posterior = post$cor_cafe__Intercept__afternoon) %>% 
+  ggplot() +
+  geom_density(aes(x=prior, color = "prior"), alpha=.3) +
+  geom_density(aes(x=posterior, color = "posterior"), alpha=.3) +
+  labs(x="R") +
+  theme(legend.position = "top")
+```
+
+---
+
+## advanced varying slopes
+
+Let's return to the chimp experiment example. As a reminder, our primary outcome is whether the chimpanzee pulls the LEFT lever (binary). In the data, there are multiple clusters:
+
+  * `actor`: chimps undergo multiple trials in the experiment.
+  * `block_id`: chimps partipate in the experiment in different blocks, on different days
+  
+We also want to know the effects of different features the experimenter can manipulate: whether the prosocial option is on the left or right side (`prosoc_left`), and whether there is another chimpanzee present or not (`condition`). To simplify, we'll combine this 2x2 into a single variable with 4 options (`treatment`).
+
+We'll fit a **CROSS-CLASSIFIED VARYING SLOPES** model. Fun!
+
+---
+
+\begin{align*}
+L_i &\sim \text{Binomial}(1, p_i) \\
+
+\text{logit}(p_i) &= \gamma_{\text{TID}[i]} + \alpha_{\text{ACTOR}[i]\text{TID}[i]} + \beta_{\text{BLOCK}[i]\text{TID}[i]} \\
+
+\begin{bmatrix} \alpha_{j,1} \\ \alpha_{j,2} \\ \alpha_{j,3} \\  \alpha_{j,4} \end{bmatrix} &\sim \text{MVNormal}\begin{pmatrix} \begin{bmatrix} 0\\0\\0\\0 \end{bmatrix}, \mathbf{S}_{\text{ACTOR}}\end{pmatrix} \\
+
+\begin{bmatrix} \beta_{j,1} \\ \beta_{j,2} \\ \beta_{j,3} \\  \beta_{j,4} \end{bmatrix} &\sim \text{MVNormal}\begin{pmatrix} \begin{bmatrix} 0\\0\\0\\0 \end{bmatrix}, \mathbf{S}_{\text{BLOCK}}\end{pmatrix} \\
+\end{align*}
+
+And the rest of the model will look like our cafe model from before. 
+
+---
+
+```{r}
+data(chimpanzees, package="rethinking")
+d <- chimpanzees
+d$treatment = as.factor(1 + d$prosoc_left + 2*d$condition)
+
+m4 <- brm(
+  data = d, 
+  family = bernoulli(link = "logit"),
+  pulled_left ~ 0 + treatment + (0 + treatment | actor) + (0 + treatment | block),
+  prior = c(
+    prior( normal(0, 1),   class=b),
+    prior( exponential(1), class=sd),
+    prior( lkj(2),         class=cor)), 
+  iter=2000, warmup=1000, chains=4, cores=4, seed=9,
+  file = here("files/models/81_4"))
+```
+
+---
+
+```{r}
+print(m4)
+```
+
+---
+
+Let's visualize the estimates. We'll select just one of the 6 blocks. 
+
+```{r}
+#| code-fold: true
+d$labels = factor(d$treatment, 1:4, labels=c("r/n", "l/n", "r/p", "l/p"))
+
+nd <-
+  d %>% 
+  distinct(actor, condition, labels, prosoc_left, treatment) %>% 
+  mutate(block = 5)
+
+# compute and wrangle the posterior predictions
+nd = fitted(m4,
+       newdata = nd) %>% 
+  data.frame() %>% 
+  bind_cols(nd) %>% 
+  # add the empirical proportions
+  left_join(
+    d %>%
+      group_by(actor, treatment) %>%
+      mutate(proportion = mean(pulled_left)) %>% 
+      distinct(actor, treatment, proportion),
+    by = c("actor", "treatment")
+  ) %>% 
+  mutate(condition = factor(condition),
+         prosoc_left = factor(prosoc_left)) 
+
+# for annotation
+text <-
+  distinct(d, labels) %>% 
+  mutate(actor = 1,
+         prop  = c(.07, .8, .08, .795))
+  # plot!
+  nd %>% ggplot(aes(x = labels)) +
+  geom_hline(yintercept = .5,  alpha = 1/2, linetype = 2) +
+  # empirical proportions
+  geom_point(aes(y = proportion, shape = condition, color = "raw"),
+             fill = "white", size = 2.5, show.legend = F) + 
+  # posterior predictions
+  geom_line(aes(y = Estimate, group = prosoc_left, color = "model"),
+            linewidth = 3/4) +
+  geom_pointrange(aes(y = Estimate, ymin = Q2.5, ymax = Q97.5, shape = condition,
+                      color = "model"),
+                  fill = "white", fatten = 8, linewidth = 1/3, show.legend = F) + 
+  # annotation for the conditions
+  geom_text(data = text,
+            aes(y = prop, label = labels), size = 5) +
+  guides(color = FALSE) +
+  scale_shape_manual(values = c(21, 19)) +
+  scale_color_manual(values = c("#1c5253", "black")) +
+  scale_x_discrete(NULL, breaks=NULL) +
+  scale_y_continuous("proportion left lever", 
+                     breaks = 0:2 / 2, 
+                     labels = c("0", ".5", "1"))  +
+  facet_wrap(~ actor, nrow = 1, labeller = label_both)
+```
+
