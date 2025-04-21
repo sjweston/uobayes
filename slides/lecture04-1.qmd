@@ -19,7 +19,8 @@ execute:
 ```{r, message = F, warning = F}
 library(tidyverse)
 library(cowplot)
-library(rethinking)
+library(brms)
+library(tidybayes)
 library(patchwork)
 library(here)
 ```
@@ -43,6 +44,245 @@ options(ggplot2.discrete.fill = default_palettes,
 
 ------------------------------------------------------------------------
 
+## today's plan
+
+  1. Code first.
+  2. Explanation second.
+  
+---
+
+```{r}
+sppnames <- c( "afarensis","africanus","habilis","boisei",
+               "rudolfensis","ergaster","sapiens")
+brainvolcc <- c( 438 , 452 , 612, 521, 752, 871, 1350 )
+masskg <- c( 37.0 , 35.5 , 34.5 , 41.5 , 55.5 , 61.0 , 53.5 )
+d <- data.frame( species=sppnames , brain=brainvolcc , mass=masskg )
+rethinking::precis(d)
+d <- d %>% 
+  mutate(across(c(mass, brain),
+                rethinking::standardize, 
+                .names = "{.col}_std"))
+```
+
+---
+
+```{r}
+m1 <- brm(
+  data=d,
+  family=gaussian,
+  brain_std ~ mass_std,
+  prior = c( prior(normal(.5, 1), class=Intercept),
+             prior(normal(0, 10), class=b),
+             prior(exponential(1), class=sigma)),
+  iter=2000, warmup=1000, seed=5, chains=1,
+  file=here("files/models/41.1"))
+
+posterior_summary(m1)
+```
+
+---
+
+```{r}
+m2 <- brm(
+  data=d,
+  family=gaussian,
+  brain_std ~ mass_std + I(mass_std^2) + I(mass_std^3) + I(mass_std^4) + I(mass_std^5),
+  prior = c( prior(normal(.5, 1), class=Intercept),
+             prior(normal(0, 10), class=b),
+             prior(exponential(1), class=sigma)),
+  iter=2000, warmup=1000, seed=5, chains=1,
+  file=here("files/models/41.2"))
+
+posterior_summary(m2)
+```
+
+---
+
+```{r}
+#| code-fold: true
+post1 = as_draws_df(m1) # get posterior distribution
+avg_line = colMeans(post1)
+p1 <- d %>% 
+  ggplot( aes(x=mass_std, y=brain_std) ) +
+  geom_point() +
+  geom_abline( aes(intercept=b_Intercept, slope=b_mass_std), 
+               data=post1[1:20, ], 
+               alpha=.2) +
+  geom_abline( intercept=avg_line["b_Intercept"], slope=avg_line["b_mass_std"],
+               color = "#1c5253") +
+  lims(y=c(-3,6)) +
+  labs( x="mass (standardized)",
+        y="brain size (standardized)",
+        title="m1")
+
+nd = data.frame(mass_std = seq(min(d$mass_std), max(d$mass_std), length.out=1000))
+post2 = add_epred_draws(m2, newdata = nd) # get predicted vals (expected means)
+avg_line = post2 %>% with_groups(mass_std, summarise, m = mean(.epred))
+p2 <- d %>% 
+  ggplot( aes(x=mass_std, y=brain_std) ) +
+  geom_point() +
+  geom_line( aes(y=.epred, group=.draw), 
+               data=filter(post2, .draw <= 20), 
+               color = "black",
+               alpha=.2) +
+  geom_smooth( aes(y=m), data=avg_line, se=F, colour="#1c5253") +
+  lims(y=c(-3,6)) +
+  labs( x="mass (standardized)",
+        y="brain size (standardized)",
+        title="m2")
+
+p1 + p2
+```
+
+---
+
+### Regularization
+
+A benefit of Bayesian methods over frequentist is the ability to regularize your parameter coefficient estimates. This is a pretty extreme example of setting a skeptical prior, but it demonstrates the point. Of course, we don't want our priors to be too skeptical, or we'll miss important (and regular) information. 
+
+::::: columns
+::: {.column width="50%"}
+
+```{r}
+#| code-line-numbers: "7"
+m2 <- brm(
+  data=d,
+  family=gaussian,
+  brain_std ~ mass_std + I(mass_std^2) + I(mass_std^3) + 
+    I(mass_std^4) + I(mass_std^5),
+  prior = c( prior(normal(.5, 1), class=Intercept),
+             prior(normal(0, 10), class=b),
+             prior(exponential(1), class=sigma)),
+  iter=2000, warmup=1000, seed=5, chains=1,
+  file=here("files/models/41.2"))
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| code-line-numbers: "7"
+m2r <- brm(
+  data=d,
+  family=gaussian,
+  brain_std ~ mass_std + I(mass_std^2) + I(mass_std^3) + 
+    I(mass_std^4) + I(mass_std^5),
+  prior = c( prior(normal(.5, 1), class=Intercept),
+             prior(normal(0, 1), class=b),
+             prior(exponential(1), class=sigma)),
+  iter=2000, warmup=1000, seed=5, chains=1,
+  file=here("files/models/41.2r"))
+```
+
+:::
+:::::
+
+---
+
+
+```{r}
+#| code-fold: true
+nd = data.frame(mass_std = seq(min(d$mass_std), max(d$mass_std), length.out=1000))
+post2 = add_epred_draws(m2, newdata = nd) # get predicted vals (expected means)
+avg_line = post2 %>% with_groups(mass_std, summarise, m = mean(.epred))
+p2 <- d %>% 
+  ggplot( aes(x=mass_std, y=brain_std) ) +
+  geom_point() +
+  geom_line( aes(y=.epred, group=.draw), 
+               data=filter(post2, .draw <= 20), 
+               color = "black",
+               alpha=.2) +
+  geom_smooth( aes(y=m), data=avg_line, se=F, colour="#1c5253") +
+  lims(y=c(-3,6)) +
+  labs( x="mass (standardized)",
+        y="brain size (standardized)",
+        title="m2")
+
+post2r = add_epred_draws(m2r, newdata = nd) # get predicted vals (expected means)
+avg_liner = post2r %>% with_groups(mass_std, summarise, m = mean(.epred))
+
+p2r <- d %>% 
+  ggplot( aes(x=mass_std, y=brain_std) ) +
+  geom_point() +
+  geom_line( aes(y=.epred, group=.draw), 
+               data=filter(post2r, .draw <= 20), 
+               color = "black",
+               alpha=.2) +
+  geom_smooth( aes(y=m), data=avg_liner, se=F, colour="#1c5253") +
+  lims(y=c(-3,6)) +
+  labs( x="mass (standardized)",
+        y="brain size (standardized)",
+        title="m2 - regularized")
+
+
+
+
+p2 + p2r
+```
+
+---
+
+### cross-validation
+
+Another option is to compare the out-of-sample prediction of models using cross validation. This will not change the estimates of your coefficients, but it will help you compare models. For **prediction only!**
+
+The `loo` package gives us access to the `loo` function, which stands for Leave-One-Out. Behind the scenes, this function uses PSIS, which doesn't actually compute the cross-validation, but rather estimates it. 
+
+```{r}
+library(loo)
+loo(m1)
+```
+
+Pointwise value of PSIS is reliable when $k$ is less than .5, ok when $k$ is between .5 and 7., bad when $k$ is between .7 and 1, very bad when $k$ is greater than 1. 
+
+:::{.notes}
+
+`elpd_loo`: log of out-of-sample accuracy. higher is better.
+`p_loo`: estimate of model complexity; bigger = more complex
+`looic` -2 * elpd_loo or deviance. lower is better
+
+:::
+
+---
+
+Another option is the Widely Acceptable Information Criteria. 
+
+```{r, warning=F}
+m1_waic = waic(m1)
+m1_waic
+m1_waic$pointwise
+```
+
+:::{.notes}
+
+`elpd_loo`: log of out-of-sample accuracy. higher is better.
+`p_loo`: estimate of model complexity; bigger = more complex
+`looic` -2 * elpd_loo or deviance. lower is better
+
+:::
+
+---
+
+
+
+```{r, warning = F, message=FALSE}
+m1  <- add_criterion(m1,  criterion = c("loo", "waic"))
+m2  <- add_criterion(m2,  criterion = c("loo", "waic"))
+m2r <- add_criterion(m2r, criterion = c("loo", "waic"))
+
+loo_compare( m1, m2, m2r, criterion="loo") 
+loo_compare( m1, m2, m2r, criterion="waic")
+```
+
+:::{.notes}
+The filled points are the in-sample deviance values. The open points are the WAIC values. Notice that naturally each model does better in-sample than it is expected to do out-of-sample. The line segments show the standard error of each WAIC. These are the values in the column labeled SE in the table above. 
+:::
+
+---
+
+## what do these numbers mean?
+
 A central tension in our modeling is the one between explanation -- good causal models -- and prediction. In McElreath's lecture, he leads us to the intuition that predictive models are generally those that do a terrible job of representing the causal model. So the tools covered in this lecture should be considered tools for prediction, but *not* for identifying causal models.
 
 When trying to maximize prediction, we need to be wary of **OVERFITTING** -- when the model learns too much from the sample. Methods for avoiding overfitting favor simpler models. However, we must also be wary of **UNDERFITTING** or learning too little. 
@@ -58,13 +298,8 @@ There are two common famililes of approches:
 
 ### the problem with parameters
 
-```{r, fig.width=10, fig.height=8}
+```{r, out.width='100%'}
 #| code-fold: true
-
-sppnames <- c( "afarensis","africanus","habilis","boisei","rudolfensis","ergaster","sapiens")
-brainvolcc <- c( 438 , 452 , 612, 521, 752, 871, 1350 )
-masskg <- c( 37.0 , 35.5 , 34.5 , 41.5 , 55.5 , 61.0 , 53.5 )
-d <- data.frame( species=sppnames , brain=brainvolcc , mass=masskg )
 base = d %>% 
   ggplot(aes(x=masskg, y=brainvolcc)) +
   geom_point() +
@@ -83,42 +318,6 @@ If your goal is simply prediction, not (causal) explanation, why not simply add 
 ::: notes
 models = data compression when there are as many parameters as data points, we haven't compressed the data. we've just encoded the raw data into a different form.
 :::
-
-------------------------------------------------------------------------
-
-```{r, fig.width=10, fig.height=8}
-#| code-fold: true
-#| 
-d$mass_std <- (d$mass - mean(d$mass))/sd(d$mass)
-d$brain_std <- d$brain / max(d$brain)
-
-m7.1 <- quap(
-  alist(
-    brain_std ~ dnorm( mu , exp(log_sigma) ),
-    mu <- a + b*mass_std,
-    a ~ dnorm( 0.5 , 1 ),
-    b ~ dnorm( 0 , 10 ),
-    log_sigma ~ dnorm( 0 , 1 )
-  ), data=d )
-
-m7.6 <- quap(
-  alist(
-  brain_std ~ dnorm( mu , 0.001 ),
-  mu <- a + b[1]*mass_std + b[2]*mass_std^2 +
-    b[3]*mass_std^3 + b[4]*mass_std^4 +
-    b[5]*mass_std^5 + b[6]*mass_std^6,
-  a ~ dnorm( 0.5 , 1 ),
-  b ~ dnorm( 0 , 10 )
- ), data=d , start=list(b=rep(0,6)) )
-
-par(mfrow=c(1,2))
-brain_loo_plot(m7.1)
-brain_loo_plot(m7.6)
-```
-
-```{r, echo = F, results = 'hide'}
-dev.off()
-```
 
 ------------------------------------------------------------------------
 
@@ -168,51 +367,29 @@ As a Bayesian, you also have the tool of regularizing priors. As your priors bec
 :::
 :::::
 
+
 ---
 
-This is a pretty extreme example of setting a skeptical prior, but it demonstrates the point.
-
-::::: columns
-::: {.column width="50%"}
-
 ```{r}
-#| code-line-numbers: "8"
-m7.6a <- quap(
-  alist(
-    brain_std ~ dnorm( mu , 0.001 ),
-    mu <- a + b[1]*mass_std + b[2]*mass_std^2 +
-      b[3]*mass_std^3 + b[4]*mass_std^4 +
-      b[5]*mass_std^5 + b[6]*mass_std^6,
-    a ~ dnorm( 0.5 , 1 ),
-    b ~ dnorm( 0 , 10 )
-  ), data=d , start=list(b=rep(0,6)) )
+#| code-fold: true
+nd = data.frame(mass_std = seq(min(d$mass_std), max(d$mass_std), length.out=100))
+pred_2  = add_epred_draws(nd, m2) %>% filter(.draw <= 20)
+pred_2r = add_epred_draws(nd, m2r) %>% filter(.draw <= 20)
+
+p1 = pred_2 %>% ggplot(aes(x = mass_std, y=.epred)) +
+  geom_line(aes(group=.draw), alpha=.3) +
+  geom_point(aes(y=brain_std), data=d, color = "#1c5253") +
+  lims(y=c(-2,4)) +
+  labs(y="Brain size (standardized)")
+p2 = pred_2r %>% ggplot(aes(x = mass_std, y=.epred)) +
+  geom_line(aes(group=.draw), alpha=.3) +
+  geom_point(aes(y=brain_std), data=d, color = "#1c5253") +
+  lims(y=c(-2,4)) +
+  labs(y="Brain size (standardized)")
+
+p1 + p2
 ```
 
-:::
-
-::: {.column width="50%"}
-
-```{r}
-#| code-line-numbers: "8"
-m7.6b <- quap(
-  alist(
-    brain_std ~ dnorm( mu , 0.001 ),
-    mu <- a + b[1]*mass_std + b[2]*mass_std^2 +
-      b[3]*mass_std^3 + b[4]*mass_std^4 +
-      b[5]*mass_std^5 + b[6]*mass_std^6,
-    a ~ dnorm( 0.5 , 1 ),
-    b ~ dnorm( 0 , .05 )
-  ), data=d , start=list(b=rep(0,6)) )
-```
-
-:::
-:::::
-
-```{r}
-coeftab( m7.6a, m7.6b )
-```
-
-Of course, we don't want our priors to be too skeptical, or we'll miss important (and regular) information. So we'll also make use of information theory to derive indicies that estimate out-of-sample prediction. Let's refer to these indicies as Model Performance Criteria.
 
 ----
 
@@ -277,36 +454,11 @@ $\text{New} = [(3 \times 0) + (1 \times 7) ]/10= .70$
 | 9   |        0.6         |      0.0       |   sun   |
 | 10  |        0.6         |      0.0       |   sun   |
 
-But what if you hate carrying an umbrella? Let's define the *cost* of getting wet as -5 happiness points and the cost of carrying an umbrella as -1 happiness points. Which weatherperson maximizes our happiness??
-
-$\text{Current} = (3 \times -1) + (7 \times -0.6) = -7.2$
-
-$\text{New} = (3 \times -5) + (7 \times 0) = -150$
-
-------------------------------------------------------------------------
-
-### clash of the weatherpeople
-
-| Day | Current Weatherman | New Weatherman | Outcome |
-|-----|:------------------:|:--------------:|:-------:|
-| 1   |        1.0         |      0.0       |  rain   |
-| 2   |        1.0         |      0.0       |  rain   |
-| 3   |        1.0         |      0.0       |  rain   |
-| 4   |        0.6         |      0.0       |   sun   |
-| 5   |        0.6         |      0.0       |   sun   |
-| 6   |        0.6         |      0.0       |   sun   |
-| 7   |        0.6         |      0.0       |   sun   |
-| 8   |        0.6         |      0.0       |   sun   |
-| 9   |        0.6         |      0.0       |   sun   |
-| 10  |        0.6         |      0.0       |   sun   |
-
 Finally, our previous measure of "accuracy" (we used a **HIT RATE** definition) is only one way to think about accuracy. What if accuracy is knowing the true data generating model? We might consider computing the probability of predicting the exact sequence of days (joint likelihood in Bayesian terms).
 
 $\text{Current} = (1)^3 \times (0.4)^7 \approx .005$
 
 $\text{New} = (0)^3 \times (1)^7 = 0$
-
-This method -- **LOG SCORING RULE**, or the logarithm of the joint probability -- is the way we'll think about accuracy in terms of model prediction.
 
 ------------------------------------------------------------------------
 
@@ -329,6 +481,12 @@ $$
 In words: The uncertainty contained in a probability distribution is the average log-probability of an event.
 
 [^1]: $E$ is mathematical notation for "expected value" or average. 
+
+:::{.notes}
+
+The log of numbers between 0 and 1 are negative. 
+
+:::
 
 ---
 
@@ -395,7 +553,7 @@ ggplot(plot_data, aes(x = factor(Outcome), y = Probability, fill = Distribution)
 
 ------------------------------------------------------------------------
 
-Consider the weather forecast. When the day arrives, the weather is no longer uncertain.[^lecture04-1-1] There were 3 rainy days and 3 sunny days. Therefore:
+Consider the weather forecast. When the day arrives, the weather is no longer uncertain. There were 3 rainy days and 3 sunny days. Therefore:
 
 ```{r}
 p <- c( .3, .7 )
@@ -466,33 +624,79 @@ $$
 
 To compute this score for a Bayesian model, we need to find the log of the average probability for each observation i, where the average is taken over the posterior distribution. The score is known as the **LOG-POINTWISE-PREDICTIVE-DENSITY**.
 
-Let's see an example:
+Let's see an example: First, we get the log-probabilities:
 
 ```{r}
-m7.1 <- quap(
-  alist(
-    brain_std ~ dnorm( mu , exp(log_sigma) ),
-    mu <- a + b*mass_std,
-    a ~ dnorm( 0.5 , 1 ),
-    b ~ dnorm( 0 , 10 ),
-    log_sigma ~ dnorm( 0 , 1 )
-  ), data=d )
-
-lppd(m7.1)
+log_prob = log_lik(m1)
+log_prob %>% round(3)
 ```
 
-Each of these values is the log-probability score for a specific observation.
+
+---
+
+Let's arrange these by species and convert to probabilities. 
+
 
 ```{r}
-sum(lppd(m7.1))
+prob <- as.data.frame(log_prob) %>% 
+  set_names(pull(d, species)) %>%  # add case names, for convenience
+  mutate(s = 1:n()) %>% # add an s iteration index, for convenience
+  # make it long
+  pivot_longer(-s,
+               names_to = "species",
+               values_to = "logprob") %>% 
+  # compute the probability scores
+  mutate(prob = exp(logprob))
+
+prob
 ```
 
-This is the total log-probability score for this model.
+---
+
+We can then calculate the mean probability and take the log of that value. (Annoying.)
+
+```{r}
+prob <- prob %>% 
+  group_by(species) %>% 
+  summarise(log_probability_score = mean(prob) %>% log())
+
+prob
+```
+
+---
+
+The log-pointwise-predictive-density for the entire model is just the sum of these:
+
+```{r}
+prob %>% 
+  summarise(total_log_probability_score = sum(log_probability_score))
+```
 
 Sometimes, you'll see people report deviance, which is just this value multiplied by -2 (for historical reasons).
 
 ```{r}
--2*sum(lppd(m7.1))
+-2*sum(prob$log_probability_score)
+```
+
+---
+
+## Slide Title {visibility="hidden"} 
+
+Here's the work in a custom function for your convenience.
+
+```{r}
+lppd <- function(brms_fit) {
+  
+  log_lik(brms_fit) %>% 
+    data.frame() %>% 
+    pivot_longer(everything(),
+                 values_to = "logprob") %>% 
+    mutate(prob = exp(logprob)) %>% 
+    group_by(name) %>% 
+    summarise(log_probability_score = mean(prob) %>% log()) %>% 
+    summarise(total_log_probability_score = sum(log_probability_score))
+  
+}
 ```
 
 ------------------------------------------------------------------------
@@ -503,52 +707,7 @@ When we usually have data and use it to fit a statistical model, the data compri
 
 Using out-of-sample prediction doesn't change your model; rather, it changes our estimation of the predictive accuracy of our model.
 
-
-```{r, eval = F}
-#| code-fold: true
-N <- 20
-kseq <- 1:5
-# this code will take a long time to run. 
-dev <- sapply( kseq, function(k){
-  print(k);
-  r <- mcreplicate( 1e4 , sim_train_test( N=N, k=k ) , mc.cores=4 );
-  ## if using PC, use:
-  #  r <- replicate(1e4, sim_train_test( N=N, k=k ) );
-  c( mean(r[1,]), mean(r[2,]), sd(r[1,]), sd(r[2,] ) )
-  } 
-  )
-plot( 1:5 , dev[1,] , ylim=c( min(dev[1:2,])-5 , max(dev[1:2,])+10 ) ,
-      xlim=c(1,5.1) , xlab="number of parameters" , ylab="deviance" ,
-      pch=16 , col=rangi2 )
-mtext( concat( "N = ",N ) )
-points( (1:5)+0.1 , dev[2,] )
-for ( i in kseq ) {
-  pts_in <- dev[1,i] + c(-1,+1)*dev[3,i]
-  pts_out <- dev[2,i] + c(-1,+1)*dev[4,i]
-  lines( c(i,i) , pts_in , col=rangi2 )
-  lines( c(i,i)+0.1 , pts_out )
-}
-```
-
-```{r, echo = F, out.width = "150%"}
-N <- 20
-kseq <- 1:5
-load(here("lectures/data/4-1-dev.Rdata"))
-plot( 1:5 , dev[1,] , ylim=c( min(dev[1:2,])-5 , max(dev[1:2,])+10 ) , 
-      xlim=c(1,5.1) , xlab="number of parameters" , ylab="deviance" ,
-      pch=16 , col=rangi2 )
-mtext( concat( "N = ",N ) )
-points( (1:5)+0.1 , dev[2,] )
-for ( i in kseq ) {
-  pts_in <- dev[1,i] + c(-1,+1)*dev[3,i]
-  pts_out <- dev[2,i] + c(-1,+1)*dev[4,i]
-  lines( c(i,i) , pts_in , col=rangi2 )
-  lines( c(i,i)+0.1 , pts_out )
-}
-```
-
 ---
-
 
 ### cross-validation
 
@@ -584,7 +743,7 @@ fold_data$fold <- factor(fold_data$fold, levels = unique(fold_data$fold))
 
 # Create the visualization
 k_fold_plot <- ggplot(fold_data, aes(x = block, y = fold, fill = type)) +
-  geom_tile(color = "white", size = 0.5) +
+  geom_tile(color = "white", linewidth = 0.5) +
   scale_fill_manual(values = c("Training" = "#1c5253", "Test" = "#e07a5f")) +
   scale_y_discrete(breaks = NULL) +
   labs(
@@ -615,14 +774,8 @@ The problem with LOOCV is that it's computationally intensive. Luckily, there ar
 
 We can use importance in a strategy called **PARETO-SMOOTHED IMPORTANCE SAMPLING CROSS-VALIDATION** (PSIS) ([see this paper](https://arxiv.org/pdf/1507.02646)). The Pareto part is a smoothing technique that improves the reliability of the importance or weights. By assuming the weights follow a known distribution, the Pareto distribution, we can estimate a reliabile cross-validation score without doing the work of actually cross-validating. We'll get a PSIS score for each observation in our dataset, as well as a standard error for the score for the entire model. 
 
-```{r}
-rethinking::LOO(m7.1)
-rethinking::LOO(m7.1, pointwise = T)
-```
-
-The value of PSIS is reliable when $k$ is less than .5, ok when $k$ is between .5 and 7., bad when $k$ is between .7 and 1, very bad when $k$ is greater than 1. 
-
 ---
+
 
 A second approach is to use the information criteria to computed the expected score out-of-sample. If you look back at the training/testing figure, you'll find that the difference between training deviance and testing deviance is almost exactly twice the number of parameters in the model (e.g., 2 for the first model with 1 parameter and about 10 for the last with 5 parameters). This is not random, but a known finding in machine learning. We can exploit this for simple estimates of out-of-sample deviance. 
 
@@ -652,22 +805,13 @@ Watanabe's **WIDELY APPLICABLE INFORMATION CRITERION (WAIC)** makes no assumptio
 Its calculation is the log-posterior-predictive-density plus a penalty proportional to the variance in the posterior predictions:
 
 $$
-\text{WAIC}(y, \Theta) = -2(\text{lppd} - \sum_i\text{var}_{\theta}\text{log}p(y_i|\Theta))
+\text{WAIC}(y, \Theta) = -2(\text{lppd} - \sum_i\text{var}_{\theta}\text{log}(p(y_i|\Theta)))
 $$
-where $y$ is the observations and $\Theta$ is the posterior distribution. The penalty term means, "compute the variance in log-probabilities for each observation $i$, and then sum up these variances to get the total penalty."
-
-Like PSIS, WAIC is pointwise, meaning prediction is considered on a point-by-point basis. Therefore,
+where $y$ is the observations and $\Theta$ is the posterior distribution. The penalty term means, "compute the variance in log-probabilities for each observation $i$, and then sum up these variances to get the total penalty." Like PSIS, WAIC is point wise, meaning prediction is considered on a point-by-point basis. So:
 
   1. WAIC has an approximate standard error. 
   2. Some observations have stronger influence than others, and we can see this.
-  3. it can be hard to define for a single model. Consider for example a model in which each prediction depends upon a previous observation. This happens, for example, in a time series. In a time series, a previous observation becomes a predictor variable for the next observation. So it’s not easy to think of each observation as independent or exchangeable. In such a case, you can of course compute WAIC as if each observation were independent of the others, but it’s not clear what the resulting value means.
-  
----
-
-```{r}
-rethinking::WAIC(m7.1)
-rethinking::WAIC(m7.1, pointwise = T)
-```
+  3. it can be hard to define for a single model. 
 
 ---
 
@@ -678,17 +822,6 @@ PSIS and WAIC perform very similarly in the context of ordinary linear models. O
 PSIS have higher variance as estimators of the KL divergence, while WAIC has greater bias. So we should expect each to be slightly better in different contexts. However, in practice any advantage may be much smaller than the expected error. Watanabe recommends computing both WAIC and PSIS and contrasting them. If there are large differences, this implies one or both criteria are unreliable.
 
 PSIS has a distinct advantage in warning the user about when it is unreliable. The $k$ values that PSIS computes for each observation indicate when the PSIS score may be unreliable, as well as identify which observations are at fault. We’ll see later how useful this can be.
-
-```{r}
-compare( m7.1, m7.6a, m7.6b , func=PSIS )
-compare( m7.1, m7.6a, m7.6b , func=WAIC )
-
-plot( compare( m7.1, m7.6a, m7.6b) )
-```
-
-:::{.notes}
-The filled points are the in-sample deviance values. The open points are the WAIC values. Notice that naturally each model does better in-sample than it is expected to do out-of-sample. The line segments show the standard error of each WAIC. These are the values in the column labeled SE in the table above. 
-:::
 
 ---
 
@@ -701,11 +834,9 @@ BIC is mathematically connected to the logarithm of a linear model's average lik
 Since the average likelihood incorporates the prior distribution, models with more parameters naturally incur a complexity penalty. This helps prevent overfitting, although the exact penalty mechanism differs from that of information criteria.
 Many Bayesian statisticians have reservations about Bayes factors, and all acknowledge certain technical challenges. One significant obstacle is computational difficulty—calculating average likelihood is often complex. Even when posterior distributions can be successfully computed, estimating average likelihood may remain problematic. Another issue is that while weak priors might minimally impact posterior distributions within individual models, they can dramatically influence comparisons between different models.
 
-The choice between Bayesian and non-Bayesian approaches doesn't dictate whether to use information criteria or Bayes factors. In practice, there's value in using both methods and examining where they align and diverge. However, remember that both information criteria and Bayes factors are purely predictive tools that will readily select confounded models without considering causation.
-
 ---
 
-### mid-lecture review
+### review
 
 Regularizing priors—priors which are skeptical of extreme parameter values—reduce fit to sample but tend to improve predictive accuracy.
 
@@ -719,156 +850,7 @@ We can estimate out-of-sample accuracy with any of a number of techniques, but m
   * pareto-smoothed importance sampling cross-validation (PSIS)
   * widely applicable information criteria (WAIC)
   
-Regularization and predictive critera are complementary. 
-
-Let's actually calculate some things. 
-
----
-
-### marriage again
-
-Let's revisit the divorce data from earlier.
-
-```{r}
-data("WaffleDivorce", package = "rethinking")
-
-d <- WaffleDivorce
-
-d$A <- standardize( d$MedianAgeMarriage )
-d$D <- standardize( d$Divorce )
-d$M <- standardize( d$Marriage )
-```
+Regularization and predictive criteria are complementary. 
 
 
-### exercise
-
-Fit 3 models:
-  1. Divorce rate predicted from median age at marriage.
-  2. Divorce rate predicted from marriage rate.
-  3. Divorce rate predicted from both median age and marriage rate.
-  
----
-
-### solution
-
-```{r}
-m5.1 <- quap(
-  alist(
-    D ~ dnorm( mu , sigma ) ,
-    mu <- a + bA * A ,
-    a ~ dnorm( 0 , 0.2 ) ,
-    bA ~ dnorm( 0 , 0.5 ) ,
-    sigma ~ dexp( 1 )
-) , data = d )
-
-m5.2 <- quap(
-  alist(
-    D ~ dnorm( mu , sigma ) ,
-    mu <- a + bM * M ,
-    a ~ dnorm( 0 , 0.2 ) ,
-    bM ~ dnorm( 0 , 0.5 ) ,
-    sigma ~ dexp( 1 )
-) , data = d )
-
-
-m5.3 <- quap(
-  alist(
-    D ~ dnorm( mu , sigma ) ,
-    mu <- a + bM*M + bA*A ,
-    a ~ dnorm( 0 , 0.2 ) ,
-    bM ~ dnorm( 0 , 0.5 ) ,
-    bA ~ dnorm( 0 , 0.5 ) ,
-    sigma ~ dexp( 1 )
-) , data = d )
-```
-
----
-
-Next, run the following code: 
-
-```{r compare-m5, eval = F}
-set.seed(24071847)
-compare( m5.1 , m5.2 , m5.3 , func=PSIS )
-```
-
-What do you notice about:
-
-  1. The order in which the models are printed?
-  2. The warning messages?
-
-
----
-
-### solution
-
-```{r, ref.label="compare-m5"}
-
-```
-
-### exercise
-
-Using the full model (both age and marriage rate), ceate a figure that plots the Pareto $k$ estimate on the x-axis and the WAIC penalty for each observation in the dataset. Label any outliers on this plot. The functions `PSIS()` and `WAIC()` will be helpful here, but remember to check the documentation. 
-
----
-
-### solution
-
-```{r}
-#| code-fold: true
-#| 
-set.seed(24071847)
-obs_PSIS = PSIS(m5.3, pointwise = TRUE)
-obs_WAIC = WAIC(m5.3, pointwise = TRUE)
-
-pd <- data.frame(
-  state = d$Loc,
-  PSIS = obs_PSIS$k,
-  WAIC = obs_WAIC$WAIC) 
-
-pd %>% 
-  ggplot(aes(x = PSIS, y = WAIC)) +
-  geom_point() +
-  geom_text(
-    data = subset(pd, PSIS > .45 & WAIC > 5),
-    aes(label = state), 
-    nudge_x = .08
-  )
-  
-```
-
-Based on this plot, which state(s) will you look more closely at? Can you use the data to speak to what may be happening here?
-
----
-
-```{r}
-d %>% 
-  mutate(col = ifelse(Loc %in% c("ID", "MN"), "1", "2")) %>% 
-  ggplot(aes(x = Marriage, y = Divorce)) +
-  geom_point(aes(color = col)) +
-  geom_smooth(method = "lm") +
-  geom_text(
-    data = subset(d, Loc %in% c("ID", "MN")),
-    aes(label = Loc), 
-    nudge_x = 1
-  ) +
-  scale_color_manual(values = c("#5e8485", "grey")) +
-  guides(color=F)
-```
-
-
-PSIS tells us when the model is "surprised" by an observation. Gaussian distributions are unfortunately often surprised, as their tails are quite thin. 
-
-
-:::{.notes}
-What is unusual about Idaho and Utah? Both of these States have large proportions of members of the Church of Jesus Christ of Latter-day Saints. Members of this church have low rates of divorce, wherever they live. 
-
-But note that other outliers don't have the same influence. 
-:::
-
-
-
-
-
-
-[^lecture04-1-1]: Caveats about Oregon weather aside.
 

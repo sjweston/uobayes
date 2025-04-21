@@ -2,10 +2,8 @@
   "hash": "fb5793c5d2346aca365393c92d1a3550",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Good prediction\"\ndate: \"2025-04-22\"\n---\n\n\n\n\n\n\n## Before class\n\n- <i class=\"fab fa-youtube\"></i> The Golum of Prague (51 min)\n\n\n\n\n\n```{=html}\n<div class=\"vembedr\">\n<div>\n<iframe src=\"https://www.youtube.com/embed/1VgYIsANQck\" width=\"533\" height=\"300\" frameborder=\"0\" allowfullscreen=\"\" data-external=\"1\"></iframe>\n</div>\n</div>\n```\n\n\n\n\n## During class\n\nThe slides for today's lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n\n\n\n<p class=\"buttons\"><a class=\"btn btn-danger\" target=\"_blank\" href=\"/slides/lecture04-1.html\"><i class=\"fa-solid fa-arrow-up-right-from-square\"></i> View all slides in new window</a> <a class=\"btn btn-danger\" target=\"_blank\" href=\"/slides/lecture04-1.pdf\" role=\"button\"><i class=\"fa-solid fa-file-pdf\"></i> Download PDF of all slides</a></p>\n\n\n\n<iframe src=\"/slides/lecture04-1.html\" width=\"100%\" height=\"500px\"></iframe> ",
-    "supporting": [
-      "07-content_files"
-    ],
+    "markdown": "---\ntitle: \"Good prediction\"\ndate: \"2025-04-22\"\n---\n\n\n\n\n\n## Before class\n\n- <i class=\"fab fa-youtube\"></i> The Golum of Prague (51 min)\n\n\n\n\n```{=html}\n<div class=\"vembedr\">\n<div>\n<iframe src=\"https://www.youtube.com/embed/1VgYIsANQck\" width=\"533\" height=\"300\" frameborder=\"0\" allowfullscreen=\"\" data-external=\"1\"></iframe>\n</div>\n</div>\n```\n\n\n\n## During class\n\nThe slides for today's lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n\n\n<p class=\"buttons\"><a class=\"btn btn-danger\" target=\"_blank\"\nhref=\"/slides/lecture04-1.html\"><i class=\"fa-solid fa-arrow-up-right-from-square\"></i>\nView all slides in new window</a></p>\n\n\n<iframe src=\"/slides/lecture04-1.html\" width=\"100%\" height=\"500px\"></iframe> ",
+    "supporting": [],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],
