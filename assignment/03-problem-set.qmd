@@ -25,8 +25,165 @@ rethinking::drawdag( dag3, cex = 1, lwd = 3 )
 
 1. Use the backdoor criterion and estimate the total causal influence of `area` on `avgfood.` What effect would increasing the area of a territory have on the amount of food inside it?
 
+<details>
+<summary>Click to see the answer</summary>
+
+Because there are no backdoor paths from area to food, we don't need to add any additional variables to our model.
+
+```{r}
+library(brms)
+library(tidybayes)
+library(tidyverse)
+library(here)
+library(cowplot)
+data(foxes, package="rethinking") #
+d <- foxes
+
+d = d %>% 
+  mutate(
+    across(c(weight, area, avgfood, groupsize),
+    rethinking::standardize,
+    .names="z{.col}")
+  )
+  
+m1 <- brm(
+  data=d,
+  family=gaussian,
+  zavgfood ~ 1 + zarea, # the 1 isn't necessary, but it can help to be explicit
+  prior = c( prior(normal(0, .2),  class=Intercept),
+             prior(normal(0, .5),  class=b),
+             prior(exponential(1), class=sigma)),
+  iter=5000, warmup=1000, seed=9, chains=1,
+  file=here("files/models/hw3.1")
+)
+
+posterior_summary(m1)
+```
+
+```{r}
+as_draws_df(m1) %>% 
+  ggplot( aes(x=b_zarea) ) +
+  stat_halfeye() +
+  geom_vline( aes(xintercept=0), linetype="dashed" ) +
+  labs( x="area coefficient",
+        title="effect on food") +
+  scale_y_continuous( NULL, breaks=NULL) +
+  theme_cowplot()
+```
+
+Territory size has a large impact on food. These are standardized estimates, so I can interpret the coefficients similar to a correlation. An effect of .88 is very large. 
+
+</details>
+
 2. Now infer the total causal impact of adding food to a territory on `weight.` Can you calculate a causal effect by simulating an intervention on food?
+
+<details>
+<summary>Click to see the answer</summary>
+
+Again, there are no backdoor paths to close. 
+
+```{r}
+m2 <- brm(
+  data=d,
+  family=gaussian,
+  zweight ~ 1 + zavgfood, 
+  prior = c( prior(normal(0, .2),  class=Intercept),
+             prior(normal(0, .5),  class=b),
+             prior(exponential(1), class=sigma)),
+  iter=5000, warmup=1000, seed=9, chains=1,
+  file=here("files/models/hw3.2")
+)
+
+posterior_summary(m2)
+```
+
+```{r}
+as_draws_df(m2) %>% 
+  ggplot( aes(x=b_zavgfood) ) +
+  stat_halfeye() +
+  geom_vline( aes(xintercept=0), linetype="dashed" ) +
+  labs( x="food coefficient",
+        title="effect on weight") +
+  scale_y_continuous( NULL, breaks=NULL) +
+  theme_cowplot()
+```
+
+There doesn't seem to be an effect of food on weight. Strange!
+
+Let's simulate the intervention to be sure. 
+
+```{r}
+F0 = predicted_draws( object=m2, newdata=data.frame(zavgfood=0) ) %>% 
+  select(zavgfood, .draw, .prediction)
+F1 = predicted_draws( object=m2, newdata=data.frame(zavgfood=1) ) %>% 
+  select(zavgfood, .draw, .prediction)
+
+full_join(F0, F1) %>% 
+  pivot_wider( names_from = zavgfood, 
+               names_prefix = "F",
+               values_from = .prediction) %>% 
+  mutate(diff = F1-F0) %>% 
+  ggplot( aes(x=diff) ) +
+  stat_halfeye() +
+  geom_vline( aes(xintercept=0), linetype="dashed" ) +
+  labs( x="predicted difference",
+        title="effect on weight of increasing food") +
+  scale_y_continuous( NULL, breaks=NULL) +
+  theme_cowplot()
+```
+
+Yep, definitely nothing going on here. 
+
+</details>
+
 
 3. Now infer the direct causal impact of group size on `weight.` 
 
+<details>
+<summary>Click to see the answer</summary>
+
+A minimal sufficient adjustment is to control for average food. You can also control for area if you want -- it won't affect the estimates. 
+
+```{r}
+m3 <- brm(
+  data=d,
+  family=gaussian,
+  zweight ~ 1 + zavgfood + zgroupsize, 
+  prior = c( prior(normal(0, .2),  class=Intercept),
+             prior(normal(0, .5),  class=b),
+             prior(exponential(1), class=sigma)),
+  iter=5000, warmup=1000, seed=9, chains=1,
+  file=here("files/models/hw3.3")
+)
+
+posterior_summary(m3)
+```
+
+```{r}
+as_draws_df(m3) %>% 
+  select( starts_with("b_z") ) %>% 
+  pivot_longer( everything(), 
+                names_prefix = "b_z" ) %>%
+  ggplot( aes(x=value, y=name) ) +
+  stat_halfeye() +
+  geom_vline( aes(xintercept=0), linetype="dashed" ) +
+  labs( x="coefficient estimate",
+        y=NULL,
+        title="direct effect on weight") +
+  theme_cowplot()
+```
+
+Both of these are direct effects, so let's include them in the same graph. As there is more food, the foxes are bigger. Checks out. But as group size gets larger, weight gets smaller _stratifying by food_. These effects are also roughly the same size, thus canceling each other out. That's why we didn't see a direct effect of food on weight.
+
+</details>
+
+
 4. Given all of these models, what do you think is going on with the foxes?
+
+<details>
+<summary>Click to see the answer</summary>
+
+Larger territories increase food, but food both increases weight and increases group size. In simple terms, the benefits of more food are canceled out by more foxes being attracted to the food, so each fox gets the same amount. 
+
+</details>
+
