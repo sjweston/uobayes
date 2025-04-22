@@ -771,7 +771,7 @@
     "href": "assignment/04-problem-set.html#questions",
     "title": "Problem set 4",
     "section": "Questions",
-    "text": "Questions\nTBD",
+    "text": "Questions\n\nRecall the marriage, age, happiness collider example from Lecture 3-1. Run the two models again (m6a and m7). Compare these two models using PSIS and WAIC. Which model is expected to make better predictions? Is that the model with the correct causal inference?\nIn 2007, The Wall Street Journal published an editorial (“We’re Number One, Alas”) with a graph of corporate tax rates in 29 countries plotted against tax revenue. A badly fit curve was drawn in (see below) to make the argument that the relationship between tax rate and tax revenue increases and then declines, such that higher tax rates can actually produce less tax revenue.\n\n\nThe data are in the rethinking package under the name Laffer. Fit two models to the data: one with a straight line and one with an actual curve. Compare these models using PSIS or WAIC. What do you conclude?\n\nIn the problem above, Norway is an outlier. Use PSIS or WAIC to estimate how much influence it has on the models you fit in the previous question.",
     "crumbs": [
       "Assignments",
       "Problem sets",

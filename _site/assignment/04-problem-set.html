@@ -268,7 +268,15 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="questions" class="level2">
 <h2 class="anchored" data-anchor-id="questions">Questions</h2>
-<p>TBD</p>
+<ol type="1">
+<li><p>Recall the marriage, age, happiness collider example from <a href="https://uobayes.netlify.app/slides/lecture03-1#/32">Lecture 3-1</a>. Run the two models again (<code>m6a</code> and <code>m7</code>). Compare these two models using PSIS and WAIC. Which model is expected to make better predictions? Is that the model with the correct causal inference?</p></li>
+<li><p>In 2007, The Wall Street Journal published an editorial (“We’re Number One, Alas”) with a graph of corporate tax rates in 29 countries plotted against tax revenue. A badly fit curve was drawn in (see below) to make the argument that the relationship between tax rate and tax revenue increases and then declines, such that higher tax rates can actually produce less tax revenue.</p></li>
+</ol>
+<p><img src="../files/img/wsj.gif" class="img-fluid"></p>
+<p>The data are in the <code>rethinking</code> package under the name <code>Laffer</code>. Fit two models to the data: one with a straight line and one with an <em>actual</em> curve. Compare these models using PSIS or WAIC. What do you conclude?</p>
+<ol start="3" type="1">
+<li>In the problem above, Norway is an outlier. Use PSIS or WAIC to estimate how much influence it has on the models you fit in the previous question.</li>
+</ol>
 
 
 </section>
