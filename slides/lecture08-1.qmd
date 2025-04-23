@@ -168,7 +168,7 @@ m3 <- brm(
 ---
 
 ```{r}
-posterior_summary(m3)
+posterior_summary(m3) %>% round(3)
 ```
 
 ---
@@ -184,7 +184,7 @@ cafe_params = data.frame(
   intercepts=intercepts[, 1],
   slopes=slopes[, 1]
 ) 
-cafe_params
+cafe_params %>% round(3)
 ```
 
 ---
@@ -271,6 +271,7 @@ data.frame(prior= rlkj_2[,1,2],
   ggplot() +
   geom_density(aes(x=prior, color = "prior"), alpha=.3) +
   geom_density(aes(x=posterior, color = "posterior"), alpha=.3) +
+  scale_color_manual(values = c("#1c5253" , "#e07a5f")) +
   labs(x="R") +
   theme(legend.position = "top")
 ```
@@ -386,3 +387,6 @@ text <-
   facet_wrap(~ actor, nrow = 1, labeller = label_both)
 ```
 
+:::{.notes}
+Notice however that the posterior does not just repeat the data—there is shrinkage in several places. Actor 2 is the most obvious. Recall that actor 2 always, in every treatment and block, pulled the left lever. The blue points cling to the top. But the posterior predictions shrink inward. Why do they shrink inward more for some treatments, like 1 and 2, than others? Because those treatments had less variation among actors. Look back at the precis output on the previous page. The less variation among actors in a treatment, the more shrinkage among actors in that same treatment.
+:::

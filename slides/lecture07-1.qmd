@@ -27,6 +27,11 @@ library(brms)
 library(tidybayes) 
 ```
 
+```{r}
+
+```
+
+
 ```{r, echo = F}
 knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
 theme_set(theme_cowplot())
@@ -43,6 +48,26 @@ default_palettes <- list(
 options(ggplot2.discrete.fill = default_palettes, 
         ggplot2.discrete.colour = default_palettes)
 ```
+
+---
+
+## mlm
+
+Often, there are opportunities to cluster your observations -- repeated measures, group membership, hierarchies, even different measures for the same particiapnt. Whenever you can cluster, you should!
+
+* Aggregation is bad
+* Regressions within regressions (ie coefficients as outcomes)
+* Questions at different levels
+* Variance decomposition
+* Learning from other data through pooling/shrinkage
+* Parameters that depend on parameters
+
+:::{.notes}
+Aggregation
+* Between person H1: Do students who study more get better grades?
+* Within person H2: When a student studies, do they get better grades?
+* H1 and H2 are independent from one another! Aggregation collapses the two. When you have nested data with many DVs it is important to not aggregate.
+:::
 
 ---
 
