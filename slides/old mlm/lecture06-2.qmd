@@ -1,0 +1,339 @@
+---
+title: "week 6: multilevel models"
+subtitle: "multilevel tadpoles"
+format: 
+  revealjs:
+    css: xaringan-themer2.css
+    nature:
+      highlightStyle: solarized-dark
+      highlightLines: true
+      countIncrementalSlides: false
+      mathjax: "default"
+    self-contained: false  # Ensures correct embedding
+    embed-resources: true  # Embeds required assets
+    slide-number: true
+    code-annotations: hover
+execute:
+  echo: false        
+---
+
+```{r, message = F, warning = F}
+library(tidyverse)
+library(psych)
+library(cowplot)
+library(patchwork)
+library(here)
+library(brms) 
+library(tidybayes) 
+```
+
+```{r, echo = F}
+knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
+theme_set(theme_cowplot())
+default_palettes <- list(
+  c("#5e8485" , "#0f393a") ,
+  c("#1c5253" , "#5e8485" , "#0f393a") , 
+  # palette with 5 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" ) ,
+  # same palette interpolated to 8 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" ) 
+  
+)
+
+options(ggplot2.discrete.fill = default_palettes, 
+        ggplot2.discrete.colour = default_palettes)
+```
+
+## multilevel models
+
+We're starting our unit on multilevel models, which can be thought of as models that "remember" features of clusters of data as they learn about all the clusters.  The model will pool information across clusters (e.g., our estimates about cluster A will be informed in part by clusters B, C, and D). This tends to improve estimates about each cluster. Here are some other benefits of multilevel modeling:
+
+  1. **improved estimates for repeated sampling.** If you try to fit a single-level model to these data, you'll over- or under-fit the data. 
+  2. **improved estimates for imbalance in sampling.** prevent over-sampled clusters from dominating inference, while also balancing the fact that larger clusters have more information.
+  3. **estimates of variation.** model variation explicitly!
+  4. **avoid averaging, retain variation.** averaging manufactures false confidence (artificially inflates precision) and introduces arbitrary data transformations. 
+  
+Multilevel modeling should be your default approach.
+
+---
+
+## example: tadpoles
+
+```{r}
+data(reedfrogs, package = "rethinking")
+d<- reedfrogs
+str(d)
+```
+
+Each row is a tank. These tanks are examples of clusters. We'll need to create an index variable for each tank.
+
+```{r}
+d$tank <- 1:nrow(d)
+```
+
+---
+
+```{r}
+d %>% count(density)
+```
+
+How would you fit a **single-level model** in which you estimate the survival rate (`surv`) of tadpoles separately for each tank?
+
+  - What is the distribution of the outcome variable?
+  - What is the formula?
+  - What is/are your prior(s)?
+
+---
+
+\begin{align*}
+S_i &\sim \text{Binomial}(N_i, p_i) \\
+\text{logit}(p_i) &= \alpha_{tank} \\
+\alpha_j &\sim \text{Normal}(0,1.5)
+\end{align*}
+
+```{r}
+m1 <- 
+  brm(data = d, 
+      family = binomial,
+      surv | trials(density) ~ 0 + factor(tank),
+      prior(normal(0, 1.5), class = b),
+      iter = 2000, warmup = 1000, chains = 4, cores = 4,
+      seed = 13,
+      file = here("files/data/generated_data/m62.1"))
+```
+
+---
+
+```{r}
+m1
+```
+
+---
+
+Now we'll consider the multilevel alternative.
+
+\begin{align*}
+S_i &\sim \text{Binomial}(N_i, p_i) \\
+\text{logit}(p_i) &= \alpha_{tank} \\
+\alpha_j &\sim \text{Normal}(\bar{\alpha},\sigma) \\
+\bar{\alpha} &\sim \text{Normal}(0, 1.5) \\
+\sigma &\sim \text{Exponential}(1)
+\end{align*}
+
+```{r, results='hide'}
+m2 <- 
+  brm(data = d, 
+      family = binomial,
+      surv | trials(density) ~ 1 + (1 | tank),
+      prior = c( prior(normal(0, 1.5), class = Intercept), # alpha bar
+                 prior(exponential(1), class = sd)),       # sigma
+      iter = 2000, warmup = 1000, chains = 4, cores = 4,
+      seed = 13,
+      file = here("files/data/generated_data/m62.2"))
+```
+
+The syntax for the varying effects follows the `lme4` style, `( <varying parameter(s)> | <grouping variable(s)> )`. In this case `(1 | tank)` indicates only the intercept, 1, varies by tank. The extent to which parameters vary is controlled by the prior, `prior(exponential(1), class = sd)`, which is parameterized in the standard deviation metric. 
+
+
+---
+
+Compare our two models.
+
+```{r}
+m1 <- add_criterion(m1, "waic")
+m2 <- add_criterion(m2, "waic")
+
+w <- loo_compare(m1, m2, criterion = "waic")
+
+print(w, simplify = F)
+```
+
+---
+
+## exercise {visibility="hidden"}
+
+1. Fit the multilevel tadpoles model. 
+
+2. In the video lecture, McElreath demonstrates that cross-validation can be used to determine that an appropriate prior for sigma is about 1.8. Recreate this demonstration. (Start with just 3 values of $\sigma$ so you can finish this in class. You can update later with more values for fun.)
+
+---
+
+## solution {visibility="hidden"}
+
+```{r, eval=F, warning=F, message=F, results='hide'}
+
+sigma_seq <- exp(seq(from=log(0.1), to=log(5), len=20))
+waic_values <- numeric(length(sigma_seq))
+loo_values <- numeric(length(sigma_seq))
+
+for(i in 1:length(sigma_seq)) {
+  sigma_value <- sigma_seq[i]
+  cat("Fitting model", i, "with prior rate =", sigma_value, "\n")
+  
+  # Create the prior with the specific numeric value
+  my_prior <- c(
+    set_prior("normal(0, 1.5)", class = "Intercept"),
+    set_prior(paste0("exponential(", sigma_value, ")"), class = "sd")
+  )
+  
+  # Fit the model with this prior
+  model <- brm(
+    data = d, 
+    family = binomial,
+    surv | trials(density) ~ 1 + (1 | tank),
+    prior = my_prior,
+    iter = 1000, warmup = 500, chains = 4, cores = 4,
+    seed = 13,
+    file = here(paste0("files/data/generated_data/m62_prior_", i))
+  )
+  
+  # Calculate WAIC
+  model <- add_criterion(model, "waic")
+  waic_values[i] <- model$criteria$waic$estimates["waic", "Estimate"]
+  # Calculate WAIC
+  model <- add_criterion(model, "loo")
+  loo_values[i] <- model$criteria$loo$estimates["elpd_loo", "Estimate"]
+  
+  
+  # Optional: clean up to save memory
+  rm(model)
+  gc()
+}
+```
+
+---
+
+## solution {visibility="hidden"}
+
+```{r, eval=F}
+data.frame(
+  sigma = sigma_seq,
+  loo = loo_values
+) %>% 
+  ggplot( aes( x=sigma, y=loo )) + 
+  geom_point( size=2, color = "#1c5253" ) +
+  geom_line(alpha = .5) 
+
+```
+
+---
+
+Check your trace plots to evaluate whether your chains have mixed appropriately.
+
+
+```{r}
+plot(m2)
+```
+
+---
+
+Here's an additional packages -- `bayesplot` -- to help you visualize chains for each intercept.
+
+```{r}
+library(bayesplot)
+
+as_draws_df(m2) %>% 
+  select(contains("tank"), .chain) %>% 
+  select(9:16, chain = .chain) %>% 
+  mcmc_rank_overlay(facet_args = list(ncol=4, scales="free"))
+```
+
+
+---
+
+```{r}
+m2
+```
+
+---
+
+Our summary output doesn't show us the individual intercepts for each tank. No worries -- let's draw from our posterior!
+
+```{r}
+post <- as_draws_df(m2)
+
+str(post)
+```
+
+---
+
+Each of the tank-specific intercepts here represent how the tank intercept deviates from the grand mean (`b_Intercept`). We also have to remember that these values are in logits. If we want to see these as probabities, we have to back-transform. 
+
+```{r, message = F, warning = F}
+modeled_prop = post %>% 
+  select(b_Intercept, starts_with("r_tank")) %>% 
+  pivot_longer(-b_Intercept, values_to = "logit") %>%
+  mutate(logit = logit + b_Intercept,
+    prob = inv_logit_scaled(logit)) %>% 
+  group_by(name) 
+
+modeled_prop %>% 
+  median_qi(prob)
+
+```
+
+---
+
+We'll recreate another figure of McElreath's that shows the relationship between the observed probability of survival for each tank and the predicted probabilty. Here's what our figure should have:
+
+1. Survival probability (y-axis) for each tank (x-axis)
+2. Empty circular points representing the model's estimated probability for each tank
+3. Filled teal/green points showing the observed proportions in each tank
+4. A horizontal line showing the average proportion across all tanks
+
+OPTIONAL
+
+5. Vertical dashed lines separating the three tank size categories
+6. Text labels for each tank size group
+7. Something to indicate the posterior _distribution_ of survival for **each** tank.
+
+---
+
+```{r}
+#| code-fold: true
+
+observed_prop = d %>% 
+  mutate(prob = surv/density)
+
+modeled_prop_m = modeled_prop %>% 
+  median_qi(prob) %>% 
+  mutate( tank = str_extract(name, "[0-9]{1,2}"),
+          tank = as.numeric(tank) ) 
+
+avg_prop = inv_logit_scaled(mean(post$b_Intercept))
+
+modeled_prop %>% 
+  mutate( tank = str_extract(name, "[0-9]{1,2}"),
+          tank = as.numeric(tank) ) %>% 
+  ggplot( aes(x=tank, y=prob) ) + 
+  stat_slab(alpha=.7) +
+  geom_point( data = modeled_prop_m, 
+              shape = 1,
+              size=2) +
+  geom_point(data = observed_prop, 
+              color = "#5e8485",
+             size=2) +
+  # lines separating small, med, and large tanks
+  geom_vline(xintercept = c(16.5, 32.5), 
+             linetype = "dashed",
+             linewidth = 1/4, color = "grey25") +
+  geom_hline(yintercept = avg_prop, linewidth = .5, color = "#5e8485") +
+  annotate(geom = "text", 
+           x = c(8, 16 + 8, 32 + 8), y = 0, 
+           label = c("small tanks", "medium tanks", "large tanks")) +
+  annotate(geom = "text", 
+           x = 46, y = avg_prop+.03, 
+           label = c("average proportion"),
+           color = "#5e8485", ) +
+  labs(
+    x="tank",
+    y=NULL,
+    title="probability of survival"
+  )
+```
+
+---
+
+## partial pooling
+
+A benefit of MLMs over what we'll call 
