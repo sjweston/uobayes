@@ -108,15 +108,15 @@ However, both Metropolis and Gibbs sampling are inefficient as models become mor
 
 ### hamiltonian
 
-  * kingdom in a valley
-  * king drives in a random direction and at a random momentum. 
-    * as vehicle goes uphill, it slows down and evantually turns around. 
-    * as vehicle goes downhipp, it picks up speed.
-  * at fixed periods of time, the vehicle stops. 
   
-  * this is really a physics simulation -- think of a skateboard in bowl
+  * this is really a physics simulation -- think of a skateboarder in bowl. The skateboarder's goal is to explore as much of the bowl as possible. 
     * When the log-posterior is very flat, because there isn’t much information in the likelihood and the priors are rather flat, then the particle can glide for a long time before the slope (gradient) makes it turn around.
     * When instead the log-posterior is very steep, because either the likelihood or the priors are very concentrated, then the particle doesn’t get far before turning around.
+    
+    Iterations are the total number of runs you let the skateboarder take.
+    * Every iteration is a complete journey around (or a part of) the bowl.
+    * In each iteration, the skateboarder starts at some position, follows physics (using leapfrog steps), and proposes a new point.
+    * More iterations = more chances to explore every part of the bowl.
 
   * HMC rejects some proposals. 
     * What is the rejection criterion? Because HMC runs a physics simulation, certain things have to be conserved, like total energy of the system. When the total energy changes during the simulation, that means the numerical approximation is bad. When the approximation isn’t good, it might reject the proposal.
@@ -126,9 +126,17 @@ However, both Metropolis and Gibbs sampling are inefficient as models become mor
 ### settings
 
   * **LEAPFROG STEPS** -- Each path in the simulation is divided up into a number of leapfrog steps.  If you choose many steps, the paths will be long. If you choose few, they will be short. 
+    * Each leapfrog step is like a small, controlled push that updates the skateboarder’s position (parameter values) and momentum (direction/speed of movement).
+    * The skateboarder can’t just slide forever—they update their motion in little bursts.
+    * At each leapfrog step, they briefly calculate where they are, how steep the slope is (gradient of the log posterior), and use that to push off in a slightly new direction
+    * Look where the slope is heading → nudge momentum → roll forward → check again.
+
   
-  * **STEP SIZE** -- The step size determines how fine grained the simulation is. If the step size is small, then the particle can turn sharply. If the step size is large, then each leap will be large and could even overshoot the point where the simulation would want to turn around.
   
+  * **STEP SIZE** -- The step size is how big each leapfrog step is—how far the skateboarder moves before checking the slope again. A larger step size means fewer steps to get around the bowl, but they risk overshooting or taking turns too sharply.
+A smaller step size gives more precise control but takes longer to get anywhere—it’s more cautious.
+    * Large step size: like pushing off hard and zooming forward—great when the terrain is flat.
+    * Small step size: gentle push, perfect for when the bowl has tight curves and sudden drops.
 
 The warmup period of Stan is figuring out what the leapfrog steps and step size should be. This uses an algorithm called a No-U-Turn Sampler (NUTS).
 
@@ -376,9 +384,13 @@ summary(m1)
 
 ## divergent transitions
 
-A rule in physics is that energy must be conserved. Remember that HMC is literally a physics simulation. Energy won't be conserved in the system if your king in a car/skateboarder zings out of the valley/bowl and into outer space. That's a divergent transition. 
+A rule in physics is that energy must be conserved. Remember that HMC is literally a physics simulation. Energy won't be conserved in the system if your skateboarder zings out of the bowl and into outer space. That's a divergent transition. 
 
-Two primary ways to handle divergent transitions are by increasing the `adapt_delta` parameter, which we’ve already done a few times in previous chapters, or reparameterizing the model. 
+Two primary ways to handle divergent transitions are by increasing the `adapt_delta` parameter and reparameterization.
 
 `adapt_delta` specifies the target average acceptance probability during the adaptation phase of sampling (warmup). The higher the delta, the smaller the step size. This makes the model more conservative, slower, and also much less likely to encounter problems. Its default is .8. Try increasing it to .9 or .99 if you have divergent transitions. 
+
+`adapt_delta` is like adjusting how smooth and controlled the skateboarder’s ride should be.
+  * A higher adapt_delta (e.g., 0.99) means the skateboarder is super cautious, preferring smooth, stable rides (i.e., high acceptance rates). This leads to smaller step sizes and more leapfrog steps per iteration.
+  * A lower adapt_delta (e.g., 0.8) lets the skateboarder be riskier, zooming around the bowl faster, but at a higher risk of crashing (divergent transitions).
 
