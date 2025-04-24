@@ -44,6 +44,13 @@ options(ggplot2.discrete.fill = default_palettes,
         ggplot2.discrete.colour = default_palettes)
 ```
 
+
+## annoucement
+
+Office hours will be on Tuesdays (10-12) starting next week.
+
+---
+
 10 islands, in a loop. Island 2 is twice as big as island 1, island 3 is three times as big as island 1, etc.
 
 ```{r}
