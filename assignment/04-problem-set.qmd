@@ -15,10 +15,140 @@ Please use an RMarkdown file to complete this assignment. Make sure you reserve 
 
 1. Recall the marriage, age, happiness collider example from [Lecture 3-1](https://uobayes.netlify.app/slides/lecture03-1#/32). Run the two models again (`m6a` and `m7`). Compare these two models using PSIS and WAIC. Which model is expected to make better predictions? Is that the model with the correct causal inference?
 
+<details>
+<summary>Click to see the answer</summary>
+
+
+```{r, warning = F, message=F, results='hide'}
+library(here)
+library(tidyverse)
+library(brms)
+library(tidybayes)
+library(loo)
+
+d <- rethinking::sim_happiness(seed = 1990, N_years = 1000)
+
+d2 <- d[d$age >= 18, ]
+d2$A <- rethinking::standardize(d2$age)
+d2$mid <- as.factor(d2$married + 1)
+
+m6a <- brm(
+  data=d2, 
+  family=gaussian,
+  bf( happiness ~ 0 + a + b*A, 
+      a ~ 0 + mid,
+      b ~ 0 + mid,
+      nl = TRUE),
+  prior = c( prior(normal(0, .50), nlpar=a),
+             prior(normal(0, .25), nlpar=b),
+             prior(exponential(1), class=sigma)),
+  iter=2000, warmup=1000, seed=9, chains=1,
+  file = here("files/models/31.6a")
+)
+
+m7 <- brm(
+  data=d2, 
+  family=gaussian,
+  happiness ~ A,
+  prior = c( prior(normal(0, .50), class=Intercept),
+             prior(normal(0, .25), class=b),
+             prior(exponential(1), class=sigma)),
+  iter=2000, warmup=1000, seed=9, chains=1,
+  file = here("files/models/31.7")
+)
+
+m6a <- add_criterion(m6a, criterion = "loo")
+m7 <- add_criterion(m7, criterion = "loo")
+m6a <- add_criterion(m6a, criterion = "waic")
+m7 <- add_criterion(m7, criterion = "waic")
+```
+
+```{r}
+loo_compare(m6a, m7, criterion = "loo") %>% print(simplify=F)
+loo_compare(m6a, m7, criterion = "waic") %>% print(simplify=F)
+```
+
+The model in which we stratify by age makes better predictions. However, we know this is not the best causal model, as stratifying by marriage constitutes conditioning on a collider. This will yield biased estimates for the relationship between age and happiness. But it will be a better predictor, because we're incorporating more relevant information about happiness into our model. 
+
+</details>
+
 2. In 2007, The Wall Street Journal published an editorial ("We’re Number One, Alas") with a graph of corporate tax rates in 29 countries plotted against tax revenue. A badly fit curve was drawn in (see below) to make the argument that the relationship between tax rate and tax revenue increases and then declines, such that higher tax rates can actually produce less tax revenue.
 
 ![](../files/img/wsj.gif)
 
 The data are in the `rethinking` package under the name `Laffer`. Fit two models to the data: one with a straight line and one with an _actual_ curve. Compare these models using PSIS or WAIC. What do you conclude?
 
+<details>
+<summary>Click to see the answer</summary>
+
+
+```{r, results = 'hide'}
+data(Laffer, package = "rethinking")
+d <- Laffer
+d <- d %>% 
+  mutate(across(everything(), rethinking::standardize)) 
+
+m_straight = brm(
+  data=d, 
+  family = gaussian,
+  tax_revenue ~ tax_rate, 
+  prior = c( prior(normal(0,.1), class=Intercept),
+             prior(normal(0,.5), class=b),
+             prior(exponential(1), class=sigma)),
+  iter=3000, warmup=1000, seed=9, chains=4,
+  file = here("files/models/hw4.1")
+)
+
+m_curve = brm(
+  data=d, 
+  family = gaussian,
+  tax_revenue ~ tax_rate + I(tax_rate^2), 
+  prior = c( prior(normal(0,.1), class=Intercept),
+             prior(normal(0,.5), class=b),
+             prior(exponential(1), class=sigma)),
+  iter=3000, warmup=1000, seed=9, chains=4,
+  file = here("files/models/hw4.2")
+)
+
+m_straight <- add_criterion(m_straight, criterion = "loo")
+m_straight <- add_criterion(m_straight, criterion = "waic")
+
+m_curve <- add_criterion(m_curve, criterion = "loo")
+m_curve <- add_criterion(m_curve, criterion = "waic")
+
+```
+
+```{r}
+loo_compare(m_straight, m_curve, criterion = "loo") %>% print(simplify=F)
+loo_compare(m_straight, m_curve, criterion = "waic") %>% print(simplify=F)
+
+```
+
+
+</details>
+
 3. In the problem above, Norway is an outlier. Use PSIS or WAIC to estimate how much influence it has on the models you fit in the previous question.
+
+<details>
+<summary>Click to see the answer</summary>
+
+Let's start by identifying Norway. It has a very high tax revenue, so I'll find the data point with the highest revenue. 
+
+```{r}
+(which_norway = which( d$tax_revenue == max(d$tax_revenue) ))
+```
+
+Point 12! Let's see how it does on my statistics. 
+
+```{r}
+loo(m_straight)$pointwise[ which_norway, ]
+loo(m_curve)$pointwise[ which_norway, ]
+
+waic(m_straight)$pointwise[ which_norway, ]
+waic(m_curve)$pointwise[ which_norway, ]
+
+```
+
+Very high influence on all of these lines. 
+
+</details>
