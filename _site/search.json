@@ -184,385 +184,811 @@
     ]
   },
   {
-    "objectID": "content/20-content.html",
-    "href": "content/20-content.html",
-    "title": "TBD",
+    "objectID": "content/19-content.html",
+    "href": "content/19-content.html",
+    "title": "Generalized linear models",
     "section": "",
-    "text": "Horoscopes (1 h 40 min)",
+    "text": "Generalized linear madness (1 h 15 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "20: TBD"
+      "19: Generalized linear models"
     ]
   },
   {
-    "objectID": "content/20-content.html#before-class",
-    "href": "content/20-content.html#before-class",
-    "title": "TBD",
+    "objectID": "content/19-content.html#before-class",
+    "href": "content/19-content.html#before-class",
+    "title": "Generalized linear models",
     "section": "",
-    "text": "Horoscopes (1 h 40 min)",
+    "text": "Generalized linear madness (1 h 15 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "20: TBD"
+      "19: Generalized linear models"
     ]
   },
   {
-    "objectID": "content/20-content.html#during-class",
-    "href": "content/20-content.html#during-class",
-    "title": "TBD",
-    "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "20: TBD"
-    ]
-  },
-  {
-    "objectID": "content/18-content.html",
-    "href": "content/18-content.html",
-    "title": "Missing data",
-    "section": "",
-    "text": "Missing data (1 h 03 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "18: Missing data"
-    ]
-  },
-  {
-    "objectID": "content/18-content.html#before-class",
-    "href": "content/18-content.html#before-class",
-    "title": "Missing data",
-    "section": "",
-    "text": "Missing data (1 h 03 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "18: Missing data"
-    ]
-  },
-  {
-    "objectID": "content/18-content.html#during-class",
-    "href": "content/18-content.html#during-class",
-    "title": "Missing data",
-    "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "18: Missing data"
-    ]
-  },
-  {
-    "objectID": "content/16-content.html",
-    "href": "content/16-content.html",
-    "title": "Gaussian processes",
-    "section": "",
-    "text": "Gaussian processes (1 h 22 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "16: Gaussian processes"
-    ]
-  },
-  {
-    "objectID": "content/16-content.html#before-class",
-    "href": "content/16-content.html#before-class",
-    "title": "Gaussian processes",
-    "section": "",
-    "text": "Gaussian processes (1 h 22 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "16: Gaussian processes"
-    ]
-  },
-  {
-    "objectID": "content/16-content.html#during-class",
-    "href": "content/16-content.html#during-class",
-    "title": "Gaussian processes",
-    "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "16: Gaussian processes"
-    ]
-  },
-  {
-    "objectID": "content/14-content.html",
-    "href": "content/14-content.html",
-    "title": "Multivariate priors",
-    "section": "",
-    "text": "Correlated features (1 h 10 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "14: Multivariate priors"
-    ]
-  },
-  {
-    "objectID": "content/14-content.html#before-class",
-    "href": "content/14-content.html#before-class",
-    "title": "Multivariate priors",
-    "section": "",
-    "text": "Correlated features (1 h 10 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "14: Multivariate priors"
-    ]
-  },
-  {
-    "objectID": "content/14-content.html#during-class",
-    "href": "content/14-content.html#during-class",
-    "title": "Multivariate priors",
-    "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "14: Multivariate priors"
-    ]
-  },
-  {
-    "objectID": "content/12-content.html",
-    "href": "content/12-content.html",
-    "title": "Multilevel models",
-    "section": "",
-    "text": "Multilevel models (1 h 32 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "12: Multilevel models"
-    ]
-  },
-  {
-    "objectID": "content/12-content.html#before-class",
-    "href": "content/12-content.html#before-class",
-    "title": "Multilevel models",
-    "section": "",
-    "text": "Multilevel models (1 h 32 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "12: Multilevel models"
-    ]
-  },
-  {
-    "objectID": "content/12-content.html#during-class",
-    "href": "content/12-content.html#during-class",
-    "title": "Multilevel models",
-    "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "12: Multilevel models"
-    ]
-  },
-  {
-    "objectID": "content/10-content.html",
-    "href": "content/10-content.html",
-    "title": "Poisson regression",
-    "section": "",
-    "text": "Counts and hidden confounds (1 h 25 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "10: Poisson regression"
-    ]
-  },
-  {
-    "objectID": "content/10-content.html#before-class",
-    "href": "content/10-content.html#before-class",
-    "title": "Poisson regression",
-    "section": "",
-    "text": "Counts and hidden confounds (1 h 25 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "10: Poisson regression"
-    ]
-  },
-  {
-    "objectID": "content/10-content.html#during-class",
-    "href": "content/10-content.html#during-class",
-    "title": "Poisson regression",
-    "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "10: Poisson regression"
-    ]
-  },
-  {
-    "objectID": "content/08-content.html",
-    "href": "content/08-content.html",
-    "title": "MCMC",
-    "section": "",
-    "text": "Markov chain monte carlo (1 h 16 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "8: MCMC"
-    ]
-  },
-  {
-    "objectID": "content/08-content.html#before-class",
-    "href": "content/08-content.html#before-class",
-    "title": "MCMC",
-    "section": "",
-    "text": "Markov chain monte carlo (1 h 16 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "8: MCMC"
-    ]
-  },
-  {
-    "objectID": "content/08-content.html#during-class",
-    "href": "content/08-content.html#during-class",
-    "title": "MCMC",
+    "objectID": "content/19-content.html#during-class",
+    "href": "content/19-content.html#during-class",
+    "title": "Generalized linear models",
     "section": "During class",
     "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window",
     "crumbs": [
       "Content",
       "Course content",
-      "8: MCMC"
+      "19: Generalized linear models"
     ]
   },
   {
-    "objectID": "content/06-content.html",
-    "href": "content/06-content.html",
-    "title": "More causal modeling",
+    "objectID": "content/17-content.html",
+    "href": "content/17-content.html",
+    "title": "Measurement",
     "section": "",
-    "text": "Good and bad controls (1 h 26 min)",
+    "text": "Measurement & misclassification (1 h 17 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "6: More causal modeling"
+      "17: Measurement"
     ]
   },
   {
-    "objectID": "content/06-content.html#before-class",
-    "href": "content/06-content.html#before-class",
-    "title": "More causal modeling",
+    "objectID": "content/17-content.html#before-class",
+    "href": "content/17-content.html#before-class",
+    "title": "Measurement",
     "section": "",
-    "text": "Good and bad controls (1 h 26 min)",
+    "text": "Measurement & misclassification (1 h 17 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "6: More causal modeling"
+      "17: Measurement"
     ]
   },
   {
-    "objectID": "content/06-content.html#during-class",
-    "href": "content/06-content.html#during-class",
-    "title": "More causal modeling",
+    "objectID": "content/17-content.html#during-class",
+    "href": "content/17-content.html#during-class",
+    "title": "Measurement",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "17: Measurement"
+    ]
+  },
+  {
+    "objectID": "content/15-content.html",
+    "href": "content/15-content.html",
+    "title": "Social networks",
+    "section": "",
+    "text": "Social networks (1 h 12 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "15: Social networks"
+    ]
+  },
+  {
+    "objectID": "content/15-content.html#before-class",
+    "href": "content/15-content.html#before-class",
+    "title": "Social networks",
+    "section": "",
+    "text": "Social networks (1 h 12 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "15: Social networks"
+    ]
+  },
+  {
+    "objectID": "content/15-content.html#during-class",
+    "href": "content/15-content.html#during-class",
+    "title": "Social networks",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "15: Social networks"
+    ]
+  },
+  {
+    "objectID": "content/13-content.html",
+    "href": "content/13-content.html",
+    "title": "More multilevel models",
+    "section": "",
+    "text": "Multilevel adventures (54 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "13: More multilevel models"
+    ]
+  },
+  {
+    "objectID": "content/13-content.html#before-class",
+    "href": "content/13-content.html#before-class",
+    "title": "More multilevel models",
+    "section": "",
+    "text": "Multilevel adventures (54 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "13: More multilevel models"
+    ]
+  },
+  {
+    "objectID": "content/13-content.html#during-class",
+    "href": "content/13-content.html#during-class",
+    "title": "More multilevel models",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "13: More multilevel models"
+    ]
+  },
+  {
+    "objectID": "content/11-content.html",
+    "href": "content/11-content.html",
+    "title": "Ordered categories",
+    "section": "",
+    "text": "Ordered categories (1 h 30 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "11: Multinomial regression"
+    ]
+  },
+  {
+    "objectID": "content/11-content.html#before-class",
+    "href": "content/11-content.html#before-class",
+    "title": "Ordered categories",
+    "section": "",
+    "text": "Ordered categories (1 h 30 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "11: Multinomial regression"
+    ]
+  },
+  {
+    "objectID": "content/11-content.html#during-class",
+    "href": "content/11-content.html#during-class",
+    "title": "Ordered categories",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "11: Multinomial regression"
+    ]
+  },
+  {
+    "objectID": "content/09-content.html",
+    "href": "content/09-content.html",
+    "title": "Binomial regression",
+    "section": "",
+    "text": "Modeling events (1 h 32 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "9: Binomial regression"
+    ]
+  },
+  {
+    "objectID": "content/09-content.html#before-class",
+    "href": "content/09-content.html#before-class",
+    "title": "Binomial regression",
+    "section": "",
+    "text": "Modeling events (1 h 32 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "9: Binomial regression"
+    ]
+  },
+  {
+    "objectID": "content/09-content.html#during-class",
+    "href": "content/09-content.html#during-class",
+    "title": "Binomial regression",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "9: Binomial regression"
+    ]
+  },
+  {
+    "objectID": "content/07-content.html",
+    "href": "content/07-content.html",
+    "title": "Good prediction",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "7: Good predictions"
+    ]
+  },
+  {
+    "objectID": "content/07-content.html#before-class",
+    "href": "content/07-content.html#before-class",
+    "title": "Good prediction",
+    "section": "",
+    "text": "The Golum of Prague (51 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "7: Good predictions"
+    ]
+  },
+  {
+    "objectID": "content/07-content.html#during-class",
+    "href": "content/07-content.html#during-class",
+    "title": "Good prediction",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "7: Good predictions"
+    ]
+  },
+  {
+    "objectID": "content/05-content.html",
+    "href": "content/05-content.html",
+    "title": "Causal modeling",
+    "section": "",
+    "text": "Elemental confounds (1 h 05 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "5: Causal modeling"
+    ]
+  },
+  {
+    "objectID": "content/05-content.html#before-class",
+    "href": "content/05-content.html#before-class",
+    "title": "Causal modeling",
+    "section": "",
+    "text": "Elemental confounds (1 h 05 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "5: Causal modeling"
+    ]
+  },
+  {
+    "objectID": "content/05-content.html#during-class",
+    "href": "content/05-content.html#during-class",
+    "title": "Causal modeling",
     "section": "During class",
     "text": "During class\nTo save these slides as a PDF on your computer, open the menu (three horizontal bars in the bottom left of the slides), then Tools (gear symbol in the top), and PDF export (or ``e’’). You can then right-click on the slides, select Print, and save as PDF.\n\n View all slides in new window\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
     "crumbs": [
       "Content",
       "Course content",
-      "6: More causal modeling"
+      "5: Causal modeling"
     ]
   },
   {
-    "objectID": "content/04-content.html",
-    "href": "content/04-content.html",
-    "title": "Categories",
+    "objectID": "content/03-content.html",
+    "href": "content/03-content.html",
+    "title": "Linear models",
     "section": "",
-    "text": "Categories and curves (1 h 25 min)",
+    "text": "Geocentric models (1 h 15 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "4: Categories"
+      "3: Linear models"
     ]
   },
   {
-    "objectID": "content/04-content.html#before-class",
-    "href": "content/04-content.html#before-class",
-    "title": "Categories",
+    "objectID": "content/03-content.html#before-class",
+    "href": "content/03-content.html#before-class",
+    "title": "Linear models",
     "section": "",
-    "text": "Categories and curves (1 h 25 min)",
+    "text": "Geocentric models (1 h 15 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "4: Categories"
+      "3: Linear models"
     ]
   },
   {
-    "objectID": "content/04-content.html#during-class",
-    "href": "content/04-content.html#during-class",
-    "title": "Categories",
+    "objectID": "content/03-content.html#during-class",
+    "href": "content/03-content.html#during-class",
+    "title": "Linear models",
     "section": "During class",
     "text": "During class\nTo save these slides as a PDF on your computer, open the menu (three horizontal bars in the bottom left of the slides), then Tools (gear symbol in the top), and PDF export (or ``e’’). You can then right-click on the slides, select Print, and save as PDF.\n\n View all slides in new window\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
     "crumbs": [
       "Content",
       "Course content",
-      "4: Categories"
+      "3: Linear models"
     ]
   },
   {
-    "objectID": "assignment/CopyOf01-problem-set.html",
-    "href": "assignment/CopyOf01-problem-set.html",
+    "objectID": "assignment/01-problem-set.html",
+    "href": "assignment/01-problem-set.html",
     "title": "Problem set 1",
     "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas."
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 1"
+    ]
   },
   {
-    "objectID": "assignment/CopyOf01-problem-set.html#instructions",
-    "href": "assignment/CopyOf01-problem-set.html#instructions",
+    "objectID": "assignment/01-problem-set.html#instructions",
+    "href": "assignment/01-problem-set.html#instructions",
     "title": "Problem set 1",
     "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas."
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 1"
+    ]
   },
   {
-    "objectID": "assignment/CopyOf01-problem-set.html#questions",
-    "href": "assignment/CopyOf01-problem-set.html#questions",
+    "objectID": "assignment/01-problem-set.html#questions",
+    "href": "assignment/01-problem-set.html#questions",
     "title": "Problem set 1",
     "section": "Questions",
-    "text": "Questions\n\nSuppose the globe tossing experiment turned out to be 3 water and 11 land. Construct the posterior distribution.\n\n\n\nClick to see the answer\n\n\n# Create a sequence of p values from 0 to 1\np_grid &lt;- seq(0, 1, length.out = 1000)\n\n# Prior (uniform)\nprior &lt;- rep(1, 1000)\n\n# Likelihood (binomial)\nlikelihood &lt;- dbinom(3, size = 14, prob = p_grid)\n\n# Posterior (proportional to likelihood * prior)\nposterior &lt;- likelihood * prior\nposterior &lt;- posterior / sum(posterior)\n\n# Plot the posterior\nplot(p_grid, posterior, type = \"l\", \n     xlab = \"Proportion of water (p)\", \n     ylab = \"Posterior probability\",\n     main = \"Posterior distribution for p\")\n\n\n\n\n\n\n\n\nThe posterior distribution shows the probability of different values of p (proportion of water) given our data (3 water, 11 land). Since we used a uniform prior, the posterior is proportional to the likelihood. The peak of the distribution is around p = 0.21, which makes sense given our data (3/14 ≈ 0.21).\n\n\nUsing the posterior distribution from 1, compute the posterior predictive distribution for the next 5 tosses of the globe.\n\n\n\nClick to see the answer\n\n\n# Number of samples from posterior\nn_samples &lt;- 10000\n\n# Sample p values from posterior\np_samples &lt;- sample(p_grid, prob = posterior, size = n_samples, replace = TRUE)\n\n# Generate predictions for 5 tosses\nn_tosses &lt;- 5\npredictions &lt;- rbinom(n_samples, size = n_tosses, prob = p_samples)\n\n# Plot the posterior predictive distribution\nhist(predictions, \n     xlab = \"Number of water in 5 tosses\",\n     ylab = \"Count\",\n     main = \"Posterior predictive distribution\",\n     breaks = seq(-0.5, 5.5, by = 1))\n\n\n\n\n\n\n\n\nThe posterior predictive distribution shows the probability of different outcomes for the next 5 tosses, taking into account our uncertainty about p. The most likely outcome is 1 water (since our posterior mean for p is around 0.21, we expect about 1 water in 5 tosses). The distribution is right-skewed because p is less than 0.5.\n\nYou can download a template file here to help you get started."
+    "text": "Questions\n\nSuppose the globe tossing experiment turned out to be 3 water and 11 land. Construct the posterior distribution.\n\n\n\nClick to see the answer\n\n\n# Create a sequence of p values from 0 to 1\np_grid &lt;- seq(0, 1, length.out = 1000)\n\n# Prior (uniform)\nprior &lt;- rep(1, 1000)\n\n# Likelihood (binomial)\nlikelihood &lt;- dbinom(3, size = 14, prob = p_grid)\n\n# Posterior (proportional to likelihood * prior)\nposterior &lt;- likelihood * prior\nposterior &lt;- posterior / sum(posterior)\n\n# Plot the posterior\nplot(p_grid, posterior, type = \"l\", \n     xlab = \"Proportion of water (p)\", \n     ylab = \"Posterior probability\",\n     main = \"Posterior distribution for p\")\n\n\n\n\n\n\n\n\nThe posterior distribution shows the probability of different values of p (proportion of water) given our data (3 water, 11 land). Since we used a uniform prior, the posterior is proportional to the likelihood. The peak of the distribution is around p = 0.21, which makes sense given our data (3/14 ≈ 0.21).\n\n\nUsing the posterior distribution from 1, compute the posterior predictive distribution for the next 5 tosses of the globe.\n\n\n\nClick to see the answer\n\n\n# Number of samples from posterior\nn_samples &lt;- 10000\n\n# Sample p values from posterior\np_samples &lt;- sample(p_grid, prob = posterior, size = n_samples, replace = TRUE)\n\n# Generate predictions for 5 tosses\nn_tosses &lt;- 5\npredictions &lt;- rbinom(n_samples, size = n_tosses, prob = p_samples)\n\n# Plot the posterior predictive distribution\nhist(predictions, \n     xlab = \"Number of water in 5 tosses\",\n     ylab = \"Count\",\n     main = \"Posterior predictive distribution\",\n     breaks = seq(-0.5, 5.5, by = 1))\n\n\n\n\n\n\n\n\nThe posterior predictive distribution shows the probability of different outcomes for the next 5 tosses, taking into account our uncertainty about p. The most likely outcome is 1 water (since our posterior mean for p is around 0.21, we expect about 1 water in 5 tosses). The distribution is right-skewed because p is less than 0.5.\n\nYou can download a template file here to help you get started.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 1"
+    ]
   },
   {
-    "objectID": "content/01-content.html",
-    "href": "content/01-content.html",
-    "title": "Introduction to Bayes",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "\n            Bayesian Analysis\n        ",
     "section": "",
-    "text": "Nothing. But if you want to get familiar with the site or ee what I’m using as the basis for the first lecture, here you go:\n\nThe syllabus, content, examples, and assignments pages for this class\n Introduction to Bayesian Inference for Psychology (Etz & Vandekerckhove, 2018)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "1: Introduction to Bayesian Analysis"
-    ]
+    "text": "Bayesian Analysis\n        \n        \n            Model building, estimation, interpretation, visualization\n        \n        \n            PSY 607 • Spring 2025 Psychology University of Oregon\n        \n    \n    \n      \n        \n        \n        \n      \n    \n\n\n\n\n\n\nInstructor\n\n   Dr. Sara Weston\n   Straub 325\n   sweston2@uoregon.edu\n   Schedule an appointment\n\n\n\nCourse details\n\n   Tuesdays and Thursdays\n   Spring 2025\n   2:00–3:20 PM\n   119 FEN\n   Slack\n\n\n\nContacting me\nEmail is the best way to get in contact with me. I will try to respond to all course-related emails within one business day during normal business hours (9am-5pm, Mon-Fri).\n\n\n```"
   },
   {
-    "objectID": "content/01-content.html#before-class",
-    "href": "content/01-content.html#before-class",
-    "title": "Introduction to Bayes",
+    "objectID": "resource/sara_defaults.html",
+    "href": "resource/sara_defaults.html",
+    "title": "Sara’s defaults",
     "section": "",
-    "text": "Nothing. But if you want to get familiar with the site or ee what I’m using as the basis for the first lecture, here you go:\n\nThe syllabus, content, examples, and assignments pages for this class\n Introduction to Bayesian Inference for Psychology (Etz & Vandekerckhove, 2018)",
+    "text": "You maybe noticed that my plots look a bit different to yours in class. That’s because I set defaults in my Markdown files for plot themes and colors. The ensures that all my plots have a similar vibe but I don’t have to manually specify colors each time. Here’s what I use:\n\nknitr::opts_chunk$set(fig.retina=3, echo=TRUE)\ntheme_set(theme_cowplot())\ndefault_palettes &lt;- list(\n  c(\"#5e8485\" , \"#0f393a\") ,\n  c(\"#1c5253\" , \"#5e8485\" , \"#0f393a\") , \n  # palette with 5 colours\n c( \"#1c5253\" , \"#e07a5f\", \"#f2cc8f\" , \"#81b29a\" , \"#3d405b\" ) ,\n  # same palette interpolated to 8 colours\n c( \"#1c5253\" , \"#e07a5f\", \"#f2cc8f\" , \"#81b29a\" , \"#3d405b\" , \"#a7a844\" , \"#69306d\" ) \n  \n)\n\noptions(ggplot2.discrete.fill = default_palettes, \n        ggplot2.discrete.colour = default_palettes)\n\nI wrap this inside a code chunk at the beginning of my Markdown files. It comes just after the code chunk with my packages.",
     "crumbs": [
-      "Content",
-      "Course content",
-      "1: Introduction to Bayesian Analysis"
+      "Resources",
+      "Guides",
+      "Sara's defaults"
     ]
   },
   {
-    "objectID": "content/01-content.html#during-class",
-    "href": "content/01-content.html#during-class",
-    "title": "Introduction to Bayes",
-    "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
+    "objectID": "resource/sara_defaults.html#context",
+    "href": "resource/sara_defaults.html#context",
+    "title": "Sara’s defaults",
+    "section": "",
+    "text": "You maybe noticed that my plots look a bit different to yours in class. That’s because I set defaults in my Markdown files for plot themes and colors. The ensures that all my plots have a similar vibe but I don’t have to manually specify colors each time. Here’s what I use:\n\nknitr::opts_chunk$set(fig.retina=3, echo=TRUE)\ntheme_set(theme_cowplot())\ndefault_palettes &lt;- list(\n  c(\"#5e8485\" , \"#0f393a\") ,\n  c(\"#1c5253\" , \"#5e8485\" , \"#0f393a\") , \n  # palette with 5 colours\n c( \"#1c5253\" , \"#e07a5f\", \"#f2cc8f\" , \"#81b29a\" , \"#3d405b\" ) ,\n  # same palette interpolated to 8 colours\n c( \"#1c5253\" , \"#e07a5f\", \"#f2cc8f\" , \"#81b29a\" , \"#3d405b\" , \"#a7a844\" , \"#69306d\" ) \n  \n)\n\noptions(ggplot2.discrete.fill = default_palettes, \n        ggplot2.discrete.colour = default_palettes)\n\nI wrap this inside a code chunk at the beginning of my Markdown files. It comes just after the code chunk with my packages.",
+    "crumbs": [
+      "Resources",
+      "Guides",
+      "Sara's defaults"
+    ]
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html",
+    "href": "example/rstudio-tidyverse.html",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "",
+    "text": "This course assumes that you’re already familiar with R, RStudio, Markdown, and the tidyverse. If you’re not, or if you’re looking to brush up, here are some resources for helping you get up to speed."
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html#part-1-the-basics-of-r-and-dplyr",
+    "href": "example/rstudio-tidyverse.html#part-1-the-basics-of-r-and-dplyr",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "Part 1: The basics of R and dplyr",
+    "text": "Part 1: The basics of R and dplyr\n\nThe Basics\n\nVisualization Basics\nProgramming Basics\n\nWork with Data\n\nWorking with Tibbles\nIsolating Data with dplyr\nDeriving Information with dplyr\n\nVisualize Data\n\nExploratory Data Analysis\nBar Charts\nHistograms\nBoxplots and Counts\nScatterplots\nLine plots\nOverplotting and Big Data\nCustomize Your Plots\n\nTidy Your Data\n\nReshape Data\n\n\n\n\n\n\n\n\nNote\n\n\n\nRecent versions of tidyr have renamed these core functions: gather() is now pivot_longer() and spread() is now pivot_wider(). The syntax for these pivot_*() functions is slightly different from what it was in gather() and spread(), so you can’t just replace the names. Fortunately, both gather() and spread() still work and won’t go away for a while, so you can still use them as you learn about reshaping and tidying data. It would be worth learning how the newer pivot_*() functions work, eventually, though (see here for examples).\n\n\nThe content from these primers comes from the (free and online!) book R for Data Science by Garrett Grolemund and Hadley Wickham. I highly recommend the book as a reference and for continuing to learn and use R in the future."
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html#part-2-getting-familiar-with-rstudio",
+    "href": "example/rstudio-tidyverse.html#part-2-getting-familiar-with-rstudio",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "Part 2: Getting familiar with RStudio",
+    "text": "Part 2: Getting familiar with RStudio\nThe RStudio primers you just worked through are a great introduction to writing and running R code, but you typically won’t type code in a browser when you work with R. Instead, you’ll use a nicer programming environment like RStudio, which lets you type and save code in scripts, run code from those scripts, and see the output of that code, all in the same program.\nTo get familiar with RStudio, watch this video by Andrew Heiss:"
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html#part-3-rstudio-projects",
+    "href": "example/rstudio-tidyverse.html#part-3-rstudio-projects",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "Part 3: RStudio Projects",
+    "text": "Part 3: RStudio Projects\nOne of the most powerful and useful aspects of RStudio is its ability to manage projects.\nWhen you first open R, it is “pointed” at some folder on your computer, and anything you do will be relative to that folder. The technical term for this is a “working directory.”\nWhen you first open RStudio, look in the area right at the top of the Console pane to see your current working directory. Most likely you’ll see something cryptic: ~/\n\n\n\n\n\n\n\n\n\nThat tilde sign (~) is a shortcut that stands for your user directory. On Windows this is C:\\Users\\your_user_name\\; on macOS this is /Users/your_user_name/. With the working directory set to ~/, R is “pointed” at that folder, and anything you save will end up in that folder, and R will expect any data that you load to be there too.\nIt’s always best to point R at some other directory. If you don’t use RStudio, you need to manually set the working directory to where you want it with setwd(), and many R scripts in the wild include something like setwd(\"C:\\\\Users\\\\bill\\\\Desktop\\\\Important research project\") at the beginning to change the directory. THIS IS BAD THOUGH (see here for an explanation). If you ever move that directory somewhere else, or run the script on a different computer, or share the project with someone, the path will be wrong and nothing will run and you will be sad.\nThe best way to deal with working directories with RStudio is to use RStudio Projects. These are special files that RStudio creates for you that end in a .Rproj extension. When you open one of these special files, a new RStudio instance will open up and be pointed at the correct directory automatically. If you move the folder later or open it on a different computer, it will work just fine and you will not be sad.\nRead this super short chapter on RStudio projects to learn how to create and use them\nIn general, you can create a new project by going to File &gt; New Project &gt; New Directory &gt; Empty Project, which will create a new folder on your computer that is empty except for a single .Rproj file. Double click on that file to open an RStudio instance that is pointed at the correct folder."
+  },
+  {
+    "objectID": "example/rstudio-tidyverse.html#part-4-getting-familiar-with-r-markdown",
+    "href": "example/rstudio-tidyverse.html#part-4-getting-familiar-with-r-markdown",
+    "title": "R, RStudio, and the tidyverse",
+    "section": "Part 4: Getting familiar with R Markdown",
+    "text": "Part 4: Getting familiar with R Markdown\nTo ensure that the analysis and graphics you make are reproducible, you’ll do the majority of your work in this class using R Markdown files.\nDo the following things:\n\nWatch this video:\n\n\n\n\n\n \n\nSkim through the content at these pages:\n\nUsing Markdown\nUsing R Markdown\nHow it Works\nCode Chunks\nInline Code\nMarkdown Basics (The R Markdown Reference Guide is super useful here.)\nOutput Formats"
+  },
+  {
+    "objectID": "assignment/09-problem-set.html",
+    "href": "assignment/09-problem-set.html",
+    "title": "Problem set 9",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 9"
+    ]
+  },
+  {
+    "objectID": "assignment/09-problem-set.html#instructions",
+    "href": "assignment/09-problem-set.html#instructions",
+    "title": "Problem set 9",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 9"
+    ]
+  },
+  {
+    "objectID": "assignment/09-problem-set.html#questions",
+    "href": "assignment/09-problem-set.html#questions",
+    "title": "Problem set 9",
+    "section": "Questions",
+    "text": "Questions\nTBD",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 9"
+    ]
+  },
+  {
+    "objectID": "assignment/07-problem-set.html",
+    "href": "assignment/07-problem-set.html",
+    "title": "Problem set 7",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 7"
+    ]
+  },
+  {
+    "objectID": "assignment/07-problem-set.html#instructions",
+    "href": "assignment/07-problem-set.html#instructions",
+    "title": "Problem set 7",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 7"
+    ]
+  },
+  {
+    "objectID": "assignment/07-problem-set.html#questions",
+    "href": "assignment/07-problem-set.html#questions",
+    "title": "Problem set 7",
+    "section": "Questions",
+    "text": "Questions\nTBD",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 7"
+    ]
+  },
+  {
+    "objectID": "assignment/05-problem-set.html",
+    "href": "assignment/05-problem-set.html",
+    "title": "Problem set 5",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 5"
+    ]
+  },
+  {
+    "objectID": "assignment/05-problem-set.html#instructions",
+    "href": "assignment/05-problem-set.html#instructions",
+    "title": "Problem set 5",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 5"
+    ]
+  },
+  {
+    "objectID": "assignment/05-problem-set.html#questions",
+    "href": "assignment/05-problem-set.html#questions",
+    "title": "Problem set 5",
+    "section": "Questions",
+    "text": "Questions\nThe data contained in library(MASS);data(eagles) are records of salmon pirating attempts by Bald Eagles in Washington State. See ?eagles for details. While one eagle feeds, sometimes another will swoop in and try to steal the salmon from it. Call the feeding eagle the “victim” and the thief the “pirate.” Use the available data to build a binomial GLM of successful pirating attempts.\n\nConsider the following model:\n\n\\[\\begin{align*}\ny_i &\\sim \\text{Binomial}(n_i, p_i) \\\\\n\\text{logit}(p_i) &= \\alpha + \\beta_PP_i + \\beta_VV_i + \\beta_AA_i \\\\\n\\alpha &\\sim \\text{Normal}(0, 1.5) \\\\\n\\beta_P,\\beta_V,\\beta_A &\\sim \\text{Normal}(0, 0.5)\n\\end{align*}\\]\nwhere \\(y\\) is the number of successful attempts, \\(n\\) is the total number of attempts, \\(P\\) is a dummy variable indicating whether or not the pirate had large body size, \\(V\\) is a dummy variable indicating whether or not the victim had large body size, and finally \\(A\\) is a dummy variable indicating whether or not the pirate was an adult. Fit the model above to the eagles data.\n\nInterpret the estimates and plot the posterior distributions. Compute and display both (1) the predicted probability of success and its 89% interval for each row (\\(i\\)) in the data, as well as (2) the predicted success count. and its 89% interval. What different information does each type of posterior prediction provide?\nNow try to improve the model. Consider an interaction between the pirate’s size and age (immature or adult). Compare this model to the previous one, using WAIC. Interpret.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 5"
+    ]
+  },
+  {
+    "objectID": "resource/index.html",
+    "href": "resource/index.html",
+    "title": "Resources",
+    "section": "",
+    "text": "First, some acknowledgements: this class is primarily built from the works of Richard McElreath and Solomon Kurz.\n\nMcElreath’s Statistical Rethinking (2024 version) course materials\nKurz’s translation of SR into brms and tidybayes\n\nI also recommend bookmarking the tidybayes site.\nThe rest of this section contains resources and tutorials. Some were developed by Andrew Heiss, whose website code I used to develop this class website. (Bookmark his site too and check it regularly. You’ll never know what you’ll learn from him, but it’ll always make your science better.)\nHere are some additional Bayes resources to check out:\n\nThis new Bayes Rules book is designed to be an introductory textbook for a stats class teaching Bayesian stuff. It’s really accessible and good (and free!).\nThis post from 2016 is a great short introduction.\nThis post shows how to do one simple task (a difference-in-means test) with regular old frequentist methods, bootstrapping, and with Bayesian stats both with brms and raw Stan code\nThis short post gives a helpful overview of the intuition behind Bayesianism\nThe Theory That Would Not Die is a fun little general introduction to the history of Bayesianism and why it kind of disappeared in the 20th century and was replaced by frequentism and p-values and null hypothesis testing",
+    "crumbs": [
+      "Resources",
+      "Overview",
+      "Resources"
+    ]
+  },
+  {
+    "objectID": "example/index.html",
+    "href": "example/index.html",
+    "title": "Code examples",
+    "section": "",
+    "text": "Visit this section after you have finished the readings and lecture videos. It contains fully annotated R code and other supplementary information and it will be indispensable as you work on your problem sets and project.\nMany sections also contain videos of me live coding the examples so you can see what it looks like to work with R in real time. You’ll notice me make all sorts of little errors, which is totally normal—everyone does!"
+  },
+  {
+    "objectID": "assignment/index.html",
+    "href": "assignment/index.html",
+    "title": "Assignments",
+    "section": "",
+    "text": "Quizzes will be completed in class using Poll Everywhere.",
+    "crumbs": [
+      "Assignments",
+      "Overview",
+      "Assignments"
+    ]
+  },
+  {
+    "objectID": "assignment/index.html#daily-quizzes",
+    "href": "assignment/index.html#daily-quizzes",
+    "title": "Assignments",
+    "section": "",
+    "text": "Quizzes will be completed in class using Poll Everywhere.",
+    "crumbs": [
+      "Assignments",
+      "Overview",
+      "Assignments"
+    ]
+  },
+  {
+    "objectID": "assignment/index.html#problem-sets",
+    "href": "assignment/index.html#problem-sets",
+    "title": "Assignments",
+    "section": "Problem sets",
+    "text": "Problem sets\nThere will be a weekly problem set. These are due the Monday following each week. (For example, the problem set for Week 1 is due Monday of Week 2.) There is a one-week grace period for late assignments. All assignments are scored on completion, not on accuracy.",
+    "crumbs": [
+      "Assignments",
+      "Overview",
+      "Assignments"
+    ]
+  },
+  {
+    "objectID": "content/index.html",
+    "href": "content/index.html",
+    "title": "Readings, lectures, and videos",
+    "section": "",
+    "text": "Each class session has one or two videos that you should watch before coming to class. These videos are the lectures recorded by Richard McElreath.\nThe in-class lecture slides are special HTML files made with the R package xaringan (R can do so much!). On each class session page you’ll see buttons for opening the presentation in a new tab or for downloading a PDF of the slides in case you want to print them or store them on your computer:\n\n View all slides in new window  Download PDF of all slides\n\nThe slides are also embedded on each page. You can click in the slides and navigate through them with ← and →. If you type ? (or shift + /) while viewing the slides you can see a list of slide-specific commands (like f for fullscreen or p for presenter mode if you want to see my notes).\nI will note for each set of lecture slides which chapters in the 2nd edition of the McElreath book correspond with that day’s lesson. However, many of the functions we use – especially starting in week 4 – will not be from McElreath’s materials, but instead from the brms and tidybayes packages.",
     "crumbs": [
       "Content",
-      "Course content",
-      "1: Introduction to Bayesian Analysis"
+      "Overview",
+      "Readings, lectures, and videos"
     ]
+  },
+  {
+    "objectID": "resource/citations.html",
+    "href": "resource/citations.html",
+    "title": "Citations and bibliography",
+    "section": "",
+    "text": "You can download a BibTeX file of all the non-web-based readings in the course:\n\n references.bib\n\nYou can open the file in BibDesk on macOS, JabRef on Windows, or Zotero or Mendeley online."
+  },
+  {
+    "objectID": "resource/r.html",
+    "href": "resource/r.html",
+    "title": "R",
+    "section": "",
+    "text": "Consider subscribing to the R Weekly newsletter. This e-mail is sent every Monday and is full of helpful tutorials about how to do stuff with R.\nSearching for help with R on Google can sometimes be tricky because the program name is a single letter. Google is generally smart enough to figure out what you mean when you search for “r scatterplot”, but if it does struggle, try searching for “rstats” instead (e.g. “rstats scatterplot”).\nCheck out StackOverflow (a Q&A site with hundreds of thousands of answers to all sorts of programming questions) and RStudio Community (a forum specifically designed for people using RStudio and the tidyverse (i.e. you)).\nThese resources are also really really helpful:\n\nR for Data Science: A free online book for learning the basics of R and the tidyverse.\nR and RStudio cheat sheets: A large collection of simple cheat sheets for RStudio, ggplot2, and other R-related things.\nStat 545: Dr. Jenny Bryan at RStudio has an entire introductory course in R, visualization, and data analysis online.\nSTA 112FS: Data Science: Dr. Mine Çetinkaya-Rundel at the University of Edinburgh / Duke University has an entire introductory course in R, visualization, and data science online.\nCSE 631: Principles & Practice of Data Visualization: Yet another introductory course for R and ggplot2 by Dr. Alison Presmanes Hill at RStudio.",
+    "crumbs": [
+      "Resources",
+      "Overview",
+      "R"
+    ]
+  },
+  {
+    "objectID": "resource/r.html#learning-r",
+    "href": "resource/r.html#learning-r",
+    "title": "R",
+    "section": "",
+    "text": "Consider subscribing to the R Weekly newsletter. This e-mail is sent every Monday and is full of helpful tutorials about how to do stuff with R.\nSearching for help with R on Google can sometimes be tricky because the program name is a single letter. Google is generally smart enough to figure out what you mean when you search for “r scatterplot”, but if it does struggle, try searching for “rstats” instead (e.g. “rstats scatterplot”).\nCheck out StackOverflow (a Q&A site with hundreds of thousands of answers to all sorts of programming questions) and RStudio Community (a forum specifically designed for people using RStudio and the tidyverse (i.e. you)).\nThese resources are also really really helpful:\n\nR for Data Science: A free online book for learning the basics of R and the tidyverse.\nR and RStudio cheat sheets: A large collection of simple cheat sheets for RStudio, ggplot2, and other R-related things.\nStat 545: Dr. Jenny Bryan at RStudio has an entire introductory course in R, visualization, and data analysis online.\nSTA 112FS: Data Science: Dr. Mine Çetinkaya-Rundel at the University of Edinburgh / Duke University has an entire introductory course in R, visualization, and data science online.\nCSE 631: Principles & Practice of Data Visualization: Yet another introductory course for R and ggplot2 by Dr. Alison Presmanes Hill at RStudio.",
+    "crumbs": [
+      "Resources",
+      "Overview",
+      "R"
+    ]
+  },
+  {
+    "objectID": "resource/r.html#r-in-the-wild",
+    "href": "resource/r.html#r-in-the-wild",
+    "title": "R",
+    "section": "R in the wild",
+    "text": "R in the wild\nA popular (and increasingly standard) way for sharing your analyses and visualizations is to post an annotated explanation of your process somewhere online. RStudio allows you to publish knitted HTML files directly to RPubs, but you can also post your output to a blog or other type of website.1 Reading these kinds of posts is one of the best ways to learn R, since they walk you through each step of the process and show the code and output.\nHere are some of the best examples I’ve Andrew Heiss has come across:\n\nText analysis of Trump’s tweets confirms he writes only the (angrier) Android half (with a follow-up)\nBob Ross - Joy of Painting\nBechdel analysis using the tidyverse: There are also a bunch of other examples using data from FiveThirtyEight.\nSexism on the Silver Screen: Exploring film’s gender divide\nComparison of Quentin Tarantino Movies by Box Office and the Bechdel Test\nWho came to vote in Utah’s caucuses?\nHealth care indicators in Utah counties\nSong lyrics across the United States\nA decade (ish) of listening to Sigur Rós\nWhen is Tom peeping these days?: There are a also bunch of final projects from other R and data visualization classes here and here.\nMapping Fall Foliage\nGeneral (Attys) Distributions\nDisproving Approval\n\nh/t to Andrew Heiss for compiling these resources",
+    "crumbs": [
+      "Resources",
+      "Overview",
+      "R"
+    ]
+  },
+  {
+    "objectID": "resource/r.html#footnotes",
+    "href": "resource/r.html#footnotes",
+    "title": "R",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nIf you want to be really fancy, you can use blogdown, which makes a complete website with R Markdown files. That’s actually how this site is built (see the source code). You can build your own site with this tutorial.↩︎",
+    "crumbs": [
+      "Resources",
+      "Overview",
+      "R"
+    ]
+  },
+  {
+    "objectID": "assignment/04-problem-set.html",
+    "href": "assignment/04-problem-set.html",
+    "title": "Problem set 4",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 4"
+    ]
+  },
+  {
+    "objectID": "assignment/04-problem-set.html#instructions",
+    "href": "assignment/04-problem-set.html#instructions",
+    "title": "Problem set 4",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 4"
+    ]
+  },
+  {
+    "objectID": "assignment/04-problem-set.html#questions",
+    "href": "assignment/04-problem-set.html#questions",
+    "title": "Problem set 4",
+    "section": "Questions",
+    "text": "Questions\n\nRecall the marriage, age, happiness collider example from Lecture 3-1. Run the two models again (m6a and m7). Compare these two models using PSIS and WAIC. Which model is expected to make better predictions? Is that the model with the correct causal inference?\nIn 2007, The Wall Street Journal published an editorial (“We’re Number One, Alas”) with a graph of corporate tax rates in 29 countries plotted against tax revenue. A badly fit curve was drawn in (see below) to make the argument that the relationship between tax rate and tax revenue increases and then declines, such that higher tax rates can actually produce less tax revenue.\n\n\nThe data are in the rethinking package under the name Laffer. Fit two models to the data: one with a straight line and one with an actual curve. Compare these models using PSIS or WAIC. What do you conclude?\n\nIn the problem above, Norway is an outlier. Use PSIS or WAIC to estimate how much influence it has on the models you fit in the previous question.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 4"
+    ]
+  },
+  {
+    "objectID": "assignment/06-problem-set.html",
+    "href": "assignment/06-problem-set.html",
+    "title": "Problem set 6",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 6"
+    ]
+  },
+  {
+    "objectID": "assignment/06-problem-set.html#instructions",
+    "href": "assignment/06-problem-set.html#instructions",
+    "title": "Problem set 6",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 6"
+    ]
+  },
+  {
+    "objectID": "assignment/06-problem-set.html#questions",
+    "href": "assignment/06-problem-set.html#questions",
+    "title": "Problem set 6",
+    "section": "Questions",
+    "text": "Questions\nTBD",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 6"
+    ]
+  },
+  {
+    "objectID": "assignment/08-problem-set.html",
+    "href": "assignment/08-problem-set.html",
+    "title": "Problem set 8",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 8"
+    ]
+  },
+  {
+    "objectID": "assignment/08-problem-set.html#instructions",
+    "href": "assignment/08-problem-set.html#instructions",
+    "title": "Problem set 8",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 8"
+    ]
+  },
+  {
+    "objectID": "assignment/08-problem-set.html#questions",
+    "href": "assignment/08-problem-set.html#questions",
+    "title": "Problem set 8",
+    "section": "Questions",
+    "text": "Questions\nTBD",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 8"
+    ]
+  },
+  {
+    "objectID": "assignment/10-problem-set.html",
+    "href": "assignment/10-problem-set.html",
+    "title": "Problem set 10",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 10"
+    ]
+  },
+  {
+    "objectID": "assignment/10-problem-set.html#instructions",
+    "href": "assignment/10-problem-set.html#instructions",
+    "title": "Problem set 10",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 10"
+    ]
+  },
+  {
+    "objectID": "assignment/10-problem-set.html#questions",
+    "href": "assignment/10-problem-set.html#questions",
+    "title": "Problem set 10",
+    "section": "Questions",
+    "text": "Questions\nTBD",
+    "crumbs": [
+      "Assignments",
+      "Problem sets",
+      "Problem set 10"
+    ]
+  },
+  {
+    "objectID": "news/index.html",
+    "href": "news/index.html",
+    "title": "Course News",
+    "section": "",
+    "text": "Date\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "syllabus.html",
@@ -628,810 +1054,348 @@
     "text": "Course Policies\n\nCommunication\nIf you have questions about course policies, have trouble submitting an assignment, or want to schedule a meeting, please email. I will make an effort to respond to emails within one business day. Note that I neither plan nor commit to checking email outside of normal business hours (9am-5pm, Mon-Fri).\nIf you are having trouble understanding a concept covered in class, please come to office hours, schedule a meeting with me, ask for clarification during class periods, or use the class Slack to get help from the group. I will not explain course concepts over email.\nOccasionally, I will send out announcements to the entire class via Canvas announcements. These will typically appear when you open Canvas, but you can update your Canvas settings to receive these announcements as emails. It is strongly recommended that you do so.\n\n\nClassroom Expectations\nAll members of the class (students and instructor) can expect to:\nParticipate and Contribute: All students are expected to participate by sharing ideas and contributing to the learning environment. This entails preparing, following instructions, and engaging respectfully and thoughtfully with others.\nWhile all students should participate, participation is not just talking, and a range of participation activities support learning. Participation might look like speaking aloud in the full class and in small groups and collaborating on homework assignments.\nExpect and Respect Diversity: All classes at the University of Oregon welcome and respect diverse experiences, perspectives, and approaches. What is not welcome are behaviors or contributions that undermine, demean, or marginalize others based on race, ethnicity, gender, sex, age, sexual orientation, religion, ability, or socioeconomic status. We will value differences and communicate disagreements with respect.\nHelp Everyone Learn: Part of how we learn together is by learning from one another. To do this effectively, we need to be patient with each other, identify ways we can assist others, and be open-minded to receiving help and feedback from others. Don’t hesitate to contact me to ask for assistance or offer suggestions that might help us learn better.\n\n\nWorkload\nThis is a 3-credit hour course, so you should expect to complete 120 hours of work for the course—an average of about 12 hours each week (this includes time in-class).\n\n\nGenerative AI Policy\nWhile generative AI tools (such as ChatGPT, Claude, and Cursor) can be useful for assisting with certain tasks, it’s important to use these technologies responsibly and ethically.\nGood uses of AI:\n\nExploring concepts, generating code ideas, and providing explanations for topics covered in the course\nCreating preliminary drafts of code, data analysis plans, or written reports (with review and testing)\nBrainstorming research questions, identifying key terms, or helping summarize complex literature\n\nBad uses of AI:\n\nGenerating entire assignments, projects, or reports without manual oversight\nUsing AI in place of collaborating with peers\nSubmitting AI-generated content without proper attribution\n\nRequired Disclosure: Students who use AI tools must include a brief statement at the end of their submission describing how and where the tool was used. Failure to disclose AI use may result in grade reduction or disciplinary action.\n\n\nAcademic Integrity\nFrankly, you’re in graduate school, and the purpose of work is to create opportunities to learn and improve. Even if cheating helps you in the short term, you’ll quickly find yourself ill-prepared for the career you have chosen. If you find yourself tempted to cheat, please come speak to Dr. Weston about an extension and developing tools to improve your success.\n\n\nAccessibility\nThe University of Oregon and I are dedicated to fostering inclusive learning environments for all students and welcomes students with disabilities into all of the University’s educational programs. The Accessible Education Center (AEC) assists students with disabilities in reducing campus-wide and classroom-related barriers. If you have or think you have a disability (https://aec.uoregon.edu/content/what-disability) and experience academic barriers, please contact the AEC to discuss appropriate accommodations or support. Visit 360 Oregon Hall or aec.uoregon.edu for more information. You can contact AEC at 541-346-1155 or via email at uoaec@uoregon.edu.\n\n\nBasic Needs\nBeing able to meet your basic needs is foundational to your success as a student at the University of Oregon. If you are having difficulty affording food, don’t have a stable, safe place to live, or are struggling to meet another need, visit the UO Basic Needs Resource page for information on how to get support. They have information food, housing, healthcare, childcare, transportation, technology, finances (including emergency funds), and legal support.\nIf your need is urgent, please contact the Care and Advocacy Program by calling 541-346-3216, filling out the Community Care and Support form, or by scheduling an appointment with an advocate.\n\n\nReporting Obligations\nI am a designated reporter. For information about my reporting obligations as an employee, please see Employee Reporting Obligations on the Office of Investigations and Civil Rights Compliance (OICRC) website. Students experiencing sex- or gender-based discrimination, harassment or violence should call the 24-7 hotline 541-346-SAFE [7244] or visit safe.uoregon.edu for help. Students experiencing all forms of prohibited discrimination or harassment may contact the Dean of Students Office at 541-346-3216 or the non-confidential Title IX Coordinator/OICRC at 541-346-3123 to request information and resources. Students are not required to participate in an investigation to receive support, including requesting academic supportive measures. Additional resources are available at investigations.uoregon.edu/how-get-support.\nI am also a mandatory reporter of child abuse. Please find more information at Mandatory Reporting of Child Abuse and Neglect.\n\n\nPregnancy Accommodations\nPregnant and parenting students are eligible for academic and work modifications related to pregnancy, childbirth, loss of pregnancy, termination of pregnancy, lactation, and related medical conditions. To request pregnancy-related modifications, students should complete the Request for Pregnancy Modifications form on the OICRC website. OICRC coordinates academic and other modifications for pregnant and parenting students to ensure students can continue to access their education and university programs and activities.\n\n\nCampus Emergencies\nIn the event of a campus emergency that disrupts academic activities, course requirements, deadlines, and grading percentages are subject to change. Information about changes in this course will be communicated as soon as possible by email, and on Canvas. If we are not able to meet face-to-face, students should immediately log onto Canvas and read any announcements and/or access alternative assignments. Students are also expected to continue coursework as outlined in this syllabus or other instructions on Canvas."
   },
   {
-    "objectID": "news/index.html",
-    "href": "news/index.html",
-    "title": "Course News",
+    "objectID": "content/01-content.html",
+    "href": "content/01-content.html",
+    "title": "Introduction to Bayes",
     "section": "",
-    "text": "Date\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "assignment/10-problem-set.html",
-    "href": "assignment/10-problem-set.html",
-    "title": "Problem set 10",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 10"
-    ]
-  },
-  {
-    "objectID": "assignment/10-problem-set.html#instructions",
-    "href": "assignment/10-problem-set.html#instructions",
-    "title": "Problem set 10",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 10"
-    ]
-  },
-  {
-    "objectID": "assignment/10-problem-set.html#questions",
-    "href": "assignment/10-problem-set.html#questions",
-    "title": "Problem set 10",
-    "section": "Questions",
-    "text": "Questions\nTBD",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 10"
-    ]
-  },
-  {
-    "objectID": "assignment/08-problem-set.html",
-    "href": "assignment/08-problem-set.html",
-    "title": "Problem set 8",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 8"
-    ]
-  },
-  {
-    "objectID": "assignment/08-problem-set.html#instructions",
-    "href": "assignment/08-problem-set.html#instructions",
-    "title": "Problem set 8",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 8"
-    ]
-  },
-  {
-    "objectID": "assignment/08-problem-set.html#questions",
-    "href": "assignment/08-problem-set.html#questions",
-    "title": "Problem set 8",
-    "section": "Questions",
-    "text": "Questions\nTBD",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 8"
-    ]
-  },
-  {
-    "objectID": "assignment/06-problem-set.html",
-    "href": "assignment/06-problem-set.html",
-    "title": "Problem set 6",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 6"
-    ]
-  },
-  {
-    "objectID": "assignment/06-problem-set.html#instructions",
-    "href": "assignment/06-problem-set.html#instructions",
-    "title": "Problem set 6",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 6"
-    ]
-  },
-  {
-    "objectID": "assignment/06-problem-set.html#questions",
-    "href": "assignment/06-problem-set.html#questions",
-    "title": "Problem set 6",
-    "section": "Questions",
-    "text": "Questions\nTBD",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 6"
-    ]
-  },
-  {
-    "objectID": "assignment/04-problem-set.html",
-    "href": "assignment/04-problem-set.html",
-    "title": "Problem set 4",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 4"
-    ]
-  },
-  {
-    "objectID": "assignment/04-problem-set.html#instructions",
-    "href": "assignment/04-problem-set.html#instructions",
-    "title": "Problem set 4",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 4"
-    ]
-  },
-  {
-    "objectID": "assignment/04-problem-set.html#questions",
-    "href": "assignment/04-problem-set.html#questions",
-    "title": "Problem set 4",
-    "section": "Questions",
-    "text": "Questions\n\nRecall the marriage, age, happiness collider example from Lecture 3-1. Run the two models again (m6a and m7). Compare these two models using PSIS and WAIC. Which model is expected to make better predictions? Is that the model with the correct causal inference?\nIn 2007, The Wall Street Journal published an editorial (“We’re Number One, Alas”) with a graph of corporate tax rates in 29 countries plotted against tax revenue. A badly fit curve was drawn in (see below) to make the argument that the relationship between tax rate and tax revenue increases and then declines, such that higher tax rates can actually produce less tax revenue.\n\n\nThe data are in the rethinking package under the name Laffer. Fit two models to the data: one with a straight line and one with an actual curve. Compare these models using PSIS or WAIC. What do you conclude?\n\nIn the problem above, Norway is an outlier. Use PSIS or WAIC to estimate how much influence it has on the models you fit in the previous question.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 4"
-    ]
-  },
-  {
-    "objectID": "resource/r.html",
-    "href": "resource/r.html",
-    "title": "R",
-    "section": "",
-    "text": "Consider subscribing to the R Weekly newsletter. This e-mail is sent every Monday and is full of helpful tutorials about how to do stuff with R.\nSearching for help with R on Google can sometimes be tricky because the program name is a single letter. Google is generally smart enough to figure out what you mean when you search for “r scatterplot”, but if it does struggle, try searching for “rstats” instead (e.g. “rstats scatterplot”).\nCheck out StackOverflow (a Q&A site with hundreds of thousands of answers to all sorts of programming questions) and RStudio Community (a forum specifically designed for people using RStudio and the tidyverse (i.e. you)).\nThese resources are also really really helpful:\n\nR for Data Science: A free online book for learning the basics of R and the tidyverse.\nR and RStudio cheat sheets: A large collection of simple cheat sheets for RStudio, ggplot2, and other R-related things.\nStat 545: Dr. Jenny Bryan at RStudio has an entire introductory course in R, visualization, and data analysis online.\nSTA 112FS: Data Science: Dr. Mine Çetinkaya-Rundel at the University of Edinburgh / Duke University has an entire introductory course in R, visualization, and data science online.\nCSE 631: Principles & Practice of Data Visualization: Yet another introductory course for R and ggplot2 by Dr. Alison Presmanes Hill at RStudio.",
-    "crumbs": [
-      "Resources",
-      "Overview",
-      "R"
-    ]
-  },
-  {
-    "objectID": "resource/r.html#learning-r",
-    "href": "resource/r.html#learning-r",
-    "title": "R",
-    "section": "",
-    "text": "Consider subscribing to the R Weekly newsletter. This e-mail is sent every Monday and is full of helpful tutorials about how to do stuff with R.\nSearching for help with R on Google can sometimes be tricky because the program name is a single letter. Google is generally smart enough to figure out what you mean when you search for “r scatterplot”, but if it does struggle, try searching for “rstats” instead (e.g. “rstats scatterplot”).\nCheck out StackOverflow (a Q&A site with hundreds of thousands of answers to all sorts of programming questions) and RStudio Community (a forum specifically designed for people using RStudio and the tidyverse (i.e. you)).\nThese resources are also really really helpful:\n\nR for Data Science: A free online book for learning the basics of R and the tidyverse.\nR and RStudio cheat sheets: A large collection of simple cheat sheets for RStudio, ggplot2, and other R-related things.\nStat 545: Dr. Jenny Bryan at RStudio has an entire introductory course in R, visualization, and data analysis online.\nSTA 112FS: Data Science: Dr. Mine Çetinkaya-Rundel at the University of Edinburgh / Duke University has an entire introductory course in R, visualization, and data science online.\nCSE 631: Principles & Practice of Data Visualization: Yet another introductory course for R and ggplot2 by Dr. Alison Presmanes Hill at RStudio.",
-    "crumbs": [
-      "Resources",
-      "Overview",
-      "R"
-    ]
-  },
-  {
-    "objectID": "resource/r.html#r-in-the-wild",
-    "href": "resource/r.html#r-in-the-wild",
-    "title": "R",
-    "section": "R in the wild",
-    "text": "R in the wild\nA popular (and increasingly standard) way for sharing your analyses and visualizations is to post an annotated explanation of your process somewhere online. RStudio allows you to publish knitted HTML files directly to RPubs, but you can also post your output to a blog or other type of website.1 Reading these kinds of posts is one of the best ways to learn R, since they walk you through each step of the process and show the code and output.\nHere are some of the best examples I’ve Andrew Heiss has come across:\n\nText analysis of Trump’s tweets confirms he writes only the (angrier) Android half (with a follow-up)\nBob Ross - Joy of Painting\nBechdel analysis using the tidyverse: There are also a bunch of other examples using data from FiveThirtyEight.\nSexism on the Silver Screen: Exploring film’s gender divide\nComparison of Quentin Tarantino Movies by Box Office and the Bechdel Test\nWho came to vote in Utah’s caucuses?\nHealth care indicators in Utah counties\nSong lyrics across the United States\nA decade (ish) of listening to Sigur Rós\nWhen is Tom peeping these days?: There are a also bunch of final projects from other R and data visualization classes here and here.\nMapping Fall Foliage\nGeneral (Attys) Distributions\nDisproving Approval\n\nh/t to Andrew Heiss for compiling these resources",
-    "crumbs": [
-      "Resources",
-      "Overview",
-      "R"
-    ]
-  },
-  {
-    "objectID": "resource/r.html#footnotes",
-    "href": "resource/r.html#footnotes",
-    "title": "R",
-    "section": "Footnotes",
-    "text": "Footnotes\n\n\nIf you want to be really fancy, you can use blogdown, which makes a complete website with R Markdown files. That’s actually how this site is built (see the source code). You can build your own site with this tutorial.↩︎",
-    "crumbs": [
-      "Resources",
-      "Overview",
-      "R"
-    ]
-  },
-  {
-    "objectID": "resource/citations.html",
-    "href": "resource/citations.html",
-    "title": "Citations and bibliography",
-    "section": "",
-    "text": "You can download a BibTeX file of all the non-web-based readings in the course:\n\n references.bib\n\nYou can open the file in BibDesk on macOS, JabRef on Windows, or Zotero or Mendeley online."
-  },
-  {
-    "objectID": "content/index.html",
-    "href": "content/index.html",
-    "title": "Readings, lectures, and videos",
-    "section": "",
-    "text": "Each class session has one or two videos that you should watch before coming to class. These videos are the lectures recorded by Richard McElreath.\nThe in-class lecture slides are special HTML files made with the R package xaringan (R can do so much!). On each class session page you’ll see buttons for opening the presentation in a new tab or for downloading a PDF of the slides in case you want to print them or store them on your computer:\n\n View all slides in new window  Download PDF of all slides\n\nThe slides are also embedded on each page. You can click in the slides and navigate through them with ← and →. If you type ? (or shift + /) while viewing the slides you can see a list of slide-specific commands (like f for fullscreen or p for presenter mode if you want to see my notes).\nI will note for each set of lecture slides which chapters in the 2nd edition of the McElreath book correspond with that day’s lesson. However, many of the functions we use – especially starting in week 4 – will not be from McElreath’s materials, but instead from the brms and tidybayes packages.",
-    "crumbs": [
-      "Content",
-      "Overview",
-      "Readings, lectures, and videos"
-    ]
-  },
-  {
-    "objectID": "assignment/index.html",
-    "href": "assignment/index.html",
-    "title": "Assignments",
-    "section": "",
-    "text": "Quizzes will be completed in class using Poll Everywhere.",
-    "crumbs": [
-      "Assignments",
-      "Overview",
-      "Assignments"
-    ]
-  },
-  {
-    "objectID": "assignment/index.html#daily-quizzes",
-    "href": "assignment/index.html#daily-quizzes",
-    "title": "Assignments",
-    "section": "",
-    "text": "Quizzes will be completed in class using Poll Everywhere.",
-    "crumbs": [
-      "Assignments",
-      "Overview",
-      "Assignments"
-    ]
-  },
-  {
-    "objectID": "assignment/index.html#problem-sets",
-    "href": "assignment/index.html#problem-sets",
-    "title": "Assignments",
-    "section": "Problem sets",
-    "text": "Problem sets\nThere will be a weekly problem set. These are due the Monday following each week. (For example, the problem set for Week 1 is due Monday of Week 2.) There is a one-week grace period for late assignments. All assignments are scored on completion, not on accuracy.",
-    "crumbs": [
-      "Assignments",
-      "Overview",
-      "Assignments"
-    ]
-  },
-  {
-    "objectID": "example/index.html",
-    "href": "example/index.html",
-    "title": "Code examples",
-    "section": "",
-    "text": "Visit this section after you have finished the readings and lecture videos. It contains fully annotated R code and other supplementary information and it will be indispensable as you work on your problem sets and project.\nMany sections also contain videos of me live coding the examples so you can see what it looks like to work with R in real time. You’ll notice me make all sorts of little errors, which is totally normal—everyone does!"
-  },
-  {
-    "objectID": "resource/index.html",
-    "href": "resource/index.html",
-    "title": "Resources",
-    "section": "",
-    "text": "First, some acknowledgements: this class is primarily built from the works of Richard McElreath and Solomon Kurz.\n\nMcElreath’s Statistical Rethinking (2024 version) course materials\nKurz’s translation of SR into brms and tidybayes\n\nI also recommend bookmarking the tidybayes site.\nThe rest of this section contains resources and tutorials. Some were developed by Andrew Heiss, whose website code I used to develop this class website. (Bookmark his site too and check it regularly. You’ll never know what you’ll learn from him, but it’ll always make your science better.)\nHere are some additional Bayes resources to check out:\n\nThis new Bayes Rules book is designed to be an introductory textbook for a stats class teaching Bayesian stuff. It’s really accessible and good (and free!).\nThis post from 2016 is a great short introduction.\nThis post shows how to do one simple task (a difference-in-means test) with regular old frequentist methods, bootstrapping, and with Bayesian stats both with brms and raw Stan code\nThis short post gives a helpful overview of the intuition behind Bayesianism\nThe Theory That Would Not Die is a fun little general introduction to the history of Bayesianism and why it kind of disappeared in the 20th century and was replaced by frequentism and p-values and null hypothesis testing",
-    "crumbs": [
-      "Resources",
-      "Overview",
-      "Resources"
-    ]
-  },
-  {
-    "objectID": "assignment/05-problem-set.html",
-    "href": "assignment/05-problem-set.html",
-    "title": "Problem set 5",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 5"
-    ]
-  },
-  {
-    "objectID": "assignment/05-problem-set.html#instructions",
-    "href": "assignment/05-problem-set.html#instructions",
-    "title": "Problem set 5",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 5"
-    ]
-  },
-  {
-    "objectID": "assignment/05-problem-set.html#questions",
-    "href": "assignment/05-problem-set.html#questions",
-    "title": "Problem set 5",
-    "section": "Questions",
-    "text": "Questions\nTBD",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 5"
-    ]
-  },
-  {
-    "objectID": "assignment/07-problem-set.html",
-    "href": "assignment/07-problem-set.html",
-    "title": "Problem set 7",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 7"
-    ]
-  },
-  {
-    "objectID": "assignment/07-problem-set.html#instructions",
-    "href": "assignment/07-problem-set.html#instructions",
-    "title": "Problem set 7",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 7"
-    ]
-  },
-  {
-    "objectID": "assignment/07-problem-set.html#questions",
-    "href": "assignment/07-problem-set.html#questions",
-    "title": "Problem set 7",
-    "section": "Questions",
-    "text": "Questions\nTBD",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 7"
-    ]
-  },
-  {
-    "objectID": "assignment/09-problem-set.html",
-    "href": "assignment/09-problem-set.html",
-    "title": "Problem set 9",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 9"
-    ]
-  },
-  {
-    "objectID": "assignment/09-problem-set.html#instructions",
-    "href": "assignment/09-problem-set.html#instructions",
-    "title": "Problem set 9",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 9"
-    ]
-  },
-  {
-    "objectID": "assignment/09-problem-set.html#questions",
-    "href": "assignment/09-problem-set.html#questions",
-    "title": "Problem set 9",
-    "section": "Questions",
-    "text": "Questions\nTBD",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 9"
-    ]
-  },
-  {
-    "objectID": "example/rstudio-tidyverse.html",
-    "href": "example/rstudio-tidyverse.html",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "",
-    "text": "This course assumes that you’re already familiar with R, RStudio, Markdown, and the tidyverse. If you’re not, or if you’re looking to brush up, here are some resources for helping you get up to speed."
-  },
-  {
-    "objectID": "example/rstudio-tidyverse.html#part-1-the-basics-of-r-and-dplyr",
-    "href": "example/rstudio-tidyverse.html#part-1-the-basics-of-r-and-dplyr",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "Part 1: The basics of R and dplyr",
-    "text": "Part 1: The basics of R and dplyr\n\nThe Basics\n\nVisualization Basics\nProgramming Basics\n\nWork with Data\n\nWorking with Tibbles\nIsolating Data with dplyr\nDeriving Information with dplyr\n\nVisualize Data\n\nExploratory Data Analysis\nBar Charts\nHistograms\nBoxplots and Counts\nScatterplots\nLine plots\nOverplotting and Big Data\nCustomize Your Plots\n\nTidy Your Data\n\nReshape Data\n\n\n\n\n\n\n\n\nNote\n\n\n\nRecent versions of tidyr have renamed these core functions: gather() is now pivot_longer() and spread() is now pivot_wider(). The syntax for these pivot_*() functions is slightly different from what it was in gather() and spread(), so you can’t just replace the names. Fortunately, both gather() and spread() still work and won’t go away for a while, so you can still use them as you learn about reshaping and tidying data. It would be worth learning how the newer pivot_*() functions work, eventually, though (see here for examples).\n\n\nThe content from these primers comes from the (free and online!) book R for Data Science by Garrett Grolemund and Hadley Wickham. I highly recommend the book as a reference and for continuing to learn and use R in the future."
-  },
-  {
-    "objectID": "example/rstudio-tidyverse.html#part-2-getting-familiar-with-rstudio",
-    "href": "example/rstudio-tidyverse.html#part-2-getting-familiar-with-rstudio",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "Part 2: Getting familiar with RStudio",
-    "text": "Part 2: Getting familiar with RStudio\nThe RStudio primers you just worked through are a great introduction to writing and running R code, but you typically won’t type code in a browser when you work with R. Instead, you’ll use a nicer programming environment like RStudio, which lets you type and save code in scripts, run code from those scripts, and see the output of that code, all in the same program.\nTo get familiar with RStudio, watch this video by Andrew Heiss:"
-  },
-  {
-    "objectID": "example/rstudio-tidyverse.html#part-3-rstudio-projects",
-    "href": "example/rstudio-tidyverse.html#part-3-rstudio-projects",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "Part 3: RStudio Projects",
-    "text": "Part 3: RStudio Projects\nOne of the most powerful and useful aspects of RStudio is its ability to manage projects.\nWhen you first open R, it is “pointed” at some folder on your computer, and anything you do will be relative to that folder. The technical term for this is a “working directory.”\nWhen you first open RStudio, look in the area right at the top of the Console pane to see your current working directory. Most likely you’ll see something cryptic: ~/\n\n\n\n\n\n\n\n\n\nThat tilde sign (~) is a shortcut that stands for your user directory. On Windows this is C:\\Users\\your_user_name\\; on macOS this is /Users/your_user_name/. With the working directory set to ~/, R is “pointed” at that folder, and anything you save will end up in that folder, and R will expect any data that you load to be there too.\nIt’s always best to point R at some other directory. If you don’t use RStudio, you need to manually set the working directory to where you want it with setwd(), and many R scripts in the wild include something like setwd(\"C:\\\\Users\\\\bill\\\\Desktop\\\\Important research project\") at the beginning to change the directory. THIS IS BAD THOUGH (see here for an explanation). If you ever move that directory somewhere else, or run the script on a different computer, or share the project with someone, the path will be wrong and nothing will run and you will be sad.\nThe best way to deal with working directories with RStudio is to use RStudio Projects. These are special files that RStudio creates for you that end in a .Rproj extension. When you open one of these special files, a new RStudio instance will open up and be pointed at the correct directory automatically. If you move the folder later or open it on a different computer, it will work just fine and you will not be sad.\nRead this super short chapter on RStudio projects to learn how to create and use them\nIn general, you can create a new project by going to File &gt; New Project &gt; New Directory &gt; Empty Project, which will create a new folder on your computer that is empty except for a single .Rproj file. Double click on that file to open an RStudio instance that is pointed at the correct folder."
-  },
-  {
-    "objectID": "example/rstudio-tidyverse.html#part-4-getting-familiar-with-r-markdown",
-    "href": "example/rstudio-tidyverse.html#part-4-getting-familiar-with-r-markdown",
-    "title": "R, RStudio, and the tidyverse",
-    "section": "Part 4: Getting familiar with R Markdown",
-    "text": "Part 4: Getting familiar with R Markdown\nTo ensure that the analysis and graphics you make are reproducible, you’ll do the majority of your work in this class using R Markdown files.\nDo the following things:\n\nWatch this video:\n\n\n\n\n\n \n\nSkim through the content at these pages:\n\nUsing Markdown\nUsing R Markdown\nHow it Works\nCode Chunks\nInline Code\nMarkdown Basics (The R Markdown Reference Guide is super useful here.)\nOutput Formats"
-  },
-  {
-    "objectID": "resource/sara_defaults.html",
-    "href": "resource/sara_defaults.html",
-    "title": "Sara’s defaults",
-    "section": "",
-    "text": "You maybe noticed that my plots look a bit different to yours in class. That’s because I set defaults in my Markdown files for plot themes and colors. The ensures that all my plots have a similar vibe but I don’t have to manually specify colors each time. Here’s what I use:\n\nknitr::opts_chunk$set(fig.retina=3, echo=TRUE)\ntheme_set(theme_cowplot())\ndefault_palettes &lt;- list(\n  c(\"#5e8485\" , \"#0f393a\") ,\n  c(\"#1c5253\" , \"#5e8485\" , \"#0f393a\") , \n  # palette with 5 colours\n c( \"#1c5253\" , \"#e07a5f\", \"#f2cc8f\" , \"#81b29a\" , \"#3d405b\" ) ,\n  # same palette interpolated to 8 colours\n c( \"#1c5253\" , \"#e07a5f\", \"#f2cc8f\" , \"#81b29a\" , \"#3d405b\" , \"#a7a844\" , \"#69306d\" ) \n  \n)\n\noptions(ggplot2.discrete.fill = default_palettes, \n        ggplot2.discrete.colour = default_palettes)\n\nI wrap this inside a code chunk at the beginning of my Markdown files. It comes just after the code chunk with my packages.",
-    "crumbs": [
-      "Resources",
-      "Guides",
-      "Sara's defaults"
-    ]
-  },
-  {
-    "objectID": "resource/sara_defaults.html#context",
-    "href": "resource/sara_defaults.html#context",
-    "title": "Sara’s defaults",
-    "section": "",
-    "text": "You maybe noticed that my plots look a bit different to yours in class. That’s because I set defaults in my Markdown files for plot themes and colors. The ensures that all my plots have a similar vibe but I don’t have to manually specify colors each time. Here’s what I use:\n\nknitr::opts_chunk$set(fig.retina=3, echo=TRUE)\ntheme_set(theme_cowplot())\ndefault_palettes &lt;- list(\n  c(\"#5e8485\" , \"#0f393a\") ,\n  c(\"#1c5253\" , \"#5e8485\" , \"#0f393a\") , \n  # palette with 5 colours\n c( \"#1c5253\" , \"#e07a5f\", \"#f2cc8f\" , \"#81b29a\" , \"#3d405b\" ) ,\n  # same palette interpolated to 8 colours\n c( \"#1c5253\" , \"#e07a5f\", \"#f2cc8f\" , \"#81b29a\" , \"#3d405b\" , \"#a7a844\" , \"#69306d\" ) \n  \n)\n\noptions(ggplot2.discrete.fill = default_palettes, \n        ggplot2.discrete.colour = default_palettes)\n\nI wrap this inside a code chunk at the beginning of my Markdown files. It comes just after the code chunk with my packages.",
-    "crumbs": [
-      "Resources",
-      "Guides",
-      "Sara's defaults"
-    ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "\n            Bayesian Analysis\n        ",
-    "section": "",
-    "text": "Bayesian Analysis\n        \n        \n            Model building, estimation, interpretation, visualization\n        \n        \n            PSY 607 • Spring 2025 Psychology University of Oregon\n        \n    \n    \n      \n        \n        \n        \n      \n    \n\n\n\n\n\n\nInstructor\n\n   Dr. Sara Weston\n   Straub 325\n   sweston2@uoregon.edu\n   Schedule an appointment\n\n\n\nCourse details\n\n   Tuesdays and Thursdays\n   Spring 2025\n   2:00–3:20 PM\n   119 FEN\n   Slack\n\n\n\nContacting me\nEmail is the best way to get in contact with me. I will try to respond to all course-related emails within one business day during normal business hours (9am-5pm, Mon-Fri).\n\n\n```"
-  },
-  {
-    "objectID": "assignment/01-problem-set.html",
-    "href": "assignment/01-problem-set.html",
-    "title": "Problem set 1",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 1"
-    ]
-  },
-  {
-    "objectID": "assignment/01-problem-set.html#instructions",
-    "href": "assignment/01-problem-set.html#instructions",
-    "title": "Problem set 1",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 1"
-    ]
-  },
-  {
-    "objectID": "assignment/01-problem-set.html#questions",
-    "href": "assignment/01-problem-set.html#questions",
-    "title": "Problem set 1",
-    "section": "Questions",
-    "text": "Questions\n\nSuppose the globe tossing experiment turned out to be 3 water and 11 land. Construct the posterior distribution.\n\n\n\nClick to see the answer\n\n\n# Create a sequence of p values from 0 to 1\np_grid &lt;- seq(0, 1, length.out = 1000)\n\n# Prior (uniform)\nprior &lt;- rep(1, 1000)\n\n# Likelihood (binomial)\nlikelihood &lt;- dbinom(3, size = 14, prob = p_grid)\n\n# Posterior (proportional to likelihood * prior)\nposterior &lt;- likelihood * prior\nposterior &lt;- posterior / sum(posterior)\n\n# Plot the posterior\nplot(p_grid, posterior, type = \"l\", \n     xlab = \"Proportion of water (p)\", \n     ylab = \"Posterior probability\",\n     main = \"Posterior distribution for p\")\n\n\n\n\n\n\n\n\nThe posterior distribution shows the probability of different values of p (proportion of water) given our data (3 water, 11 land). Since we used a uniform prior, the posterior is proportional to the likelihood. The peak of the distribution is around p = 0.21, which makes sense given our data (3/14 ≈ 0.21).\n\n\nUsing the posterior distribution from 1, compute the posterior predictive distribution for the next 5 tosses of the globe.\n\n\n\nClick to see the answer\n\n\n# Number of samples from posterior\nn_samples &lt;- 10000\n\n# Sample p values from posterior\np_samples &lt;- sample(p_grid, prob = posterior, size = n_samples, replace = TRUE)\n\n# Generate predictions for 5 tosses\nn_tosses &lt;- 5\npredictions &lt;- rbinom(n_samples, size = n_tosses, prob = p_samples)\n\n# Plot the posterior predictive distribution\nhist(predictions, \n     xlab = \"Number of water in 5 tosses\",\n     ylab = \"Count\",\n     main = \"Posterior predictive distribution\",\n     breaks = seq(-0.5, 5.5, by = 1))\n\n\n\n\n\n\n\n\nThe posterior predictive distribution shows the probability of different outcomes for the next 5 tosses, taking into account our uncertainty about p. The most likely outcome is 1 water (since our posterior mean for p is around 0.21, we expect about 1 water in 5 tosses). The distribution is right-skewed because p is less than 0.5.\n\nYou can download a template file here to help you get started.",
-    "crumbs": [
-      "Assignments",
-      "Problem sets",
-      "Problem set 1"
-    ]
-  },
-  {
-    "objectID": "content/03-content.html",
-    "href": "content/03-content.html",
-    "title": "Linear models",
-    "section": "",
-    "text": "Geocentric models (1 h 15 min)",
+    "text": "Nothing. But if you want to get familiar with the site or ee what I’m using as the basis for the first lecture, here you go:\n\nThe syllabus, content, examples, and assignments pages for this class\n Introduction to Bayesian Inference for Psychology (Etz & Vandekerckhove, 2018)",
     "crumbs": [
       "Content",
       "Course content",
-      "3: Linear models"
+      "1: Introduction to Bayesian Analysis"
     ]
   },
   {
-    "objectID": "content/03-content.html#before-class",
-    "href": "content/03-content.html#before-class",
-    "title": "Linear models",
+    "objectID": "content/01-content.html#before-class",
+    "href": "content/01-content.html#before-class",
+    "title": "Introduction to Bayes",
     "section": "",
-    "text": "Geocentric models (1 h 15 min)",
+    "text": "Nothing. But if you want to get familiar with the site or ee what I’m using as the basis for the first lecture, here you go:\n\nThe syllabus, content, examples, and assignments pages for this class\n Introduction to Bayesian Inference for Psychology (Etz & Vandekerckhove, 2018)",
     "crumbs": [
       "Content",
       "Course content",
-      "3: Linear models"
+      "1: Introduction to Bayesian Analysis"
     ]
   },
   {
-    "objectID": "content/03-content.html#during-class",
-    "href": "content/03-content.html#during-class",
-    "title": "Linear models",
+    "objectID": "content/01-content.html#during-class",
+    "href": "content/01-content.html#during-class",
+    "title": "Introduction to Bayes",
+    "section": "During class",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "1: Introduction to Bayesian Analysis"
+    ]
+  },
+  {
+    "objectID": "assignment/CopyOf01-problem-set.html",
+    "href": "assignment/CopyOf01-problem-set.html",
+    "title": "Problem set 1",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas."
+  },
+  {
+    "objectID": "assignment/CopyOf01-problem-set.html#instructions",
+    "href": "assignment/CopyOf01-problem-set.html#instructions",
+    "title": "Problem set 1",
+    "section": "",
+    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas."
+  },
+  {
+    "objectID": "assignment/CopyOf01-problem-set.html#questions",
+    "href": "assignment/CopyOf01-problem-set.html#questions",
+    "title": "Problem set 1",
+    "section": "Questions",
+    "text": "Questions\n\nSuppose the globe tossing experiment turned out to be 3 water and 11 land. Construct the posterior distribution.\n\n\n\nClick to see the answer\n\n\n# Create a sequence of p values from 0 to 1\np_grid &lt;- seq(0, 1, length.out = 1000)\n\n# Prior (uniform)\nprior &lt;- rep(1, 1000)\n\n# Likelihood (binomial)\nlikelihood &lt;- dbinom(3, size = 14, prob = p_grid)\n\n# Posterior (proportional to likelihood * prior)\nposterior &lt;- likelihood * prior\nposterior &lt;- posterior / sum(posterior)\n\n# Plot the posterior\nplot(p_grid, posterior, type = \"l\", \n     xlab = \"Proportion of water (p)\", \n     ylab = \"Posterior probability\",\n     main = \"Posterior distribution for p\")\n\n\n\n\n\n\n\n\nThe posterior distribution shows the probability of different values of p (proportion of water) given our data (3 water, 11 land). Since we used a uniform prior, the posterior is proportional to the likelihood. The peak of the distribution is around p = 0.21, which makes sense given our data (3/14 ≈ 0.21).\n\n\nUsing the posterior distribution from 1, compute the posterior predictive distribution for the next 5 tosses of the globe.\n\n\n\nClick to see the answer\n\n\n# Number of samples from posterior\nn_samples &lt;- 10000\n\n# Sample p values from posterior\np_samples &lt;- sample(p_grid, prob = posterior, size = n_samples, replace = TRUE)\n\n# Generate predictions for 5 tosses\nn_tosses &lt;- 5\npredictions &lt;- rbinom(n_samples, size = n_tosses, prob = p_samples)\n\n# Plot the posterior predictive distribution\nhist(predictions, \n     xlab = \"Number of water in 5 tosses\",\n     ylab = \"Count\",\n     main = \"Posterior predictive distribution\",\n     breaks = seq(-0.5, 5.5, by = 1))\n\n\n\n\n\n\n\n\nThe posterior predictive distribution shows the probability of different outcomes for the next 5 tosses, taking into account our uncertainty about p. The most likely outcome is 1 water (since our posterior mean for p is around 0.21, we expect about 1 water in 5 tosses). The distribution is right-skewed because p is less than 0.5.\n\nYou can download a template file here to help you get started."
+  },
+  {
+    "objectID": "content/04-content.html",
+    "href": "content/04-content.html",
+    "title": "Categories",
+    "section": "",
+    "text": "Categories and curves (1 h 25 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "4: Categories"
+    ]
+  },
+  {
+    "objectID": "content/04-content.html#before-class",
+    "href": "content/04-content.html#before-class",
+    "title": "Categories",
+    "section": "",
+    "text": "Categories and curves (1 h 25 min)",
+    "crumbs": [
+      "Content",
+      "Course content",
+      "4: Categories"
+    ]
+  },
+  {
+    "objectID": "content/04-content.html#during-class",
+    "href": "content/04-content.html#during-class",
+    "title": "Categories",
     "section": "During class",
     "text": "During class\nTo save these slides as a PDF on your computer, open the menu (three horizontal bars in the bottom left of the slides), then Tools (gear symbol in the top), and PDF export (or ``e’’). You can then right-click on the slides, select Print, and save as PDF.\n\n View all slides in new window\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
     "crumbs": [
       "Content",
       "Course content",
-      "3: Linear models"
+      "4: Categories"
     ]
   },
   {
-    "objectID": "content/05-content.html",
-    "href": "content/05-content.html",
-    "title": "Causal modeling",
+    "objectID": "content/06-content.html",
+    "href": "content/06-content.html",
+    "title": "More causal modeling",
     "section": "",
-    "text": "Elemental confounds (1 h 05 min)",
+    "text": "Good and bad controls (1 h 26 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "5: Causal modeling"
+      "6: More causal modeling"
     ]
   },
   {
-    "objectID": "content/05-content.html#before-class",
-    "href": "content/05-content.html#before-class",
-    "title": "Causal modeling",
+    "objectID": "content/06-content.html#before-class",
+    "href": "content/06-content.html#before-class",
+    "title": "More causal modeling",
     "section": "",
-    "text": "Elemental confounds (1 h 05 min)",
+    "text": "Good and bad controls (1 h 26 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "5: Causal modeling"
+      "6: More causal modeling"
     ]
   },
   {
-    "objectID": "content/05-content.html#during-class",
-    "href": "content/05-content.html#during-class",
-    "title": "Causal modeling",
+    "objectID": "content/06-content.html#during-class",
+    "href": "content/06-content.html#during-class",
+    "title": "More causal modeling",
     "section": "During class",
     "text": "During class\nTo save these slides as a PDF on your computer, open the menu (three horizontal bars in the bottom left of the slides), then Tools (gear symbol in the top), and PDF export (or ``e’’). You can then right-click on the slides, select Print, and save as PDF.\n\n View all slides in new window\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nFun fact: If you type ? (or shift + /) while going through the slides, you can see a list of special slide-specific commands.",
     "crumbs": [
       "Content",
       "Course content",
-      "5: Causal modeling"
+      "6: More causal modeling"
     ]
   },
   {
-    "objectID": "content/07-content.html",
-    "href": "content/07-content.html",
-    "title": "Good prediction",
+    "objectID": "content/08-content.html",
+    "href": "content/08-content.html",
+    "title": "MCMC",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Markov chain monte carlo (1 h 16 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "7: Good predictions"
+      "8: MCMC"
     ]
   },
   {
-    "objectID": "content/07-content.html#before-class",
-    "href": "content/07-content.html#before-class",
-    "title": "Good prediction",
+    "objectID": "content/08-content.html#before-class",
+    "href": "content/08-content.html#before-class",
+    "title": "MCMC",
     "section": "",
-    "text": "The Golum of Prague (51 min)",
+    "text": "Markov chain monte carlo (1 h 16 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "7: Good predictions"
+      "8: MCMC"
     ]
   },
   {
-    "objectID": "content/07-content.html#during-class",
-    "href": "content/07-content.html#during-class",
-    "title": "Good prediction",
+    "objectID": "content/08-content.html#during-class",
+    "href": "content/08-content.html#during-class",
+    "title": "MCMC",
     "section": "During class",
     "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window",
     "crumbs": [
       "Content",
       "Course content",
-      "7: Good predictions"
+      "8: MCMC"
     ]
   },
   {
-    "objectID": "content/09-content.html",
-    "href": "content/09-content.html",
-    "title": "Binomial regression",
+    "objectID": "content/10-content.html",
+    "href": "content/10-content.html",
+    "title": "Poisson regression",
     "section": "",
-    "text": "Modeling events (1 h 32 min)",
+    "text": "Counts and hidden confounds (1 h 25 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "9: Binomial regression"
+      "10: Poisson regression"
     ]
   },
   {
-    "objectID": "content/09-content.html#before-class",
-    "href": "content/09-content.html#before-class",
-    "title": "Binomial regression",
+    "objectID": "content/10-content.html#before-class",
+    "href": "content/10-content.html#before-class",
+    "title": "Poisson regression",
     "section": "",
-    "text": "Modeling events (1 h 32 min)",
+    "text": "Counts and hidden confounds (1 h 25 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "9: Binomial regression"
+      "10: Poisson regression"
     ]
   },
   {
-    "objectID": "content/09-content.html#during-class",
-    "href": "content/09-content.html#during-class",
-    "title": "Binomial regression",
+    "objectID": "content/10-content.html#during-class",
+    "href": "content/10-content.html#during-class",
+    "title": "Poisson regression",
     "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window",
     "crumbs": [
       "Content",
       "Course content",
-      "9: Binomial regression"
+      "10: Poisson regression"
     ]
   },
   {
-    "objectID": "content/11-content.html",
-    "href": "content/11-content.html",
-    "title": "Ordered categories",
+    "objectID": "content/12-content.html",
+    "href": "content/12-content.html",
+    "title": "Multilevel models",
     "section": "",
-    "text": "Ordered categories (1 h 30 min)",
+    "text": "Multilevel models (1 h 32 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "11: Multinomial regression"
+      "12: Multilevel models"
     ]
   },
   {
-    "objectID": "content/11-content.html#before-class",
-    "href": "content/11-content.html#before-class",
-    "title": "Ordered categories",
+    "objectID": "content/12-content.html#before-class",
+    "href": "content/12-content.html#before-class",
+    "title": "Multilevel models",
     "section": "",
-    "text": "Ordered categories (1 h 30 min)",
+    "text": "Multilevel models (1 h 32 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "11: Multinomial regression"
+      "12: Multilevel models"
     ]
   },
   {
-    "objectID": "content/11-content.html#during-class",
-    "href": "content/11-content.html#during-class",
-    "title": "Ordered categories",
+    "objectID": "content/12-content.html#during-class",
+    "href": "content/12-content.html#during-class",
+    "title": "Multilevel models",
     "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window",
     "crumbs": [
       "Content",
       "Course content",
-      "11: Multinomial regression"
+      "12: Multilevel models"
     ]
   },
   {
-    "objectID": "content/13-content.html",
-    "href": "content/13-content.html",
-    "title": "More multilevel models",
+    "objectID": "content/14-content.html",
+    "href": "content/14-content.html",
+    "title": "Multivariate priors",
     "section": "",
-    "text": "Multilevel adventures (54 min)",
+    "text": "Correlated features (1 h 10 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "13: More multilevel models"
+      "14: Multivariate priors"
     ]
   },
   {
-    "objectID": "content/13-content.html#before-class",
-    "href": "content/13-content.html#before-class",
-    "title": "More multilevel models",
+    "objectID": "content/14-content.html#before-class",
+    "href": "content/14-content.html#before-class",
+    "title": "Multivariate priors",
     "section": "",
-    "text": "Multilevel adventures (54 min)",
+    "text": "Correlated features (1 h 10 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "13: More multilevel models"
+      "14: Multivariate priors"
     ]
   },
   {
-    "objectID": "content/13-content.html#during-class",
-    "href": "content/13-content.html#during-class",
-    "title": "More multilevel models",
+    "objectID": "content/14-content.html#during-class",
+    "href": "content/14-content.html#during-class",
+    "title": "Multivariate priors",
     "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window",
     "crumbs": [
       "Content",
       "Course content",
-      "13: More multilevel models"
+      "14: Multivariate priors"
     ]
   },
   {
-    "objectID": "content/15-content.html",
-    "href": "content/15-content.html",
-    "title": "Social networks",
+    "objectID": "content/16-content.html",
+    "href": "content/16-content.html",
+    "title": "Gaussian processes",
     "section": "",
-    "text": "Social networks (1 h 12 min)",
+    "text": "Gaussian processes (1 h 22 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "15: Social networks"
+      "16: Gaussian processes"
     ]
   },
   {
-    "objectID": "content/15-content.html#before-class",
-    "href": "content/15-content.html#before-class",
-    "title": "Social networks",
+    "objectID": "content/16-content.html#before-class",
+    "href": "content/16-content.html#before-class",
+    "title": "Gaussian processes",
     "section": "",
-    "text": "Social networks (1 h 12 min)",
+    "text": "Gaussian processes (1 h 22 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "15: Social networks"
+      "16: Gaussian processes"
     ]
   },
   {
-    "objectID": "content/15-content.html#during-class",
-    "href": "content/15-content.html#during-class",
-    "title": "Social networks",
+    "objectID": "content/16-content.html#during-class",
+    "href": "content/16-content.html#during-class",
+    "title": "Gaussian processes",
     "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window",
     "crumbs": [
       "Content",
       "Course content",
-      "15: Social networks"
+      "16: Gaussian processes"
     ]
   },
   {
-    "objectID": "content/17-content.html",
-    "href": "content/17-content.html",
-    "title": "Measurement",
+    "objectID": "content/18-content.html",
+    "href": "content/18-content.html",
+    "title": "Missing data",
     "section": "",
-    "text": "Measurement & misclassification (1 h 17 min)",
+    "text": "Missing data (1 h 03 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "17: Measurement"
+      "18: Missing data"
     ]
   },
   {
-    "objectID": "content/17-content.html#before-class",
-    "href": "content/17-content.html#before-class",
-    "title": "Measurement",
+    "objectID": "content/18-content.html#before-class",
+    "href": "content/18-content.html#before-class",
+    "title": "Missing data",
     "section": "",
-    "text": "Measurement & misclassification (1 h 17 min)",
+    "text": "Missing data (1 h 03 min)",
     "crumbs": [
       "Content",
       "Course content",
-      "17: Measurement"
+      "18: Missing data"
     ]
   },
   {
-    "objectID": "content/17-content.html#during-class",
-    "href": "content/17-content.html#during-class",
-    "title": "Measurement",
+    "objectID": "content/18-content.html#during-class",
+    "href": "content/18-content.html#during-class",
+    "title": "Missing data",
     "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
+    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window",
     "crumbs": [
       "Content",
       "Course content",
-      "17: Measurement"
-    ]
-  },
-  {
-    "objectID": "content/19-content.html",
-    "href": "content/19-content.html",
-    "title": "Generalized linear models",
-    "section": "",
-    "text": "Generalized linear madness (1 h 15 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "19: Generalized linear models"
-    ]
-  },
-  {
-    "objectID": "content/19-content.html#before-class",
-    "href": "content/19-content.html#before-class",
-    "title": "Generalized linear models",
-    "section": "",
-    "text": "Generalized linear madness (1 h 15 min)",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "19: Generalized linear models"
-    ]
-  },
-  {
-    "objectID": "content/19-content.html#during-class",
-    "href": "content/19-content.html#during-class",
-    "title": "Generalized linear models",
-    "section": "During class",
-    "text": "During class\nThe slides for today’s lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n View all slides in new window  Download PDF of all slides",
-    "crumbs": [
-      "Content",
-      "Course content",
-      "19: Generalized linear models"
+      "18: Missing data"
     ]
   },
   {

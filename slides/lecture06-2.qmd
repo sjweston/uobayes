@@ -1,6 +1,6 @@
 ---
-title: "week 6: multilevel models"
-subtitle: "multilevel tadpoles"
+title: "week 6: integers and other monsters"
+subtitle: "ordered categories"
 format: 
   revealjs:
     css: xaringan-themer2.css
@@ -19,7 +19,7 @@ execute:
 
 ```{r, message = F, warning = F}
 library(tidyverse)
-library(janitor)
+library(psych)
 library(cowplot)
 library(patchwork)
 library(here)
@@ -44,42 +44,490 @@ options(ggplot2.discrete.fill = default_palettes,
         ggplot2.discrete.colour = default_palettes)
 ```
 
-## multilevel models
+## Ordered categorical outcomes
 
-We're starting our unit on multilevel models, which can be thought of as models that "remember" features of clusters of data as they learn about all the clusters.  The model will pool information across clusters (e.g., our estimates about cluster A will be informed in part by clusters B, C, and D). This tends to improve estimates about each cluster. Here are some other benefits of multilevel modeling:
+Ordered categories are variables that are discrete, like a count, except that the values merely indicate different ordered levels.[^1] Most Likert scale questions are ordered categories, even though we pretend they're continuous (see polychoric correlations).
 
-  1. **improved estimates for repeated sampling.** If you try to fit a single-level model to these data, you'll over- or under-fit the data. 
-  2. **improved estimates for imbalance in sampling.** prevent over-sampled clusters from dominating inference, while also balancing the fact that larger clusters have more information.
-  3. **estimates of variation.** model variation explicitly!
-  4. **avoid averaging, retain variation.** averaging manufactures false confidence (artificially inflates precision) and introduces arbitrary data transformations. 
-  
-Multilevel modeling should be your default approach.
+If we want to model an outcome as an ordered categorical variable, what we're really asking is how does moving along an associated predictor variable move predictions in the outcome progressively through the categories _in sequence_. We must therefore model our outcomes in the right order.
+
+To do so, we'll use the principles of the generalized linear model discussed last week. That is, we use a link function -- the **CUMULATIVE LINK FUNCTION** -- to model the probability of a value that is that value or smaller. 
+
+[^1]: Actual counts communicate meaningful and consistent distance between possible values. 
+
 
 ---
 
-## example: multilevel people
-
+### example: the trolley problem
 
 ```{r}
-data_path = "https://raw.githubusercontent.com/sjweston/uobayes/refs/heads/main/files/data/external_data/mlm.csv"
-d <- read.csv(data_path)
+data(Trolley, package = "rethinking")
+trolley <- Trolley
+glimpse(trolley)
+```
 
-rethinking::precis(d)
+---
+
+```{r}
+trolley %>% 
+  ggplot(aes( x=response )) +
+  geom_histogram()
 ```
 
 ---
 
 ```{r}
 #| code-fold: true
-set.seed(114)
-sample_id = sample(unique(d$id), replace=F, size=20)
-d %>%
-  filter(id %in% sample_id) %>% 
-  ggplot(aes(x = week, y = con, group = id, fill = id)) + 
-  geom_point(aes(color = factor(id))) + 
-  stat_smooth(aes(color = factor(id)),
-              method = "lm", se = FALSE) +
-  theme(legend.position = "none")
+trolley %>%
+  count(response) %>% 
+  mutate(pr_k     = n/nrow(trolley),
+         cum_pr_k = cumsum(pr_k)) %>% 
+  ggplot(aes(x = response, y = cum_pr_k)) +
+  geom_point(size = 3, color = "#1c5253") +
+  geom_line(color = "#1c5253", alpha = .3) + 
+  labs(x = "response",
+       y = "cumulative probability")
+```
+
+---
+
+```{r}
+#| code-fold: true
+# primary data
+trolley_plot <-
+  trolley %>%
+  count(response) %>%
+  mutate(pr_k     = n / nrow(trolley),
+         cum_pr_k = cumsum(n / nrow(trolley))) %>% 
+  mutate(discrete_probability = ifelse(response == 1, cum_pr_k, cum_pr_k - pr_k))
+
+# annotation
+text <-
+  tibble(text     = 1:7,
+         response = seq(from = 1.25, to = 7.25, by = 1),
+         cum_pr_k = trolley_plot$cum_pr_k - .065)
+
+trolley_plot %>% 
+  ggplot(aes(x = response, y = cum_pr_k,
+             color = cum_pr_k, fill = cum_pr_k)) +
+  geom_line() +
+  geom_point(shape = 21, colour = "grey92", 
+             size = 2.5, stroke = 1) +
+  geom_linerange(aes(ymin = 0, ymax = cum_pr_k),
+                 alpha = 1/2) +
+  geom_linerange(aes(x = response + .025,
+                     ymin = ifelse(response == 1, 0, discrete_probability), 
+                     ymax = cum_pr_k),
+                 color = "black") +
+  # number annotation
+  geom_text(data = text, 
+            aes(label = text),
+            size = 4) +
+  scale_x_continuous(breaks = 1:7) +
+  scale_y_continuous("cumulative proportion", breaks = c(0, .5, 1), 
+                     limits = c(0, 1.1)) +
+  theme(axis.ticks = element_blank(),
+        axis.title.y = element_text(angle = 90),
+        legend.position = "none")
+```
+
+---
+
+On to the modeling. We'll start with an intercept-only model.
+
+\begin{align*}
+R_i &\sim \text{Categorical}(p) \\
+\text{logit}(p_k) = \alpha_k - \phi
+\phi_i &= 0 \\
+\alpha_k &\sim \text{Normal}(0, 1.5)
+\end{align*}
+
+Remember, $\phi$ doesn't have an intercept because there's a $\alpha$ for each cut point.
+
+```{r}
+m1 <- brm(
+  data = trolley,
+  family = cumulative, 
+  response ~ 1, 
+  prior = c( prior(normal(0, 1.5), class = Intercept) ),
+  iter=2000, warmup=1000, cores=4, chains=4,
+  file=here("files/data/generated_data/m61.1")
+)
+```
+
+---
+
+```{r}
+summary(m1)
+```
+
+---
+
+```{r}
+m1 %>% 
+  fixef() %>% 
+  inv_logit_scaled() %>% 
+  round(digits = 3)
+```
+
+Note: the standard errors (`Est.Error`) are not valid for this approach. (Just look at how they compare to the quantiles of the distribution.) Drawing from the posterior is the best solution to this.
+
+```{r}
+as_draws_df(m1) %>% 
+  mutate_at(vars(starts_with("b_")), inv_logit_scaled) %>% 
+  pivot_longer(starts_with("b_")) %>% 
+  group_by(name) %>% 
+  summarise(mean = mean(value),
+            sd   = sd(value),
+            ll   = quantile(value, probs = .025),
+            ul   = quantile(value, probs = .975))
+```
+
+---
+
+### exercise
+
+Create a plot showing the posterior predictive distribution for the intercept-only model (m1). Can you visualize both the posterior and the observed data?
+
+---
+
+### solution
+
+```{r}
+#| code-fold: true
+predicted_draws(m1, newdata = data.frame(1)) %>% 
+  count(.prediction) %>%
+  mutate(pr_k = n / sum(n)) %>% 
+  ggplot(aes(x = .prediction, y = pr_k)) +
+  geom_col(fill = "#1c5253", alpha = 0.7) +
+  geom_point(data = trolley_plot, aes(x = response), 
+             color = "#3d405b", size = 2) +
+  labs(x = "response",
+       y = "probability",
+       title = "Posterior Predictive Distribution") 
+```
+
+---
+
+### adding predictors
+
+Now let's add the features of the story -- contact, action, and intention -- as predictors in our model. 
+Let's expand our mathematical model. Here's our original:
+
+\begin{align*}
+R_i &\sim \text{Categorical}(p) \\
+\text{logit}(p_k) = \alpha_k - \phi
+\phi_i &= 0 \\
+\alpha_k &\sim \text{Normal}(0, 1.5)
+\end{align*}
+
+McElreath proposes the following causal formula:
+
+$$
+\phi_i = \beta_1\text{action}_i + \beta_2\text{contact}_i + (\beta_3 + \beta_4\text{action}_i + \beta_5\text{contact}_i)\text{intention}_i
+$$
+
+---
+
+
+```{r}
+#| code-fold: true
+m2 <- brm(
+  data = trolley,
+  family = cumulative, 
+  response ~ 1 + action + contact + intention + action:intention + contact:intention, 
+  prior = c( prior(normal(0, 1.5), class = Intercept),
+             prior(normal(0, 0.5), class = b)),
+  iter=2000, warmup=1000, cores=4, chains=4,
+  file=here("files/data/generated_data/m61.2")
+)
+
+m2
+```
+
+---
+
+```{r}
+#| code-fold: true
+as_draws_df(m2) %>% 
+  select(starts_with("b_")) %>% 
+  select(-matches("[0-9]")) %>% 
+  pivot_longer(everything()) %>% 
+  mutate(
+    name = str_remove(name, "b_"),
+    name = str_replace(name, ":", " x ")
+  ) %>% 
+  ggplot( aes(x = value, y = name) ) +
+  geom_vline( aes(xintercept = 0), linetype = "dashed", alpha = .3 ) +
+  stat_dist_halfeye(fill = "#5e8485") +
+  scale_x_continuous("marginal posterior", breaks = -5:0 / 4) +
+  scale_y_discrete(NULL) +
+  coord_cartesian(xlim = c(-1.4, 0))
+```
+
+---
+
+```{r}
+nd <- 
+  trolley %>% 
+  distinct(action, contact, intention) %>% 
+  mutate(combination = str_c(action, contact, intention, sep = "_"))
+
+f <- predicted_draws( m2 , newdata = nd )
+
+# what have we done?
+f %>% str()
+```
+
+---
+
+```{r}
+#| code-fold: true
+
+f %>% 
+  as.data.frame() %>% 
+  mutate(
+    across( c(action, contact, intention) , 
+            as.character),
+    action  = str_c("action = ",  action),
+    contact = str_c("contact = ", contact)) %>% 
+  count(action, contact, intention, .prediction) %>% 
+  ggplot( aes(x=.prediction, y=n, fill=intention) )+
+  geom_bar( stat="identity", position="dodge" ) +
+  facet_grid(~action+contact) +
+  labs( x="response", 
+        y="count" )
+```
+
+---
+
+### exercise
+
+Create a new model that includes only the main effects of action, contact, and intention (no interactions). Then:
+
+1. Compare the coefficients between this model and m2 (the model with interactions)
+2. Compare the fits of these models using PSIS and WAIC.
+
+---
+
+### solution
+
+```{r}
+#| code-fold: true
+# Fit simpler model
+m2_simple <- brm(
+  data = trolley,
+  family = cumulative, 
+  response ~ 1 + action + contact + intention, 
+  prior = c(prior(normal(0, 1.5), class = Intercept),
+            prior(normal(0, 0.5), class = b)),
+  iter = 2000, warmup = 1000, cores = 4, chains = 4,
+  file=here("files/data/generated_data/m61.2simple")
+)
+
+# Compare coefficients
+bind_rows(
+  fixef(m2) %>% as_tibble(rownames = "term"),
+  fixef(m2_simple) %>% as_tibble(rownames = "term")
+) %>% 
+  mutate(model = rep(c("with interactions", "main effects only"), each = n()/2)) %>% 
+  ggplot(aes(x = term, y = Estimate, color = model)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = Q2.5, ymax = Q97.5), width = 0.2) +
+  coord_flip() +
+  theme(legend.position = "top")
+
+# Plot predictions
+predicted_draws(m2_simple, newdata = nd) %>% 
+  as.data.frame() %>% 
+  mutate(
+    across(c(action, contact, intention), as.character),
+    facet_title = str_c("Action: ", action, 
+                        "\nContact: ", contact)
+  ) %>% 
+  count(facet_title, intention, .prediction) %>% 
+  ggplot(aes(x = .prediction, y = n, fill = intention)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap(~facet_title) +
+  labs(x = "response", y = "count")
+
+```
+
+---
+
+```{r}
+m2  <-       add_criterion(m2,        "loo")
+m2_simple <- add_criterion(m2_simple, "loo")
+
+loo_compare(m2, m2_simple, criterion = "loo") %>% 
+  print(simplify = F)
+
+m2  <-       add_criterion(m2,        "waic")
+m2_simple <- add_criterion(m2_simple, "waic")
+
+loo_compare(m2, m2_simple, criterion = "waic") %>% 
+  print(simplify = F)
 ```
 
 
+---
+
+## Ordered categorical predictors
+
+```{r}
+distinct(trolley, edu)
+trolley <-
+  trolley %>% 
+  mutate(edu_new = 
+           recode(edu,
+                  "Elementary School" = 1,
+                  "Middle School" = 2,
+                  "Some High School" = 3,
+                  "High School Graduate" = 4,
+                  "Some College" = 5, 
+                  "Bachelor's Degree" = 6,
+                  "Master's Degree" = 7,
+                  "Graduate Degree" = 8) %>% 
+           as.integer())
+```
+
+---
+
+To incorporate this variable as a **MONOTONIC CATEOGORICAL PREDICTOR**, we'll set up a notation such that each step up in value comes with its own incremental or marginal effect on the outcome.
+
+$$
+\phi_i = \sum_{j=1}^7 \delta_j
+$$
+We only need 7 because the first category is absorbed into the intercept for $\phi$. So our full formula for this parameter is:
+$$
+\phi_i = \beta_1\text{action}_i + \beta_2\text{contact}_i + \beta_3\text{intention}_i + \beta_E\sum_{j=0}^{E_i-1} \delta_j
+$$
+where $\beta_E$ is the average effect 
+
+---
+
+\begin{align*}
+\text{response}_i &\sim \text{Categorical}(\mathbf{p}) \\
+\text{logit}(p_k) &= \alpha_k - \phi_i \\
+\phi_i &= \beta_1\text{action}_i + \beta_2\text{contact}_i + \beta_3\text{intention}_i + \beta_4 \text{ mo(edu\_new}_i, \boldsymbol{\delta}) \\
+\alpha_k &\sim \text{Normal}(0, 1.5) \\
+\beta_1, \ldots, \beta_3 &\sim \text{Normal}(0, 1) \\
+\beta_4 &\sim \text{Normal}(0, 0.143) \\
+\boldsymbol{\delta} &\sim \text{Dirichlet}(2, 2, 2, 2, 2, 2, 2),
+\end{align*}
+
+---
+
+```{r}
+m3 <- 
+  brm(data = trolley, 
+      family = cumulative,
+      response ~ 1 + action + contact + intention + mo(edu_new),  # note the `mo()` syntax
+      prior = c(prior(normal(0, 1.5), class = Intercept),
+                prior(normal(0, 1), class = b),
+                # note the new kinds of prior statements
+                prior(normal(0, 0.143), class = b, coef = moedu_new),
+                prior(dirichlet(2, 2, 2, 2, 2, 2, 2), class = simo, coef = moedu_new1)),
+      iter = 2000, warmup = 1000, cores = 4, chains = 4, 
+      seed = 12,
+      file = here("files/data/generated_data/m61.3"))
+```
+
+---
+
+```{r}
+m3
+```
+
+---
+
+Let's see the effect of education after controlling for story parameters.
+
+```{r}
+#| code-fold: true
+nd <- distinct(
+  trolley, 
+  action, contact, intention, edu_new
+)
+predicted_draws(m3, nd) %>% 
+  ungroup() %>% 
+  count(edu_new, .prediction) %>% 
+  with_groups(edu_new, mutate, total=sum(n)) %>% 
+  mutate(pk = n/total,
+         .prediction = as.numeric(.prediction),
+         edu_new = as.factor(edu_new)) %>% 
+  ggplot(aes(x = .prediction,  y = pk, color = edu_new)) +
+  geom_point() +
+  geom_line() +
+  labs( x="response", 
+        y="probability" ) +
+  theme(legend.position = "top")
+```
+
+---
+
+### exercise
+
+Create a new model that includes education as a regular categorical predictor (not monotonic) and compare it to m3. Your tasks:
+
+1. Fit the model using the original `edu` variable (not `edu_new`)
+2. Create a plot comparing the predicted probabilities between the two models
+3. Use create a side-by-side visual comparison of the education effects
+4. Interpret whether the monotonic constraint appears to improve the model fit
+
+---
+
+### solution
+
+```{r}
+#| code-fold: true
+# Fit model with regular categorical education
+m3_cat <- brm(
+  data = trolley,
+  family = cumulative,
+  response ~ 1 + action + contact + intention + edu,
+  prior = c(prior(normal(0, 1.5), class = Intercept),
+            prior(normal(0, 1), class = b)),
+  iter = 2000, warmup = 1000, cores = 4, chains = 4,
+  file=here("files/data/generated_data/m61.3cat")
+)
+
+m3_cat
+
+```
+
+---
+
+### solution
+
+```{r}
+#| code-fold: true
+
+# Create predictions for both models
+p1 <- predicted_draws(m3, nd) %>% 
+  ungroup() %>% 
+  count(edu_new, .prediction) %>% 
+  with_groups(edu_new, mutate, total = sum(n)) %>% 
+  mutate(pk = n/total,
+         .prediction = as.numeric(.prediction),
+         edu_new = as.factor(edu_new)) %>% 
+  ggplot(aes(x = .prediction, y = pk, color = edu_new)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "response", y = "probability", title = "Monotonic Model") +
+  theme(legend.position = "top")
+
+p2 <- predicted_draws(m3_cat, newdata = distinct(trolley, action, contact, intention, edu)) %>% 
+  ungroup() %>% 
+  count(edu, .prediction) %>% 
+  with_groups(edu, mutate, total = sum(n)) %>% 
+  mutate(pk = n/total,
+         .prediction = as.numeric(.prediction)) %>% 
+  ggplot(aes(x = .prediction, y = pk, color = edu)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "response", y = "probability", title = "Categorical Model") +
+  theme(legend.position = "top")
+
+# Combine plots
+p1 + p2
+```

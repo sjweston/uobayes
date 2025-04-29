@@ -13,4 +13,19 @@ Please use an RMarkdown file to complete this assignment. Make sure you reserve 
 
 ## Questions
 
-TBD 
+The data contained in `library(MASS)`;`data(eagles)` are records of salmon pirating attempts by Bald Eagles in Washington State. See `?eagles` for details. While one eagle feeds, sometimes another will swoop in and try to steal the salmon from it. Call the feeding eagle the "victim" and the thief the "pirate." Use the available data to build a binomial GLM of successful pirating attempts.
+
+1. Consider the following model:
+
+\begin{align*}
+y_i &\sim \text{Binomial}(n_i, p_i) \\
+\text{logit}(p_i) &= \alpha + \beta_PP_i + \beta_VV_i + \beta_AA_i \\
+\alpha &\sim \text{Normal}(0, 1.5) \\
+\beta_P,\beta_V,\beta_A &\sim \text{Normal}(0, 0.5)
+\end{align*}
+
+where $y$ is the number of successful attempts, $n$ is the total number of attempts, $P$ is a dummy variable indicating whether or not the pirate had large body size, $V$ is a dummy variable indicating whether or not the victim had large body size, and finally $A$ is a dummy variable indicating whether or not the pirate was an adult. Fit the model above to the `eagles` data. 
+
+2. Interpret the estimates and plot the posterior distributions. Compute and display both (1) the predicted probability of success and its 89% interval for each row ($i$) in the data, as well as (2) the predicted success count. and its 89% interval. What different information does each type of posterior prediction provide?
+
+3. Now try to improve the model. Consider an interaction between the pirate’s size and age (immature or adult). Compare this model to the previous one, using WAIC. Interpret.

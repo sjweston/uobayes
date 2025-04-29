@@ -102,8 +102,6 @@ website:
               file: content/18-content.qmd
             - text: "19: Generalized linear models"
               file: content/19-content.qmd
-            - text: "20: TBD"
-              file: content/20-content.qmd
     - title: "Assignments"
       contents:
         - section: "Overview"

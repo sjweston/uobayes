@@ -70,6 +70,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <meta property="og:title" content="Problem set 5 – PSY 607: Bayesian Analysis">
 <meta property="og:description" content="">
@@ -268,7 +297,21 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="questions" class="level2">
 <h2 class="anchored" data-anchor-id="questions">Questions</h2>
-<p>TBD</p>
+<p>The data contained in <code>library(MASS)</code>;<code>data(eagles)</code> are records of salmon pirating attempts by Bald Eagles in Washington State. See <code>?eagles</code> for details. While one eagle feeds, sometimes another will swoop in and try to steal the salmon from it. Call the feeding eagle the “victim” and the thief the “pirate.” Use the available data to build a binomial GLM of successful pirating attempts.</p>
+<ol type="1">
+<li>Consider the following model:</li>
+</ol>
+<p><span class="math display">\[\begin{align*}
+y_i &amp;\sim \text{Binomial}(n_i, p_i) \\
+\text{logit}(p_i) &amp;= \alpha + \beta_PP_i + \beta_VV_i + \beta_AA_i \\
+\alpha &amp;\sim \text{Normal}(0, 1.5) \\
+\beta_P,\beta_V,\beta_A &amp;\sim \text{Normal}(0, 0.5)
+\end{align*}\]</span></p>
+<p>where <span class="math inline">\(y\)</span> is the number of successful attempts, <span class="math inline">\(n\)</span> is the total number of attempts, <span class="math inline">\(P\)</span> is a dummy variable indicating whether or not the pirate had large body size, <span class="math inline">\(V\)</span> is a dummy variable indicating whether or not the victim had large body size, and finally <span class="math inline">\(A\)</span> is a dummy variable indicating whether or not the pirate was an adult. Fit the model above to the <code>eagles</code> data.</p>
+<ol start="2" type="1">
+<li><p>Interpret the estimates and plot the posterior distributions. Compute and display both (1) the predicted probability of success and its 89% interval for each row (<span class="math inline">\(i\)</span>) in the data, as well as (2) the predicted success count. and its 89% interval. What different information does each type of posterior prediction provide?</p></li>
+<li><p>Now try to improve the model. Consider an interaction between the pirate’s size and age (immature or adult). Compare this model to the previous one, using WAIC. Interpret.</p></li>
+</ol>
 
 
 </section>

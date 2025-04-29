@@ -67,215 +67,6 @@ Aggregation
 
 ---
 
-## multilevel people
-
-```{r}
-data_path = "https://raw.githubusercontent.com/sjweston/uobayes/refs/heads/main/files/data/external_data/mlm.csv"
-d <- read.csv(data_path)
-
-rethinking::precis(d)
-d %>% count(id) %>% count(n)
-```
-
-What if we wanted to estimate each person's conscientiousness score? One method would be to simply average scores for each person, but we lose a lot of information that way. Another option would be to treat each person as a group and model scores as a function of group. We can do this using an unpooled model.
-
----
-
-\begin{align*}
-\text{con}_i &\sim \text{Normal}(\mu_i,\sigma) \\
-\mu_i &= \alpha_{\text{id}[i]} \\
-\alpha_j &\sim \text{Normal}(0, 1.5) \text{ for }j=1,...,91 \\
-\sigma &\sim \text{Exponential}(1)
-\end{align*}
-
-
-```{r}
-d$id.f = as.factor(d$id)
-
-m1 <- brm(
-  data=d,
-  family=gaussian,
-  bf(con ~ 0 + a,
-     a ~ 0 + id.f,
-     nl = TRUE),
-  prior = c( prior(normal(0, 1.5), class=b, nlpar=a),
-             prior(exponential(1), class=sigma)),
-  iter=2000, warmup=1000, chains=4, cores=4, seed=9,
-  file=here("files/models/m71.1")
-)
-```
-
----
-
-```{r}
-m1
-```
-
----
-
-This is inefficient, in that the model treat each person as entirely separate. Let's try a partial pooling model.
-
-\begin{align*}
-\text{con}_i &\sim \text{Normal}(\mu_i, \sigma) \\
-\mu_i &= \alpha_{\text{id}[i]} \\
-\alpha_j &\sim \text{Normal}(\bar{\alpha}, \sigma_{\alpha}) \text{ for j in 1...91}\\
-\bar{\alpha} &\sim \text{Normal}(0, 1.5)\\
-\sigma_{\alpha} &\sim \text{Exponential}(1) \\
-\sigma \sim &\text{Exponential}(1) \\
-\end{align*}
-
-```{r}
-m2 <- brm(
-  data=d,
-  family=gaussian,
-  con ~ 1 + (1 | id), 
-  prior = c( prior(normal(0, 1.5), class=Intercept),
-             prior(exponential(1), class=sd),
-             prior(exponential(1), class=sigma)),
-  iter=2000, warmup=1000, chains=4, cores=4, seed=9,
-  file=here("files/models/m71.2")
-)
-```
-
----
-
-```{r}
-m2
-```
-
----
-
-how many parameters does each model have?
-
-```{r}
-get_variables(m1) 
-```
-
----
-
-how many parameters does each model have?
-
-```{r}
-get_variables(m1) %>% length()
-get_variables(m2) %>% length()
-```
-
-What additional parameters?
-
-`m1` has a unique intercept for each participant and a standard deviation of scores (1 $\sigma$).
-
-`m2` is estimating all of that plus a grand mean intercept and the variability of means ($\sigma_M$).
-
-(what's the extra one? `brms` lists the intercept twice. \*shrug emoji\*)
-
----
-
-And yet! 
-
-```{r}
-m1 <- add_criterion(m1, criterion = "loo")
-m2 <- add_criterion(m2, criterion = "loo")
-
-loo_compare(m1, m2) %>% print(simplify=F)
-```
-
----
-
-Let's visualize the differences in these. 
-
-```{r}
-#| code-fold: true
-nd1 = distinct(d, id.f)
-post1 = epred_draws(m1, nd1)
-nd2 = distinct(d, id)
-post2 = epred_draws(m2, nd2)
-p1 = post1 %>% 
-  ggplot( aes(y=.epred, x=id.f) ) +
-  stat_gradientinterval() +
-  scale_x_discrete(labels=NULL, breaks=NULL) +
-  labs(x="id", y="con", title = "no pooling")
-
-p2 = post2 %>% 
-  mutate(id=as.factor(id)) %>% 
-  ggplot( aes(y=.epred, x=id) ) +
-  stat_gradientinterval() +
-  scale_x_discrete(labels=NULL, breaks=NULL) +
-  labs(x="id", y="con", title = "partial pooling")
-
-p1 / p2
-```
-
----
-
-```{r}
-#| code-fold: true
-means1 = post1 %>% 
-  mean_qi(.epred)
-means2 = post2 %>% 
-  mean_qi(.epred) %>% 
-  mutate(id=as.factor(id))
-
-means1 %>% 
-  ggplot( aes(x=id.f, y=.epred)) +
-  geom_hline( aes(yintercept=mean(.epred)),
-              linetype="dashed") +
-  geom_point( aes(color="no pooling") ) +
-  geom_point( aes(x=id, color="partial pooling"),
-              data=means2,
-              size=2) +
-  scale_color_manual( values=c("#e07a5f", "#1c5253") ) +
-  scale_x_discrete(breaks=NULL) +
-  labs(x="id", y="con")+
-  theme(legend.position = "top")
-```
-
----
-
-## extracting estimates
-
-Yikes!
-
-```{r}
-as_draws_df(m2) %>% round(2)
-```
-
----
-
-### extracting estimates: a better way
-
-These estimates are deviations from the weighted average. Also note the grouped structure of this object.
-
-```{r}
-#
-m2 %>% spread_draws(r_id[id, term]) # <1>
-```
-
-1. `id` and `term` become the names of the columns in our resulting object. You can use whatever strings you want here. 
-
----
-
-### extracting estimates: a better way
-
-These estimates are deviations from the weighted average. Also note the grouped structure of this object.
-
-```{r}
-#
-m2 %>% spread_draws(r_id[id, term]) %>% 
-  mean_qi()
-```
-
----
-
-If you want to get the real means (not the deviations from the grand mean, just grab the estimate of the grand mean.)
-
-```{r}
-m2 %>% spread_draws(b_Intercept, r_id[id, term]) %>% 
-  mutate(r_id = b_Intercept + r_id) %>% 
-  mean_qi(r_id)
-```
-
----
-
 ## more than one type of cluster
 
 McElreath doesn't cover this in his video lecture, but this is from the textbook and worth discussing.
@@ -500,10 +291,12 @@ labels <- c("R/N", "L/N", "R/P", "L/P")
 nd <- distinct(d, treatment, actor) %>% 
   mutate(block=1)
 
-f <- fitted(m3,newdata = nd, re_formula = NULL) %>% 
-  data.frame() %>% 
-  bind_cols(nd) %>% 
-  mutate(treatment = factor(treatment, labels = labels))
+f <- add_epred_draws(m3,newdata = nd) %>% 
+  mutate(treatment = factor(treatment, 
+                            levels = c("1", "2", "3", "4"), 
+                            labels = labels)) %>% 
+  group_by(actor, treatment) %>% 
+  mean_qi(.epred)
 ```
 
 ---
@@ -512,8 +305,8 @@ f <- fitted(m3,newdata = nd, re_formula = NULL) %>%
 #| code-fold: true
 
 f %>% 
-  ggplot( aes(x=treatment, y=Estimate, group=1) ) +
-  geom_ribbon(aes( ymin=Q2.5, ymax=Q97.5 ), 
+  ggplot( aes(x=treatment, y=.epred, group=1) ) +
+  geom_ribbon(aes( ymin=.lower, ymax=.upper ), 
               fill = "#0f393a",
               alpha=.3) +
   geom_line(color="#0f393a") +
@@ -535,8 +328,8 @@ obs = d %>%
 
 
 f %>% 
-  ggplot( aes(x=treatment, y=Estimate, group=1) ) +
-  geom_ribbon(aes( ymin=Q2.5, ymax=Q97.5 ), 
+  ggplot( aes(x=treatment, y=.epred, group=1) ) +
+  geom_ribbon(aes( ymin=.lower, ymax=.upper ), 
               fill = "#0f393a",
               alpha=.3) +
   geom_point( aes(y=p), 
@@ -560,10 +353,12 @@ labels <- c("R/N", "L/N", "R/P", "L/P")
 nd <- distinct(d, treatment) %>% 
   mutate(block=1)
 
-f_avg <- fitted(m3,newdata = nd, re_formula = NA) %>% 
-  data.frame() %>% 
-  bind_cols(nd) %>% 
-  mutate(treatment = factor(treatment, labels = labels))
+f_avg <- add_epred_draws(m3,newdata = nd, re_formula = NA) %>% 
+  mutate(treatment = factor(treatment, 
+                            levels=as.character(1:4),
+                            labels = labels)) %>% 
+  group_by(treatment) %>% 
+  mean_qi(.epred)
 ```
 
 ---
@@ -574,12 +369,12 @@ We'll add the average chimp to the plot.
 #| code-fold: true
 
 f %>% 
-  ggplot( aes(x=treatment, y=Estimate, group=1) ) +
-  geom_ribbon(aes( ymin=Q2.5, ymax=Q97.5 ), 
+  ggplot( aes(x=treatment, y=.epred, group=1) ) +
+  geom_ribbon(aes( ymin=.lower, ymax=.upper ), 
               fill = "#0f393a",
               alpha=.3) +
   geom_line(color="#0f393a") +
-  geom_ribbon(aes( ymin=Q2.5, ymax=Q97.5 ), 
+  geom_ribbon(aes( ymin=.lower, ymax=.upper ), 
               data=f_avg,
               fill = "#e07a5f",
               alpha=.3) +
@@ -594,20 +389,19 @@ But the average chimp is only one possible chimp we could encounter. Let's simul
 
 ```{r}
 #| code-fold: true
-#| 
-post = as_draws_df(m3)
 
-post %>% 
-  slice_sample(n=100) %>% 
-  # simulate chimps
-  mutate(a_sim = rnorm(n(), mean = b_a_Intercept, sd = sd_actor__a_Intercept)) %>% 
-  pivot_longer(b_b_treatment1:b_b_treatment4) %>% 
-  mutate(fitted = inv_logit_scaled(a_sim + value)) %>% 
-  mutate(treatment = factor(str_remove(name, "b_b_treatment"),
+nd = expand_grid( actor= max(d$actor) + 1,
+                  treatment = as.factor(1:4),
+                  block=1)
+
+add_epred_draws(nd, m3, allow_new_levels=T) %>% 
+  filter(.draw <= 100) %>% 
+  mutate(treatment = factor(treatment,
+                            levels=as.character(1:4),
                             labels = labels)) %>%
-  ggplot(aes(x = treatment, y = fitted, group = .draw)) +
+  ggplot(aes(x = treatment, y = .epred, group = .draw)) +
   geom_line(alpha = 1/2, color = "#e07a5f") +
-  coord_cartesian(ylim = 0:1) 
+  coord_cartesian(ylim = 0:1)
 ```
 
 ---
@@ -635,21 +429,16 @@ part3 = sample( unique(Trolley$id) , size=3, replace=F )
 nd <- distinct(Trolley, action, intention, contact, id) %>% 
   filter(id %in% part3)
 
-f <- fitted(m_varying, newdata = nd, scale = "response") %>% 
-  data.frame() %>% 
-  bind_cols(nd) 
+f <- add_epred_draws(newdata = nd, 
+                     m_varying, 
+                     scale = "response") 
 
 f %>% 
-  pivot_longer(-c(action:id),
-               names_sep = "\\.{3}",
-               names_to = c("stat", "response")) %>% 
-  pivot_wider(names_from = stat, values_from = value) %>% 
-  mutate(response = str_sub(response, 1, 1)) %>% 
-  ggplot(aes(x=response, y=Estimate.P.Y, fill=as.factor(intention))) +
-  geom_bar(stat="identity", position="dodge") +
-  labs(y="p") +
+  ggplot(aes(x=.category, y=.epred, color=as.factor(intention))) +
+  stat_halfeye() +
+  labs(y="p", color = "intention") +
   facet_grid(action+contact~id) +
-  theme(legend.position = "bottom")
+  theme(legend.position = "top")
 ```
 
 ---
@@ -663,22 +452,15 @@ The average participant
 
 nd <- distinct(Trolley, action, intention, contact) 
 
-f <- fitted(m_varying, newdata = nd, scale = "response", 
-            re_formula = NA) %>% 
-  data.frame() %>% 
-  bind_cols(nd) 
+f <- add_epred_draws(newdata = nd, m_varying, scale = "response", 
+            re_formula = NA) 
 
 f %>% 
-  pivot_longer(-c(action:contact),
-               names_sep = "\\.{3}",
-               names_to = c("stat", "response")) %>% 
-  pivot_wider(names_from = stat, values_from = value) %>% 
-  mutate(response = str_sub(response, 1, 1)) %>% 
-  ggplot(aes(x=response, y=Estimate.P.Y, fill=as.factor(intention))) +
-  geom_bar(stat="identity", position="dodge") +
-  labs(y="p") +
+  ggplot(aes(x=.category, y=.epred, color=as.factor(intention))) +
+  stat_halfeye() +
+  labs(y="p", color = "intention") +
   facet_grid(action~contact) +
-  theme(legend.position = "bottom")
+  theme(legend.position = "top")
 ```
 
 ---
@@ -693,19 +475,13 @@ nd <- distinct(Trolley, action, intention, contact) %>%
   mutate(id = rep(c("New1", "New2"), each = n()/2))
 
 # get predictions including random effects
-f <- fitted(m_varying, newdata = nd, 
+f <- add_epred_draws(m_varying, newdata = nd, 
             scale = "response", allow_new_levels=T) %>% 
-  data.frame() %>% 
-  bind_cols(nd) 
+  filter(.draw==1)
 
 # plot
 f %>% 
-  pivot_longer(-c(action:id),
-               names_sep = "\\.{3}",
-               names_to = c("stat", "response")) %>% 
-  pivot_wider(names_from = stat, values_from = value) %>% 
-  mutate(response = str_sub(response, 1, 1)) %>% 
-  ggplot(aes(x=response, y=Estimate.P.Y, fill=as.factor(intention))) +
+  ggplot(aes(x=.category, y=.epred, fill=as.factor(intention))) +
   geom_bar(stat="identity", position="dodge") +
   labs(y="p", fill="intention") +
   facet_grid(action+contact~id) +

@@ -1,6 +1,6 @@
 ---
 title: "Generalized linear models"
-date: "2025-06-03"
+date: "2025-06-05"
 ---
 
 ```{r slides-videos, echo=FALSE, include=FALSE}

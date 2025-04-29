@@ -1,11 +1,9 @@
 {
-  "hash": "6438270f85f7014dcbce859374829dff",
+  "hash": "ee591ccb7b2985faf0e739424a8b7e66",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Problem set 5\"\ndate: \"2025-05-05\"\n---\n\n\n\n\n\n\n## Instructions\n\nPlease use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas. \n\n## Questions\n\nTBD ",
-    "supporting": [
-      "05-problem-set_files"
-    ],
+    "markdown": "---\ntitle: \"Problem set 5\"\ndate: \"2025-05-05\"\n---\n\n\n\n\n\n\n## Instructions\n\nPlease use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas. \n\n## Questions\n\nThe data contained in `library(MASS)`;`data(eagles)` are records of salmon pirating attempts by Bald Eagles in Washington State. See `?eagles` for details. While one eagle feeds, sometimes another will swoop in and try to steal the salmon from it. Call the feeding eagle the \"victim\" and the thief the \"pirate.\" Use the available data to build a binomial GLM of successful pirating attempts.\n\n1. Consider the following model:\n\n\\begin{align*}\ny_i &\\sim \\text{Binomial}(n_i, p_i) \\\\\n\\text{logit}(p_i) &= \\alpha + \\beta_PP_i + \\beta_VV_i + \\beta_AA_i \\\\\n\\alpha &\\sim \\text{Normal}(0, 1.5) \\\\\n\\beta_P,\\beta_V,\\beta_A &\\sim \\text{Normal}(0, 0.5)\n\\end{align*}\n\nwhere $y$ is the number of successful attempts, $n$ is the total number of attempts, $P$ is a dummy variable indicating whether or not the pirate had large body size, $V$ is a dummy variable indicating whether or not the victim had large body size, and finally $A$ is a dummy variable indicating whether or not the pirate was an adult. Fit the model above to the `eagles` data. \n\n2. Interpret the estimates and plot the posterior distributions. Compute and display both (1) the predicted probability of success and its 89% interval for each row ($i$) in the data, as well as (2) the predicted success count. and its 89% interval. What different information does each type of posterior prediction provide?\n\n3. Now try to improve the model. Consider an interaction between the pirate’s size and age (immature or adult). Compare this model to the previous one, using WAIC. Interpret.\n",
+    "supporting": [],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],

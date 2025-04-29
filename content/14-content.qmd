@@ -1,6 +1,6 @@
 ---
 title: "Multivariate priors"
-date: "2025-05-15"
+date: "2025-05-20"
 ---
 
 ```{r slides-videos, echo=FALSE, include=FALSE}

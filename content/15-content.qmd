@@ -1,6 +1,6 @@
 ---
 title: "Social networks"
-date: "2025-05-20"
+date: "2025-05-22"
 ---
 
 ```{r slides-videos, echo=FALSE, include=FALSE}

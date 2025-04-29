@@ -1,0 +1,571 @@
+---
+title: "week 6: multilevel models"
+subtitle: "multilevel tadpoles"
+format: 
+  revealjs:
+    css: xaringan-themer2.css
+    nature:
+      highlightStyle: solarized-dark
+      highlightLines: true
+      countIncrementalSlides: false
+      mathjax: "default"
+    self-contained: false  # Ensures correct embedding
+    embed-resources: true  # Embeds required assets
+    slide-number: true
+    code-annotations: hover
+execute:
+  echo: false        
+---
+
+```{r, message = F, warning = F}
+library(tidyverse)
+library(janitor)
+library(cowplot)
+library(patchwork)
+library(here)
+library(brms) 
+library(tidybayes) 
+```
+
+```{r, echo = F}
+knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
+theme_set(theme_cowplot())
+default_palettes <- list(
+  c("#5e8485" , "#0f393a") ,
+  c("#1c5253" , "#5e8485" , "#0f393a") , 
+  # palette with 5 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" ) ,
+  # same palette interpolated to 8 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" ) 
+  
+)
+
+options(ggplot2.discrete.fill = default_palettes, 
+        ggplot2.discrete.colour = default_palettes)
+```
+
+## multilevel models
+
+We're starting our unit on multilevel models, which can be thought of as models that "remember" features of clusters of data as they learn about all the clusters. The model will pool information across clusters (e.g., our estimates about cluster A will be informed in part by clusters B, C, and D). This tends to improve estimates about each cluster. Here are some other benefits of multilevel modeling:
+
+1.  **improved estimates for repeated sampling.** If you try to fit a single-level model to these data, you'll over- or under-fit the data.
+2.  **improved estimates for imbalance in sampling.** prevent over-sampled clusters from dominating inference, while also balancing the fact that larger clusters have more information.
+3.  **estimates of variation.** model variation explicitly!
+4.  **avoid averaging, retain variation.** averaging manufactures false confidence (artificially inflates precision) and introduces arbitrary data transformations.
+
+Multilevel modeling should be your default approach.
+
+------------------------------------------------------------------------
+
+## example: multilevel people
+
+```{r}
+data_path = "https://raw.githubusercontent.com/sjweston/uobayes/refs/heads/main/files/data/external_data/mlm.csv"
+d <- read.csv(data_path)
+
+rethinking::precis(d)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| code-fold: true
+set.seed(114)
+sample_id = sample(unique(d$id), replace=F, size=20)
+d %>%
+  filter(id %in% sample_id) %>% 
+  ggplot(aes(x = week, y = con, group = id, fill = id)) + 
+  geom_point(aes(color = factor(id))) + 
+  stat_smooth(aes(color = factor(id)),
+              method = "lm", se = FALSE) +
+  theme(legend.position = "none")
+```
+
+------------------------------------------------------------------------
+
+What if we wanted to estimate each person's conscientiousness score? One method would be to simply average scores for each person, but we lose a lot of information that way. Another option would be to treat each person as a group and model scores as a function of group. We can do this using an unpooled model.
+
+---
+
+\begin{align*}
+\text{con}_i &\sim \text{Normal}(\mu_i,\sigma) \\
+\mu_i &= \alpha_{\text{id}[i]} \\
+\alpha_j &\sim \text{Normal}(0, 1.5) \text{ for }j=1,...,91 \\
+\sigma &\sim \text{Exponential}(1)
+\end{align*}
+
+
+```{r}
+d$id.f = as.factor(d$id)
+
+m1 <- brm(
+  data=d,
+  family=gaussian,
+  bf(con ~ 0 + a,
+     a ~ 0 + id.f,
+     nl = TRUE),
+  prior = c( prior(normal(0, 1.5), class=b, nlpar=a),
+             prior(exponential(1), class=sigma)),
+  iter=2000, warmup=1000, chains=4, cores=4, seed=9,
+  file=here("files/models/m62.1")
+)
+```
+
+---
+
+```{r}
+m1
+```
+
+---
+
+This is inefficient, in that the model treat each person as entirely separate. Let's try a partial pooling model.
+
+\begin{align*}
+\text{con}_i &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \alpha_{\text{id}[i]} \\
+\alpha_j &\sim \text{Normal}(\bar{\alpha}, \sigma_{\alpha}) \text{ for j in 1...91}\\
+\bar{\alpha} &\sim \text{Normal}(0, 1.5)\\
+\sigma_{\alpha} &\sim \text{Exponential}(1) \\
+\sigma \sim &\text{Exponential}(1) \\
+\end{align*}
+
+```{r}
+m2 <- brm(
+  data=d,
+  family=gaussian,
+  con ~ 1 + (1 | id), 
+  prior = c( prior(normal(0, 1.5), class=Intercept),
+             prior(exponential(1), class=sd),
+             prior(exponential(1), class=sigma)),
+  iter=2000, warmup=1000, chains=4, cores=4, seed=9,
+  file=here("files/models/m62.2")
+)
+```
+
+---
+
+```{r}
+m2
+```
+
+---
+
+how many parameters does each model have?
+
+```{r}
+get_variables(m1) 
+```
+
+---
+
+how many parameters does each model have?
+
+```{r}
+get_variables(m1) %>% length()
+get_variables(m2) %>% length()
+```
+
+What additional parameters?
+
+`m1` has a unique intercept for each participant and a standard deviation of scores (1 $\sigma$).
+
+`m2` is estimating all of that plus a grand mean intercept and the variability of means ($\sigma_M$).
+
+(what's the extra one? `brms` lists the intercept twice. \*shrug emoji\*)
+
+---
+
+And yet! 
+
+```{r}
+m1 <- add_criterion(m1, criterion = "loo")
+m2 <- add_criterion(m2, criterion = "loo")
+
+loo_compare(m1, m2) %>% print(simplify=F)
+```
+
+---
+
+Let's visualize the differences in these. 
+
+```{r}
+#| code-fold: true
+nd1 = distinct(d, id.f)
+post1 = epred_draws(m1, nd1)
+nd2 = distinct(d, id)
+post2 = epred_draws(m2, nd2)
+p1 = post1 %>% 
+  ggplot( aes(y=.epred, x=id.f) ) +
+  stat_gradientinterval() +
+  scale_x_discrete(labels=NULL, breaks=NULL) +
+  labs(x="id", y="con", title = "no pooling")
+
+p2 = post2 %>% 
+  mutate(id=as.factor(id)) %>% 
+  ggplot( aes(y=.epred, x=id) ) +
+  stat_gradientinterval() +
+  scale_x_discrete(labels=NULL, breaks=NULL) +
+  labs(x="id", y="con", title = "partial pooling")
+
+p1 / p2
+```
+
+---
+
+```{r}
+#| code-fold: true
+means1 = post1 %>% 
+  mean_qi(.epred)
+means2 = post2 %>% 
+  mean_qi(.epred) %>% 
+  mutate(id=as.factor(id))
+
+means1 %>% 
+  ggplot( aes(x=id.f, y=.epred)) +
+  geom_hline( aes(yintercept=mean(.epred)),
+              linetype="dashed") +
+  geom_point( aes(color="no pooling") ) +
+  geom_point( aes(x=id, color="partial pooling"),
+              data=means2,
+              size=2) +
+  scale_color_manual( values=c("#e07a5f", "#1c5253") ) +
+  scale_x_discrete(breaks=NULL) +
+  labs(x="id", y="con")+
+  theme(legend.position = "top")
+```
+
+------------------------------------------------------------------------
+
+\begin{align*}
+\text{con}_{ij} &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \alpha_{id[i]} \\
+\alpha_{id[i]} &\sim \text{Normal}(\bar{\alpha}, 1) \text{ for i in } 1...91\\
+\bar{\alpha} &\sim \text{Normal}(.50,.25) \\
+\sigma &\sim \text{Exponential}(1) \\
+\end{align*}
+
+Another way to write out the expected value of $\mu_j$ is:
+
+$$
+\mu_j = \bar{\alpha} + \alpha_{i[ID]}
+$$
+
+Where $\bar{\alpha}$ is the mean of the means and $\alpha_{i[ID]}$ is the deviation of each person from the grand mean. There will be one $\bar{\alpha}$ for the entire sample, but a different $\alpha_{i[ID]}$ for each person. Because there are multiple values for each person, we can calculate the variability of those $\alpha$'s, as well as the residual variability within each person.
+
+------------------------------------------------------------------------
+
+\begin{align*}
+\text{con}_{ij} &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \bar{\alpha} + \alpha_{id[i]} \\
+\bar{\alpha} &\sim \text{Normal}(.50,.25) \\
+\sigma &\sim \text{Exponential}(1) \\
+\sigma_{\alpha} &\sim \text{Exponential}(1) \\
+\end{align*}
+
+In this reparameterization, we no longer need a prior for each of the person-means. That's because they must have a mean of 0. Instead, we only need to estimate the variability $(\sigma_{\alpha})$ of these deviations.
+
+In other words, this model is analogous to an ANOVA, in which we calculate both within- and between-group (aka person) variability. Therefore, we'll have a standard deviation for both levels.
+
+------------------------------------------------------------------------
+
+**magical `tidybayes`**
+
+```{r}
+spread_draws(m2, b_Intercept, r_id[id, term])
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| code-fold: true
+
+spread_draws(m2, b_Intercept, r_id[id, term]) %>% 
+  mutate(p_mean = b_Intercept + r_id) %>% 
+  filter(id %in% sample_id) %>% 
+  ggplot(aes(x = id, y = p_mean)) + 
+  geom_hline( aes(yintercept = mean(d$con)),
+              linetype="dashed") +
+  stat_halfeye(alpha =.5) 
+```
+
+------------------------------------------------------------------------
+
+::::: columns
+::: {.column width="40%"}
+In this figure, we can visualize three approaches to pooling:
+
+-   **NO POOLING**: each person's mean is calculated from only their own data, there is no sharing of information. (black dots)
+-   **COMPLETE POOLING**: any differences between people are just random noise. The mean of the whole group is the only estimate and is assumed to apply equally to each person (dashed line).
+-   **PARTIAL POOLING**: information is shared across participants, but they are assumed to be different. We regularize estimates of person-specific means towards the grand mean. The more information we have on a person, the less their estimate is regularized.
+:::
+
+::: {.column width="60%"}
+```{r}
+#| code-fold: true
+
+actual_means = d %>% 
+  with_groups(id, summarise, p_mean = mean(con)) %>% 
+  mutate()
+
+spread_draws(m2, b_Intercept, r_id[id, term]) %>% 
+  mutate(p_mean = b_Intercept + r_id) %>% 
+  mean_qi(p_mean) %>% 
+  filter(id %in% sample_id) %>% 
+  ggplot( aes(x=id, y=p_mean) ) +
+  geom_hline( aes(yintercept = mean(d$con)),
+              linetype="dashed") +
+  geom_point( size=2, color="#e07a5f") + 
+  geom_point( data=filter(actual_means, 
+                          id %in% sample_id)) +
+  labs(x="id",y="con")
+```
+:::
+:::::
+
+
+
+------------------------------------------------------------------------
+
+## writing our mulitilevel model
+
+It's common to write out mulitlevel models using formulas for the different levels. Level 1 is the level of your outcome, or the thing that repeats. Level 2 is the level of your groups.
+
+\begin{align*}
+\text{Level 1} &\\
+\text{con}_{ij} &= \alpha_i + \epsilon_{ij} \\
+\text{Level 2} &\\
+\alpha_i &= \gamma_0 + U_i
+\end{align*}
+
+Some refer to $U_j$ as a "random" or "varying" effect because it varies across groups. $\gamma_0$ is therefore a "fixed" or "non-varying" effect because it applies to all groups.
+
+------------------------------------------------------------------------
+
+### drawing from the posterior
+
+We've already seen how we can use `spread_draws` to get our parameter estimates.
+
+```{r}
+m2 %>% spread_draws(b_Intercept, sigma, sd_id__Intercept) %>% head
+
+m2 %>% spread_draws(r_id[id, term]) %>% head
+```
+
+------------------------------------------------------------------------
+
+We can get **expected** values (means) for individuals in our sample.
+
+```{r}
+set.seed(9)
+sample_id = sample(unique(d$id), replace=F, size=3)
+
+nd = data.frame(id=sample_id)
+
+add_epred_draws(newdata=nd, object=m2) %>% 
+  mean_qi()
+```
+
+------------------------------------------------------------------------
+
+We can get **predicted** values (scores) for individuals in our sample.
+
+```{r}
+add_predicted_draws(newdata=nd, object=m1) %>% 
+  mean_qi()
+```
+
+------------------------------------------------------------------------
+
+### expected values vs predicted values
+
+```{r}
+#| code-fold: true
+
+expected = add_epred_draws(newdata=nd, object=m1)
+predicted = add_predicted_draws(newdata=nd, object=m1)
+
+full_join(expected, predicted) %>% 
+  filter(.draw <= 100) %>% 
+  ungroup() %>% 
+  ggplot( aes(x=id, y=.epred)) +
+  stat_halfeye( aes(fill="expected"),
+                alpha=.3) +
+  stat_halfeye( aes(y =.prediction, fill="predicted"), 
+                alpha=.3 ) +
+  scale_fill_manual( values=c("#e07a5f","#1c5253") ) +
+  labs(x="id", y="con", fill="draw") +
+  scale_x_continuous(breaks=sample_id) +
+  theme(legend.position = "top")
+```
+
+------------------------------------------------------------------------
+
+Finally, we can get expected values for **new** individuals
+
+```{r}
+#| code-fold: true
+
+new_id = max(d$id) + seq(1:3)
+
+nd = data.frame(id=new_id)
+
+add_epred_draws(newdata=nd, object=m1, 
+                allow_new_levels=T) %>% 
+  ggplot( aes(x=id, y=.epred) ) +
+  stat_halfeye()
+```
+
+------------------------------------------------------------------------
+
+## adding covariates
+
+Let's add time to our model. Because time varies (can change) within person from assessment to assessment, this is a Level 1 variable. Note that I have NOT added a varying component to Level 2 -- in other words, I'm stating that the effect of time on conscientiousness is fixed or identical across participants.
+
+\begin{align*}
+\text{Level 1} &\\
+\text{con}_{ij} &= \alpha_i + \beta_i(\text{week}_{ij}) + \epsilon_{ij} \\
+\text{Level 2} &\\
+\alpha_i &= \gamma_0 + U_{0i} \\
+\beta_i  &= \gamma_1  \\
+\end{align*}
+
+```{r}
+m2 <- brm(
+  data=d,
+  family=gaussian,
+  con ~ 1 + week + (1 | id), 
+  prior = c( prior(normal(.50, .25), class=Intercept),
+             prior(normal(0, 1), class=b), #new prior for new term
+             prior(exponential(1), class=sd),
+             prior(exponential(1), class=sigma)),
+  iter=2000, warmup=1000, chains=4, cores=4, seed=9,
+  file=here("files/models/m62.2")
+)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+m2
+```
+
+------------------------------------------------------------------------
+
+There are different intercepts for each participant, but not different slopes.
+
+```{r}
+get_variables(m2)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| code-fold: true
+
+set.seed(9)
+sample_id = sample(unique(d$id), replace=F, size = 20)
+distinct(d, id, week) %>% 
+  filter(id %in% sample_id) %>% 
+  add_epred_draws(m2) %>% 
+  mean_qi() %>% 
+  ggplot( aes(x=week, y=.epred, color=as.factor(id))) +
+  geom_point() +
+  geom_line() +
+  guides(color=F) +
+  labs(x="week",y="con")
+```
+
+---
+
+## level 2 covariates
+
+We can also add covariates at Level 2, or the person-level in this case. We have a binary variable called `group` that refers to each person.
+
+\begin{align*}
+\text{Level 1} &\\
+\text{con}_{ij} &= \alpha_i + \beta_i(\text{week}_{ij}) + \epsilon_{ij} \\
+\text{Level 2} &\\
+\alpha_i &= \gamma_{0}_{\text{group}[i]} + U_{0i} \\
+\beta_i  &= \gamma_{1}  \\
+\end{align*}
+
+```{r}
+m3 <- brm(
+  data=d,
+  family=gaussian,
+    con ~ 0 + week + group + (1 | id), 
+  prior = c( prior(normal(0, 1), class=b), # this prior still works!
+             prior(exponential(1), class=sd),
+             prior(exponential(1), class=sigma)),
+  iter=5000, warmup=1000, chains=4, cores=4, seed=9,
+  file=here("files/models/m62.3")
+)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+m3
+```
+
+------------------------------------------------------------------------
+
+```{r}
+get_variables(m3)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| code-fold: true
+
+set.seed(9)
+sample_id = sample(unique(d$id), replace=F, size = 20)
+distinct(d, id, group, week) %>% 
+  filter(id %in% sample_id) %>% 
+  add_epred_draws(m2) %>% 
+  mean_qi() %>% 
+  ggplot( aes(x=week, y=.epred, group = as.factor(id), color=group)) +
+  geom_point() +
+  geom_line() +
+  scale_color_manual(values=c("#1c5253" , "#e07a5f")) +
+  labs(x="week",y="con") +
+  theme(legend.position = "top")
+```
+
+
+---
+
+So far, we've only added covariates to the estimates of the intercept. But we can have covariates on our slope parameters. These are interactions (the effect of variable X on Y changes as a function of variable Z.) And they introduce additional parameters into our model.
+
+\begin{align*}
+\text{Level 1} &\\
+\text{con}_{ij} &= \alpha_i + \beta_i(\text{week}_{ij}) + \epsilon_{ij} \\
+\text{Level 2} &\\
+\alpha_i &= \gamma_{0} + U_{0i} \\
+\beta_i  &= \gamma_{1} + U_{1i}  \\
+\end{align*}
+
+```{r}
+m5 <- brm(
+  data=d,
+  family=gaussian,
+    con ~ 1 + week + (1 + week | id), 
+  prior = c( prior(normal(0, 1), class=Intercept),
+             prior(normal(0, 1), class=b), 
+             prior(exponential(1), class=sd),
+             prior(exponential(1), class=sigma)),
+  iter=5000, warmup=1000, chains=4, cores=4, seed=9,
+  file=here("files/models/m62.5")
+)
+```
+
+---
+
+Note the hyperparameter, `cor(Intercept, week)`
+
+```{r}
+m5
+```
+

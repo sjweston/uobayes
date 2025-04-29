@@ -1,0 +1,623 @@
+---
+title: "week 7: multilevel models"
+subtitle: "multilevel adventures"
+format: 
+  revealjs:
+    css: xaringan-themer2.css
+    nature:
+      highlightStyle: solarized-dark
+      highlightLines: true
+      countIncrementalSlides: false
+      mathjax: "default"
+    self-contained: false  # Ensures correct embedding
+    embed-resources: true  # Embeds required assets
+    slide-number: true
+    code-annotations: hover
+execute:
+  echo: false        
+---
+
+```{r, message = F, warning = F}
+library(tidyverse)
+library(psych)
+library(cowplot)
+library(patchwork)
+library(here)
+library(brms) 
+library(tidybayes) 
+```
+
+
+```{r, echo = F}
+knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
+theme_set(theme_cowplot())
+default_palettes <- list(
+  c("#5e8485" , "#0f393a") ,
+  c("#1c5253" , "#5e8485" , "#0f393a") , 
+  # palette with 5 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" ) ,
+  # same palette interpolated to 8 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" ) 
+  
+)
+
+options(ggplot2.discrete.fill = default_palettes, 
+        ggplot2.discrete.colour = default_palettes)
+```
+
+---
+
+## mlm
+
+Often, there are opportunities to cluster your observations -- repeated measures, group membership, hierarchies, even different measures for the same particiapnt. Whenever you can cluster, you should!
+
+* Aggregation is bad
+* Regressions within regressions (ie coefficients as outcomes)
+* Questions at different levels
+* Variance decomposition
+* Learning from other data through pooling/shrinkage
+* Parameters that depend on parameters
+
+:::{.notes}
+Aggregation
+* Between person H1: Do students who study more get better grades?
+* Within person H2: When a student studies, do they get better grades?
+* H1 and H2 are independent from one another! Aggregation collapses the two. When you have nested data with many DVs it is important to not aggregate.
+:::
+
+---
+
+## more than one type of cluster
+
+McElreath doesn't cover this in his video lecture, but this is from the textbook and worth discussing.
+
+::::: columns
+
+::: {.column width="50%"}
+
+```{r}
+data(chimpanzees, package="rethinking")
+d <- chimpanzees
+rethinking::precis(d)
+```
+
+:::
+
+::: {.column width="50%"}
+Data from [Silk et al. (2005)](https://www.nature.com/articles/nature04243)
+
+![](images/7-1_chimp.png)
+:::
+
+:::::
+
+:::{.notes}
+From McElreath: 
+
+The data for this example come from an experiment aimed at evaluating the prosocial tendencies of chimpanzees (_Pan troglodytes_). The experimental structure mimics many common experiments conducted on human students (_Homo sapiens studiensis_) by economists and psychologists. A focal chimpanzee sits at one end of a long table with two levers, one on the left and one on the right in this figure. On the table are four dishes which may contain desirable food items. The two dishes on the right side of the table are attached by a mechanism to the right-hand lever. The two dishes on the left side are similarly attached to the left-hand lever.
+
+When either the left or right lever is pulled by the focal animal, the two dishes on the same side slide towards opposite ends of the table. This delivers whatever is in those dishes to the opposite ends. In all experimental trials, both dishes on the focal animal’s side contain food items. But only one of the dishes on the other side of the table contains a food item. Therefore while both levers deliver food to the focal animal, only one of the levers delivers food to the other side of the table.
+
+There are two experimental conditions. In the partner condition, another chimpanzee is seated at the opposite end of the table, as pictured in the figure. In the control condition, the other side of the table is empty. Finally, two counterbalancing treatments alternate which side, left or right, has a food item for the other side of the table. This helps detect any handedness preferences for individual focal animals.
+
+When human students participate in an experiment like this, they nearly always choose the lever linked to two pieces of food, the prosocial option, but only when another student sits on the opposite side of the table. The motivating question is whether a focal chimpanzee behaves similarly, choosing the prosocial option more often when another animal is present. In terms of linear models, we want to estimate the interaction between condition (presence or absence of another animal) and option (which side is prosocial).
+:::
+
+
+------------------------------------------------------------------------
+
+```{r}
+unique(d$actor)
+unique(d$block)
+unique(d$prosoc_left)
+unique(d$condition)
+```
+
+
+We could model the interaction between condition (presence/absence of another animal) and option (which side is prosocial), but it is more difficult to assign sensible priors to interaction effects. Another option, because we're working with categorical variables, is to turn our 2x2 into one variable with 4 levels. 
+
+```{r}
+d$treatment <- factor(1 + d$prosoc_left + 2*d$condition)
+d %>% count(treatment, prosoc_left, condition)
+```
+
+---
+
+In this experiment, each pull is within a cluster of pulls belonging to an individual chimpanzee. But each pull is also within an experimental block, which represents a collection of observations that happened on the same day. So each observed pull belongs to both an actor (1 to 7) and a block (1 to 6). There may be unique intercepts for each actor as well as for each block.
+
+Mathematical model:
+
+\begin{align*}
+L_i &\sim \text{Binomial}(1, p_i) \\
+\text{logit}(p_i) &= \bar{\alpha} + \alpha_{\text{ACTOR[i]}} + \bar{\gamma} + \gamma_{\text{BLOCK[i]}} +  \beta_{\text{TREATMENT[i]}} \\
+\beta_j &\sim \text{Normal}(0, 0.5) \text{ , for }j=1..4\\
+\alpha_j &\sim \text{Normal}(0, \sigma_{\alpha}) \text{ , for }j=1..7\\
+\gamma_j &\sim \text{Normal}(0, \sigma_{\gamma}) \text{ , for }j=1..7\\
+\bar{\alpha} &\sim \text{Normal}(0, 1.5) \\
+\bar{\gamma} &\sim \text{Normal}(0, 1.5) \\
+\sigma_{\alpha} &\sim \text{Exponential}(1) \\
+\sigma_{\gamma} &\sim \text{Exponential}(1) \\
+\end{align*}
+
+----
+
+
+```{r}
+m1 <- 
+  brm(
+    family = bernoulli,
+    data = d, 
+    pulled_left ~ 0 + treatment + (1 | actor) + (1 | block), 
+    prior = c(prior(normal(0, 1.5), class = b),
+              prior(exponential(1), class = sd, group = actor),
+              prior(exponential(1), class = sd, group = block)),
+    chains=4, cores=4, iter=2000, warmup=1000,
+    seed = 1,
+    file = here("files/models/71.1")
+  )
+```
+
+------------------------------------------------------------------------
+
+```{r}
+m1
+```
+
+---
+
+```{r}
+posterior_summary(m1)
+```
+
+---
+
+```{r}
+m1 %>% 
+  mcmc_plot(variable = c("^r_", "^b_", "^sd_"), regex = T) +
+  theme(axis.text.y = element_text(hjust = 0))
+```
+
+---
+
+Zooming in on just the actor and block effects. (Remember, these are differences from the weighted average.)
+
+```{r}
+m1 %>% 
+  mcmc_plot(variable = c("^r_"), regex = T) +
+  theme(axis.text.y = element_text(hjust = 0))
+```
+
+---
+
+```{r}
+#| code-fold: true
+as_draws_df(m1) %>% 
+  select(starts_with("sd")) %>% 
+  pivot_longer(everything()) %>% 
+  ggplot(aes(x = value, fill = name)) +
+  geom_density(linewidth = 0, alpha = 3/4, adjust = 2/3, show.legend = F) +
+  annotate(geom = "text", x = 0.67, y = 2, label = "block", color = "#5e8485") +
+  annotate(geom = "text", x = 2.725, y = 0.5, label = "actor", color = "#0f393a") +
+  scale_fill_manual(values = c("#0f393a", "#5e8485")) +
+  scale_y_continuous(NULL, breaks = NULL) +
+  ggtitle(expression(sigma["group"])) +
+  coord_cartesian(xlim = c(0, 4))
+```
+
+---
+
+Let's look at the predictions by actor and block to confirm.
+
+```{r}
+d %>% distinct(actor, block, treatment) %>% 
+  add_epred_draws(m1) %>% 
+  mutate(treatment=factor(treatment,
+                          levels=as.character(1:4),
+                          labels=labels)) %>% 
+  group_by(actor, treatment) %>% 
+  mean_qi(.epred) %>% 
+  ggplot( aes(x=treatment, y=.epred, group=1) ) +
+  geom_point() +
+  geom_line() +
+  labs(x=NULL, y="p(pull left)", title="by actor") +
+  facet_wrap(~actor)
+```
+
+---
+
+```{r}
+d %>% distinct(actor, block, treatment) %>% 
+  add_epred_draws(m1) %>% 
+  mutate(treatment=factor(treatment,
+                          levels=as.character(1:4),
+                          labels=labels)) %>% 
+  group_by(block, treatment) %>% 
+  mean_qi(.epred) %>% 
+  ggplot( aes(x=treatment, y=.epred, group=1) ) +
+  geom_point() +
+  geom_line() +
+  labs(x=NULL, y="p(pull left)", title="by block") +
+  facet_wrap(~block)
+```
+
+---
+
+## slopes
+
+Let's start by simulating cafe data.
+
+```{r}
+# ---- set population-level parameters -----
+a <- 3.5       # average morning wait time
+b <- (-1)      # average difference afternoon wait time
+sigma_a <- 1   # std dev in intercepts
+sigma_b <- 0.5 # std dev in slopes
+rho <- (-0.7)  #correlation between intercepts and slopes
+
+# ---- create vector of means ----
+Mu <- c(a, b)
+
+# ---- create matrix of variances and covariances ----
+sigmas <- c(sigma_a,sigma_b) # standard deviations
+Rho <- matrix( c(1,rho,rho,1) , nrow=2 ) # correlation matrix
+# now matrix multiply to get covariance matrix
+Sigma <- diag(sigmas) %*% Rho %*% diag(sigmas)
+
+# ---- simulate intercepts and slopes -----
+N_cafes = 20
+library(MASS)
+set.seed(5)
+vary_effects <- mvrnorm( n=N_cafes, mu = Mu, Sigma=Sigma)
+a_cafe <- vary_effects[, 1]
+b_cafe <- vary_effects[, 2]
+
+# ---- simulate observations -----
+
+set.seed(22)
+N_visits <- 10
+afternoon <- rep(0:1,N_visits*N_cafes/2)
+cafe_id <- rep( 1:N_cafes , each=N_visits )
+mu <- a_cafe[cafe_id] + b_cafe[cafe_id]*afternoon
+sigma <- 0.5 # std dev within cafes
+wait <- rnorm( N_visits*N_cafes , mu , sigma )
+d <- data.frame( cafe=cafe_id , afternoon=afternoon , wait=wait )
+
+```
+
+------------------------------------------------------------------------
+
+### a simulation note from RM
+
+> In this exercise, we are simulating data from a generative process and then analyzing that data with a model that reflects exactly the correct structure of that process. But in the real world, we’re never so lucky. Instead we are always forced to analyze data with a model that is MISSPECIFIED: The true data-generating process is different than the model. Simulation can be used however to explore misspecification. Just simulate data from a process and then see how a number of models, none of which match exactly the data-generating process, perform. And always remember that Bayesian inference does not depend upon data-generating assumptions, such as the likelihood, being true. Non-Bayesian approaches may depend upon sampling distributions for their inferences, but this is not the case for a Bayesian model. In a Bayesian model, a likelihood is a prior for the data, and inference about parameters can be surprisingly insensitive to its details.
+
+------------------------------------------------------------------------
+
+**Mathematical model:**
+
+likelihood function and linear model
+
+\begin{align*}
+W_i &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \alpha_{CAFE[i]} + \beta_{CAFE[i]}A_i
+\end{align*}
+
+varying intercepts and slopes
+
+\begin{align*}
+\begin{bmatrix} \alpha_{CAFE[i]} \\ \beta_{CAFE[i]} \end{bmatrix} &\sim \text{MVNormal}( \begin{bmatrix} \alpha \\ \beta \end{bmatrix}, \mathbf{S}) \\
+\mathbf{S} &\sim \begin{pmatrix} \sigma_{\alpha}, & 0 \\ 0, & \sigma_{\beta}\end{pmatrix}\mathbf{R}\begin{pmatrix} \sigma_{\alpha}, & 0 \\ 0, & \sigma_{\beta}\end{pmatrix} \\
+\end{align*}
+
+priors
+
+\begin{align*}
+\alpha &\sim \text{Normal}(5,2) \\
+\beta &\sim  \text{Normal}(-1,0.5) \\
+\sigma &\sim  \text{Exponential}(1) \\
+\sigma_{\alpha} &\sim  \text{Exponential}(1) \\
+\sigma_{\beta} &\sim  \text{Exponential}(1) \\
+\mathbf{R} &\sim \text{LKJcorr}(2)
+\end{align*}
+
+------------------------------------------------------------------------
+
+### LKJ correlation prior
+
+```{r}
+#| code-fold: true
+# examples
+rlkj_1 = rethinking::rlkjcorr(1e4, K=2, eta=1)
+rlkj_2 = rethinking::rlkjcorr(1e4, K=2, eta=2)
+rlkj_4 = rethinking::rlkjcorr(1e4, K=2, eta=4)
+rlkj_6 = rethinking::rlkjcorr(1e4, K=2, eta=6)
+data.frame(rlkj_1= rlkj_1[,1,2], 
+           rlkj_2= rlkj_2[,1,2], 
+           rlkj_4= rlkj_4[,1,2],
+           rlkj_6= rlkj_6[,1,2]) %>% 
+  ggplot() +
+  geom_density(aes(x=rlkj_1, color = "1"), alpha=.3) +
+  geom_density(aes(x=rlkj_2, color = "2"), alpha=.3) +
+  geom_density(aes(x=rlkj_4, color = "4"), alpha=.3) +
+  geom_density(aes(x=rlkj_6, color = "6"), alpha=.3) +
+  labs(x="R", color="eta") +
+  theme(legend.position = "top")
+```
+
+------------------------------------------------------------------------
+
+```{r}
+m2 <- brm(
+  data = d,
+  family = gaussian,
+  wait ~ 1 + afternoon + (1 + afternoon | cafe),
+  prior = c(
+    prior( normal(5,2),    class=Intercept ), 
+    prior( normal(-1, .5), class=b),
+    prior( exponential(1), class=sd),
+    prior( exponential(1), class=sigma),
+    prior( lkj(2),         class=cor)
+  ), 
+  iter=2000, warmup=1000, chains=4, cores=4, seed=9,
+  file=here("files/models/71.2")
+)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+posterior_summary(m2) %>% round(3)
+```
+
+------------------------------------------------------------------------
+
+Let's get the slopes and intercepts for each cafe.
+
+```{r}
+#| code-fold: true
+intercepts = coef(m2)$cafe[ ,, "Intercept"]
+slopes = coef(m2)$cafe[,, "afternoon"]
+cafe_params = data.frame(
+  cafe=1:20,
+  intercepts=intercepts[, 1],
+  slopes=slopes[, 1]
+) 
+cafe_params %>% round(3)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| code-fold: true
+cafe_params %>% 
+  ggplot( aes(x=intercepts, y=slopes) ) +
+  geom_point(size = 2) 
+
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| code-fold: true
+cafe_params %>% 
+  ggplot( aes(x=intercepts, y=slopes) ) +
+  stat_ellipse() +
+  geom_point(size = 2) 
+
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| code-fold: true
+cafe_params %>% 
+  ggplot( aes(x=intercepts, y=slopes) ) +
+  mapply(function(level) {
+    stat_ellipse(geom  = "polygon", type = "norm",
+                 linewidth = 0, alpha = .1, fill = "#1c5253",
+                 level = level)
+    }, 
+    # enter the levels here
+    level = c(1:9 / 10, .99)) +
+  geom_point(size = 2) 
+
+```
+
+More about `stat_ellipse` [here](https://ggplot2.tidyverse.org/reference/stat_ellipse.html).
+
+------------------------------------------------------------------------
+
+### exercise
+
+Now use the slopes and intercepts to calculate the expected morning and afternoon wait times for each cafe. Plot these as a scatterplot. Bonus for ellipses.
+
+------------------------------------------------------------------------
+
+```{r}
+#| code-fold: true
+cafe_params %>% 
+  mutate(
+    morning = intercepts, 
+    afternoon = intercepts + slopes
+  ) %>% 
+  ggplot( aes(x=morning, y=afternoon) ) +
+  mapply(function(level) {
+    stat_ellipse(geom  = "polygon", type = "norm",
+                 linewidth = 0, alpha = .1, fill = "#1c5253",
+                 level = level)
+    }, 
+    # enter the levels here
+    level = c(1:9 / 10, .99)) +
+  geom_point(size = 2)+
+  labs(x="morning wait time",
+       y="afternoon wait time")
+```
+
+------------------------------------------------------------------------
+
+What is the covariance of our intercepts and slopes?
+
+```{r}
+#| code-fold: true
+post = as_draws_df(m2)
+rlkj_2 = rethinking::rlkjcorr(nrow(post), K=2, eta=2)
+
+data.frame(prior= rlkj_2[,1,2],
+           posterior = post$cor_cafe__Intercept__afternoon) %>% 
+  ggplot() +
+  geom_density(aes(x=prior, color = "prior"), alpha=.3) +
+  geom_density(aes(x=posterior, color = "posterior"), alpha=.3) +
+  scale_color_manual(values = c("#1c5253" , "#e07a5f")) +
+  labs(x="R") +
+  theme(legend.position = "top")
+```
+
+------------------------------------------------------------------------
+
+## predictors at different levels
+
+Returning to our personality data from Tuesday.
+
+```{r}
+data_path = "https://raw.githubusercontent.com/sjweston/uobayes/refs/heads/main/files/data/external_data/mlm.csv"
+d <- read.csv(data_path)
+
+d %>% count(wave)
+d %>% count(group)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| code-fold: true
+d %>% 
+  ggplot(aes(x=week, y=con, group=id)) +
+  geom_line(alpha=.3) +
+  facet_wrap(~group)
+```
+
+`week` is a within-person variable (Level 1), whereas `group` is a between-person variable (Level 2).
+
+------------------------------------------------------------------------
+
+**Mathematical model with level-2 covariate**
+
+::::: columns
+::: {.column width="50%"}
+
+Likelihood function and linear model
+
+\begin{align*}
+\text{con}_i &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \alpha_{\text{id}[i]} + \beta_{\text{id}[i]}t_i
+\end{align*}
+
+Varying intercepts and slopes with level-2 predictor:
+
+\begin{align*}
+\alpha_{\text{id}[i]} &= \alpha + \gamma_\alpha G_{\text{id}[i]} + u_{\alpha,\text{id}[i]} \\
+\beta_{\text{id}[i]} &= \beta + \gamma_\beta G_{\text{id}[i]} + u_{\beta,\text{id}[i]}
+\end{align*}
+
+Random effects:
+
+\begin{align*}
+\begin{bmatrix} u_{\alpha,\text{id}[i]} \\ u_{\beta,\text{id}[i]} \end{bmatrix} &\sim \text{MVNormal}\left(\begin{bmatrix} 0 \\ 0 \end{bmatrix}, \mathbf{S}\right) \\
+\mathbf{S} &= \begin{pmatrix} \sigma_{\alpha} & 0 \\ 0 & \sigma_{\beta}\end{pmatrix}\mathbf{R}\begin{pmatrix} \sigma_{\alpha} & 0 \\ 0 & \sigma_{\beta}\end{pmatrix}
+\end{align*} 
+
+:::
+
+::: {.column width="50%"}
+
+
+Priors: 
+\begin{align*}
+\alpha &\sim \text{Normal}(0,1) \\
+\beta &\sim \text{Normal}(0,1) \\
+\gamma_\alpha &\sim \text{Normal}(0,1) \\
+\gamma_\beta &\sim \text{Normal}(0,1) \\
+\sigma &\sim \text{Exponential}(1) \\
+\sigma_{\alpha} &\sim \text{Exponential}(1) \\
+\sigma_{\beta} &\sim \text{Exponential}(1) \\
+\mathbf{R} &\sim \text{LKJcorr}(2)
+\end{align*}
+
+:::
+:::::
+
+
+------------------------------------------------------------------------
+
+```{r}
+m3 <- brm(
+  data=d,
+  family=gaussian,
+  con ~ 1 + week + group + week:group + (1 + week | id),
+  prior = c( prior( normal(0,1),    class=Intercept ),
+             prior( normal(0,1),    class=b ),
+             prior( exponential(1), class=sigma ),
+             prior( exponential(1), class=sd ),
+             prior( lkj(2),         class=cor)),
+  iter=4000, warmup=1000, seed=9, cores=4, chains=4,
+  file=here("files/models/71.3")
+)
+```
+
+---
+
+Divergent transitions! What do we do?
+
+```{r}
+m3
+```
+
+---
+
+```{r}
+as_draws_df(m3b) %>% 
+  ggplot( aes(x=b_Intercept, y=b_groupPD) ) +
+    geom_point()
+```
+
+
+---
+
+Center your variables: 
+
+```{r}
+d = d %>% 
+  mutate(
+    across( c(con, week),
+            ~.- mean(., na.rm=T),
+            .names="{col}_c"))
+
+m3b <- brm(
+  data=d,
+  family=gaussian,
+  con_c ~ 1 + week_c + group + week_c:group + (1 + week_c | id),
+  prior = c( prior( normal(0,1),    class=Intercept ),
+             prior( normal(0,1),    class=b ),
+             prior( exponential(1), class=sigma ),
+             prior( exponential(1), class=sd ),
+             prior( lkj(2),         class=cor)),
+  iter=4000, warmup=1000, seed=9, cores=4, chains=4,
+  file=here("files/models/71.3b")
+)
+
+```
+
+---
+
+```{r}
+p1 = as_draws_df(m3) %>% 
+  ggplot( aes(x=sd_id__week, 
+              y=cor_id__Intercept__week) ) +
+  geom_point()
+
+p2 = as_draws_df(m3b) %>% 
+  ggplot( aes(x=sd_id__week_c, y=cor_id__Intercept__week_c) ) +
+  geom_point()
+
+p1 + p2
+```
+
