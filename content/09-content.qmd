@@ -25,4 +25,5 @@ The slides for today's lesson are available online as an HTML file. Use the butt
 ```{r show-slide-tabs, echo=FALSE, results="asis"}
 slide_buttons("/slides/lecture05-2")
 ```
+
 <iframe src="/slides/lecture05-2.html" width="100%" height="500px"></iframe> 

@@ -118,7 +118,7 @@ In general, this distribution is your best bet for binary outcomes.
 
 ---
 
-```{r binomial-viz, fig.width=8, fig.height=3}
+```{r binomial-viz}
 #| code-fold: true
 # Create data for different rate parameters
 x <- seq(0, 100, by=1)
