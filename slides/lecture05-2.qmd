@@ -361,6 +361,16 @@ new_dat = expand.grid(G = c("1", "2"),
                       D = c("1", "2"))
 
 m1 %>% add_epred_draws(newdata = new_dat) %>% 
+  head()
+
+```
+
+---
+
+Use `add_epred_draws` to get the posterior distribution for `p` for each combination of department and gender. 
+
+```{r}
+m1 %>% add_epred_draws(newdata = new_dat) %>% 
   median_qi
 m2 %>% add_epred_draws(newdata = new_dat) %>% 
   median_qi
@@ -372,9 +382,20 @@ Our other useful function `add_predicted_draws()` is back in the realm of the ou
 
 ```{r}
 m1 %>% add_predicted_draws(newdata = new_dat) %>% 
-  mean_qi
+  head
+```
+
+---
+
+Use `add_predicted_draws()` to simulate fictional people in these departments:
+
+```{r}
+m1 %>% add_predicted_draws(newdata = new_dat) %>% 
+  ungroup() %>% 
+  count(G, D, .prediction)
 m2 %>% add_predicted_draws(newdata = new_dat) %>% 
-  mean_qi
+  ungroup() %>% 
+  count(G, D, .prediction)
 ```
 
 ---

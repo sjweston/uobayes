@@ -45,3 +45,118 @@ options(ggplot2.discrete.fill = default_palettes,
         ggplot2.discrete.colour = default_palettes)
 ```
 
+## a totally new topic
+
+Mixed Effects Location Scale Models (MELSM)
+
+This is an extension of mulitlevel models in which...
+
+---
+
+We'll use data provided by Williams and colleagues ([2021](../files/williams_etal_2021.pdf). 
+
+```{r}
+d <- read_csv("https://raw.githubusercontent.com/sjweston/uobayes/refs/heads/main/files/data/external_data/williams.csv")
+# scaled time variable
+d <- d %>% mutate(day01 = (day - 2) / max((day - 2)))
+distinct(d, record_id) %>% count()
+d %>% 
+  count(record_id) %>% 
+  summarise(median = median(n),
+            min = min(n),
+            max = max(n))
+```
+
+---
+
+```{r}
+#| code-fold: true
+
+d %>% 
+  count(record_id) %>% 
+  ggplot(aes(x = n)) +
+  geom_histogram(fill = "#1c5253", color = "white") +
+  scale_x_continuous("number of days", limits = c(0, NA)) 
+```
+
+```{r}
+rethinking::precis(d) 
+```
+
+---
+
+```{r}
+#| code-fold: true
+set.seed(14)
+
+d %>% 
+  nest(data=-record_id) %>% 
+  slice_sample(n = 16) %>% 
+  unnest(data) %>% 
+  ggplot(aes(x = day, y = N_A.lag)) +
+  geom_line(color = "grey") +
+  geom_point(color = "#1c5253", size = 1/2) +
+  ylab("negative affect (standardized)") +
+  facet_wrap(~ record_id)
+```
+
+---
+
+How would we typically analyze these data?
+
+\begin{align*}
+\text{NA}_{ij} &\sim \text{Normal}(\mu_{ij}, \sigma) \\
+\mu_{ij} &= \beta_0 + \beta_1\text{time}_{ij} + \mu_{0i} + \mu_{1i}\text{time}_{ij}\\
+\sigma &= \sigma_{\epsilon} \\
+...
+\end{align*}
+
+```{r}
+m1 <-
+  brm(data = d,
+      family = gaussian,
+      N_A.std ~ 1 + day01 + (1 + day01 | record_id),
+      prior = c(prior(normal(0, 0.2), class = Intercept),
+                prior(normal(0, 1), class = b),
+                prior(exponential(1), class = sd),
+                prior(exponential(1), class = sigma),
+                prior(lkj(2), class = cor)),
+      iter = 3000, warmup = 1000, chains = 4, cores = 4,
+      seed = 14,
+      file = here("files/models/m81.1"))
+```
+
+
+---
+
+
+Let's make this better!
+
+\begin{align*}
+\text{NA}_{ij} &\sim \text{Normal}(\mu_{ij}, \sigma) \\
+\mu_{ij} &= \beta_0 + \beta_1\text{time}_{ij} + \mu_{0i} + \mu_{1i}\text{time}_{ij}\\
+\text{log}(\sigma_i) &= \eta_0 + \mu_{2i}
+...
+\end{align*}
+
+```{r}
+m2 <-
+  brm(data = d,
+      family = gaussian,
+      bf(N_A.std ~ 1 + day01 + (1 + day01 |i| record_id),
+         sigma ~ 1 + (1 |i| record_id)),
+      prior = c(prior(normal(0, 0.2), class = Intercept),
+                prior(normal(0, 1), class = b),
+                prior(exponential(1), class = sd),
+                prior(normal(0,1), class = Intercept, dpar=sigma),
+                prior(exponential(1), class = sd, dpar=sigma),
+                prior(lkj(2), class = cor)),
+      iter = 3000, warmup = 1000, chains = 4, cores = 4,
+      seed = 14,
+      file = here("files/models/m81.2"))
+```
+
+:::{.notes}
+We should note a few things about the brm() syntax. First, because we modeled both $\mu_{ij}$ and $\sigma_i$, we nested both model formulas within the `bf()` function. Second, because the `brms` default is to use the log link when modeling $\sigma_i$, there was no need to explicitly set it that way in the family line. However, we could have if we wanted to. Third, notice our use of the `|i|` syntax within the parentheses in the formula lines. If we had used the conventional `|` syntax, that would have not allowed our $\mu_{ij}$ parameters to correlate with  
+$\mu_{0i}$ and $\mu_{1i}$  from the mean structure. It would have effectively set  . Finally, notice how within the `prior()` functions, we explicitly referred to those for the new $\sigma$ structure with the `dpar = sigma` operator.
+:::
