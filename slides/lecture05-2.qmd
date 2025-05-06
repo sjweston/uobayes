@@ -506,7 +506,8 @@ Use the `add_epred_draws()` function to estimate expected values based on your m
 ```{r}
 UCBadmit %>% add_epred_draws(m3) %>% 
   ungroup() %>% 
-  select(dept, gender, applications, admit, reject, .draw, .epred)
+  group_by(gender) %>% 
+  mean_qi(.epred)
 ```
 
 ---

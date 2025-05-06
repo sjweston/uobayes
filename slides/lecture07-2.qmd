@@ -67,29 +67,21 @@ Aggregation
 
 ---
 
+## today's topics
+
+  * More than one clustering variable
+  * multilevel slopes
+
+---
+
 ## more than one type of cluster
 
 McElreath doesn't cover this in his video lecture, but this is from the textbook and worth discussing.
 
-::::: columns
-
-::: {.column width="50%"}
-
-```{r}
-data(chimpanzees, package="rethinking")
-d <- chimpanzees
-rethinking::precis(d)
-```
-
-:::
-
-::: {.column width="50%"}
 Data from [Silk et al. (2005)](https://www.nature.com/articles/nature04243)
 
 ![](images/7-1_chimp.png)
-:::
 
-:::::
 
 :::{.notes}
 From McElreath: 
@@ -102,6 +94,15 @@ There are two experimental conditions. In the partner condition, another chimpan
 
 When human students participate in an experiment like this, they nearly always choose the lever linked to two pieces of food, the prosocial option, but only when another student sits on the opposite side of the table. The motivating question is whether a focal chimpanzee behaves similarly, choosing the prosocial option more often when another animal is present. In terms of linear models, we want to estimate the interaction between condition (presence or absence of another animal) and option (which side is prosocial).
 :::
+
+---
+
+
+```{r}
+data(chimpanzees, package="rethinking")
+d <- chimpanzees
+rethinking::precis(d)
+```
 
 
 ------------------------------------------------------------------------
@@ -119,6 +120,7 @@ We could model the interaction between condition (presence/absence of another an
 ```{r}
 d$treatment <- factor(1 + d$prosoc_left + 2*d$condition)
 d %>% count(treatment, prosoc_left, condition)
+t_labels = c("r/n", "l/n", "r/p", "l/p")
 ```
 
 ---
@@ -209,11 +211,13 @@ as_draws_df(m1) %>%
 Let's look at the predictions by actor and block to confirm.
 
 ```{r}
+#| code-fold: true
+#| 
 d %>% distinct(actor, block, treatment) %>% 
   add_epred_draws(m1) %>% 
   mutate(treatment=factor(treatment,
                           levels=as.character(1:4),
-                          labels=labels)) %>% 
+                          labels=t_labels)) %>% 
   group_by(actor, treatment) %>% 
   mean_qi(.epred) %>% 
   ggplot( aes(x=treatment, y=.epred, group=1) ) +
@@ -226,11 +230,13 @@ d %>% distinct(actor, block, treatment) %>%
 ---
 
 ```{r}
+#| code-fold: true
+#| 
 d %>% distinct(actor, block, treatment) %>% 
   add_epred_draws(m1) %>% 
   mutate(treatment=factor(treatment,
                           levels=as.character(1:4),
-                          labels=labels)) %>% 
+                          labels=t_labels)) %>% 
   group_by(block, treatment) %>% 
   mean_qi(.epred) %>% 
   ggplot( aes(x=treatment, y=.epred, group=1) ) +
@@ -284,6 +290,13 @@ d <- data.frame( cafe=cafe_id , afternoon=afternoon , wait=wait )
 
 ```
 
+---
+
+```{r}
+rethinking::precis(d)
+d %>% filter(cafe==1)
+```
+
 ------------------------------------------------------------------------
 
 ### a simulation note from RM
@@ -298,7 +311,7 @@ likelihood function and linear model
 
 \begin{align*}
 W_i &\sim \text{Normal}(\mu_i, \sigma) \\
-\mu_i &= \alpha_{CAFE[i]} + \beta_{CAFE[i]}A_i
+\mu_i &= \alpha_{CAFE[i]} + \beta_{CAFE[i]}(\text{Afternoon}_i)
 \end{align*}
 
 varying intercepts and slopes
@@ -365,7 +378,7 @@ m2 <- brm(
 ------------------------------------------------------------------------
 
 ```{r}
-posterior_summary(m2) %>% round(3)
+posterior_summary(m2) %>% round(2)
 ```
 
 ------------------------------------------------------------------------
@@ -574,7 +587,7 @@ m3
 ---
 
 ```{r}
-as_draws_df(m3b) %>% 
+as_draws_df(m3) %>% 
   ggplot( aes(x=b_Intercept, y=b_groupPD) ) +
     geom_point()
 ```

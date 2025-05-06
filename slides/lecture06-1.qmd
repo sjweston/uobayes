@@ -1,5 +1,5 @@
 ---
-title: "week 5: integers and other monsters"
+title: "week 6: integers and other monsters"
 subtitle: "counts"
 format: 
   revealjs:
@@ -25,6 +25,7 @@ library(patchwork)
 library(here)
 library(brms) 
 library(tidybayes) 
+library(santoku) # for data manipulation
 ```
 
 ```{r, echo = F}
@@ -44,95 +45,87 @@ options(ggplot2.discrete.fill = default_palettes,
         ggplot2.discrete.colour = default_palettes)
 ```
 
-## populations and tools
+## today
 
-```{r}
-#| code-fold: true
-library(ggdag)
-
-dag_coords <-
-  tibble(name = c("C", "P", "L", "T"),
-         x    = c(1, 1, 2, 2),
-         y    = c(2, 1, 2, 1))
-
-dagify(C ~ L + P,
-       P ~ L,
-       T ~ C + L + P,
-       coords = dag_coords) %>%
+  * when your outcome is a count
+  * when your outcome is a category
   
-  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
-  geom_dag_point(aes(color = name == "D"),
-                 alpha = 1/2, size = 6.5, show.legend = F) +
-  geom_point(x = 2, y = 1, 
-             size = 6.5, shape = 1, stroke = 1, color = "orange") +
-  geom_dag_text(color = "black") +
-  geom_dag_edges() +
-  scale_color_manual(values = c("#1c5253", "orange")) +
-  scale_x_continuous(NULL, breaks = NULL, expand = c(.1, .1)) +
-  scale_y_continuous(NULL, breaks = NULL, expand = c(.1, .1))
-```
+---
+
+## counts
+
+It's less common in Psychology to use count variables as outcomes, but they're extremely useful. They have an interpretable metric, and they're usually in units that are meaningful (and possibly important).
+
+This family of distributions with maximum entropy that matches the expectations of a count variable -- non-negative, integers, with **no maximum** (different from binomial) -- is the poisson family. These distributions are defined by a single parameter $(\lambda)$.
+
+As a reminder, the mean and the variance of the Poisson distribution is equal to $\lambda$; use that knowledge to interpret your estimates and set your priors. 
+
+The conventional link function for the poisson is the log link, which ensures that $\lambda$ is always positive. 
 
 ---
 
-### counts are poisson distributed
+### visualizing priors
 
-\begin{align*}
-Y_i &\sim \text{Poisson}(\lambda_i) \\
-\text{log}(\lambda_i) &= \alpha + \beta x_i \\
-\lambda_i &= \text{exp}(\alpha + \beta x_i)
-\end{align*}
+Our `brms` code will use a log-link function to estimate $\lambda$ from a linear model:
 
-You'll need to be careful about your priors.
+`log(lambda) = a + b*var`
+
+Your priors for `a` and `b` will likely follow a typical Gaussian distribution. 
+
+`a ~ Normal(0,1)`
+
+But the transformation is an exponential one, meaning that the relationship between your linear coefficients and resulting $\lambda$ are difficult to predict. 
 
 ---
-
-\begin{align*}
-\text{log}(\lambda_i) &= \alpha  \\
-\alpha &\sim \text{Normal}(0,10)
-\end{align*}
-
-Simulate this:
 
 ```{r}
 #| code-fold: true
-n_sim = 1e4
-alpha_prior = rnorm(n_sim, 0, 10)
-lambda_prior = exp(alpha_prior)
-count_prior = rpois(n_sim, lambda_prior)
-range(count_prior)
-mean(count_prior)
-data.frame(count = count_prior) %>% 
-  ggplot(aes(x = count)) +
-  geom_density() +
-  scale_x_continuous(limits = c(0, 100))
+#| 
+tibble(x       = c(3, 22),
+       y       = c(0.055, 0.04),
+       meanlog = c(0, 3),
+       sdlog   = c(10, 0.5)) %>% 
+  expand_grid(number = seq(from = 0, to = 100, length.out = 200)) %>% 
+  mutate(density = dlnorm(number, meanlog, sdlog),
+         group   = str_c("alpha%~%Normal(", meanlog, ", ", sdlog, ")")) %>% 
+  
+  ggplot(aes(fill = group, color = group)) +
+  geom_area(aes(x = number, y = density),
+            alpha = 3/4, linewidth = 0, position = "identity") +
+  geom_text(data = . %>% group_by(group) %>% slice(1),
+            aes(x = x, y = y, label = group),
+            family = "Times", parse = T,  hjust = 0) +
+  scale_y_continuous(NULL, breaks = NULL) +
+  xlab("counts") +
+  theme(legend.position = "none")
 ```
 
 ---
 
-\begin{align*}
-\text{log}(\lambda_i) &= \alpha  \\
-\alpha &\sim \text{Normal}(3,.5)
-\end{align*}
-
-Simulate this:
+Here's some code to play with to help you visualize the effects of your prior.
 
 ```{r}
-#| code-fold: true
-n_sim = 1e4
-alpha_prior = rnorm(n_sim, 3, .5)
-lambda_prior = exp(alpha_prior)
-count_prior = rpois(n_sim, lambda_prior)
-range(count_prior)
-mean(count_prior)
-data.frame(count = count_prior) %>% 
-  ggplot(aes(x = count)) +
-  geom_density() +
-  scale_x_continuous(limits = c(0, 100))
+# ---- change these ----
+mean_of_prior = 1
+sd_of_prior   = .5
+
+# --- leave this alone ---
+
+  # plot
+  data.frame(x =seq(from = 0, to = 100, length.out = 200)) %>% 
+    mutate(dx = dlnorm(x, mean_of_prior, sd_of_prior)) %>% 
+    ggplot(aes( x=x, y=dx)) +
+    geom_area(alpha = 3/4, linewidth = 0, position = "identity")
+  
+  # expected value of lambda
+  rlnorm(1e5, mean_of_prior, sd_of_prior) %>% mean
+
 ```
+
 
 ---
 
-## example
+### populations and tools
 
 ```{r}
 data(Kline, package = "rethinking")
@@ -142,15 +135,17 @@ Kline
 
 ---
 
-```{r}
-Kline = Kline %>% 
-  mutate(
-    P = log(population),
-    contact_id = ifelse( contact == "high", 2, 1)
-  )
-```
+We’ll model the idea that:
 
-Intercept only model
+  (1) The number of tools increases with the log population size. Why log? Because that’s what the theory says: that it is the order of magnitude of the population that matters, not the absolute size of it. 
+  
+  (2) The number of tools increases with the contact rate among islands. No nation is an island, even when it is an island. Islands that are better networked may acquire or sustain more tool types.
+
+  (3) The impact of population on tool counts is moderated by high contact. This is to say that the association between total_tools and log population depends upon contact. 
+
+---
+
+#### Intercept only model
 
 ```{r}
 m1 <- brm(
@@ -160,22 +155,20 @@ m1 <- brm(
   prior = c( prior( normal(3, 0.5), class = Intercept) ),
   iter = 2000, warmup = 1000, chains = 4, cores = 4, 
   seed = 11,
-  file = here("files/data/generated_data/m52.1")
+  file = here("files/models/61.1")
 )
 ```
 
 ---
 
+#### Interaction model
 
 ```{r}
 Kline = Kline %>% 
   mutate(
-    P = log(population),
-    contact_id = ifelse( contact == "high", 2, 1)
+    P = log(population)
   )
 ```
-
-Interaction  model
 
 ```{r}
 m2 <- brm(
@@ -188,7 +181,7 @@ m2 <- brm(
              prior( normal(0, 0.2), nlpar = b)),
   iter = 2000, warmup = 1000, chains = 4, cores = 4, 
   seed = 11,
-  file = here("files/data/generated_data/m52.2")
+  file = here("files/models/61.2")
 )
 ```
 
@@ -305,7 +298,6 @@ Natural scale
 ```{r}
 #| code-fold: true
 m2k = m2k %>% full_join(Kline)
-library(ggrepel)
 f2 %>% 
   ggplot(aes(x = P)) + 
   geom_ribbon(aes(ymin = .lower, ymax = .upper, fill = contact), 
@@ -327,121 +319,335 @@ f2 %>%
 
 ```
 
+---
+
+## multinomial models
+
+The binomial distribution is appropriate when you only have two outcomes, but what if you have multiple _unordered_ outcomes? In that case, you should use the *multinomial* distribution, of which the binomial is just a special case.If there are $K$ types of events with probabilities $p_1,...,p_K$, then the probability of observing $y_1,...,y_K$ events of each type out of $n$ total trials is:
+
+$$
+\text{Pr}(y_i,...,y_K| n, p_i,...,p_K) = \frac{n!}{\prod_i y_i!}\prod_{i=1}^Kp_i^{y_i}
+$$
+
+The link function used with the multinomial is the multinomial logit, which is also called the softmax function:
+
+$$
+\text{Pr}(k|s_i,...,s_K) = \frac{\text{exp}(s_k)}{\sum_{i=1}^K\text{exp}(s_i)}
+$$
+
+The biggest issue is what to do with the multiple linear models. In a binomial GLM, you can pick either of the two possible events and build a single linear model for its log odds. The other event is handled automatically. But in a multinomial GLM, you need $K − 1$ linear models for K types of events. One of the outcome values is chosen as a "pivot" and the others are modeled relative to it. In each of the $K − 1$ linear models, you can use any predictors and parameters you like—they don’t have to be the same, and there are often good reasons for them to be different. In the special case of two types of events, none of these choices arise, because there is only one linear model. And that’s why the binomial GLM is so much easier.
 
 ---
 
-## exercise
+There are two basic cases: 
 
-The data in `data(Primates301)` are 301 primate species and associated measures. Model the number of observations of social_learning for each species as a function of the log brain size. Use a Poisson distribution for the `social_learning` outcome variable. Interpret the resulting posterior. 
+  (1) predictors have different values for different values of the outcome, and 
+  
+  (2) parameters are distinct for each value of the outcome. 
+  
+The first case is useful when each type of event has its own quantitative traits, and you want to estimate the association between those traits and the probability each type of event appears in the data. 
+
+The second case is useful when you are interested instead in features of some entity that produces each event, whatever type it turns out to be. 
 
 ---
 
-### solution
+### example: predictors matched to outcomes
+
+You are modeling career choice for young adults. One predictor of choice is income. 
 
 ```{r}
-data(Primates301, package = "rethinking")
-d <- Primates301
-d$B <- log(d$brain)
+# simulate career choices among 500 individuals
+N <- 500 # number of individuals
+income <- c(1,2,5) # expected income of each career
+score <- 0.5*income # scores for each career, based on income
 
-m4 <- brm(
-  data = d, 
-  family = poisson,
-  social_learning ~ 1 + B,
-  prior = c( prior( normal(3,.5), class = Intercept),
-             prior( normal(0, .1), class = b)),
-  iter = 2000, warmup = 1000, chains = 4, cores = 4, 
-  seed = 11,
-  file = here("files/data/generated_data/m52.4")
-)
+# next line converts scores to probabilities
+p <- rethinking:::softmax(score[1],score[2],score[3])
+
+# now simulate choice
+# outcome career holds event type values, not counts
+career <- rep(NA,N) # empty vector of choices for each individual
+# sample chosen career for each individual
+
+set.seed(34302)
+for ( i in 1:N ) career[i] <- sample( 1:3 , size=1 , prob=p )
+
+```
+
+:::{.notes}
+Before moving on, it might be useful to examine what we just did. With the three lines below the “# simulate career choices among 500 individuals” comment, we defined the formulas for three scores. Those were
+
+$$
+s_1 = .5 \times \text{income}_1\\
+s_3 = .5 \times \text{income}_2\\
+s_1 = .5 \times \text{income}_3\\
+$$
+where $\text{income}_1 = 1$, $\text{income}_2 = 2$, $\text{income}_3 = 5$. What’s a little odd about this setup and conceptually important to get is that although $\text{income}_i$ varies across the three levels of $s$, the  
+$\text{income}_i$ value is constant within each level of  $s$. E.g., $\text{income}_1$ is not a variable within the context of $s_1$. Therefore, we could also write the above as:
+
+$$
+s_1 = .5 \times 1 = 0.5\\
+s_3 = .5 \times 2 = 1.0\\
+s_1 = .5 \times 5 = 2.5
+$$
+
+:::
+
+---
+
+```{r}
+# put them in a tibble
+d <-
+  tibble(career = career) %>% 
+  mutate(career_income = ifelse(career == 3, 5, career))
+
+# plot 
+d %>%
+  ggplot(aes(x = career)) +
+  geom_bar(linewidth = 0)
 ```
 
 ---
 
-```{r}
-#| code-fold: true
-nd <- expand.grid(
-  B = seq(min(d$B, na.rm=T), max(d$B, na.rm=T), length = 100)
-)
-
-f4 <- epred_draws(m4, nd) %>% 
-  with_groups(B, median_qi, .epred)
-
-ggplot(f4, aes(x = B, y = .epred)) +
-  geom_ribbon(aes(ymin = .lower, ymax =.upper), alpha = .3) +
-  geom_line() +
-  geom_point(data = d, 
-             aes(y = social_learning), 
-             alpha = .3, 
-             color = "#1c5253") +
-  labs(x = "log brain size",
-       y = "social learning")
-```
-
----
+We have to choose a reference category. For this example, we'll choose career 3. Let's fit an intercept-only model to start. The next question is: what are our priors?
 
 ```{r}
-#| code-fold: true
-
-
-ggplot(f4, aes(x = B, y = .epred)) +
-  geom_ribbon(aes(ymin = .lower, ymax =.upper), alpha = .3) +
-  geom_line() +
-  geom_point(data = d, 
-             aes(y = social_learning), 
-             alpha = .3, 
-             color = "#1c5253") +
-  scale_x_continuous(trans = "exp") +
-  labs(x = "brain size",
-       y = "social learning")
+get_prior(data = d, 
+          family = categorical(link = logit, refcat = 3),
+          career ~ 1)
 ```
 
----
-
-Returning to the tools example, McElreath points to a theoretical issue with the plots. He proposes to solve this with a better representation of the relationship between tools and time.
-
-$$
-\Delta T = \alpha P^{\beta}-\gamma T
-$$
-
-   - $\Delta$ = change
-   - $\alpha$ = innovation rate
-   - $\beta$ = diminishing returns (elasticity)
-   - $\gamma$ = rate of loss
-
-In this case, both $\alpha$ and $\beta$ are moderated by contact. 
-
-If you solve for T:
-
-$$
-\hat{T} = \frac{\alpha_CP^{\beta_C}}{\gamma}
-$$
 
 ---
-
-Note that in this case we're **not** using the log link function. Wild!
-This is because all our parameters must be positive. There are two ways to do this: the first is to use appropriate priors that constrain the parameters. This is nice for transparency, but computationally more difficult. The other option is to use the exponential function (see on `a`). This code does both.
 
 ```{r}
 m3 <-
-  brm(data = Kline, 
-      family = poisson(link = "identity"),
-      bf(total_tools ~ exp(a) * P^b / g,
-         a + b ~ 0 + contact,
-         g ~ 1,
-         nl = TRUE),
-      prior = c(prior(normal(1, 1), nlpar = a),
-                prior(exponential(1), nlpar = b, lb = 0),
-                prior(exponential(1), nlpar = g, lb = 0)),
-      iter = 2000, warmup = 1000, chains = 4, cores = 4,
+  brm(data = d, 
+      family = categorical(link = logit, refcat = 3),
+      career ~ 1,
+      prior = c(prior(normal(0, 1), class = Intercept, dpar = mu1),
+                prior(normal(0, 1), class = Intercept, dpar = mu2)),
+      iter = 2000, warmup = 1000, cores = 4, chains = 4,
       seed = 11,
-      control = list(adapt_delta = .85),
-      file = here("files/data/generated_data/m52.3"))
+      file = here("files/models/61.3"))
+```
+
+---
+
+```{r}
+posterior_summary(m3) %>% round(2)
+```
+
+Turns out, these are related to our original data generating values!
+
+```{r}
+#| code-fold: true
+tibble(income = c(1, 2, 5)) %>% 
+  mutate(score = 0.5 * income) %>% 
+  mutate(rescaled_score = score - 2.5)
 ```
 
 
 ---
 
-### exercise
+```{r}
+data.frame(id = 1) %>% 
+  add_epred_draws(m3) %>% 
+  median_qi()
 
-Returning to the primate example: Some species are studied much more than others. So the number of reported instances of social_learning could be a product of research effort. Use the research_effort variable, specifically its logarithm, as an additional predictor variable. Interpret the coefficient for log research_effort. How does this model differ from the previous one? 
+data.frame(id = 1) %>% 
+  add_predicted_draws(m3)  %>% 
+  count(.prediction)
+```
+
+---
+
+Before we move on, here's the _exact same_ model with non-linear syntax (this will make more sense later)
+
+```{r}
+# nonlinear syntax
+m3_nonlinear <-
+  brm(data = d, 
+      family = categorical(link = logit, refcat = 3),
+      bf(career ~ 1,
+         nlf(mu1 ~ a1),
+         nlf(mu2 ~ a2),
+         a1 + a2 ~ 1),
+      prior = c(prior(normal(0, 1), class = b, nlpar = a1),
+                prior(normal(0, 1), class = b, nlpar = a2)),
+      iter = 2000, warmup = 1000, cores = 4, chains = 4,
+      seed = 11,
+      file = here("files/models/61.3nl"))
+```
+
+---
+
+```{r}
+m3_nonlinear
+```
+
+---
+
+Now we can add income. Remember, in this model, the predictor is matched to the outcome (that is, the value is the same for all observations with that outcome). So rather than using a variable from our dataset, we'll just input the value directly into our model.
+
+```{r}
+m4 <-
+  brm(data = d, 
+      family = categorical(link = logit, refcat = 3),
+      bf(career ~ 1,
+         nlf(mu1 ~ a1 + b * 1),
+         nlf(mu2 ~ a2 + b * 2),
+         a1 + a2 + b ~ 1),
+      prior = c(prior(normal(0, 1),   class = b, nlpar = a1),
+                prior(normal(0, 1),   class = b, nlpar = a2),
+                prior(normal(0, 0.5), class = b, nlpar = b,  lb = 0)),
+      iter = 2000, warmup = 1000, cores = 4, chains = 4,
+      seed = 11,
+      control = list(adapt_delta = .99),
+      file = here("files/models/61.4"))
+```
+
+---
+
+```{r}
+m4
+```
+
+---
+
+To interpret this coefficient, we can use counterfactual simulation. The question is, "How much more likely would someone be to choose Career 2 over Career 1 if the salary of Career 2 were twice what it is now?"
+
+```{r}
+post = as_draws_df(m4) 
+s1      = post$b_a1_Intercept + post$b_b_Intercept * 1
+s2_orig = post$b_a2_Intercept + post$b_b_Intercept * 2
+s2_new  = post$b_a2_Intercept + post$b_b_Intercept * 2 * 2
+
+# use the softmax link function to create probs
+p_orig = sapply(1:nrow(post), 
+                function(i) rethinking:::softmax( s1[i], s2_orig[i], 0 ))
+p_new = sapply(1:nrow(post), 
+                function(i) rethinking:::softmax( s1[i], s2_new[i],  0 ))
+
+p_diff = p_new[2, ] - p_orig[2, ]
+rethinking::precis(p_diff)
+```
+
+---
+
+### example: predictors matched to observations
+
+Suppose you are still modeling career choice. But now you want to estimate the association between each person’s family income and which career they choose. So the predictor variable must have the same value in each linear model, for each row in the data. But now there is a unique parameter multiplying it in each linear model. This provides an estimate of the impact of family income on choice, for each type of career.
+
+```{r}
+n <- 500
+set.seed(11)
+
+# simulate family incomes for each individual
+family_income <- runif(n)
+
+# assign a unique coefficient for each type of event
+b      <- c(-2, 0, 2)
+career <- rep(NA, n)  # empty vector of choices for each individual
+for (i in 1:n) {
+    score     <- 0.5 * (1:3) + b * family_income[i]
+    p         <- rethinking:::softmax(score[1], score[2], score[3])
+    career[i] <- sample(1:3, size = 1, prob = p)
+}
+
+d <-
+  tibble(career = career) %>% 
+  mutate(family_income = family_income)
+```
+
+\begin{align*}
+s_1 &= 0.5 + -2\times\text{family_income}_i \\
+s_2 &= 1.0 + 0\times\text{family_income}_i \\
+s_3 &= 1.5 + 2\times\text{family_income}_i \\
+\end{align*}
+
+---
+
+```{r}
+#| code-fold: true
+
+p1 <-
+  d %>% 
+  mutate(career = as.factor(career)) %>% 
+  
+  ggplot(aes(x = family_income, fill = career)) +
+  geom_density(linewidth = 0, alpha = 3/4) +
+  theme(legend.position = "none")
+  
+p2 <-
+  d %>% 
+  mutate(career = as.factor(career)) %>%
+  
+  mutate(fi = santoku::chop_width(family_income, width = .1, start = 0, labels = 1:10)) %>% 
+  count(fi, career) %>% 
+  group_by(fi) %>% 
+  mutate(proportion = n / sum(n)) %>% 
+  mutate(f = as.double(fi)) %>% 
+  
+  ggplot(aes(x = (f - 1) / 9, y = proportion, fill = career)) +
+  geom_area() +
+  xlab("family_income, descritized")
+
+p1 + p2
+```
+
+---
+
+To model, we only need to adapt our code for model 4:
+
+```{r}
+m5 <-
+  brm(data = d, 
+      family = categorical(link = logit, refcat = 3),
+      bf(career ~ 1,
+         nlf(mu1 ~ a1 + b1 * family_income),
+         nlf(mu2 ~ a2 + b2 * family_income),
+         a1 + a2 + b1 + b2 ~ 1),
+      prior = c(prior(normal(0, 1),   class = b, nlpar = a1),
+                prior(normal(0, 1),   class = b, nlpar = a2),
+                prior(normal(0, 0.5), class = b, nlpar = b1,  lb = 0), 
+                prior(normal(0, 0.5), class = b, nlpar = b2,  lb = 0)),
+      iter = 2000, warmup = 1000, cores = 4, chains = 4,
+      seed = 11,
+      control = list(adapt_delta = .99),
+      file = here("files/models/61.5"))
+```
+
+
+---
+
+```{r}
+m5
+```
+
+---
+
+Let's get those posterior predictions.
+
+```{r}
+nd <- tibble(family_income = seq(from = 0, to = 1, length.out = 60))
+
+(pred = nd %>% add_epred_draws(m5))
+```
+
+---
+
+```{r}
+pred %>% 
+  mean_qi() %>% 
+  ggplot( aes( x=family_income, y=.epred ) ) + 
+  geom_ribbon( aes(ymin = .lower, ymax=.upper, fill = .category),
+               alpha = .3) +
+  geom_line( aes(color = .category) ) +
+  facet_wrap(~.category, nrow=1) +
+  guides(color = "none", fill= "none") + 
+  labs( x="family income", y="probability of career choice" )
+```
+
+
 
