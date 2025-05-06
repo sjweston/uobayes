@@ -26,6 +26,200 @@ y_i &\sim \text{Binomial}(n_i, p_i) \\
 
 where $y$ is the number of successful attempts, $n$ is the total number of attempts, $P$ is a dummy variable indicating whether or not the pirate had large body size, $V$ is a dummy variable indicating whether or not the victim had large body size, and finally $A$ is a dummy variable indicating whether or not the pirate was an adult. Fit the model above to the `eagles` data. 
 
-2. Interpret the estimates and plot the posterior distributions. Compute and display both (1) the predicted probability of success and its 89% interval for each row ($i$) in the data, as well as (2) the predicted success count. and its 89% interval. What different information does each type of posterior prediction provide?
+<details>
+<summary>Click to see the answer</summary>
 
-3. Now try to improve the model. Consider an interaction between the pirate’s size and age (immature or adult). Compare this model to the previous one, using WAIC. Interpret.
+```{r}
+# Load required libraries
+library(brms)
+library(tidyverse)
+library(tidybayes)
+library(patchwork)
+library(here)
+library(cowplot)
+theme_set(theme_cowplot())
+
+# Load and examine the data
+data(eagles, package = "MASS")
+d <- eagles
+rethinking::precis(d)
+d %>% count(P, V, A)
+
+# Fit the model using brms
+m1 <- brm(
+  data = d,
+  family = binomial,
+  y | trials(n) ~ P + V + A,
+  prior = c(
+    prior(normal(0, 1.5), class = Intercept),
+    prior(normal(0, 0.5), class = b)
+  ),
+  iter = 2000, warmup = 1000, chains = 4, cores = 4,
+  seed = 11,
+  file = here("files/models/hw5.1")
+)
+
+# Display model summary
+summary(m1)
+```
+
+
+</details>
+
+2. Interpret the estimates and plot the posterior distributions. Compute and display both (1) the predicted probability of success and its 89% interval for each row ($i$) in the data, as well as (2) the predicted success count and its 89% interval. What different information does each type of posterior prediction provide?
+
+<details>
+<summary>Click to see the answer</summary>
+
+Here' are the summaries and plots of the coefficient estimates. 
+
+```{r}
+# Plot posterior distributions of coefficients
+m1 %>% 
+  gather_draws(`b_.*`, regex = T) %>% # this will get any variable that starts with b_
+  median_qi(.width = .89)
+
+m1 %>% 
+  gather_draws(`b_.*`, regex = T) %>% 
+  ggplot( aes( x=.value, y=.variable ) ) +
+  stat_halfeye() +
+  geom_vline(aes(xintercept=0), linetype="dashed") + 
+  labs(x = "Coefficient Est", y=NULL)
+```
+
+But as we know, in a GLM, these are difficult to interpret. So let's translate these into probabilites. First, let's ask how the different coefficients change our probabilities of success. 
+
+```{r}
+nd = distinct(eagles, V, P, A) %>% 
+  mutate(n = 1e5)
+# expected probs
+post_epred = nd %>% 
+  add_epred_draws(m1) %>% 
+  ungroup() %>% 
+  mutate(prob = .epred/n) %>% 
+  dplyr::select(V, P, A, .draw, prob) 
+
+p1 = post_epred%>% 
+  pivot_wider(names_from = P, values_from = prob) %>% 
+  mutate(diff = L-S) %>% 
+  ggplot(aes( x=diff )) +
+  stat_halfeye( fill = "#1c5253") +
+  geom_vline(aes(xintercept = 0), linetype ="dashed") +
+  labs(x = "Difference in probability", y = NULL, title = "Pirate (Large-Small)")
+
+p2 = post_epred%>% 
+  pivot_wider(names_from = V, values_from = prob) %>% 
+  mutate(diff = L-S) %>% 
+  ggplot(aes( x=diff )) +
+  stat_halfeye( fill = "#e07a5f") +
+  geom_vline(aes(xintercept = 0), linetype ="dashed") +
+  labs(x = "Difference in probability", y = NULL, title = "Victim (Large-Small)")
+
+p3 = post_epred%>% 
+  pivot_wider(names_from = A, values_from = prob) %>% 
+  mutate(diff = A-I) %>% 
+  ggplot(aes( x=diff )) +
+  stat_halfeye( fill = "#3d405b") +
+  geom_vline(aes(xintercept = 0), linetype ="dashed") +
+  labs(x = "Difference in probability", y = NULL, title = "Pirate (Adult-Infant)")
+
+p1 + p2 + p3
+  
+```
+
+Great, these make more sense! Large pirates more successfully steal salmon; smaller victims are more likely to be stolen from; and adult pirates are more successful than infant ones. 
+
+Let's get the probabilities and counts for each bird in our sample. 
+
+```{r}
+epred_draws(m1, newdata = d) %>% 
+  ungroup() %>% 
+  mutate(prob = .epred/n) %>% 
+  ggplot(aes( y=prob, x=.row)) +
+  stat_halfeye() +
+  labs(x = "row", y = "probability")
+```
+
+```{r}
+epred_draws(m1, newdata = d) %>% 
+  ungroup() %>% 
+  ggplot(aes( y=.epred, x=.row)) +
+  stat_halfeye() +
+  labs(x = "row", y = "counts")
+```
+
+The posterior predictions provide two different types of information:
+
+1. Predicted probabilities :
+   - Shows the estimated probability of success for each combination of predictors
+   - Useful for understanding the relative impact of each predictor
+   - Ranges from 0 to 1
+
+2. Predicted counts (post_counts):
+   - Shows the expected number of successful attempts
+   - Takes into account both the probability and the number of trials
+   - More directly interpretable in terms of actual outcomes
+
+The key difference is that probabilities show the underlying success rate, while counts show the expected number of successes given the number of attempts. The count predictions are more variable because they incorporate both the uncertainty in the probability and the randomness of the binomial process.
+
+</details>
+
+3. Now try to improve the model. Consider an interaction between the pirate's size and age (immature or adult). Compare this model to the previous one, using WAIC. Interpret.
+
+<details>
+<summary>Click to see the answer</summary>
+
+```{r}
+# Fit the interaction model
+m2 <- brm(
+  data = d,
+  family = binomial,
+  y | trials(n) ~ P + V + A + P:A,
+  prior = c(
+    prior(normal(0, 1.5), class = Intercept),
+    prior(normal(0, 0.5), class = b)
+  ),
+  iter = 2000, warmup = 1000, chains = 4, cores = 4,
+  seed = 11,
+  file = here("files/models/hw5.2")
+)
+
+# Compare models using WAIC
+waic(m1, m2) %>% print(simplify=F)
+
+# Display model summary
+summary(m2)
+```
+
+The interaction model adds a term P:A to capture how the effect of pirate size (P) varies with age (A). This allows us to test whether the advantage of being a large pirate differs between adult and immature eagles. 
+
+The WAIC comparison helps us determine if the more complex model (with interaction) is justified by the data. A lower WAIC indicates better predictive performance, but we should also consider:
+1. The magnitude of the WAIC difference
+2. The standard error of the difference
+3. The complexity of the model
+
+In this case, we improve our prediction a marginal amount -- (difference of 4.0 with a standard error of 3.7). In fact, we even have a less complex model (our `p_waic` is lower for model 2). This can happen when your added parameters capture an important pattern in the data. 
+
+Let's see what we've learned from this model.
+
+```{r}
+nd = distinct(eagles, V, P, A) %>% 
+  mutate(n = 1e5)
+# expected probs
+nd %>% 
+  add_epred_draws(m2) %>% 
+  ungroup() %>% 
+  mutate(prob = .epred/n) %>% 
+  dplyr::select(V, P, A, .draw, prob) %>% 
+  pivot_wider(names_from = "V", 
+              names_prefix = "V", 
+              values_from = prob) %>% 
+  mutate(avg = (VL+VS)/2) %>% 
+  ggplot(aes( x = avg, y = P, fill = A)) +
+  stat_halfeye(alpha=.7) +
+  scale_fill_manual(values = c("#1c5253" , "#e07a5f")) 
+```
+
+When pirates are large, they are successful regardless of whether they are adults or infants. However, when pirates are small, they are moderately successulf when they are adults, but much less successful when they are infants. 
+
+</details>
