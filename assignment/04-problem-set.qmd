@@ -149,6 +149,6 @@ waic(m_curve)$pointwise[ which_norway, ]
 
 ```
 
-Very high influence on all of these lines. 
+Very high influence on all of these lines. Let's take just the first one: The influence according to PSIS on the straight curve is `r loo(m_straight)$pointwise[ which_norway, "influence_pareto_k"] %>% round(2)`, which is a magnitude larger than almost all other influence metrics. It's between .7 and 1, which puts it in the "bad" range (but not "very bad"), so take that for what it's worth.
 
 </details>
