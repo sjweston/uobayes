@@ -1,5 +1,5 @@
 ---
-title: "week 6: multilevel models"
+title: "week 7: multilevel models"
 subtitle: "multilevel tadpoles"
 format: 
   revealjs:
@@ -55,6 +55,63 @@ We're starting our unit on multilevel models, which can be thought of as models 
 
 Multilevel modeling should be your default approach.
 
+
+------
+
+### review (or introduction?)
+
+(Ignore probability and estimation for now)
+
+
+$$
+Y_i = b_0 + b_1X_{1i} + ... + \epsilon_i
+$$
+This assumes each observation $(i)$ is independent of all other observations. But what if our data were clustered in some way? We might be able to express each observation $i$ as belonging to a specific cluster, $j$.
+
+$$
+Y_{ij} = b_0 + b_1X_{1ij} + ... + \epsilon_{ij}
+$$
+
+But what is the problem with this?
+
+---
+
+(Still non-Bayesian)
+
+### Intercept-only model
+
+\begin{align*}
+\text{Level 1}&\\
+Y_{ij} &= \beta_{0j} + \epsilon_{ij}\\
+\text{Level 2}&\\
+\beta_{0j} &= \gamma_{00} + U_{0j} \\
+U_{0j} &\sim \text{Normal}(0, \tau^2_{00}) \\
+\epsilon_{ij} &\sim \text{Normal}(0, \sigma^2) \\
+\end{align*}
+
+
+We can rewrite this as the "combined" model:
+
+$$
+Y_{ij} = \gamma_{00} + U_{0j} + \epsilon_{ij}\\
+$$
+Level 1 is where you have data that repeats within your grouping or clustering data. Is your cluster classrooms? Then students are Level 1. Is your cluster people? Then observations are Level 1.
+
+---
+
+Level 2 takes the parameters at Level 1 and decomposes them into a fixed component $(\gamma)$ that reflects the average and, if desired, the individual deviations around that fixed effect $(U)$.
+
+
+\begin{align*}
+\text{Level 1}&\\
+Y_{ij} &= \beta_{0j} + \epsilon_{ij}\\
+\text{Level 2}&\\
+\beta_{0j} &= \gamma_{00} + U_{0j} \\
+U_{0j} &\sim \text{Normal}(0, \tau^2_{00}) \\
+\epsilon_{ij} &\sim \text{Normal}(0, \sigma^2) \\
+\end{align*}
+
+
 ------------------------------------------------------------------------
 
 ## example: multilevel people
@@ -107,7 +164,7 @@ m1 <- brm(
   prior = c( prior(normal(0, 1.5), class=b, nlpar=a),
              prior(exponential(1), class=sigma)),
   iter=2000, warmup=1000, chains=4, cores=4, seed=9,
-  file=here("files/models/m62.1")
+  file=here("files/models/m71.1")
 )
 ```
 
@@ -139,7 +196,7 @@ m2 <- brm(
              prior(exponential(1), class=sd),
              prior(exponential(1), class=sigma)),
   iter=2000, warmup=1000, chains=4, cores=4, seed=9,
-  file=here("files/models/m62.2")
+  file=here("files/models/m71.2")
 )
 ```
 
@@ -360,7 +417,7 @@ We can get **expected** values (means) for individuals in our sample.
 set.seed(9)
 sample_id = sample(unique(d$id), replace=F, size=3)
 
-nd = data.frame(id=sample_id)
+nd = data.frame(id=sample_id, id.f = sample_id)
 
 add_epred_draws(newdata=nd, object=m2) %>% 
   mean_qi()
@@ -371,7 +428,7 @@ add_epred_draws(newdata=nd, object=m2) %>%
 We can get **predicted** values (scores) for individuals in our sample.
 
 ```{r}
-add_predicted_draws(newdata=nd, object=m1) %>% 
+add_predicted_draws(newdata=nd, object=m2) %>% 
   mean_qi()
 ```
 
@@ -382,8 +439,8 @@ add_predicted_draws(newdata=nd, object=m1) %>%
 ```{r}
 #| code-fold: true
 
-expected = add_epred_draws(newdata=nd, object=m1)
-predicted = add_predicted_draws(newdata=nd, object=m1)
+expected = add_epred_draws(newdata=nd, object=m2)
+predicted = add_predicted_draws(newdata=nd, object=m2)
 
 full_join(expected, predicted) %>% 
   filter(.draw <= 100) %>% 
@@ -410,7 +467,7 @@ new_id = max(d$id) + seq(1:3)
 
 nd = data.frame(id=new_id)
 
-add_epred_draws(newdata=nd, object=m1, 
+add_epred_draws(newdata=nd, object=m2, 
                 allow_new_levels=T) %>% 
   ggplot( aes(x=id, y=.epred) ) +
   stat_halfeye()
@@ -431,7 +488,7 @@ Let's add time to our model. Because time varies (can change) within person from
 \end{align*}
 
 ```{r}
-m2 <- brm(
+m3 <- brm(
   data=d,
   family=gaussian,
   con ~ 1 + week + (1 | id), 
@@ -440,14 +497,14 @@ m2 <- brm(
              prior(exponential(1), class=sd),
              prior(exponential(1), class=sigma)),
   iter=2000, warmup=1000, chains=4, cores=4, seed=9,
-  file=here("files/models/m62.2")
+  file=here("files/models/m71.3")
 )
 ```
 
 ------------------------------------------------------------------------
 
 ```{r}
-m2
+m3
 ```
 
 ------------------------------------------------------------------------
@@ -455,7 +512,7 @@ m2
 There are different intercepts for each participant, but not different slopes.
 
 ```{r}
-get_variables(m2)
+get_variables(m3)
 ```
 
 ------------------------------------------------------------------------
@@ -467,7 +524,7 @@ set.seed(9)
 sample_id = sample(unique(d$id), replace=F, size = 20)
 distinct(d, id, week) %>% 
   filter(id %in% sample_id) %>% 
-  add_epred_draws(m2) %>% 
+  add_epred_draws(m3) %>% 
   mean_qi() %>% 
   ggplot( aes(x=week, y=.epred, color=as.factor(id))) +
   geom_point() +
@@ -486,12 +543,14 @@ We can also add covariates at Level 2, or the person-level in this case. We have
 \text{Level 1} &\\
 \text{con}_{ij} &= \alpha_i + \beta_i(\text{week}_{ij}) + \epsilon_{ij} \\
 \text{Level 2} &\\
-\alpha_i &= \gamma_{0}_{\text{group}[i]} + U_{0i} \\
+\alpha_i &= \gamma_{0\text{group}[i]} + U_{0i} \\
 \beta_i  &= \gamma_{1}  \\
 \end{align*}
 
+---
+
 ```{r}
-m3 <- brm(
+m4 <- brm(
   data=d,
   family=gaussian,
     con ~ 0 + week + group + (1 | id), 
@@ -499,20 +558,20 @@ m3 <- brm(
              prior(exponential(1), class=sd),
              prior(exponential(1), class=sigma)),
   iter=5000, warmup=1000, chains=4, cores=4, seed=9,
-  file=here("files/models/m62.3")
+  file=here("files/models/m71.4")
 )
 ```
 
 ------------------------------------------------------------------------
 
 ```{r}
-m3
+m4
 ```
 
 ------------------------------------------------------------------------
 
 ```{r}
-get_variables(m3)
+get_variables(m4)
 ```
 
 ------------------------------------------------------------------------
@@ -524,7 +583,7 @@ set.seed(9)
 sample_id = sample(unique(d$id), replace=F, size = 20)
 distinct(d, id, group, week) %>% 
   filter(id %in% sample_id) %>% 
-  add_epred_draws(m2) %>% 
+  add_epred_draws(m4) %>% 
   mean_qi() %>% 
   ggplot( aes(x=week, y=.epred, group = as.factor(id), color=group)) +
   geom_point() +
@@ -557,7 +616,7 @@ m5 <- brm(
              prior(exponential(1), class=sd),
              prior(exponential(1), class=sigma)),
   iter=5000, warmup=1000, chains=4, cores=4, seed=9,
-  file=here("files/models/m62.5")
+  file=here("files/models/m71.5")
 )
 ```
 
