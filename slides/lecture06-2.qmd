@@ -476,7 +476,7 @@ m3 <-
       file = here("files/models/62.3"))
 ```
 
-(Warning: this will probably take 20 minutes or so to run on your laptop.)
+_Warning: this will probably take 20 minutes or so to run on your laptop._ [You can download my model file here.](https://raw.githubusercontent.com/sjweston/uobayes/9762401fc0f67cc642610fd59d45c8bee185f176/files/share/62.3.rds)
 
 ---
 
