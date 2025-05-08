@@ -332,7 +332,6 @@ Create a new model that models the interaction between intention and the other v
 ### solution
 
 ```{r}
-#| code-fold: true
 
 m2_complex <- brm(
   data = trolley,
