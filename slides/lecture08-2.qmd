@@ -1,0 +1,443 @@
+---
+title: "week 8: multilevel models"
+subtitle: "MELSM"
+format: 
+  revealjs:
+    css: xaringan-themer2.css
+    nature:
+      highlightStyle: solarized-dark
+      highlightLines: true
+      countIncrementalSlides: false
+      mathjax: "default"
+    self-contained: false  # Ensures correct embedding
+    embed-resources: true  # Embeds required assets
+    slide-number: true
+    code-annotations: hover
+execute:
+  echo: false        
+---
+
+```{r, message = F, warning = F}
+library(tidyverse)
+library(psych)
+library(cowplot)
+library(patchwork)
+library(here)
+library(brms) 
+library(tidybayes) 
+```
+
+
+```{r, echo = F}
+knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
+theme_set(theme_cowplot())
+default_palettes <- list(
+  c("#5e8485" , "#0f393a") ,
+  c("#1c5253" , "#5e8485" , "#0f393a") , 
+  # palette with 5 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" ) ,
+  # same palette interpolated to 8 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" ) 
+  
+)
+
+options(ggplot2.discrete.fill = default_palettes, 
+        ggplot2.discrete.colour = default_palettes)
+```
+
+## double-advanced ~~potions~~ multilevel models
+
+* Multivariate MLMs (M-MLM)
+    
+    * Fit models with 2+ (don't get crazy) outcomes. 
+    * The advantage is estimating the correlations between the outcomes, as well as the Level 2 coefficients. 
+
+* Mixed Effects Location Scale Models (MELSM)
+  * Estimate both the mean (location) and variance (scale) of the repeated measures for each of your clusters. 
+
+---
+
+We'll use data provided by Williams and colleagues ([2021](../files/williams_etal_2021.pdf). 
+
+```{r}
+d <- read_csv("https://raw.githubusercontent.com/sjweston/uobayes/refs/heads/main/files/data/external_data/williams.csv")
+# scaled time variable
+d <- d %>% mutate(day01 = (day - 2) / max((day - 2)))
+distinct(d, record_id) %>% count()
+d %>% 
+  count(record_id) %>% 
+  summarise(median = median(n),
+            min = min(n),
+            max = max(n))
+```
+
+---
+
+```{r}
+#| code-fold: true
+
+d %>% 
+  count(record_id) %>% 
+  ggplot(aes(x = n)) +
+  geom_histogram(fill = "#1c5253", color = "white") +
+  scale_x_continuous("number of days", limits = c(0, NA)) 
+```
+
+```{r}
+rethinking::precis(d) 
+```
+
+---
+
+```{r}
+#| code-fold: true
+set.seed(14)
+
+d %>% 
+  nest(data=-record_id) %>% 
+  slice_sample(n = 16) %>% 
+  unnest(data) %>% 
+  ggplot(aes(x = day, y = N_A.lag)) +
+  geom_line(color = "grey") +
+  geom_point(color = "#1c5253", size = 1/2) +
+  geom_line(aes(y = P_A.lag), color = "darkgrey") +
+  geom_point(aes(y = P_A.lag), color = "#e07a5f", size = 1/2) +
+  ylab("affect (standardized)") +
+  facet_wrap(~ record_id)
+```
+
+---
+
+Let's fit an MLM with varying intercepts and slopes.
+
+
+::::: columns
+::: {.column width="50%"}
+
+Likelihood function and linear model
+
+\begin{align*}
+\text{NA}_i &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \alpha_{\text{id}[i]} + \beta_{1\text{id}[i]}\text{NA_lag}_i + \beta_{2\text{id}[i]}\text{PA_lag}_i
+\end{align*}
+
+Varying intercepts and slopes:
+
+\begin{align*}
+\alpha_{\text{id}[i]} &= \alpha + u_{\alpha,\text{id}[i]} \\
+\beta_{1\text{id}[i]} &= \beta + u_{\beta,\text{id}[i]} \\
+\beta_{2\text{id}[i]} &= \beta + u_{\beta,\text{id}[i]}
+\end{align*}
+
+Random effects:
+
+\begin{align*}
+\begin{bmatrix} u_{\alpha,\text{id}[i]} \\ u_{\beta,1\text{id}[i]} \\ u_{\beta,2\text{id}[i]} \end{bmatrix} &\sim \text{MVNormal}\left(\begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix}, \mathbf{S}\right) \\
+\mathbf{S} &= \begin{pmatrix} \sigma_{\alpha} & 0 \\ 0 \\ 0 & \sigma_{\beta}\end{pmatrix}\mathbf{R}\begin{pmatrix} \sigma_{\alpha} & 0 \\ 0 \\ 0 & \sigma_{\beta}\end{pmatrix}
+\end{align*} 
+
+:::
+
+::: {.column width="50%"}
+
+
+Priors: 
+\begin{align*}
+\alpha &\sim \text{Normal}(0,0.2) \\
+\beta &\sim \text{Normal}(0,0.5) \\
+\sigma &\sim \text{Exponential}(1) \\
+\sigma_{\alpha} &\sim \text{Exponential}(1) \\
+\sigma_{\beta} &\sim \text{Exponential}(1) \\
+\mathbf{R} &\sim \text{LKJcorr}(2)
+\end{align*}
+
+:::
+:::::
+
+---
+
+```{r}
+m1 <-
+  brm(data = d,
+      family = gaussian,
+      N_A.std ~ 1 + N_A.lag + P_A.lag + (1 + N_A.lag + P_A.lag | record_id),
+      prior = c(prior(normal(0, 0.2), class = Intercept),
+                prior(normal(0, 1), class = b),
+                prior(exponential(1), class = sd),
+                prior(exponential(1), class = sigma),
+                prior(lkj(2), class = cor)),
+      iter = 3000, warmup = 1000, chains = 4, cores = 4,
+      seed = 14,
+      file = here("files/models/m82.1"))
+```
+
+What if I wanted to model positive affect? Usually, I'd have to fit a second model. 
+
+---
+
+### Multivariate MLMs
+
+But what if I told you I could estimate both positive and negative affect simultaneously?
+
+::::: columns
+::: {.column width="50%"}
+
+Likelihood function
+
+\begin{align*}
+\text{NA}_i &\sim \text{Normal}(\mu_{\text{NA},i}, \sigma_{\text{NA}}) \\
+\mu_{\text{NA},i} &= \alpha_{\text{NA},\text{id}[i]} + \beta_{1\text{NA},\text{id}[i]}\,\text{PA_lag}_i + \beta_{2\text{NA},\text{id}[i]}\,\text{NA_lag}_i \\
+\\
+\text{PA}_i &\sim \text{Normal}(\mu_{\text{PA},i}, \sigma_{\text{PA}}) \\
+\mu_{\text{PA},i} &= \alpha_{\text{PA},\text{id}[i]} + \beta_{1\text{PA},\text{id}[i]}\,\text{PA_lag}_i + \beta_{2\text{PA},\text{id}[i]}\,\text{NA_lag}_i 
+\end{align*}
+
+Varying intercepts and slopes:
+
+\begin{align*}
+\alpha_{\text{NA},\text{id}[i]} &= \alpha_{\text{NA}} + u_{\alpha,1\text{NA},\text{id}[i]} \\
+
+\beta_{1\text{NA},\text{id}[i]} &= \beta_{1\text{NA}} + u_{\beta,1\text{NA},\text{id}[i]} \\
+
+\beta_{2\text{NA},\text{id}[i]} &= \beta_{2\text{NA}} + u_{\beta,2\text{NA},\text{id}[i]} \\
+
+\alpha_{\text{PA},\text{id}[i]} &= \alpha_{\text{PA}} + u_{\alpha,\text{PA},\text{id}[i]} \\
+
+\beta_{1\text{PA},\text{id}[i]} &= \beta_{1\text{PA}} + u_{1\beta,\text{PA},\text{id}[i]} \\
+
+\beta_{2\text{PA},\text{id}[i]} &= \beta_{2\text{PA}} + u_{2\beta,\text{PA},\text{id}[i]}
+
+\end{align*}
+
+:::
+
+::: {.column width="50%"}
+
+Random Effects: Multivariate Distribution
+
+\begin{align*}
+\mathbf{u}_{\text{id}[i]} =
+\begin{bmatrix}
+u_{\alpha,\text{NA},\text{id}[i]} \\
+u_{\beta,1\text{NA},\text{id}[i]} \\
+u_{\beta,2\text{NA},\text{id}[i]} \\
+u_{\alpha,\text{PA},\text{id}[i]} \\
+u_{\beta,1\text{PA},\text{id}[i]} \\
+u_{\beta,2\text{PA},\text{id}[i]}
+\end{bmatrix}
+&\sim \text{MVNormal}(\mathbf{0}, \boldsymbol{\Sigma}) \\
+\boldsymbol{\Sigma} &= \mathbf{L} \mathbf{R} \mathbf{L} \quad
+\\ \text{with} \quad
+\mathbf{L} &= \text{diag}(\sigma_{\alpha,\text{NA}}, \sigma_{\beta,1\text{NA}}, \sigma_{\beta,2\text{NA}}, \sigma_{\alpha,\text{PA}}, \sigma_{\beta,1\text{PA}}, \sigma_{\beta,2\text{PA}})
+\end{align*}
+
+Priors
+
+\begin{align*}
+\alpha_{\text{NA}}, \alpha_{\text{PA}} &\sim \text{Normal}(0, 0.2) \\
+\beta_{1\text{NA}}, \beta_{2\text{NA}}, \beta_{1\text{PA}}, \beta_{2\text{PA}} &\sim \text{Normal}(0, 0.5) \\
+\sigma_{\text{NA}}, \sigma_{\text{PA}} &\sim \text{Exponential}(1) \\
+\sigma_{\alpha,\text{NA}}, \sigma_{\beta,1\text{NA}}, \sigma_{\beta,2\text{NA}}, \sigma_{\alpha,\text{PA}}, \sigma_{\beta,1\text{PA}}, \sigma_{\beta,2\text{PA}} &\sim \text{Exponential}(1) \\
+\mathbf{R} &\sim \text{LKJcorr}(2)
+\end{align*}
+
+:::
+:::::
+
+---
+
+```{r}
+bf_na = bf(N_A.std ~ 1 + N_A.lag + P_A.lag + (1 + N_A.lag + P_A.lag  | c | record_id))
+bf_pa = bf(P_A.std ~ 1 + N_A.lag + P_A.lag + (1 + N_A.lag + P_A.lag  | c | record_id))
+m2 <-
+  brm(data = d,
+      family = gaussian,
+      bf_na + bf_pa + set_rescor(TRUE),
+      prior = c(prior(normal(0, 0.2), class = Intercept),
+                prior(normal(0, 1), class = b),
+                prior(lkj(2), class = cor)),
+      iter = 3000, warmup = 1000, chains = 4, cores = 4,
+      seed = 14,
+      file = here("files/models/m82.2"))
+```
+
+---
+
+```{r}
+m2
+```
+
+---
+
+
+These models can help us address many questions. First, let's decompose the between- and within-person variance of these outcomes. 
+
+```{r}
+# Compute person-level means and residuals
+d_resid <- d %>%
+  group_by(record_id) %>%
+  mutate(
+    N_A_mean = mean(N_A.std, na.rm = TRUE),
+    P_A_mean = mean(P_A.std, na.rm = TRUE),
+    N_A_within = N_A.std - N_A_mean,
+    P_A_within = P_A.std - P_A_mean
+  ) %>%
+  ungroup()
+
+between_df <- d_resid %>%
+  dplyr::select(record_id, N_A_mean, P_A_mean) %>%
+  distinct()
+
+total_cor   <- cor(d$N_A.std, d$P_A.std, use="complete.obs")
+between_cor <- cor(between_df$N_A_mean, between_df$P_A_mean, use = "complete.obs")
+within_cor  <- cor(d_resid$N_A_within, d_resid$P_A_within, use = "complete.obs")
+residual_cor <- m2 %>% spread_draws(rescor__NAstd__PAstd) %>% mean_qi
+tibble(
+  Level = c("Total", "Between-person", "Within-person", "Residual"),
+  Correlation = c(total_cor, between_cor, within_cor, as.numeric(residual_cor[1,1])))
+```
+
+---
+
+```{r}
+get_variables(m2)
+m2_post = m2 %>% spread_draws(b_NAstd_Intercept, b_PAstd_Intercept, b_NAstd_day01, b_PAstd_day01, 
+                    r_record_id__NAstd[id, term], r_record_id__PAstd[id, term]) 
+
+m2_post %>% 
+  pivot_longer(starts_with("r_record_id"),
+               names_to = "outcome", 
+               names_prefix = "r_record_id__", 
+               values_to = "value") %>% 
+  mutate(term=ifelse(term=="Intercept", "intercept", "slope")) %>% 
+  pivot_wider(names_from = term, values_from = term)
+```
+
+---
+
+### spaghetti plots
+
+```{r}
+#| code-fold: true
+#| 
+nd = data.frame(
+  P_A.lag = seq(from = min(d$P_A.lag), to=max(d$P_A.lag), length.out=50),
+  N_A.lag = 0,
+  record_id = max(d$record_id) + 1
+)
+
+nd %>% add_epred_draws(m2, allow_new_levels=T) %>% 
+  filter(.draw <= 50) %>% 
+  ggplot(aes(x = P_A.lag, y = .epred)) +
+  geom_line(aes(group = .draw, color = .category), alpha=.2) +
+  scale_color_manual(values = c("#1c5253" , "#e07a5f")) +
+  facet_wrap(~.category) +
+  guides(color="none") +
+  labs(x = "Positive Affect (lagged)", y = "Expected score")
+```
+
+---
+
+```{r}
+#| code-fold: true
+#| 
+nd = data.frame(
+  N_A.lag = seq(from = min(d$P_A.lag), to=max(d$P_A.lag), length.out=50),
+  P_A.lag = 0,
+  record_id = max(d$record_id) + 1
+)
+
+nd %>% add_epred_draws(m2, allow_new_levels=T) %>% 
+  filter(.draw <= 50) %>% 
+  ggplot(aes(x = N_A.lag, y = .epred)) +
+  geom_line(aes(group = .draw, color = .category), alpha=.2) +
+  scale_color_manual(values = c("#1c5253" , "#e07a5f")) +
+  facet_wrap(~.category) +
+  guides(color="none") +
+  labs(x = "Negative Affect (lagged)", y = "Expected score")
+```
+
+---
+
+But of course, we've allowed these effects to vary for each individual.
+
+```{r}
+nd = expand.grid(
+  P_A.lag = seq(from = min(d$P_A.lag), to=max(d$P_A.lag), length.out=50),
+  N_A.lag = 0,
+  record_id = sample(d$record_id, size = 4, replace=F)
+)
+
+nd %>% add_epred_draws(m2) %>% 
+  filter(.draw <= 20) %>% 
+  ggplot(aes(x = P_A.lag, y = .epred)) +
+  geom_line(aes(group = .draw, color = .category), alpha=.2) +
+  scale_color_manual(values = c("#1c5253" , "#e07a5f")) +
+  facet_grid(.category~record_id) +
+  guides(color="none") +
+  labs(x = "Positive Affect (lagged)", y = "Expected score")
+```
+
+---
+
+We may even want to see whether there's a correlation between the effect of positive affect on PA and on NA.
+
+```{r}
+postm2 = m2 %>% spread_draws(r_record_id__PAstd[id, term],
+                    r_record_id__NAstd[id, term]) 
+
+postm2 %>% 
+  filter(term == "P_A.lag") %>% 
+  mean_qi %>% 
+  ggplot(aes(x = r_record_id__PAstd, y = r_record_id__NAstd)) + 
+  geom_point() +
+  labs(x = "Effect of PA on PA", y="Effect of PA on NA")
+```
+
+---
+
+But of course, each of these points is a summary of a distribution! The real benefit of modeling these outcomes jointly is that we can also get a distribution of the correlations between these effects. 
+
+```{r}
+m2 %>% spread_draws(`cor.*`, regex = T) %>% 
+  pivot_longer(starts_with("cor"),
+               names_prefix = "cor_record_id__") %>% 
+  group_by(name) %>% 
+  mean_qi(value) %>% 
+  arrange(desc(abs(value)))
+```
+
+---
+
+## mixed effects location scale models
+
+Let's go back to a model with one outcome, but we can make it even better. 
+
+\begin{align*}
+\text{NA}_{ij} &\sim \text{Normal}(\mu_{ij}, \sigma) \\
+\mu_{ij} &= \beta_0 + \beta_1\text{time}_{ij} + \mu_{0i} + \mu_{1i}\text{time}_{ij}\\
+\text{log}(\sigma_i) &= \eta_0 + \mu_{2i}
+...
+\end{align*}
+
+```{r}
+m3 <-
+  brm(data = d,
+      family = gaussian,
+      bf(N_A.std ~ 1 + day01 + (1 + day01 |i| record_id),
+         sigma ~ 1 + (1 |i| record_id)),
+      prior = c(prior(normal(0, 0.2), class = Intercept),
+                prior(normal(0, 1), class = b),
+                prior(exponential(1), class = sd),
+                prior(normal(0,1), class = Intercept, dpar=sigma),
+                prior(exponential(1), class = sd, dpar=sigma),
+                prior(lkj(2), class = cor)),
+      iter = 3000, warmup = 1000, chains = 4, cores = 4,
+      seed = 14,
+      file = here("files/models/m82.3"))
+```
+
+:::{.notes}
+We should note a few things about the brm() syntax. First, because we modeled both $\mu_{ij}$ and $\sigma_i$, we nested both model formulas within the `bf()` function. Second, because the `brms` default is to use the log link when modeling $\sigma_i$, there was no need to explicitly set it that way in the family line. However, we could have if we wanted to. Third, notice our use of the `|i|` syntax within the parentheses in the formula lines. If we had used the conventional `|` syntax, that would have not allowed our $\mu_{ij}$ parameters to correlate with  
+$\mu_{0i}$ and $\mu_{1i}$  from the mean structure. It would have effectively set  . Finally, notice how within the `prior()` functions, we explicitly referred to those for the new $\sigma$ structure with the `dpar = sigma` operator.
+:::

@@ -1,5 +1,5 @@
 ---
-title: "Social networks"
+title: "Multivariate bananza"
 date: "2025-05-22"
 ---
 
@@ -9,7 +9,9 @@ source(here::here("R", "youtube-playlist.R"))
 ```
 
 
-## Before class
+## Before class [OPTIONAL]
+
+Turns out, `brms` can't do social networks. So we're going to skip this lesson in our course and replace it with something else -- specifically, multivariate outcomes and mixed effects location scale models. However, I know some of you may want to run social network analyses, so I'm keeping the video here for your reference. 
 
 - <i class="fab fa-youtube"></i> Social networks (1 h 12 min)
 

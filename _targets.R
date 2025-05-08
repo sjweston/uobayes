@@ -61,16 +61,16 @@ list(
   # convert them to PDF with pagedown
   #
   # The main index.qmd page loads xaringan_pdfs as a target to link it as a dependency
-  tar_files(xaringan_html_files, {
-    xaringan_slides
-    list.files(here_rel("slides"),
-               pattern = "\\.html",
-               full.names = TRUE)
-  }),
-  tar_target(xaringan_pdfs,
-             xaringan_to_pdf(xaringan_html_files),
-             pattern = map(xaringan_html_files),
-             format = "file"),
+  # tar_files(xaringan_html_files, {
+  #   xaringan_slides
+  #   list.files(here_rel("slides"),
+  #              pattern = "\\.html",
+  #              full.names = TRUE)
+  # }),
+  # tar_target(xaringan_pdfs,
+  #            xaringan_to_pdf(xaringan_html_files),
+  #            pattern = map(xaringan_html_files),
+  #            format = "file"),
 
 
   ## Project folders ----
