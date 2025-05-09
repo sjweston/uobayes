@@ -44,16 +44,7 @@ options(ggplot2.discrete.fill = default_palettes,
         ggplot2.discrete.colour = default_palettes)
 ```
 
-## multilevel models
-
-We're starting our unit on multilevel models, which can be thought of as models that "remember" features of clusters of data as they learn about all the clusters. The model will pool information across clusters (e.g., our estimates about cluster A will be informed in part by clusters B, C, and D). This tends to improve estimates about each cluster. Here are some other benefits of multilevel modeling:
-
-1.  **improved estimates for repeated sampling.** If you try to fit a single-level model to these data, you'll over- or under-fit the data.
-2.  **improved estimates for imbalance in sampling.** prevent over-sampled clusters from dominating inference, while also balancing the fact that larger clusters have more information.
-3.  **estimates of variation.** model variation explicitly!
-4.  **avoid averaging, retain variation.** averaging manufactures false confidence (artificially inflates precision) and introduces arbitrary data transformations.
-
-Multilevel modeling should be your default approach.
+![](../files/img/mlm.jpeg)
 
 
 ------
@@ -73,6 +64,21 @@ Y_{ij} = b_0 + b_1X_{1ij} + ... + \epsilon_{ij}
 $$
 
 But what is the problem with this?
+
+---
+
+## multilevel models
+
+We're starting our unit on multilevel models, which can be thought of as models that "remember" features of clusters of data as they learn about all the clusters. The model will pool information across clusters (e.g., our estimates about cluster A will be informed in part by clusters B, C, and D). This tends to improve estimates about each cluster. Here are some other benefits of multilevel modeling:
+
+1.  **improved estimates for repeated sampling.** If you try to fit a single-level model to these data, you'll over- or under-fit the data.
+2.  **improved estimates for imbalance in sampling.** prevent over-sampled clusters from dominating inference, while also balancing the fact that larger clusters have more information.
+3.  **estimates of variation.** model variation explicitly!
+4.  **avoid averaging, retain variation.** averaging manufactures false confidence (artificially inflates precision) and introduces arbitrary data transformations.
+
+Multilevel modeling should be your default approach.
+
+
 
 ---
 
@@ -111,6 +117,17 @@ U_{0j} &\sim \text{Normal}(0, \tau^2_{00}) \\
 \epsilon_{ij} &\sim \text{Normal}(0, \sigma^2) \\
 \end{align*}
 
+
+Each person's score is therefore divided into the "fixed" and "random" components:
+
+
+\begin{align*}
+Y_{i,16} &= \beta_{0, 16} + \epsilon_{ij} \\
+... \\
+B_{0, 16} &= \gamma_{00} + U_{0,16}
+\end{align*}
+
+(Random noise is assumed to vary constantly across observations across participants (in this model).)
 
 ------------------------------------------------------------------------
 
