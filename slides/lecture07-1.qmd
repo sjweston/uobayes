@@ -207,6 +207,7 @@ m1 <- brm(
 )
 ```
 
+[You can download my model file here.](https://github.com/sjweston/uobayes/raw/refs/heads/main/files/share/m71.1.rds)
 ---
 
 ```{r}
@@ -240,6 +241,7 @@ m2 <- brm(
 )
 ```
 
+[You can download my model file here.](https://github.com/sjweston/uobayes/raw/refs/heads/main/files/share/m71.2.rds)
 
 Despite the additional complexity, we'll see that our partial pooling model has both a better fit and fewer effective parameters (i.e., is _less_ complex) than our no pooling model.
 
@@ -360,6 +362,8 @@ means1 %>%
   theme(legend.position = "bottom")
 ```
 
+[You can download my model file here.](https://github.com/sjweston/uobayes/raw/refs/heads/main/files/share/m71.1s.rds)
+[You can download my model file here.](https://github.com/sjweston/uobayes/raw/refs/heads/main/files/share/m71.2s.rds)
 
 ------------------------------------------------------------------------
 
@@ -644,6 +648,7 @@ m3 <- brm(
 )
 ```
 
+[You can download my model file here.](https://github.com/sjweston/uobayes/raw/refs/heads/main/files/share/m71.3.rds)
 ------------------------------------------------------------------------
 
 ```{r}
@@ -706,6 +711,7 @@ m4 <- brm(
 )
 ```
 
+[You can download my model file here.](https://github.com/sjweston/uobayes/raw/refs/heads/main/files/share/m71.4.rds)
 ------------------------------------------------------------------------
 
 ```{r}
@@ -766,6 +772,8 @@ m5 <- brm(
   file=here("files/models/m71.5")
 )
 ```
+
+[You can download my model file here.](https://github.com/sjweston/uobayes/raw/refs/heads/main/files/share/m71.5.rds)
 
 ---
 
