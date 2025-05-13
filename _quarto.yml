@@ -84,7 +84,7 @@ website:
               file: content/09-content.qmd
             - text: "10: Poisson regression"
               file: content/10-content.qmd
-            - text: "11: Multinomial regression"
+            - text: "11: Ordered categories"
               file: content/11-content.qmd
             - text: "12: Multilevel models"
               file: content/12-content.qmd
@@ -92,7 +92,7 @@ website:
               file: content/13-content.qmd
             - text: "14: Multivariate priors"
               file: content/14-content.qmd
-            - text: "15: Social networks"
+            - text: "15: Fancy MLM"
               file: content/15-content.qmd
             - text: "16: Gaussian processes"
               file: content/16-content.qmd
