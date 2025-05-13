@@ -1,0 +1,136 @@
+---
+title: "week 9: advanced methods"
+subtitle: "gaussian processes"
+format: 
+  revealjs:
+    css: xaringan-themer2.css
+    nature:
+      highlightStyle: solarized-dark
+      highlightLines: true
+      countIncrementalSlides: false
+      mathjax: "default"
+    self-contained: false  # Ensures correct embedding
+    embed-resources: true  # Embeds required assets
+    slide-number: true
+    code-annotations: hover
+execute:
+  echo: false        
+---
+
+```{r, message = F, warning = F}
+library(tidyverse)
+library(psych)
+library(cowplot)
+library(patchwork)
+library(here)
+library(brms) 
+library(tidybayes) 
+```
+
+
+```{r, echo = F}
+knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
+theme_set(theme_cowplot())
+default_palettes <- list(
+  c("#5e8485" , "#0f393a") ,
+  c("#1c5253" , "#5e8485" , "#0f393a") , 
+  # palette with 5 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" ) ,
+  # same palette interpolated to 8 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" ) 
+  
+)
+
+options(ggplot2.discrete.fill = default_palettes, 
+        ggplot2.discrete.colour = default_palettes)
+```
+
+## continuous categories
+
+Thus far, our MLMs have grouped observations within essentially nominal categories -- even when we use numbers, we're treating these categories as unordered and discrete. A participant id is just a label for a unique "thing". In these models, partial pooling does double duty -- it improves accuracy by borrowing information from other groups but estimates variation across groups.
+
+But consider other types of grouping that are not so distinct -- McElreath shows examples using spatial distance, but also consider time or age. Individuals of the same age share some exposure (cultural trends, political and historical events, even climate); they also share exposure with people of similar ages. And even though we assign labels to generations, guessing the similarity between two people is probably better done by the differences in their ages rather than whether they share a generational label. 
+
+In this case, it wouldn't make as much sense to fit a separate intercept for individuals of the same age, because the model would borrow equally from all other groups. Instead, we would rather the model borrow information in proportion to the closeness of other groups (e.g., intercepts for 27 year olds should be more informaed by data from 28 and 26 year olds than 67 year olds).
+
+The general approach to this is known as **GAUSSIAN PROCESS REGRESSION**.
+
+
+---
+
+Data come from a 26-wave (every 2 weeks) study of political attitudes ([Brandt et al., 2021](https://openpsychologydata.metajnl.com/articles/10.5334/jopd.54#3-dataset-description)).
+
+[Download the csv file here](https://osf.io/782ez).
+
+```{r}
+d <- read_csv(here("files/data/external_data/yllanon.csv")) 
+# %>% 
+#   select(id, wave, age, gender, ethnic, edu,
+#          health, econ, crime, imm, vaccines, ideo)
+# rethinking::precis(d)
+```
+
+---
+
+Let's first focus on wave 1. Consider how age is likely releated to political ideology. We'll model this as a Gaussian process. 
+
+First, we need to measure the distance between participants in terms of age. 
+
+```{r}
+d1 = d %>% filter(wave == 1)
+# calculate distance
+distances = dist(d1$age)
+#create empty matrix and fill it
+d_matrix = matrix(data = 0, nrow = nrow(d1), ncol=nrow(d1))
+d_matrix[upper.tri(d_matrix)] = d_matrix[lower.tri(d_matrix)] = distances
+```
+
+---
+
+Now we can model some attitudes. Let's look at the vaccine variable: 
+
+Do you favor or oppose laws that require parents to vaccinate their children using common vaccines (e.g., polio, tetanus, measles, flu)?
+1 - Favor Strongly
+7 - Oppose strongly
+
+```{r}
+d1 = d1 %>% 
+  mutate(vaccines = ifelse( vaccines > 7, NA, vaccines))
+
+m1 <- brm(
+  data = d1,
+  family = cumulative, 
+  bf( vaccines ~ a,
+      a ~ 1 + gp(age, scale = F),
+      nl = TRUE),
+  prior = c( 
+    #prior(normal(0,1), class=a),
+             prior(inv_gamma(3, 3), class=lscale, coef=gpage, nlpar=a)),
+  iter=2000, warmup=1000, seed=3, cores=4
+)
+
+post <-
+  as_draws_df(m1) %>% 
+  mutate(etasq = sdgp_a_gpage^2)
+
+post <-
+  post %>% 
+  mutate(rhosq = 1 / (2 * lscale_a_gpage^2))
+
+post %>% 
+  slice_sample(n = 50) %>% 
+  expand_grid(x = seq(from = 0, to = 10, by = .05)) %>% 
+  mutate(covariance = etasq * exp(-rhosq * x^2)) %>%
+  # plot
+  ggplot(aes(x = x, y = covariance)) +
+  geom_line(aes(group = .draw),
+            linewidth = 1/4, alpha = 1/4) +
+  stat_function(fun = function(x) mean(post$sdgp_a_gplat_adjlon2_adj)^2 *
+                  exp(-(1 / (2 * mean(post$lscale_a_gplat_adjlon2_adj)^2)) * x^2),
+                color = "#DCA258", linewidth = 1) +
+  scale_x_continuous("distance (thousand km)", expand = c(0, 0),
+                     breaks = 0:5 * 2) +
+  labs(subtitle = "Gaussian process posterior")
+```
+
+

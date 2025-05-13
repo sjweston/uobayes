@@ -710,7 +710,7 @@
     "href": "assignment/07-problem-set.html#questions",
     "title": "Problem set 7",
     "section": "Questions",
-    "text": "Questions\nTBD",
+    "text": "Questions\n\nReturn to data(Trolley). Define and fit a varying intercepts model for these data. Cluster intercepts on individual participants, as indicated by the unique values in the id variable. Include action, intention, and contact as ordinary terms. Compare the varying intercepts model and a model that ignores individuals, using both WAIC and posterior predictions. What is the impact of individual variation in these data?\nThe Trolley data are also clustered by story, which indicates a unique narrative for each vignette. Define and fit a cross-classified varying intercepts model with both id and story. Use the same ordinary terms as in the previous problem. Compare this model to the previous models. What do you infer about the impact of different stories on responses?",
     "crumbs": [
       "Assignments",
       "Problem sets",
