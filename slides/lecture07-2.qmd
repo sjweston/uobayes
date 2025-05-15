@@ -14,10 +14,10 @@ format:
     slide-number: true
     code-annotations: hover
 execute:
-  echo: false        
+  echo: true        
 ---
 
-```{r, message = F, warning = F}
+```{r, message = F, warning = F, echo=T}
 library(tidyverse)
 library(psych)
 library(cowplot)
