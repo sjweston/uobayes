@@ -27,6 +27,8 @@ library(brms)
 library(tidybayes) 
 ```
 
+[Download (almost) all model files here.](https://github.com/sjweston/uobayes/raw/refs/heads/main/files/share/mods7-2.zip)
+
 
 ```{r, echo = F}
 knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
