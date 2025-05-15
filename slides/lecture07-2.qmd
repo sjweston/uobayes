@@ -17,7 +17,7 @@ execute:
   echo: true        
 ---
 
-```{r, message = F, warning = F, echo=T}
+```{r, message = F, warning = F, echo= T}
 library(tidyverse)
 library(psych)
 library(cowplot)
@@ -45,6 +45,16 @@ default_palettes <- list(
 
 options(ggplot2.discrete.fill = default_palettes, 
         ggplot2.discrete.colour = default_palettes)
+```
+
+```{r, message = F, warning = F, echo= T}
+library(tidyverse)
+library(psych)
+library(cowplot)
+library(patchwork)
+library(here)
+library(brms) 
+library(tidybayes) 
 ```
 
 ---
@@ -145,8 +155,6 @@ m2 <- brm(
 )
 ```
 
-[You can download my model file here.](https://github.com/sjweston/uobayes/raw/refs/heads/main/files/share/m72.2.rds)
-
 ------------------------------------------------------------------------
 
 ```{r}
@@ -210,7 +218,6 @@ m3 <- brm(
 )
 ```
 
-[You can download my model file here.](https://github.com/sjweston/uobayes/raw/refs/heads/main/files/share/m72.3.rds)
 
 ------------------------------------------------------------------------
 
