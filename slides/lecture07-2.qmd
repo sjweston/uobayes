@@ -47,21 +47,13 @@ options(ggplot2.discrete.fill = default_palettes,
         ggplot2.discrete.colour = default_palettes)
 ```
 
-```{r, message = F, warning = F, echo= T}
-library(tidyverse)
-library(psych)
-library(cowplot)
-library(patchwork)
-library(here)
-library(brms) 
-library(tidybayes) 
-```
+
 
 ---
 
 ## mlm
 
-Often, there are opportunities to cluster your observations -- repeated measures, group membership, hierarchies, even different measures for the same particiapnt. Whenever you can cluster, you should!
+Often, there are opportunities to cluster your observations -- repeated measures, group membership, hierarchies, even different measures for the same participant. Whenever you can cluster, you should!
 
 * Aggregation is bad
 * Regressions within regressions (ie coefficients as outcomes)
@@ -206,6 +198,7 @@ We can also add covariates at Level 2, or the person-level in this case. We have
 ---
 
 ```{r}
+d$female = ifelse(d$female == 1, "female", "male")
 m3 <- brm(
   data=d,
   family=gaussian,
