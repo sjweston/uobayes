@@ -1,11 +1,9 @@
 {
-  "hash": "8361d2cbc19c31a6f53e4cc58817264d",
+  "hash": "8f861c167b3bac366a18839e76c3b01a",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Problem set 8\"\ndate: \"2025-05-26\"\n---\n\n\n\n\n\n\n## Instructions\n\nPlease use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas. \n\n## Questions\n\nTBD ",
-    "supporting": [
-      "08-problem-set_files"
-    ],
+    "markdown": "---\ntitle: \"Problem set 8\"\ndate: \"2025-05-26\"\n---\n\n\n\n\n\n\n## Instructions\n\nPlease use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas. \n\n## Questions\n\n1. The data in `data(Oxboys, package=\"rethinking\")` is 234 height measurements on 26 boys from an Oxford Boys Club, at 9 different ages (centered and standardized) per boy. Predict height, using age, clustered by `Subject` (individual boy). Fit a model with varying intercepts and slopes (on `age`), clustered by `Subject.` Present and interpret the parameter estimates. Which varying effect contributes more variation to the heights, the intercept or the slope?\n\n2. Now consider the correlation between the varying intercepts and slopes. Can you explain its value? How would this estimated correlation influence your predictions about a new sample of boys?\n",
+    "supporting": [],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],
