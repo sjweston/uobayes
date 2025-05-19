@@ -1,0 +1,724 @@
+---
+title: "week 8: multilevel models"
+subtitle: "adventures in covariance"
+format: 
+  revealjs:
+    css: xaringan-themer2.css
+    nature:
+      highlightStyle: solarized-dark
+      highlightLines: true
+      countIncrementalSlides: false
+      mathjax: "default"
+    self-contained: false  # Ensures correct embedding
+    embed-resources: true  # Embeds required assets
+    slide-number: true
+    code-annotations: hover
+execute:
+  echo: true        
+---
+
+```{r, message = F, warning = F, echo= T}
+library(tidyverse)
+library(psych)
+library(cowplot)
+library(patchwork)
+library(here)
+library(brms) 
+library(tidybayes) 
+```
+
+[Download (almost) all model files here.](https://github.com/sjweston/uobayes/raw/refs/heads/main/files/share/mods7-2.zip)
+
+
+```{r, echo = F}
+knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
+theme_set(theme_cowplot())
+default_palettes <- list(
+  c("#5e8485" , "#0f393a") ,
+  c("#1c5253" , "#5e8485" , "#0f393a") , 
+  # palette with 5 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" ) ,
+  # same palette interpolated to 8 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" ) 
+  
+)
+
+options(ggplot2.discrete.fill = default_palettes, 
+        ggplot2.discrete.colour = default_palettes)
+```
+
+
+## today's topics
+
+  * Varying slopes
+
+---
+
+
+## varying slopes
+
+Let's start by simulating cafe data.
+
+```{r}
+# ---- set population-level parameters -----
+a <- 3.5       # average morning wait time
+b <- (-1)      # average difference afternoon wait time
+sigma_a <- 1   # std dev in intercepts
+sigma_b <- 0.5 # std dev in slopes
+rho <- (-0.7)  #correlation between intercepts and slopes
+
+# ---- create vector of means ----
+Mu <- c(a, b)
+
+# ---- create matrix of variances and covariances ----
+sigmas <- c(sigma_a,sigma_b) # standard deviations
+Rho <- matrix( c(1,rho,rho,1) , nrow=2 ) # correlation matrix
+# now matrix multiply to get covariance matrix
+Sigma <- diag(sigmas) %*% Rho %*% diag(sigmas)
+
+# ---- simulate intercepts and slopes -----
+N_cafes = 20
+library(MASS)
+set.seed(5)
+vary_effects <- mvrnorm( n=N_cafes, mu = Mu, Sigma=Sigma)
+a_cafe <- vary_effects[, 1]
+b_cafe <- vary_effects[, 2]
+
+# ---- simulate observations -----
+
+set.seed(22)
+N_visits <- 10
+afternoon <- rep(0:1,N_visits*N_cafes/2)
+cafe_id <- rep( 1:N_cafes , each=N_visits )
+mu <- a_cafe[cafe_id] + b_cafe[cafe_id]*afternoon
+sigma <- 0.5 # std dev within cafes
+wait <- rnorm( N_visits*N_cafes , mu , sigma )
+d3 <- data.frame( cafe=cafe_id , afternoon=afternoon , wait=wait )
+
+```
+
+---
+
+```{r}
+rethinking::precis(d3)
+d3 %>% filter(cafe==1)
+```
+
+------------------------------------------------------------------------
+
+### a simulation note from RM
+
+> In this exercise, we are simulating data from a generative process and then analyzing that data with a model that reflects exactly the correct structure of that process. But in the real world, we’re never so lucky. Instead we are always forced to analyze data with a model that is MISSPECIFIED: The true data-generating process is different than the model. Simulation can be used however to explore misspecification. Just simulate data from a process and then see how a number of models, none of which match exactly the data-generating process, perform. And always remember that Bayesian inference does not depend upon data-generating assumptions, such as the likelihood, being true. Non-Bayesian approaches may depend upon sampling distributions for their inferences, but this is not the case for a Bayesian model. In a Bayesian model, a likelihood is a prior for the data, and inference about parameters can be surprisingly insensitive to its details.
+
+------------------------------------------------------------------------
+
+**Mathematical model:**
+
+likelihood function and linear model
+
+\begin{align*}
+W_i &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \alpha_{CAFE[i]} + \beta_{CAFE[i]}(\text{Afternoon}_i)
+\end{align*}
+
+varying intercepts and slopes
+
+\begin{align*}
+\begin{bmatrix} \alpha_{CAFE[i]} \\ \beta_{CAFE[i]} \end{bmatrix} &\sim \text{MVNormal}( \begin{bmatrix} \alpha \\ \beta \end{bmatrix}, \mathbf{S}) \\
+\mathbf{S} &\sim \begin{pmatrix} \sigma_{\alpha}, & 0 \\ 0, & \sigma_{\beta}\end{pmatrix}\mathbf{R}\begin{pmatrix} \sigma_{\alpha}, & 0 \\ 0, & \sigma_{\beta}\end{pmatrix} \\
+\end{align*}
+
+priors
+
+\begin{align*}
+\alpha &\sim \text{Normal}(5,2) \\
+\beta &\sim  \text{Normal}(-1,0.5) \\
+\sigma &\sim  \text{Exponential}(1) \\
+\sigma_{\alpha} &\sim  \text{Exponential}(1) \\
+\sigma_{\beta} &\sim  \text{Exponential}(1) \\
+\mathbf{R} &\sim \text{LKJcorr}(2)
+\end{align*}
+
+------------------------------------------------------------------------
+
+### LKJ correlation prior
+
+```{r}
+#| code-fold: true
+# examples
+rlkj_1 = rethinking::rlkjcorr(1e4, K=2, eta=1)
+rlkj_2 = rethinking::rlkjcorr(1e4, K=2, eta=2)
+rlkj_4 = rethinking::rlkjcorr(1e4, K=2, eta=4)
+rlkj_6 = rethinking::rlkjcorr(1e4, K=2, eta=6)
+data.frame(rlkj_1= rlkj_1[,1,2], 
+           rlkj_2= rlkj_2[,1,2], 
+           rlkj_4= rlkj_4[,1,2],
+           rlkj_6= rlkj_6[,1,2]) %>% 
+  ggplot() +
+  geom_density(aes(x=rlkj_1, color = "1"), alpha=.3) +
+  geom_density(aes(x=rlkj_2, color = "2"), alpha=.3) +
+  geom_density(aes(x=rlkj_4, color = "4"), alpha=.3) +
+  geom_density(aes(x=rlkj_6, color = "6"), alpha=.3) +
+  labs(x="R", color="eta") +
+  theme(legend.position = "top")
+```
+
+------------------------------------------------------------------------
+
+```{r}
+m5 <- brm(
+  data = d3,
+  family = gaussian,
+  wait ~ 1 + afternoon + (1 + afternoon | cafe),
+  prior = c(
+    prior( normal(5,2),    class=Intercept ), 
+    prior( normal(-1, .5), class=b),
+    prior( exponential(1), class=sd),
+    prior( exponential(1), class=sigma),
+    prior( lkj(2),         class=cor)
+  ), 
+  iter=2000, warmup=1000, chains=4, cores=4, seed=9,
+  file=here("files/models/m72.5")
+)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+posterior_summary(m5) %>% round(2)
+```
+
+------------------------------------------------------------------------
+
+Let's get the slopes and intercepts for each cafe.
+
+```{r}
+#| code-fold: true
+
+cafe_params = m5 %>% spread_draws(b_Intercept, b_afternoon, r_cafe[id, term]) %>% 
+  pivot_wider(names_from = term, values_from = r_cafe) %>% 
+  mutate( intercepts =b_Intercept + Intercept,
+          slopes = b_afternoon + afternoon) %>% 
+  mean_qi(intercepts, slopes) 
+
+cafe_params %>% 
+  dplyr::select(cafe=id, intercepts, slopes) %>% 
+  round(2)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| code-fold: true
+cafe_params %>% 
+  ggplot( aes(x=intercepts, y=slopes) ) +
+  geom_point(size = 2) 
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| code-fold: true
+cafe_params %>% 
+  ggplot( aes(x=intercepts, y=slopes) ) +
+  stat_ellipse() +
+  geom_point(size = 2) 
+
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| code-fold: true
+cafe_params %>% 
+  ggplot( aes(x=intercepts, y=slopes) ) +
+  mapply(function(level) {
+    stat_ellipse(geom  = "polygon", type = "norm",
+                 linewidth = 0, alpha = .1, fill = "#1c5253",
+                 level = level)
+    }, 
+    # enter the levels here
+    level = c(1:9 / 10, .99)) +
+  geom_point(size = 2) 
+
+```
+
+More about `stat_ellipse` [here](https://ggplot2.tidyverse.org/reference/stat_ellipse.html).
+
+------------------------------------------------------------------------
+
+We can use the slopes and intercepts to calculate the expected morning and afternoon wait times for each cafe. 
+
+
+```{r}
+#| code-fold: true
+cafe_params %>% 
+  mutate(
+    morning = intercepts, 
+    afternoon = intercepts + slopes
+  ) %>% 
+  ggplot( aes(x=morning, y=afternoon) ) +
+  mapply(function(level) {
+    stat_ellipse(geom  = "polygon", type = "norm",
+                 linewidth = 0, alpha = .1, fill = "#1c5253",
+                 level = level)
+    }, 
+    # enter the levels here
+    level = c(1:9 / 10, .99)) +
+  geom_point(size = 2)+
+  labs(x="morning wait time",
+       y="afternoon wait time")
+```
+
+---
+
+Or, we can use `epred_draws`.
+
+```{r}
+#| code-fold: true
+d3 %>% 
+  distinct(cafe, afternoon) %>% 
+  add_epred_draws(m5) %>% 
+  group_by(cafe, afternoon) %>% 
+  summarise(wait = mean(.epred), .groups = "drop") %>% 
+  mutate(afternoon =ifelse(afternoon==1, "afternoon", "morning")) %>% 
+  pivot_wider(names_from = afternoon, values_from=wait) %>% 
+  ggplot( aes(x=morning, y=afternoon) ) +
+  mapply(function(level) {
+    stat_ellipse(geom  = "polygon", type = "norm",
+                 linewidth = 0, alpha = .1, fill = "#1c5253",
+                 level = level)
+    }, 
+    # enter the levels here
+    level = c(1:9 / 10, .99)) +
+  geom_point(size = 2)+
+  labs(x="morning wait time",
+       y="afternoon wait time")
+
+```
+
+
+------------------------------------------------------------------------
+
+What is the correlation of our intercepts and slopes?
+
+```{r}
+m5 %>% spread_draws(cor_cafe__Intercept__afternoon) %>% mean_qi()
+```
+
+
+```{r}
+#| code-fold: true
+post = as_draws_df(m5)
+rlkj_2 = rethinking::rlkjcorr(nrow(post), K=2, eta=2)
+
+data.frame(prior= rlkj_2[,1,2],
+           posterior = post$cor_cafe__Intercept__afternoon) %>% 
+  ggplot() +
+  geom_density(aes(x=prior, color = "prior"), alpha=.3) +
+  geom_density(aes(x=posterior, color = "posterior"), alpha=.3) +
+  scale_color_manual(values = c("#1c5253" , "#e07a5f")) +
+  labs(x="R") +
+  theme(legend.position = "top")
+```
+
+------------------------------------------------------------------------
+
+## multilevel people again
+
+Let's apply what we've learned to our affect data: 
+
+
+```{r}
+data_path = "https://raw.githubusercontent.com/sjweston/uobayes/refs/heads/main/files/data/external_data/williams.csv"
+d <- read.csv(data_path)
+rethinking::precis(d)
+```
+
+---
+
+Here's our original intercept-only model (for comparison).
+
+\begin{align*}
+\text{PA.std}_i &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \alpha_{\text{id}[i]} \\
+\alpha_j &\sim \text{Normal}(\bar{\alpha}, \sigma_{\alpha}) \text{ for j in 1...239}\\
+\bar{\alpha} &\sim \text{Normal}(0, 1.5)\\
+\sigma_{\alpha} &\sim \text{Exponential}(1) \\
+\sigma &\sim \text{Exponential}(1) \\
+\end{align*}
+
+```{r}
+m1 <- brm(
+  data=d,
+  family=gaussian,
+  PA.std ~ 1 + (1 | id), 
+  prior = c( prior(normal(0, 1.5), class=Intercept),
+             prior(exponential(1), class=sd),
+             prior(exponential(1), class=sigma)),
+  iter=4000, warmup=1000, chains=4, cores=4, seed=9, #running this longer so it mixes
+  control = list(adapt_delta =.99),
+  file=here("files/models/m71.2")
+)
+```
+
+---
+
+```{r}
+#| code-fold: true
+
+seed=4
+set.seed(seed)
+p1 = d %>% 
+  nest(data = -id) %>% 
+  sample_n(size = 3) %>% 
+  unnest() %>% 
+  ggplot(aes(x=day, y=PA.std, group=id)) +
+  geom_line(alpha=.3) +
+  facet_wrap(~id, nrow=1) +
+  labs(x="day", y="PA")
+
+set.seed(seed) 
+p2 = d %>% 
+  nest(data = -id) %>% 
+  sample_n(size = 3) %>% 
+  unnest() %>% 
+  ggplot(aes(x=PA_lag, y=PA.std, group=id)) +
+  geom_line(alpha=.3) +
+  facet_wrap(~id, nrow=1) +
+  labs(x="PA yesterday", y="PA today")
+
+p1/p2
+```
+
+------------------------------------------------------------------------
+
+**Mathematical model with varying slopes**
+
+::::: columns
+::: {.column width="50%"}
+
+Likelihood function and linear model
+
+\begin{align*}
+\text{PA}_{ij} &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \alpha_{\text{id}[i]} + \beta_{\text{id}[i]}\text{PA}_{i,t-1}
+\end{align*}
+
+Varying intercepts and slopes:
+
+\begin{align*}
+\alpha_{\text{id}[i]} &= \gamma_{\alpha} + U_{\alpha,\text{id}[i]} \\
+\beta_{\text{id}[i]} &= \gamma_{\beta} + U_{\beta,\text{id}[i]}
+\end{align*}
+
+Random effects:
+
+\begin{align*}
+\begin{bmatrix} U_{\alpha,\text{id}[i]} \\ U_{\beta,\text{id}[i]} \end{bmatrix} &\sim \text{MVNormal}\left(\begin{bmatrix} 0 \\ 0 \end{bmatrix}, \mathbf{S}\right) \\
+\mathbf{S} &= \begin{pmatrix} \sigma_{\alpha} & 0 \\ 0 & \sigma_{\beta}\end{pmatrix}\mathbf{R}\begin{pmatrix} \sigma_{\alpha} & 0 \\ 0 & \sigma_{\beta}\end{pmatrix}
+\end{align*} 
+
+:::
+
+::: {.column width="50%"}
+
+
+Priors: 
+\begin{align*}
+\gamma_\alpha &\sim \text{Normal}(0,1) \\
+\gamma_\beta &\sim \text{Normal}(0,1) \\
+\sigma &\sim \text{Exponential}(1) \\
+\sigma_{\alpha} &\sim \text{Exponential}(1) \\
+\sigma_{\beta} &\sim \text{Exponential}(1) \\
+\mathbf{R} &\sim \text{LKJcorr}(2)
+\end{align*}
+
+:::
+:::::
+
+
+------------------------------------------------------------------------
+
+```{r}
+m6 <- brm(
+  data=d,
+  family=gaussian,
+  PA.std ~ 1 + PA_lag + (1 + PA_lag | id),
+  prior = c( prior( normal(0,1),    class=Intercept ),
+             prior( normal(0,1),    class=b ),
+             prior( exponential(1), class=sigma ),
+             prior( exponential(1), class=sd ),
+             prior( lkj(2),         class=cor)),
+  iter=4000, warmup=1000, seed=9, cores=4, chains=4,
+  file=here("files/models/m72.6")
+)
+```
+
+---
+
+```{r}
+m6
+```
+
+---
+
+What can we learn from this model?
+
+  * Overall, what's the relationship between yesterday's PA and today's PA?
+  * How much within-person variability is accounted for by holdover PA?
+  * To what extent do people differ in the association of holdover PA?
+  * Is someone's overall positive affect related to their holdover effect?
+  
+---
+
+### Overall relationship
+
+```{r}
+set.seed(3)
+post = as_draws_df(m6) 
+# estimates from the posterior
+post %>% mean_qi(b_PA_lag)
+```
+
+---
+
+```{r}
+#| code-fold: true
+# plot posterior density
+p1 = post %>% 
+  ggplot(aes(x = b_PA_lag)) +
+  stat_halfeye(fill="#1c5253") +
+  geom_vline( aes(xintercept=0), linetype = "dashed" ) +
+  labs( title="posterior density",
+        x="slope",
+        y=NULL) +
+  scale_y_continuous(breaks=NULL)
+# posterior lines
+p2 = d %>% 
+  sample_n(2000) %>% 
+  ggplot(aes( x=PA_lag, y=PA.std )) +
+  geom_point(alpha=.2, shape = 20) +
+  geom_abline( aes(intercept=b_Intercept, slope=b_PA_lag),
+               data=post[1:50, ],
+               alpha=.3,
+               color="#1c5253") +
+  labs( x="NA",
+        y="PA",
+        title="posterior lines")
+
+p1 + p2  
+```
+
+
+---
+
+### Accounting for variability
+
+How much within-person variability is accounted for by variability in negative affect? Let's compare estimates of the residual variability of these models.
+
+```{r}
+# model with no predictors
+m1_sigma = spread_draws(m1, sigma) %>% mutate(model = "intercept only")
+m6_sigma = spread_draws(m6, sigma) %>% mutate(model = "with lag")
+
+m1_sigma %>% 
+  full_join(m6_sigma) %>% 
+  group_by(model) %>% 
+  mean_qi(sigma)
+```
+
+---
+
+```{r}
+#| code-fold: true
+p1 = m1_sigma %>% 
+  full_join(m6_sigma) %>% 
+  ggplot( aes(y=sigma, fill=model )) +
+  stat_halfeye(alpha=.5) + 
+  labs(
+    x=NULL,
+    y = "within-person sd",
+    title = "posterior distributions of\neach model") +
+  scale_x_continuous(breaks=NULL) +
+  theme(legend.position = "bottom")
+
+p2 = data.frame(diff = m6_sigma$sigma - m1_sigma$sigma) %>% 
+  ggplot( aes(x=diff)) +
+  stat_halfeye() + 
+  labs(
+    y=NULL,
+    x = "m6-m1",
+    title = "posterior distribution of\ndifference in sigma") +
+  scale_y_continuous(breaks=NULL) 
+
+p2 + p1
+```
+
+---
+
+### individual differences
+
+To what extent do people differ in the association of holdover PA?
+
+```{r}
+#| code-fold: true
+seed = 2
+set.seed(seed)
+sample_id = sample(unique(d$id), replace=F, size = 6)
+d %>% 
+  filter(id %in% sample_id) %>% 
+  ggplot( aes( x=day, y=PA.std ) ) +
+  geom_point() +
+  geom_line() +
+  facet_wrap(~id) +
+  labs(y="positive affect")
+```
+
+---
+
+To what extent do people differ in the association of holdover PA?
+
+```{r}
+#| code-fold: true
+d %>% 
+  filter(id %in% sample_id) %>% 
+  ggplot( aes( x=PA_lag, y=PA.std ) ) +
+  geom_point() +
+  facet_wrap(~id) +
+  labs(y="today",
+       x="yesterday")
+```
+
+
+---
+
+To what extent do people differ in the association of holdover PA?
+
+```{r}
+#| code-fold: true
+d %>% 
+  filter(id %in% sample_id) %>% 
+  ggplot( aes( x=PA_lag, y=PA.std ) ) +
+  geom_point(alpha=.5, shape=20) +
+  geom_abline( aes(intercept=b_Intercept, slope=b_PA_lag),
+               data = post[1:50, ],
+               alpha=.4, 
+               color="#1c5253") +
+  facet_wrap(~id) +
+  labs(y="today",
+       x="yesterday")
+```
+
+---
+
+```{r}
+m6 %>% spread_draws(b_Intercept, b_PA_lag, r_id[id, term]) %>% 
+  pivot_wider(names_from = term, values_from = r_id) %>% 
+  filter(id %in% sample_id)
+```
+
+---
+
+```{r}
+#| code-fold: true
+#| 
+post2 = m6 %>% spread_draws(b_Intercept, b_PA_lag, r_id[id, term]) %>% 
+  pivot_wider(names_from = term, values_from = r_id) %>% 
+  mutate(intercept = b_Intercept + Intercept,
+         slope = b_PA_lag + PA_lag) %>% 
+  filter(id %in% sample_id) %>% 
+  with_groups(id, sample_n, 50)
+
+d %>% 
+  filter(id %in% sample_id) %>% 
+  ggplot( aes( x=PA_lag, y=PA.std ) ) +
+  geom_point(alpha=.5, shape=20) +
+  geom_abline( aes(intercept=intercept, slope=slope, color=as.factor(id)),
+               data = post2,
+               alpha=.4) +
+  facet_wrap(~id) +
+  guides(color="none") +
+  labs(y="today",
+       x="yesterday")
+```
+
+
+---
+
+```{r}
+#| code-fold: true
+#| 
+post2 = m6 %>% spread_draws(b_Intercept, b_PA_lag, r_id[id, term]) %>% 
+  pivot_wider(names_from = term, values_from = r_id) %>% 
+  mutate(intercept = b_Intercept + Intercept,
+         slope = b_PA_lag + PA_lag) %>% 
+  filter(id %in% sample_id) %>% 
+  with_groups(id, sample_n, 50)
+
+d %>% 
+  filter(id %in% sample_id) %>% 
+  ggplot( aes( x=PA_lag, y=PA.std ) ) +
+  geom_point(alpha=.5, shape=20) +
+  geom_abline( aes(intercept=intercept, slope=slope, color=as.factor(id)),
+               data = post2,
+               alpha=.4) +
+  geom_abline( aes(intercept=b_Intercept, slope=b_PA_lag),
+               data = post[1:50, ],
+               alpha=.4) +
+  facet_wrap(~id) +
+  guides(color="none") +
+  labs(y="today",
+       x="yesterday")
+```
+
+---
+
+Back to the question: how much do these slopes differ?
+
+```{r}
+m6 %>% spread_draws(sd_id__PA_lag) %>% 
+  mean_qi
+```
+
+---
+
+## Correlations between parameters
+
+Is someone's overall positive affect related to their holdover effect?
+
+
+```{r}
+m6 %>% spread_draws(cor_id__Intercept__PA_lag) %>% 
+  mean_qi
+```
+
+---
+
+```{r}
+m6 %>% spread_draws(r_id[id, term]) %>% 
+  pivot_wider(names_from = term, values_from = r_id) 
+```
+
+---
+
+```{r}
+m6 %>% spread_draws(r_id[id, term]) %>% 
+  pivot_wider(names_from = term, values_from = r_id) %>% 
+  ungroup() %>% 
+  dplyr::select(.draw, Intercept, PA_lag) %>% 
+  nest(data= -.draw) %>% 
+  mutate(r = map_dbl(data, ~cor(.$Intercept, .$PA_lag))) 
+```
+
+---
+
+```{r}
+m6 %>% spread_draws(r_id[id, term]) %>% 
+  pivot_wider(names_from = term, values_from = r_id) %>% 
+  ungroup() %>% 
+  dplyr::select(.draw, Intercept, PA_lag) %>% 
+  nest(data= -.draw) %>% 
+  mutate(r = map_dbl(data, ~cor(.$Intercept, .$PA_lag))) %>% 
+  mean_qi(r)
+```

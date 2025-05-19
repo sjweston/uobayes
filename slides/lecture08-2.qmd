@@ -63,9 +63,9 @@ We'll use data provided by Williams and colleagues ([2021](../files/williams_eta
 d <- read_csv("https://raw.githubusercontent.com/sjweston/uobayes/refs/heads/main/files/data/external_data/williams.csv")
 # scaled time variable
 d <- d %>% mutate(day01 = (day - 2) / max((day - 2)))
-distinct(d, record_id) %>% count()
+distinct(d, id) %>% count()
 d %>% 
-  count(record_id) %>% 
+  count(id) %>% 
   summarise(median = median(n),
             min = min(n),
             max = max(n))
@@ -77,7 +77,7 @@ d %>%
 #| code-fold: true
 
 d %>% 
-  count(record_id) %>% 
+  count(id) %>% 
   ggplot(aes(x = n)) +
   geom_histogram(fill = "#1c5253", color = "white") +
   scale_x_continuous("number of days", limits = c(0, NA)) 
@@ -94,16 +94,16 @@ rethinking::precis(d)
 set.seed(14)
 
 d %>% 
-  nest(data=-record_id) %>% 
+  nest(data=-id) %>% 
   slice_sample(n = 16) %>% 
   unnest(data) %>% 
-  ggplot(aes(x = day, y = N_A.lag)) +
+  ggplot(aes(x = day, y = NA_lag)) +
   geom_line(color = "grey") +
   geom_point(color = "#1c5253", size = 1/2) +
-  geom_line(aes(y = P_A.lag), color = "darkgrey") +
-  geom_point(aes(y = P_A.lag), color = "#e07a5f", size = 1/2) +
+  geom_line(aes(y = PA_lag), color = "darkgrey") +
+  geom_point(aes(y = PA_lag), color = "#e07a5f", size = 1/2) +
   ylab("affect (standardized)") +
-  facet_wrap(~ record_id)
+  facet_wrap(~ id)
 ```
 
 ---
@@ -160,13 +160,13 @@ Priors:
 m1 <-
   brm(data = d,
       family = gaussian,
-      N_A.std ~ 1 + N_A.lag + P_A.lag + (1 + N_A.lag + P_A.lag | record_id),
+      NA.std ~ 1 + NA_lag + PA_lag + (1 + NA_lag + PA_lag | id),
       prior = c(prior(normal(0, 0.2), class = Intercept),
                 prior(normal(0, 1), class = b),
                 prior(exponential(1), class = sd),
                 prior(exponential(1), class = sigma),
                 prior(lkj(2), class = cor)),
-      iter = 3000, warmup = 1000, chains = 4, cores = 4,
+      iter = 5000, warmup = 1000, chains = 4, cores = 4,
       seed = 14,
       file = here("files/models/m82.1"))
 ```
@@ -247,8 +247,8 @@ Priors
 ---
 
 ```{r}
-bf_na = bf(N_A.std ~ 1 + N_A.lag + P_A.lag + (1 + N_A.lag + P_A.lag  | c | record_id))
-bf_pa = bf(P_A.std ~ 1 + N_A.lag + P_A.lag + (1 + N_A.lag + P_A.lag  | c | record_id))
+bf_na = bf(NA.std ~ 1 + NA_lag + PA_lag + (1 + NA_lag + PA_lag  | c | id))
+bf_pa = bf(PA.std ~ 1 + NA_lag + PA_lag + (1 + NA_lag + PA_lag  | c | id))
 m2 <-
   brm(data = d,
       family = gaussian,
@@ -256,7 +256,7 @@ m2 <-
       prior = c(prior(normal(0, 0.2), class = Intercept),
                 prior(normal(0, 1), class = b),
                 prior(lkj(2), class = cor)),
-      iter = 3000, warmup = 1000, chains = 4, cores = 4,
+      iter = 5000, warmup = 1000, chains = 4, cores = 4,
       seed = 14,
       file = here("files/models/m82.2"))
 ```
@@ -275,20 +275,20 @@ These models can help us address many questions. First, let's decompose the betw
 ```{r}
 # Compute person-level means and residuals
 d_resid <- d %>%
-  group_by(record_id) %>%
+  group_by(id) %>%
   mutate(
-    N_A_mean = mean(N_A.std, na.rm = TRUE),
-    P_A_mean = mean(P_A.std, na.rm = TRUE),
-    N_A_within = N_A.std - N_A_mean,
-    P_A_within = P_A.std - P_A_mean
+    N_A_mean = mean(NA.std, na.rm = TRUE),
+    P_A_mean = mean(PA.std, na.rm = TRUE),
+    N_A_within = NA.std - N_A_mean,
+    P_A_within = PA.std - P_A_mean
   ) %>%
   ungroup()
 
 between_df <- d_resid %>%
-  dplyr::select(record_id, N_A_mean, P_A_mean) %>%
+  dplyr::select(id, N_A_mean, P_A_mean) %>%
   distinct()
 
-total_cor   <- cor(d$N_A.std, d$P_A.std, use="complete.obs")
+total_cor   <- cor(d$NA.std, d$PA.std, use="complete.obs")
 between_cor <- cor(between_df$N_A_mean, between_df$P_A_mean, use = "complete.obs")
 within_cor  <- cor(d_resid$N_A_within, d_resid$P_A_within, use = "complete.obs")
 residual_cor <- m2 %>% spread_draws(rescor__NAstd__PAstd) %>% mean_qi
@@ -321,14 +321,14 @@ m2_post %>%
 #| code-fold: true
 #| 
 nd = data.frame(
-  P_A.lag = seq(from = min(d$P_A.lag), to=max(d$P_A.lag), length.out=50),
-  N_A.lag = 0,
-  record_id = max(d$record_id) + 1
+  PA_lag = seq(from = min(d$PA_lag), to=max(d$PA_lag), length.out=50),
+  NA_lag = 0,
+  id = max(d$id) + 1
 )
 
 nd %>% add_epred_draws(m2, allow_new_levels=T) %>% 
   filter(.draw <= 50) %>% 
-  ggplot(aes(x = P_A.lag, y = .epred)) +
+  ggplot(aes(x = PA_lag, y = .epred)) +
   geom_line(aes(group = .draw, color = .category), alpha=.2) +
   scale_color_manual(values = c("#1c5253" , "#e07a5f")) +
   facet_wrap(~.category) +
@@ -342,14 +342,14 @@ nd %>% add_epred_draws(m2, allow_new_levels=T) %>%
 #| code-fold: true
 #| 
 nd = data.frame(
-  N_A.lag = seq(from = min(d$P_A.lag), to=max(d$P_A.lag), length.out=50),
-  P_A.lag = 0,
-  record_id = max(d$record_id) + 1
+  NA_lag = seq(from = min(d$PA_lag), to=max(d$PA_lag), length.out=50),
+  PA_lag = 0,
+  id = max(d$id) + 1
 )
 
 nd %>% add_epred_draws(m2, allow_new_levels=T) %>% 
   filter(.draw <= 50) %>% 
-  ggplot(aes(x = N_A.lag, y = .epred)) +
+  ggplot(aes(x = NA_lag, y = .epred)) +
   geom_line(aes(group = .draw, color = .category), alpha=.2) +
   scale_color_manual(values = c("#1c5253" , "#e07a5f")) +
   facet_wrap(~.category) +
@@ -363,17 +363,17 @@ But of course, we've allowed these effects to vary for each individual.
 
 ```{r}
 nd = expand.grid(
-  P_A.lag = seq(from = min(d$P_A.lag), to=max(d$P_A.lag), length.out=50),
-  N_A.lag = 0,
-  record_id = sample(d$record_id, size = 4, replace=F)
+  PA_lag = seq(from = min(d$PA_lag), to=max(d$PA_lag), length.out=50),
+  NA_lag = 0,
+  id = sample(d$id, size = 4, replace=F)
 )
 
 nd %>% add_epred_draws(m2) %>% 
   filter(.draw <= 20) %>% 
-  ggplot(aes(x = P_A.lag, y = .epred)) +
+  ggplot(aes(x = PA_lag, y = .epred)) +
   geom_line(aes(group = .draw, color = .category), alpha=.2) +
   scale_color_manual(values = c("#1c5253" , "#e07a5f")) +
-  facet_grid(.category~record_id) +
+  facet_grid(.category~id) +
   guides(color="none") +
   labs(x = "Positive Affect (lagged)", y = "Expected score")
 ```
@@ -387,7 +387,7 @@ postm2 = m2 %>% spread_draws(r_record_id__PAstd[id, term],
                     r_record_id__NAstd[id, term]) 
 
 postm2 %>% 
-  filter(term == "P_A.lag") %>% 
+  filter(term == "PA_lag") %>% 
   mean_qi %>% 
   ggplot(aes(x = r_record_id__PAstd, y = r_record_id__NAstd)) + 
   geom_point() +
@@ -424,15 +424,15 @@ Let's go back to a model with one outcome, but we can make it even better.
 m3 <-
   brm(data = d,
       family = gaussian,
-      bf(N_A.std ~ 1 + day01 + (1 + day01 |i| record_id),
-         sigma ~ 1 + (1 |i| record_id)),
+      bf(NA.std ~ 1 + day01 + (1 + day01 |i| id),
+         sigma ~ 1 + (1 |i| id)),
       prior = c(prior(normal(0, 0.2), class = Intercept),
                 prior(normal(0, 1), class = b),
                 prior(exponential(1), class = sd),
                 prior(normal(0,1), class = Intercept, dpar=sigma),
                 prior(exponential(1), class = sd, dpar=sigma),
                 prior(lkj(2), class = cor)),
-      iter = 3000, warmup = 1000, chains = 4, cores = 4,
+      iter = 5000, warmup = 1000, chains = 4, cores = 4,
       seed = 14,
       file = here("files/models/m82.3"))
 ```

@@ -14,17 +14,19 @@ format:
     slide-number: true
     code-annotations: hover
 execute:
-  echo: false        
+  echo: true        
 ---
 
-```{r, message = F, warning = F}
+```{r, message = F, warning = F, echo=F}
 library(tidyverse)
 library(psych)
 library(cowplot)
 library(patchwork)
 library(here)
 library(brms) 
-library(tidybayes) 
+library(tidybayes)
+library(scales) #for some plotting features
+library(invgamma) # new distribution
 ```
 
 
@@ -51,13 +53,135 @@ Thus far, our MLMs have grouped observations within essentially nominal categori
 
 But consider other types of grouping that are not so distinct -- McElreath shows examples using spatial distance, but also consider time or age. Individuals of the same age share some exposure (cultural trends, political and historical events, even climate); they also share exposure with people of similar ages. And even though we assign labels to generations, guessing the similarity between two people is probably better done by the differences in their ages rather than whether they share a generational label. 
 
-In this case, it wouldn't make as much sense to fit a separate intercept for individuals of the same age, because the model would borrow equally from all other groups. Instead, we would rather the model borrow information in proportion to the closeness of other groups (e.g., intercepts for 27 year olds should be more informaed by data from 28 and 26 year olds than 67 year olds).
+In this case, it wouldn't make as much sense to fit a separate intercept for individuals of the same age, because the model would borrow equally from all other groups. Instead, we would rather the model borrow information in proportion to the closeness of other groups (e.g., intercepts for 27-year-olds should be more informed by data from 28- and 26-year-olds than 67-year-olds).
 
 The general approach to this is known as **GAUSSIAN PROCESS REGRESSION**.
 
 
 ---
 
+## research questions
+
+Gaussian processes can be useful for answering questions like:
+
+  * How do effects vary smoothly across continuous variables?
+  * What is the functional relationship between predictors and outcomes when the form is unknown?
+  * How do temporal or spatial factors influence outcomes?
+  * What are the similarities between observations based on multiple dimensions?
+  * How can we make predictions with appropriate uncertainty for new, unseen values?
+  * How do multiple signals interact in complex, non-linear ways?
+  * What's the underlying pattern when we have noisy measurements?
+
+---
+
+## formal definition
+
+From the `brms` [manual](https://cran.r-project.org/web/packages/brms/brms.pdf#page=105.08):
+
+A GP is a stochastic process, which describes the relation between one or more predictors $x = (x_1, ..., x_d)$ and a response $f(x)$, where $d$ is the number of predictors. A GP is the generalization of the multivariate normal distribution to an infinite number of dimensions. Thus, it can be interpreted as a prior over functions. The values of $f()$ at any finite set of locations are jointly multivariate normal, with a covariance matrix defined by the covariance kernal $k_p (x_i,x_j)$, where $p$ is the vector of parameters of the GP:
+
+$$
+f(x_1),...,f(x_n) \sim \text{MVN}(0, (k_p(x_i,x_j))^n_{i,j=1})
+$$
+
+The smoothness and general behavior of the function $f$ depends only on the choice of the covariance kernel.
+
+---
+
+## kernals
+
+The smoothness and general behavior of the function $f$ depends only on the choice of the covariance kernel. In plain English, a kernel is like a "relationship measurer" between any two points in your data. It answers the question: "If I know the value at point A, how much does that tell me about the value at point B?"
+
+The kernel determines how the influence spreads across your data. If two points are close together according to the kernel, their values will be similar. If two points are far apart, their values will be uncorrelated (but not necessarily far apart).
+
+Different kernels create different patterns of relationships. For example:
+
+  * Some kernels make smooth, gentle transitions between points
+  * Others allow for more abrupt changes
+  * Some might say that periodic patterns exist (like seasonal effects)
+  
+---
+
+The mathematical formula of the kernel determines exactly how this similarity decays with distance, time, or whatever dimension you're working with.
+
+Currently there are four available kernels in `brms` (in order from smoothest to roughest):
+
+  * `exp_quad`: exponentiated quadratic 
+  * `matern52`: Matern 5/2
+  * `matern32`: Matern 3/2
+  * `exponential`: exponential
+
+(Details about the kernels from the [Stan manual](https://mc-stan.org/docs/functions-reference/matrix_operations.html#gaussian-process-covariance-functions).)
+
+---
+
+### exponentiated quadratic
+
+With magnitude $\sigma$ and length scale $l$, the exponentiated quadratic kernel is:
+
+$$
+k(x_i, x_j) = \sigma^2\text{exp}(-\frac{|x_i-x_j|^2}{2l^2})
+$$
+  * Think of it as creating very gentle hills and valleys - no sudden jumps or sharp corners
+  * Influence between points drops off quickly (like a bell curve)
+  * If you know the value at age 25, it gives you strong information about age 24 and 26, moderate information about age 22 and 28, and very little about age 15 or 35
+  * Best for processes you believe are inherently smooth and continuous
+  * Example: Physical growth patterns in children might follow this kind of smooth curve
+
+---
+
+### Matern 3/2
+
+This creates somewhat rougher patterns than the exponentiated quadratic.
+
+With magnitude $\sigma$ and length scale $l$, the Matern 3/2 kernel is:
+
+$$
+k(x_i,x_j) = \sigma^2(1 + \frac{\sqrt{3}|x_i-x_j|}{l})\text{exp}(- \frac{\sqrt{3}|x_i-x_j|}{l})
+$$
+
+  * Still creates continuous curves, but allows for more wiggles and variations
+  * Points still influence their neighbors, but the influence dies off more quickly
+  * If two points are very close, they're still highly related, but medium-distance points have less relationship
+  * Good for processes that are continuous but have some natural variability
+  * Example: Income patterns across adjacent neighborhoods might follow this pattern - generally related but with some local variations
+
+---
+
+### Matern 5/2
+
+This sits between the very smooth `exp_quad` and the rougher `matern32`.
+
+With magnitude $\sigma$ and length scale $l$, the Matern 3/2 kernel is:
+
+$$
+k(x_i,x_j) = \sigma^2(1 + \frac{\sqrt{5}|x_i-x_j|}{l}+ \frac{\sqrt{5}|x_i-x_j|^2}{3l^2})\text{exp}(- \frac{\sqrt{5}|x_i-x_j|}{l})
+$$
+
+  * Allows for more flexibility than `exp_quad` while still maintaining good continuity
+  * Example: Environmental factors like temperature across a landscape might follow this pattern, with generally smooth transitions but allowing for some local variations
+
+---
+
+### exponential
+
+This is the roughest of the four kernels.
+
+With magnitude $\sigma$ and length scale $l$, the exponential kernel is:
+
+$$
+k(x_i, x_j) = \sigma^2\text{exp}(-\frac{|x_i-x_j|}{l})
+$$
+
+  * Creates patterns that can change more abruptly
+  * The influence between points drops off very quickly with distance
+  * Neighboring points still have relationship, but it weakens more rapidly than with other kernels
+  * Good for processes where you expect more abrupt changes or less smoothness
+  * Example: Opinion shifts across different age groups during times of rapid social change might follow this pattern, with sharper transitions between cohorts
+
+---
+
+## example: data
 Data come from a 26-wave (every 2 weeks) study of political attitudes ([Brandt et al., 2021](https://openpsychologydata.metajnl.com/articles/10.5334/jopd.54#3-dataset-description)).
 
 [Download the csv file here](https://osf.io/782ez).
@@ -72,65 +196,334 @@ d <- read_csv(here("files/data/external_data/yllanon.csv"))
 
 ---
 
-Let's first focus on wave 1. Consider how age is likely releated to political ideology. We'll model this as a Gaussian process. 
+Should federal spending on defense be increased, decreased, or kept the same?
 
-First, we need to measure the distance between participants in terms of age. 
+  * 1 - Greatly decrease
+  * 7 - Greatly increase
 
 ```{r}
-d1 = d %>% filter(wave == 1)
-# calculate distance
-distances = dist(d1$age)
-#create empty matrix and fill it
-d_matrix = matrix(data = 0, nrow = nrow(d1), ncol=nrow(d1))
-d_matrix[upper.tri(d_matrix)] = d_matrix[lower.tri(d_matrix)] = distances
+#| code-fold: true
+d %>% 
+  count(def) %>% 
+  mutate(
+    col = ifelse(def >7, "1","2"),
+    def = factor(def, 
+                      levels=c(1:9),
+                      labels = c("1\nGreatly decrease", "2", "3", "4\nKeep the same", "5", "6", "7\nGreatly increase", "8\n Don't Know", "9\n Haven't thought"))) %>% 
+  ggplot(aes(x=def, y=n)) +
+  geom_col(aes(fill=col)) +
+  scale_x_discrete(labels = label_wrap(10)) +
+  labs(title = "Should federal spending on defense be changed?",
+       x=NULL,
+       y = "count") +
+  theme(legend.position = "none")
 ```
 
 ---
 
-Now we can model some attitudes. Let's look at the vaccine variable: 
+### some data cleaning
 
-Do you favor or oppose laws that require parents to vaccinate their children using common vaccines (e.g., polio, tetanus, measles, flu)?
-1 - Favor Strongly
-7 - Oppose strongly
+Let's remove those values on the variable that are not part of our Likert scale.
 
 ```{r}
-d1 = d1 %>% 
-  mutate(vaccines = ifelse( vaccines > 7, NA, vaccines))
+d = filter(d, def <= 7)
+```
 
-m1 <- brm(
-  data = d1,
-  family = cumulative, 
-  bf( vaccines ~ a,
-      a ~ 1 + gp(age, scale = F),
-      nl = TRUE),
-  prior = c( 
-    #prior(normal(0,1), class=a),
-             prior(inv_gamma(3, 3), class=lscale, coef=gpage, nlpar=a)),
-  iter=2000, warmup=1000, seed=3, cores=4
-)
+We'll be adding age at baseline to the model. Age was only collected during wave 1, so we'll simply carry that through all the survey responses. There's a few ways to do that. I'll show you how to use the `fill` function in `tidyverse`. We'll also remove anyone who didn't report an age.
 
-post <-
-  as_draws_df(m1) %>% 
-  mutate(etasq = sdgp_a_gpage^2)
-
-post <-
-  post %>% 
-  mutate(rhosq = 1 / (2 * lscale_a_gpage^2))
-
-post %>% 
-  slice_sample(n = 50) %>% 
-  expand_grid(x = seq(from = 0, to = 10, by = .05)) %>% 
-  mutate(covariance = etasq * exp(-rhosq * x^2)) %>%
-  # plot
-  ggplot(aes(x = x, y = covariance)) +
-  geom_line(aes(group = .draw),
-            linewidth = 1/4, alpha = 1/4) +
-  stat_function(fun = function(x) mean(post$sdgp_a_gplat_adjlon2_adj)^2 *
-                  exp(-(1 / (2 * mean(post$lscale_a_gplat_adjlon2_adj)^2)) * x^2),
-                color = "#DCA258", linewidth = 1) +
-  scale_x_continuous("distance (thousand km)", expand = c(0, 0),
-                     breaks = 0:5 * 2) +
-  labs(subtitle = "Gaussian process posterior")
+```{r}
+d = d %>% 
+  arrange(id, wave) %>% 
+  with_groups(
+    id,
+    ~fill(., age, .direction="down")
+  ) %>% 
+  filter(!is.na(age))
 ```
 
 
+---
+
+### model 1: intercept only
+
+Let's say we're interested in studying how time and age impact the responses to this question. We'll build up our models from most simple to most complex.
+
+\begin{align*}
+R_{ij} &\sim \text{Categorical}(p) \\
+\text{logit}(p_k) &= \alpha_{k,j} - \phi \\
+\phi &= 0 \\
+\alpha_{k,j} &= \bar{\alpha}_k + U_{kj} \\
+\bar{\alpha} &\sim \text{Normal}(0, 1.5) \\
+\sigma_{\alpha_k} &\sim{Exponential}(1)
+\end{align*}
+
+```{r}
+m1 <- brm(
+  data = d,
+  family = cumulative, 
+  def ~ 1 + (1 | id),
+  prior = c( prior(normal(0, 1.5), class = Intercept),
+             prior(expoential(1), class=sd) ),
+  iter=2000, warmup=1000, seed=3, cores=4,
+  file = here("files/models/m91.1b")
+)
+```
+
+---
+
+### model 2: age and wave
+
+
+\begin{align*}
+R_ij &\sim \text{Categorical}(p) \\
+\text{logit}(p_k) &= \alpha_{k,j} - \phi \\
+\phi &= \beta_1\text{age}_i + \beta_2\text{wave}_i \\
+\alpha_{k,j} &= \bar{\alpha}_k + U_{kj} \\
+\bar{\alpha}_k &\sim \text{Normal}(0, 1.5) \\
+\beta_1 &\sim \text{Normal}(0, 1) \\
+\beta_2 &\sim \text{Normal}(0, 1) \\
+\sigma_{\alpha_K} &\sim \text{Exponential}(1)
+\end{align*}
+
+```{r}
+m2 <- brm(
+  data = d,
+  family = cumulative, 
+  def ~ 1 + age + wave + (1 | id),
+  prior = c( prior(normal(0, 1.5), class = Intercept),
+             prior(normal(0, 1),   class = b),
+             prior(expoential(1), class=sd)),
+  iter=5000, warmup=1000, seed=3, cores=4,
+  file = here("files/models/m91.2b")
+)
+```
+
+---
+
+### model 3: gaussian process on age
+
+```{r}
+m3 <- brm(
+  data = d,
+  family = cumulative, 
+  bf( def ~ a + b1*wave, 
+      a ~ 1 + gp(age, cov = "exp_quad", scale = F) + (1|id), 
+      b1 ~ 1,
+      nl = TRUE),
+  prior = c( prior(normal(0, 1.5), nlpar=a),
+             prior(inv_gamma(2.5, 3), class = lscale, coef = gpage, nlpar = a),
+             prior(exponential(1), class = sdgp, coef = gpage, nlpar = a)),
+  iter=5000, warmup=1000, seed=3, cores=4,
+  file = here("files/models/m91.3")
+)
+```
+
+---
+
+As a reminder, the kernel formula for our GP is
+
+$$
+k(x_i, x_j) = \sigma^2\text{exp}(-\frac{|x_i-x_j|^2}{2l^2})
+$$
+The value $|x_i-x_j|^2$ is the absolute squared distance between two values. That means, the two values estimated in our model are $\sigma$ and $l$. What do each of these mean?
+
+Let's start with $l$: The value of $1/(2\times l^2)$ is equal to $\rho$. So we can rewrite the equation as 
+
+$$
+k(x_i, x_j) = \sigma^2\text{exp}(-\rho|x_i-x_j|^2)
+$$
+In other words, the covariance between two values is declines exponentially with the squared distance between them. 
+
+The remaining piece, $\sigma^2$ is the maximum covariance between any two values. 
+
+---
+
+I used an `invgamma` distribution for as my prior for $l$ and an expoential distribution as the prior for $\sigma$. Here's what that looks like:
+
+```{r}
+#| code-fold: true
+#| 
+set.seed(11)
+nsim = 50
+sample_l = invgamma::rinvgamma(nsim, 2.5, 3)
+sample_sig = rexp(nsim, 1)
+
+# wrangle into functions
+p1 = tibble(
+  .draw = 1:nsim,
+  l = sample_l,
+  sig = sample_sig) %>% 
+  mutate(sigsq = sig^2,
+         rhosq = 1 / (2 * l^2)) %>% 
+  expand_grid(x = seq(from = 0, to = 10, by = .05)) %>% 
+  mutate(covariance = sigsq * exp(-rhosq * x^2)) %>% 
+  # plot
+  ggplot(aes(x = x, y = covariance)) +
+  geom_line(aes(group = .draw),
+            linewidth = 1/4, alpha = 1/4, color = "#1c5253") +
+  stat_function(fun = function(x) mean(post$sdgp_a_gpage)^2 *
+                  exp(-(1 / (2 * mean(post$lscale_a_gpage)^2)) * x^2),
+                color = "#0f393a", linewidth = 1) +
+  scale_x_continuous("distance (age)", expand = c(0, 0),
+                     breaks = 0:5 * 2) +
+  coord_cartesian(xlim = c(0, 10),
+                  ylim = c(0, 20)) +
+  labs(subtitle = "Gaussian process prior")
+p1
+```
+
+---
+
+```{r}
+m3 %>% spread_draws( sdgp_a_gpage, lscale_a_gpage )
+```
+
+---
+
+Here's our posterior distribution of the Gaussian process
+
+```{r}
+#| code-fold: true
+#| 
+post <- as_draws_df(m3)
+
+# for `slice_sample()`
+set.seed(14)
+
+# wrangle
+p2 <-
+  post %>% 
+  mutate(sigsq = sdgp_a_gpage^2,
+         rhosq = 1 / (2 * lscale_a_gpage^2)) %>% 
+  slice_sample(n = 50) %>% 
+  expand_grid(x = seq(from = 0, to = 10, by = .05)) %>% 
+  mutate(covariance = sigsq * exp(-rhosq * x^2)) %>% 
+  
+  # plot
+  ggplot(aes(x = x, y = covariance)) +
+  geom_line(aes(group = .draw),
+            linewidth = 1/4, alpha = 1/4, color = "#1c5253") +
+  stat_function(fun = function(x) mean(post$sdgp_a_gpage)^2 *
+                  exp(-(1 / (2 * mean(post$lscale_a_gpage)^2)) * x^2),
+                color = "#0f393a", linewidth = 1) +
+  scale_x_continuous("distance (age)", expand = c(0, 0),
+                     breaks = 0:5 * 2) +
+  coord_cartesian(xlim = c(0, 10),
+                  ylim = c(0, 10)) +
+  labs(subtitle = "Gaussian process posterior")
+
+p1 + p2
+```
+
+
+---
+
+```{r}
+m1 <- add_criterion(m1, criterion = "loo")
+m2 <- add_criterion(m2, criterion = "loo")
+m3 <- add_criterion(m3, criterion = "loo")
+loo_compare(`m1: intercept only` = m1, m2, `m3: gaussian proces`  = m3)
+```
+
+---
+
+Let's plot the model-predicted values as a function of age for models 2 and 3 to see how they compare. 
+
+```{r}
+#| code-fold: true
+nd = d %>% distinct(age) %>% 
+  mutate(id = "1",
+         wave=1)  # add new id 
+  
+pred_m2 = nd %>% 
+  add_epred_draws(m2, allow_new_levels = T) %>% 
+  mutate(model = "m2") 
+
+pred_m3 = nd %>% 
+  add_epred_draws(m3, allow_new_levels = T) %>% 
+  mutate(model = "m3")
+
+full_join(pred_m2, pred_m3) %>% 
+  group_by(model, age, .category) %>% 
+  mean_qi(.epred) %>% 
+  ggplot( aes( x=age, y=.epred, color=model ) ) +
+  geom_line() +
+  facet_wrap(~.category) +
+  theme(legend.position = "bottom")
+
+```
+
+---
+
+If you zoom in on any of these response options, you'll see that model 2, which modeled age as a linear predictor, only allows for gradual change in our outcome, whereas model 3 allows for some more "wiggliness". 
+
+```{r}
+#| code-fold: true
+
+full_join(pred_m2, pred_m3) %>% 
+  filter(.category %in% c(1)) %>% 
+  group_by(model, age, .category) %>% 
+  mean_qi(.epred) %>% 
+  ggplot( aes( x=age, y=.epred, color=model ) ) +
+  geom_line() +
+  facet_wrap(~.category) +
+  theme(legend.position = "bottom")
+```
+
+---
+
+## another example
+
+```{r}
+data_path = "https://raw.githubusercontent.com/sjweston/uobayes/refs/heads/main/files/data/external_data/williams.csv"
+d <- read.csv(data_path)
+rethinking::precis(d)
+```
+
+---
+
+### estimating carry-over effects
+
+```{r}
+m4 <- brm(
+  data = d,
+  family = gaussian, 
+  PA.std ~ 1 + gp(day, cov = "exp_quad", scale = F) + (1|id),
+  prior = c( prior(normal(0, .1), class=Intercept),
+             prior(inv_gamma(2.5, 3), class = lscale, coef = gpday),
+             prior(exponential(1), class = sdgp, coef = gpday)),
+  iter=10000, warmup=1000, seed=3, cores=4,
+  file = here("files/models/m91.4")
+)
+```
+
+---
+
+```{r}
+#| code-fold: true
+#| 
+post <- as_draws_df(m4)
+
+# for `slice_sample()`
+set.seed(14)
+
+# wrangle
+post %>% 
+  mutate(sigsq = sdgp_gpday^2,
+         rhosq = 1 / (2 * lscale_gpday^2)) %>% 
+  slice_sample(n = 50) %>% 
+  expand_grid(x = seq(from = 0, to = 100, by = .05)) %>% 
+  mutate(covariance = sigsq * exp(-rhosq * x^2)) %>% 
+  
+  # plot
+  ggplot(aes(x = x, y = covariance)) +
+  geom_line(aes(group = .draw),
+            linewidth = 1/4, alpha = 1/4, color = "#1c5253") +
+  stat_function(fun = function(x) mean(post$sdgp_gpday)^2 *
+                  exp(-(1 / (2 * mean(post$lscale_gpday)^2)) * x^2),
+                color = "#0f393a", linewidth = 1) +
+  scale_x_continuous("distance (day)") +
+  labs(subtitle = "Gaussian process posterior")
+```
+
+---

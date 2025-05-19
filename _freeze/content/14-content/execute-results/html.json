@@ -1,11 +1,9 @@
 {
-  "hash": "1cd68a77a4cf30a9b3785d1203ba4213",
+  "hash": "52f6634c49643b8acacdb76e53259b36",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Multivariate priors\"\ndate: \"2025-05-20\"\n---\n\n\n\n\n\n\n\n## Before class\n\n- <i class=\"fab fa-youtube\"></i> Correlated features (1 h 10 min)\n\n\n\n\n\n```{=html}\n<div class=\"vembedr\">\n<div>\n<iframe src=\"https://www.youtube.com/embed/Es44-Bp1aKo\" width=\"533\" height=\"300\" frameborder=\"0\" allowfullscreen=\"\" data-external=\"1\"></iframe>\n</div>\n</div>\n```\n\n\n\n\n\n## During class\n\nThe slides for today's lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n\n\n\n<p class=\"buttons\"><a class=\"btn btn-danger\" target=\"_blank\"\nhref=\"/slides/lecture07-2.html\"><i class=\"fa-solid fa-arrow-up-right-from-square\"></i>\nView all slides in new window</a></p>\n\n\n\n<iframe src=\"/slides/lecture07-2.html\" width=\"100%\" height=\"500px\"></iframe>\n",
-    "supporting": [
-      "14-content_files"
-    ],
+    "markdown": "---\ntitle: \"Multivariate priors\"\ndate: \"2025-05-20\"\n---\n\n\n\n\n\n\n\n## Before class\n\n- <i class=\"fab fa-youtube\"></i> Correlated features (1 h 10 min)\n\n\n\n\n\n```{=html}\n<div class=\"vembedr\">\n<div>\n<iframe src=\"https://www.youtube.com/embed/Es44-Bp1aKo\" width=\"533\" height=\"300\" frameborder=\"0\" allowfullscreen=\"\" data-external=\"1\"></iframe>\n</div>\n</div>\n```\n\n\n\n\n\n## During class\n\nThe slides for today's lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.\n\n\n\n\n<p class=\"buttons\"><a class=\"btn btn-danger\" target=\"_blank\"\nhref=\"/slides/lecture08-1.html\"><i class=\"fa-solid fa-arrow-up-right-from-square\"></i>\nView all slides in new window</a></p>\n\n\n\n<iframe src=\"/slides/lecture08-1.html\" width=\"100%\" height=\"500px\"></iframe>\n",
+    "supporting": [],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],
