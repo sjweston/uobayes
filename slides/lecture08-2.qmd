@@ -95,7 +95,7 @@ set.seed(14)
 
 d %>% 
   nest(data=-id) %>% 
-  slice_sample(n = 16) %>% 
+  slice_sample(n = 6) %>% 
   unnest(data) %>% 
   ggplot(aes(x = day, y = NA_lag)) +
   geom_line(color = "grey") +
@@ -109,10 +109,6 @@ d %>%
 ---
 
 Let's fit an MLM with varying intercepts and slopes.
-
-
-::::: columns
-::: {.column width="50%"}
 
 Likelihood function and linear model
 
@@ -129,16 +125,14 @@ Varying intercepts and slopes:
 \beta_{2\text{id}[i]} &= \beta + u_{\beta,\text{id}[i]}
 \end{align*}
 
+---
+
 Random effects:
 
 \begin{align*}
 \begin{bmatrix} u_{\alpha,\text{id}[i]} \\ u_{\beta,1\text{id}[i]} \\ u_{\beta,2\text{id}[i]} \end{bmatrix} &\sim \text{MVNormal}\left(\begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix}, \mathbf{S}\right) \\
 \mathbf{S} &= \begin{pmatrix} \sigma_{\alpha} & 0 \\ 0 \\ 0 & \sigma_{\beta}\end{pmatrix}\mathbf{R}\begin{pmatrix} \sigma_{\alpha} & 0 \\ 0 \\ 0 & \sigma_{\beta}\end{pmatrix}
 \end{align*} 
-
-:::
-
-::: {.column width="50%"}
 
 
 Priors: 
@@ -151,8 +145,6 @@ Priors:
 \mathbf{R} &\sim \text{LKJcorr}(2)
 \end{align*}
 
-:::
-:::::
 
 ---
 
@@ -177,10 +169,93 @@ What if I wanted to model positive affect? Usually, I'd have to fit a second mod
 
 ### Multivariate MLMs
 
-But what if I told you I could estimate both positive and negative affect simultaneously?
+But what if I told you I could estimate both positive and negative affect simultaneously? Let's start with an extremely basic, intercept-only model.
 
-::::: columns
-::: {.column width="50%"}
+
+Likelihood function
+
+\begin{align*}
+\text{NA}_i &\sim \text{Normal}(\mu_{\text{NA},i}, \sigma_{\text{NA}}) \\
+\mu_{\text{NA},i} &= \alpha_{\text{NA},\text{id}[i]} \\
+\text{PA}_i &\sim \text{Normal}(\mu_{\text{PA},i}, \sigma_{\text{PA}}) \\
+\mu_{\text{PA},i} &= \alpha_{\text{PA},\text{id}[i]} 
+\end{align*}
+
+Varying intercepts:
+
+\begin{align*}
+\alpha_{\text{NA},\text{id}[i]} &= \alpha_{\text{NA}} + u_{\alpha,1\text{NA},\text{id}[i]} \\
+\alpha_{\text{PA},\text{id}[i]} &= \alpha_{\text{PA}} + u_{\alpha,\text{PA},\text{id}[i]} \\
+\end{align*}
+
+---
+
+Random Effects: Multivariate Distribution
+
+\begin{align*}
+\mathbf{u}_{\text{id}[i]} =
+\begin{bmatrix}
+u_{\alpha,\text{NA},\text{id}[i]} \\
+u_{\alpha,\text{PA},\text{id}[i]}
+\end{bmatrix}
+&\sim \text{MVNormal}(\mathbf{0}, \boldsymbol{\Sigma}) \\
+\boldsymbol{\Sigma} &= \mathbf{L} \mathbf{R} \mathbf{L} \quad
+\\ \text{with} \quad
+\mathbf{L} &= \text{diag}(\sigma_{\alpha,\text{NA}}, \sigma_{\alpha,\text{PA}})
+\end{align*}
+
+Priors
+
+\begin{align*}
+\alpha_{\text{NA}}, \alpha_{\text{PA}} &\sim \text{Normal}(0, 0.2) \\
+\sigma_{\text{NA}}, \sigma_{\text{PA}} &\sim \text{Exponential}(1) \\
+\sigma_{\alpha,\text{NA}}, \sigma_{\beta,1\text{NA}}, \sigma_{\beta,2\text{NA}}, \mathbf{R} &\sim \text{LKJcorr}(2)
+\end{align*}
+
+---
+
+```{r}
+bf_na = bf(NA.std ~ 1 + (1  | c | id))
+bf_pa = bf(PA.std ~ 1 + (1  | c | id))
+m2 <-
+  brm(data = d,
+      family = gaussian,
+      bf_na + bf_pa + set_rescor(TRUE),
+      prior = c(prior(normal(0, 0.2), class = Intercept),
+                prior(lkj(2), class = cor)),
+      iter = 5000, warmup = 1000, chains = 4, cores = 4,
+      seed = 14,
+      file = here("files/models/m82.2"))
+```
+
+---
+
+This model has partitioned our data into several key pieces. First, we can get the between-person variance and between-person correlations. 
+
+```{r}
+m2
+```
+
+---
+
+### list of terms
+
+**between-person**
+
+  * `sd(NAstd_Intercept)` : variability in average negative affect
+  * `sd(PAstd_Intercept)` : variability in average positive affect
+  * `cor(NAstd_Intercept,PAstd_Intercept)`: correlation between average NA and average PA
+  
+**within-person**
+
+  * `sigma_NAstd`: variability within participants in NA
+  * `sigma_PAstd`: variability within participants in PA
+  * `rescor(NAstd,PAstd)`: within-person correlation of PA and NA
+
+---
+
+Now we'll add in some predictors. Let's predict affect from lagged affect. 
+
 
 Likelihood function
 
@@ -209,9 +284,7 @@ Varying intercepts and slopes:
 
 \end{align*}
 
-:::
-
-::: {.column width="50%"}
+---
 
 Random Effects: Multivariate Distribution
 
@@ -241,15 +314,12 @@ Priors
 \mathbf{R} &\sim \text{LKJcorr}(2)
 \end{align*}
 
-:::
-:::::
-
 ---
 
 ```{r}
 bf_na = bf(NA.std ~ 1 + NA_lag + PA_lag + (1 + NA_lag + PA_lag  | c | id))
 bf_pa = bf(PA.std ~ 1 + NA_lag + PA_lag + (1 + NA_lag + PA_lag  | c | id))
-m2 <-
+m3 <-
   brm(data = d,
       family = gaussian,
       bf_na + bf_pa + set_rescor(TRUE),
@@ -258,60 +328,58 @@ m2 <-
                 prior(lkj(2), class = cor)),
       iter = 5000, warmup = 1000, chains = 4, cores = 4,
       seed = 14,
-      file = here("files/models/m82.2"))
+      file = here("files/models/m82.3"))
 ```
 
 ---
 
 ```{r}
-m2
+m3
 ```
 
 ---
 
 
-These models can help us address many questions. First, let's decompose the between- and within-person variance of these outcomes. 
+These models can help us address many questions. First, let's examine the between- and within-person variance of these outcomes. 
 
 ```{r}
-# Compute person-level means and residuals
-d_resid <- d %>%
-  group_by(id) %>%
-  mutate(
-    N_A_mean = mean(NA.std, na.rm = TRUE),
-    P_A_mean = mean(PA.std, na.rm = TRUE),
-    N_A_within = NA.std - N_A_mean,
-    P_A_within = PA.std - P_A_mean
-  ) %>%
-  ungroup()
+#| code-fold: true
 
-between_df <- d_resid %>%
-  dplyr::select(id, N_A_mean, P_A_mean) %>%
-  distinct()
+post = as_draws_df(m3)
 
-total_cor   <- cor(d$NA.std, d$PA.std, use="complete.obs")
-between_cor <- cor(between_df$N_A_mean, between_df$P_A_mean, use = "complete.obs")
-within_cor  <- cor(d_resid$N_A_within, d_resid$P_A_within, use = "complete.obs")
-residual_cor <- m2 %>% spread_draws(rescor__NAstd__PAstd) %>% mean_qi
-tibble(
-  Level = c("Total", "Between-person", "Within-person", "Residual"),
-  Correlation = c(total_cor, between_cor, within_cor, as.numeric(residual_cor[1,1])))
+post %>% 
+  select(between = cor_id__NAstd_Intercept__NAstd_NA_lag, 
+         within = rescor__NAstd__PAstd) %>% 
+  pivot_longer(everything()) %>% 
+  group_by(name) %>% 
+  mean_qi()
 ```
+
+To clarify: this is the within-person correlation _after accounting_ for the predictors in the model. This can help us detect any additional patterns in the data. 
 
 ---
 
-```{r}
-get_variables(m2)
-m2_post = m2 %>% spread_draws(b_NAstd_Intercept, b_PAstd_Intercept, b_NAstd_day01, b_PAstd_day01, 
-                    r_record_id__NAstd[id, term], r_record_id__PAstd[id, term]) 
-
-m2_post %>% 
-  pivot_longer(starts_with("r_record_id"),
-               names_to = "outcome", 
-               names_prefix = "r_record_id__", 
-               values_to = "value") %>% 
-  mutate(term=ifelse(term=="Intercept", "intercept", "slope")) %>% 
-  pivot_wider(names_from = term, values_from = term)
+```{r, eval=F, echo=F}
+#|code-fold: true
+#|
+m2_post = m3 %>% spread_draws(b_NAstd_Intercept, b_PAstd_Intercept, 
+                              b_NAstd_NA_lag, b_NAstd_PA_lag, 
+                              b_PAstd_NA_lag, b_PAstd_PA_lag,  
+                              r_id__NAstd[id, term], 
+                              r_id__PAstd[id, term]) 
 ```
+
+```{r}
+#| code-fold: true
+m3 %>% 
+  gather_draws(r_id__NAstd[id, term], r_id__PAstd[id, term]) %>% 
+  mutate(.variable=str_remove(.variable, "r_id__")) %>% 
+  pivot_wider(names_from = .variable, values_from = .value) %>% 
+  # just for presenting to class 
+  arrange(.draw, id, term) %>% select(-.chain, -.iteration) %>% 
+  mutate(across(c(NAstd, PAstd), \(x) round(x, 2)))
+```
+
 
 ---
 
@@ -326,7 +394,7 @@ nd = data.frame(
   id = max(d$id) + 1
 )
 
-nd %>% add_epred_draws(m2, allow_new_levels=T) %>% 
+nd %>% add_epred_draws(m3, allow_new_levels=T) %>% 
   filter(.draw <= 50) %>% 
   ggplot(aes(x = PA_lag, y = .epred)) +
   geom_line(aes(group = .draw, color = .category), alpha=.2) +
@@ -347,7 +415,7 @@ nd = data.frame(
   id = max(d$id) + 1
 )
 
-nd %>% add_epred_draws(m2, allow_new_levels=T) %>% 
+nd %>% add_epred_draws(m3, allow_new_levels=T) %>% 
   filter(.draw <= 50) %>% 
   ggplot(aes(x = NA_lag, y = .epred)) +
   geom_line(aes(group = .draw, color = .category), alpha=.2) +
@@ -368,7 +436,7 @@ nd = expand.grid(
   id = sample(d$id, size = 4, replace=F)
 )
 
-nd %>% add_epred_draws(m2) %>% 
+nd %>% add_epred_draws(m3) %>% 
   filter(.draw <= 20) %>% 
   ggplot(aes(x = PA_lag, y = .epred)) +
   geom_line(aes(group = .draw, color = .category), alpha=.2) +
@@ -383,13 +451,13 @@ nd %>% add_epred_draws(m2) %>%
 We may even want to see whether there's a correlation between the effect of positive affect on PA and on NA.
 
 ```{r}
-postm2 = m2 %>% spread_draws(r_record_id__PAstd[id, term],
-                    r_record_id__NAstd[id, term]) 
+postm2 = m3 %>% spread_draws(r_id__PAstd[id, term],
+                    r_id__NAstd[id, term]) 
 
 postm2 %>% 
   filter(term == "PA_lag") %>% 
   mean_qi %>% 
-  ggplot(aes(x = r_record_id__PAstd, y = r_record_id__NAstd)) + 
+  ggplot(aes(x = r_id__PAstd, y = r_id__NAstd)) + 
   geom_point() +
   labs(x = "Effect of PA on PA", y="Effect of PA on NA")
 ```
@@ -399,9 +467,9 @@ postm2 %>%
 But of course, each of these points is a summary of a distribution! The real benefit of modeling these outcomes jointly is that we can also get a distribution of the correlations between these effects. 
 
 ```{r}
-m2 %>% spread_draws(`cor.*`, regex = T) %>% 
+m3 %>% spread_draws(`cor.*`, regex = T) %>% 
   pivot_longer(starts_with("cor"),
-               names_prefix = "cor_record_id__") %>% 
+               names_prefix = "cor_id__") %>% 
   group_by(name) %>% 
   mean_qi(value) %>% 
   arrange(desc(abs(value)))
@@ -409,32 +477,100 @@ m2 %>% spread_draws(`cor.*`, regex = T) %>%
 
 ---
 
-## mixed effects location scale models
+## modeling variability
+
+Traditionally, psycho-social research has focused on identifying trait-like behaviors - for example, how negative a person is on average. But more recent work has broadened to include states - that is, whether and how much individuals fluctuate in their thoughts, feelings, and behaviors over time.
+
+On the macro time scale, we typically assume stable traits, but on the micro time scale (day to day), we often observe substantial variability in these same traits. This presents a methodological challenge: how do we simultaneously model both the stable personality traits (the "location") and the fluctuations (the "scale")?
+The standard approach has been a two-stage process:
+
+  1. compute individual means (`iM`s) in a mixed effects model
+  2. obtain individual standard deviations (`iSD`s) from the residuals
+
+But this approach has several drawbacks:
+
+  * It can result in unreliable estimates
+  * It's particularly sensitive to the number of measurement occasions
+  * It assumes independence of means and variances, which seems unlikely
+  * It results in biased variance estimates
+
+---
+
+### mixed-effects location scale models
+
+In a standard linear mixed effects model with repeated measurements, we have:
+
+$$
+y_i = X_i\beta + Z_ib_i + \epsilon_i
+$$
+Where:
+
+  * $y_i$ is the observations for the ith person
+  * $X_i\beta$ represents the fixed effects
+  * $Z_ib_i$ represents the random effects (person-specific deviations)
+  * $\epsilon_i$ represents the error term (or states)
+  
+The key limitation of this standard model is that it assumes the same error variance $(\sigma^2)$ for everyone. The MELSM, instead, allows $\sigma^2$ to differ at the individual level and even at different time points. The scale component is modeled as:
+
+$$
+\varphi_i = \text{exp}(W_i\eta + V_it_i)
+$$
+Where:
+
+* $\varphi_i$ contains the error variances
+* $\eta$ represents fixed effects for the scale
+* $t_i$ represents random effects for the scale
+* The exponential function ensures positive variance estimates
+
+---
+
+```{r}
+m4 <-
+  brm(data = d,
+      family = gaussian,
+    bf(
+    # location
+    PA.std ~ 1 + (1 | c | id), 
+    # scale (the c  in |c| allows for correlation between location and scale)
+    sigma ~ 1 + (1 | c | id)
+    ), 
+    prior = c(prior(normal(0, 0.2), class = Intercept),
+              prior(exponential(1), class = sd),
+              prior(normal(0,1), class = Intercept, dpar=sigma),
+              prior(exponential(1), class = sd, dpar=sigma),
+              prior(lkj(2), class = cor)),
+      iter = 5000, warmup = 1000, chains = 4, cores = 4,
+      seed = 14,
+      file = here("files/models/m82.4"))
+```
+
+
+---
+
 
 Let's go back to a model with one outcome, but we can make it even better. 
 
-\begin{align*}
-\text{NA}_{ij} &\sim \text{Normal}(\mu_{ij}, \sigma) \\
-\mu_{ij} &= \beta_0 + \beta_1\text{time}_{ij} + \mu_{0i} + \mu_{1i}\text{time}_{ij}\\
-\text{log}(\sigma_i) &= \eta_0 + \mu_{2i}
-...
-\end{align*}
 
 ```{r}
-m3 <-
-  brm(data = d,
-      family = gaussian,
-      bf(NA.std ~ 1 + day01 + (1 + day01 |i| id),
-         sigma ~ 1 + (1 |i| id)),
-      prior = c(prior(normal(0, 0.2), class = Intercept),
-                prior(normal(0, 1), class = b),
-                prior(exponential(1), class = sd),
-                prior(normal(0,1), class = Intercept, dpar=sigma),
-                prior(exponential(1), class = sd, dpar=sigma),
-                prior(lkj(2), class = cor)),
-      iter = 5000, warmup = 1000, chains = 4, cores = 4,
-      seed = 14,
-      file = here("files/models/m82.3"))
+m5 <-brm(
+  data = d,
+  family = gaussian,
+  bf(
+    # location
+    PA.std ~ 1 + day + PA_lag + NA_lag + steps.pm*steps.pmd + 
+      (1 + day + steps.pmd | c | id), 
+    # scale (the c  in |c| allows for correlation between location and scale)
+    sigma ~ 1 + PA_lag + NA_lag + steps.pm*steps.pmd + (1 + steps.pmd | c | id)
+    ), 
+    prior = c(prior(normal(0, 0.2), class = Intercept),
+              prior(normal(0, 1), class = b),
+              prior(exponential(1), class = sd),
+              prior(normal(0,1), class = Intercept, dpar=sigma),
+              prior(exponential(1), class = sd, dpar=sigma),
+              prior(lkj(2), class = cor)),
+    iter = 5000, warmup = 1000, chains = 4, cores = 4,
+    seed = 14,
+    file = here("files/models/m82.5"))
 ```
 
 :::{.notes}

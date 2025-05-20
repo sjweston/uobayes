@@ -4,7 +4,25 @@ date: "2025-05-19"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(fig.align = "center")
+knitr::opts_chunk$set(fig.align = "center", warning=F, message=F)
+library(tidyverse)
+library(brms)
+library(tidybayes)
+library(here)
+library(cowplot)
+
+theme_set(theme_cowplot())
+default_palettes <- list(
+  c("#5e8485" , "#0f393a") ,
+  c("#1c5253" , "#5e8485" , "#0f393a") , 
+  # palette with 5 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" ) ,
+  # same palette interpolated to 8 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" ) 
+)
+
+options(ggplot2.discrete.fill = default_palettes, 
+        ggplot2.discrete.colour = default_palettes)
 ```
 
 ## Instructions
@@ -15,4 +33,169 @@ Please use an RMarkdown file to complete this assignment. Make sure you reserve 
 
 1. Return to `data(Trolley)`. Define and fit a varying intercepts model for these data. Cluster intercepts on individual participants, as indicated by the unique values in the `id` variable. Include `action`, `intention`, and `contact` as ordinary terms. Compare the varying intercepts model and a model that ignores individuals, using both WAIC and posterior predictions. What is the impact of individual variation in these data?
 
+<details>
+<summary>Click to see the answer</summary>
+
+```{r}
+# Load the data
+data(Trolley, package="rethinking")
+d <- Trolley
+```
+
+First, let's fit a model that ignores individual variation.
+
+```{r}
+m1 <- brm(
+  data = d,
+  family = cumulative,
+  response ~ action + intention + contact,
+  prior = c(
+    prior(normal(0, 1), class = Intercept),
+    prior(normal(0, 0.5), class = b)
+  ),
+  iter = 2000, warmup = 1000, chains = 4, cores = 4,
+  seed = 1,
+  file=here("files/models/hw7.1")
+)
+```
+
+Now fit the varying intercepts model.
+
+```{r}
+m2 <- brm(
+  data = Trolley,
+  family = cumulative,
+  response ~ action + intention + contact + (1 | id),
+  prior = c(
+    prior(normal(0, 1), class = Intercept),
+    prior(normal(0, 0.5), class = b),
+    prior(exponential(1), class = sd)
+  ),
+  iter = 2000, warmup = 1000, chains = 4, cores = 4,
+  seed = 2,
+  file=here("files/models/hw7.2")
+)
+```
+
+We'll compare these models using WAIC:
+
+```{r}
+waic(m1, m2) %>% print(simplify=F)
+```
+
+The varying-intercepts model has better out-of-sample prediction (a very large `elpd_diff` compared to the `se_diff`), despite being a much more complex model (see `p_waic`).
+
+Let's compare the coefficients:
+
+```{r}
+coef_m1 = gather_draws(m1, b_action, b_intention, b_contact) %>% 
+  mutate(model= "m1")
+
+coef_m2 = gather_draws(m2, b_action, b_intention, b_contact) %>% 
+  mutate(model= "m2")
+
+full_join(coef_m1, coef_m2) %>% 
+  ggplot(aes( y=.variable, x=.value, fill=model)) +
+  stat_halfeye() +
+  geom_vline(aes(xintercept = 0), linetype="dashed")
+
+```
+
+Our coefficients are much larger in this second model. In other words, allowing for a varying-intercept has cleaned up some of the noise around these predictions, allowing us to see more clearly a structure. 
+
+Now let's compare the posterior predictions.
+
+```{r}
+
+nd = distinct(d, action, intention, contact) 
+
+pred_m1 = nd %>% add_predicted_draws(m1) %>% mutate(model = "pooled")
+pred_m2 = nd %>% add_predicted_draws(m2, re_formula = NA) %>% mutate(model = "varying intercepts")
+
+predicted = full_join(pred_m1, pred_m2) %>% 
+  count(model, action, intention, contact, .prediction) %>% 
+  with_groups(model, mutate, prob=n/sum(n))
+
+obs = d %>% 
+  count(action, intention, contact, response) %>% 
+  mutate(prob=n/sum(n),
+         model="observed",
+         response=as.factor(response)) %>% 
+  rename(.prediction=response)
+
+predicted %>% 
+  full_join(obs) %>% 
+  mutate(
+    action=ifelse(action==0, "no action", "action"),
+    contact=ifelse(contact==0, "no contact", "contact"),
+    intention=ifelse(intention==0, "no intention", "intention"),
+  ) %>% 
+  ggplot(aes(x=.prediction, y=prob, color=model)) +
+  geom_point(aes(shape=model)) +
+  geom_line(aes(group=model, linetype=model)) +
+  scale_color_manual(values = c("#e07a5f", "#5e8485" , "#0f393a")) + 
+  facet_wrap(intention~action+contact) +
+  theme(legend.position = "top") +
+  labs(x="response",y=NULL)
+  
+
+```
+
+In general, the two models don't vary much in their predictions (note how small the probabilities are on the y-axis), nor is one of them consistently much closer to the observed data. It's not that the varying-intercepts model is going to better estimate the average response (which is what these plots are showing). Rather, it will better represent individual variability.
+
+</details>
+
+<details>
+<summary>Click to see the answer</summary>
+
 2. The `Trolley` data are also clustered by `story`, which indicates a unique narrative for each vignette. Define and fit a cross-classified varying intercepts model with both `id` and `story.` Use the same ordinary terms as in the previous problem. Compare this model to the previous models. What do you infer about the impact of different stories on responses?
+
+```{r}
+# Fit cross-classified model
+m3 <- brm(
+  data = Trolley,
+  family = cumulative,
+  response ~ action + intention + contact + (1 | id) + (1 | story),
+  prior = c(
+    prior(normal(0, 1), class = Intercept),
+    prior(normal(0, 0.5), class = b),
+    prior(exponential(1), class = sd)
+  ),
+  iter = 2000, warmup = 1000, chains = 4, cores = 4,
+  seed = 3,
+  file=here("files/models/hw7.3")
+)
+```
+
+Compare all three models using WAIC
+
+```{r}
+waic(m1, m2, m3)
+```
+
+Get varying effects for stories
+
+```{r}
+story_effects <- m3 %>%
+  spread_draws(r_story[story,]) %>%
+  mean_qi()
+
+# Plot story effects
+story_effects %>%
+  ggplot(aes(x = reorder(story, r_story), y = r_story)) +
+  geom_pointrange(aes(ymin = .lower, ymax = .upper)) +
+  coord_flip() +
+  labs(x = "Story", y = "Varying effect") +
+  theme_minimal()
+```
+
+The cross-classified model (m3) shows the best fit according to WAIC, indicating that both individual variation and story-specific effects are important. The story effects plot shows that different narratives have varying impacts on responses, with some stories eliciting more extreme responses than others. This suggests that the specific details of each trolley scenario influence how people respond, beyond just the action, intention, and contact variables.
+
+The comparison between models shows that:
+1. The basic model (m1) performs worst, as it ignores all clustering
+2. The varying intercepts model (m2) improves fit by accounting for individual differences
+3. The cross-classified model (m3) performs best by accounting for both individual differences and story-specific effects
+
+This indicates that both individual variation and story-specific effects are important factors in understanding responses to trolley scenarios.
+
+</details>
