@@ -544,12 +544,37 @@ m4 <-
       file = here("files/models/m82.4"))
 ```
 
+---
+
+```{r}
+m4
+```
 
 ---
 
+Our posterior distribution contains both locations (means) and scales $\text{log}(\sigma)$ for each of our clusters (participants). We can plot these to see whether they're related. 
 
-Let's go back to a model with one outcome, but we can make it even better. 
+```{r}
+#| code-fold: true
+m4 |> 
+  spread_draws( r_id[id, term], r_id__sigma[id, term] ) |> 
+  summarise(  location=mean(r_id), 
+              scale=mean(exp(r_id__sigma))) |> 
+  ggplot( aes(x=location, y=scale) ) +
+  geom_point() +
+  geom_smooth(se=F, method="lm")
 
+```
+
+Of course, the correlation between these values can also be found in our model output. 
+
+```{r}
+posterior_summary(m4)["cor_id__Intercept__sigma_Intercept", ] |> round(2)
+```
+
+---
+
+The real power of these models comes when we incorporate predictors for both location and scale.
 
 ```{r}
 m5 <-brm(
@@ -559,7 +584,6 @@ m5 <-brm(
     # location
     PA.std ~ 1 + day + PA_lag + NA_lag + steps.pm*steps.pmd + 
       (1 + day + steps.pmd | c | id), 
-    # scale (the c  in |c| allows for correlation between location and scale)
     sigma ~ 1 + PA_lag + NA_lag + steps.pm*steps.pmd + (1 + steps.pmd | c | id)
     ), 
     prior = c(prior(normal(0, 0.2), class = Intercept),
@@ -577,3 +601,30 @@ m5 <-brm(
 We should note a few things about the brm() syntax. First, because we modeled both $\mu_{ij}$ and $\sigma_i$, we nested both model formulas within the `bf()` function. Second, because the `brms` default is to use the log link when modeling $\sigma_i$, there was no need to explicitly set it that way in the family line. However, we could have if we wanted to. Third, notice our use of the `|i|` syntax within the parentheses in the formula lines. If we had used the conventional `|` syntax, that would have not allowed our $\mu_{ij}$ parameters to correlate with  
 $\mu_{0i}$ and $\mu_{1i}$  from the mean structure. It would have effectively set  . Finally, notice how within the `prior()` functions, we explicitly referred to those for the new $\sigma$ structure with the `dpar = sigma` operator.
 :::
+
+---
+
+Our model clearly has not mixed -- be sure to run this model for many iterations if you actually want to use it. As it was, this model took 80 minutes to run on my computer, so I didn't have time to go back and run for longer.
+
+```{r}
+m5
+```
+
+---
+
+
+```{r}
+#| code-fold: true
+m5 |> 
+  gather_draws(`^b_.*`, regex=T) |> 
+  mutate(
+    out = ifelse( str_detect(.variable, "sigma"), "var", "location"),
+    .variable = str_remove(.variable, "^b_sigma_"),
+    .variable = str_remove(.variable, "^b_")
+  ) |> 
+    filter(.variable != "Intercept") |> 
+    ggplot( aes(x=.value, y=.variable) ) +
+    stat_halfeye() +
+    facet_wrap(~out, nrow=2, scales="free") +
+    labs(x="coef estimate", y=NULL, title="posterior")
+```

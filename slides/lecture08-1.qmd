@@ -503,8 +503,8 @@ p2 = d %>%
                data=post[1:50, ],
                alpha=.3,
                color="#1c5253") +
-  labs( x="NA",
-        y="PA",
+  labs( x="yesterday",
+        y="today",
         title="posterior lines")
 
 p1 + p2  
@@ -542,17 +542,7 @@ p1 = m1_sigma %>%
     title = "posterior distributions of\neach model") +
   scale_x_continuous(breaks=NULL) +
   theme(legend.position = "bottom")
-
-p2 = data.frame(diff = m6_sigma$sigma - m1_sigma$sigma) %>% 
-  ggplot( aes(x=diff)) +
-  stat_halfeye() + 
-  labs(
-    y=NULL,
-    x = "m6-m1",
-    title = "posterior distribution of\ndifference in sigma") +
-  scale_y_continuous(breaks=NULL) 
-
-p2 + p1
+p1
 ```
 
 ---
