@@ -14,7 +14,7 @@ format:
     slide-number: true
     code-annotations: hover
 execute:
-  echo: false        
+  echo: true        
 ---
 
 ```{r, message = F, warning = F}
@@ -430,6 +430,8 @@ nd %>% add_epred_draws(m3, allow_new_levels=T) %>%
 But of course, we've allowed these effects to vary for each individual.
 
 ```{r}
+#| code-fold: true
+#| 
 nd = expand.grid(
   PA_lag = seq(from = min(d$PA_lag), to=max(d$PA_lag), length.out=50),
   NA_lag = 0,
@@ -451,6 +453,8 @@ nd %>% add_epred_draws(m3) %>%
 We may even want to see whether there's a correlation between the effect of positive affect on PA and on NA.
 
 ```{r}
+#| code-fold: true
+#| 
 postm2 = m3 %>% spread_draws(r_id__PAstd[id, term],
                     r_id__NAstd[id, term]) 
 
@@ -552,6 +556,39 @@ m4
 
 ---
 
+We've seen the parameters for the location section before: these are the samed "fixed" parameters we've been covering in MLMs the past 4 lectures. Let's talk about what the sigma part means.
+
+```{r}
+posterior_summary(m4)["b_sigma_Intercept", ] |> round(2)
+```
+
+As a reminder, this is the intercept of the log of sigma ($\text{log}(\sigma)$). So we need to exponentiate before we can interpret it as a standard deviation.
+
+```{r}
+posterior_summary(m4)["b_sigma_Intercept", ] |> exp() |> round(2)
+```
+
+---
+
+This is just the "average" variability of participants. Some of them vary a lot, and some vary a little. 
+
+```{r}
+#| code-fold: true
+m4 |> spread_draws(b_sigma_Intercept, r_id__sigma[id, term] ) |> 
+  filter(term == "Intercept") |> 
+  mutate(sigma=b_sigma_Intercept+r_id__sigma) |> 
+  mean_qi(sigma) |> 
+  mutate(across(c(sigma, .lower, .upper), exp)) |> 
+  arrange(sigma) |> 
+  mutate(rank=row_number()) |> 
+  ggplot( aes(x=rank, y = sigma, ymin=.lower, ymax=.upper) ) +
+  geom_pointrange(linewidth = 0.4, fatten = 0.3, color = "#5e8485") +
+  scale_x_continuous("participants ranked by posterior mean sigma", breaks = NULL) +
+  ylab(expression(exp(eta[0]+italic(u)[2][italic(i)])))
+```
+
+---
+
 Our posterior distribution contains both locations (means) and scales $\text{log}(\sigma)$ for each of our clusters (participants). We can plot these to see whether they're related. 
 
 ```{r}
@@ -574,7 +611,9 @@ posterior_summary(m4)["cor_id__Intercept__sigma_Intercept", ] |> round(2)
 
 ---
 
-The real power of these models comes when we incorporate predictors for both location and scale.
+### adding predictors
+
+xThe real power of these models comes when we incorporate predictors for both location and scale.
 
 ```{r}
 m5 <-brm(
@@ -612,6 +651,7 @@ m5
 
 ---
 
+We can visualize the fixed effects:
 
 ```{r}
 #| code-fold: true
@@ -628,3 +668,45 @@ m5 |>
     facet_wrap(~out, nrow=2, scales="free") +
     labs(x="coef estimate", y=NULL, title="posterior")
 ```
+
+
+---
+
+People who walk more have higher PA
+
+```{r}
+posterior_summary(m5)["b_steps.pm", ] |> round(2)
+```
+
+and are less variable:
+
+```{r}
+posterior_summary(m5)["b_sigma_steps.pm", ] |> round(2)
+```
+
+---
+
+```{r}
+#| code-fold: true
+means = d |> 
+  select(PA_lag, day, NA_lag, steps.pmd) |> 
+  summarise(across(everything(),mean))
+
+tibble(steps.pm = seq( from=min(d$steps.pm), to=max(d$steps.pm), length=100)) |> 
+  cross_join(means) |> 
+  add_predicted_draws(m5, re_formula = NA) |> 
+  ggplot( aes(x=steps.pm, y=.prediction) ) +
+  geom_point(alpha=.5) +
+  labs(x="Average steps", y="PA.std") 
+```
+
+---
+
+## summary
+
+Now that you know the basic MLM structure, you can expand these models in complex ways:
+
+  * estimate multiple outcomes simultaneously
+  * allow within-cluster variability to vary and predict it
+  
+These models demand a lot more attention, forethought, and horsepower. But they can be worth it. Model-implied estimates appropriately account for uncertainty, whereas calculed estimates do not. 
