@@ -17,7 +17,7 @@ execute:
   echo: true        
 ---
 
-```{r, message = F, warning = F}
+```{r, message = F, warning = F, echo=T}
 library(tidyverse)
 library(psych)
 library(cowplot)
@@ -44,6 +44,12 @@ default_palettes <- list(
 options(ggplot2.discrete.fill = default_palettes, 
         ggplot2.discrete.colour = default_palettes)
 ```
+
+Models 1, 2, and 4 are linked throughout this lecture.  
+
+Models 3 and 5 are too big to share via GitHub. If you've registered for the class, you can find those files on our Canvas site. 
+
+---
 
 ## double-advanced ~~potions~~ multilevel models
 
@@ -613,7 +619,7 @@ posterior_summary(m4)["cor_id__Intercept__sigma_Intercept", ] |> round(2)
 
 ### adding predictors
 
-xThe real power of these models comes when we incorporate predictors for both location and scale.
+The real power of these models comes when we incorporate predictors for both location and scale.
 
 ```{r}
 m5 <-brm(
