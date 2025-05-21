@@ -154,6 +154,8 @@ Priors:
 
 ---
 
+[Download model file here.](https://github.com/sjweston/uobayes/raw/refs/heads/main/files/share/m82.1.rds)
+
 ```{r}
 m1 <-
   brm(data = d,
@@ -170,6 +172,8 @@ m1 <-
 ```
 
 What if I wanted to model positive affect? Usually, I'd have to fit a second model. 
+
+
 
 ---
 
@@ -219,6 +223,8 @@ Priors
 \end{align*}
 
 ---
+
+[Download model file here.](https://github.com/sjweston/uobayes/raw/refs/heads/main/files/share/m82.2.rds)
 
 ```{r}
 bf_na = bf(NA.std ~ 1 + (1  | c | id))
@@ -533,6 +539,8 @@ Where:
 * The exponential function ensures positive variance estimates
 
 ---
+
+[Download model file here.](https://github.com/sjweston/uobayes/raw/refs/heads/main/files/share/m82.4.rds)
 
 ```{r}
 m4 <-
