@@ -360,7 +360,7 @@ These models can help us address many questions. First, let's examine the betwee
 post = as_draws_df(m3)
 
 post %>% 
-  select(between = cor_id__NAstd_Intercept__NAstd_NA_lag, 
+  select(between = cor_id__NAstd_Intercept__PAstd_Intercept, 
          within = rescor__NAstd__PAstd) %>% 
   pivot_longer(everything()) %>% 
   group_by(name) %>% 
