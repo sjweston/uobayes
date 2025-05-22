@@ -188,6 +188,7 @@ Data come from a 26-wave (every 2 weeks) study of political attitudes ([Brandt e
 
 ```{r}
 d <- read_csv(here("files/data/external_data/yllanon.csv")) 
+d = d |> filter(wave == 1 & !is.na(age))
 # %>% 
 #   select(id, wave, age, gender, ethnic, edu,
 #          health, econ, crime, imm, vaccines, ideo)
@@ -229,18 +230,17 @@ Let's remove those values on the variable that are not part of our Likert scale.
 d = filter(d, def <= 7)
 ```
 
-We'll be adding age at baseline to the model. Age was only collected during wave 1, so we'll simply carry that through all the survey responses. There's a few ways to do that. I'll show you how to use the `fill` function in `tidyverse`. We'll also remove anyone who didn't report an age.
+---
+
+We might suspect that people of similar ages have similar opinions on a question like this. But would we say that age has a linear effect?
 
 ```{r}
-d = d %>% 
-  arrange(id, wave) %>% 
-  with_groups(
-    id,
-    ~fill(., age, .direction="down")
-  ) %>% 
-  filter(!is.na(age))
+d |> 
+  ggplot( aes(x=age, y=def) ) +
+  geom_point(alpha=.3) +
+  geom_smooth(se=F) +
+  labs(x="age", y="defense spending")
 ```
-
 
 ---
 
@@ -249,53 +249,59 @@ d = d %>%
 Let's say we're interested in studying how time and age impact the responses to this question. We'll build up our models from most simple to most complex.
 
 \begin{align*}
-R_{ij} &\sim \text{Categorical}(p) \\
-\text{logit}(p_k) &= \alpha_{k,j} - \phi \\
+R_{i} &\sim \text{Categorical}(p) \\
+\text{logit}(p) &= \alpha - \phi \\
 \phi &= 0 \\
-\alpha_{k,j} &= \bar{\alpha}_k + U_{kj} \\
-\bar{\alpha} &\sim \text{Normal}(0, 1.5) \\
-\sigma_{\alpha_k} &\sim{Exponential}(1)
+\alpha &\sim \text{Normal}(0, 1.5) \\
 \end{align*}
 
 ```{r}
 m1 <- brm(
   data = d,
   family = cumulative, 
-  def ~ 1 + (1 | id),
-  prior = c( prior(normal(0, 1.5), class = Intercept),
-             prior(expoential(1), class=sd) ),
+  def ~ 1,
+  prior = c( prior(normal(0, 1.5), class = Intercept) ),
   iter=2000, warmup=1000, seed=3, cores=4,
-  file = here("files/models/m91.1b")
+  file = here("files/models/m91.1")
 )
 ```
 
 ---
 
-### model 2: age and wave
+```{r}
+m1
+```
+
+---
+
+### model 2: age as a linear predictor
 
 
 \begin{align*}
 R_ij &\sim \text{Categorical}(p) \\
-\text{logit}(p_k) &= \alpha_{k,j} - \phi \\
+\text{logit}(p) &= \alpha - \phi \\
 \phi &= \beta_1\text{age}_i + \beta_2\text{wave}_i \\
-\alpha_{k,j} &= \bar{\alpha}_k + U_{kj} \\
-\bar{\alpha}_k &\sim \text{Normal}(0, 1.5) \\
+\alpha  &\sim \text{Normal}(0, 1.5) \\
 \beta_1 &\sim \text{Normal}(0, 1) \\
-\beta_2 &\sim \text{Normal}(0, 1) \\
-\sigma_{\alpha_K} &\sim \text{Exponential}(1)
+\beta_2 &\sim \text{Normal}(0, 1)
 \end{align*}
 
 ```{r}
 m2 <- brm(
   data = d,
   family = cumulative, 
-  def ~ 1 + age + wave + (1 | id),
+  def ~ 1 + age,
   prior = c( prior(normal(0, 1.5), class = Intercept),
-             prior(normal(0, 1),   class = b),
-             prior(expoential(1), class=sd)),
+             prior(normal(0, 1),   class = b)),
   iter=5000, warmup=1000, seed=3, cores=4,
-  file = here("files/models/m91.2b")
+  file = here("files/models/m91.2")
 )
+```
+
+---
+
+```{r}
+m2
 ```
 
 ---
@@ -306,16 +312,19 @@ m2 <- brm(
 m3 <- brm(
   data = d,
   family = cumulative, 
-  bf( def ~ a + b1*wave, 
-      a ~ 1 + gp(age, cov = "exp_quad", scale = F) + (1|id), 
-      b1 ~ 1,
-      nl = TRUE),
-  prior = c( prior(normal(0, 1.5), nlpar=a),
-             prior(inv_gamma(2.5, 3), class = lscale, coef = gpage, nlpar = a),
-             prior(exponential(1), class = sdgp, coef = gpage, nlpar = a)),
+  def ~ 1 + gp(age, cov = "exp_quad", scale = F),
+  prior = c( prior(normal(0, 1.5),    class=Intercept),
+             prior(inv_gamma(2.5, 3), class=lscale, coef = gpage),
+             prior(exponential(1),    class=sdgp, coef = gpage)),
   iter=5000, warmup=1000, seed=3, cores=4,
   file = here("files/models/m91.3")
 )
+```
+
+---
+
+```{r}
+m3
 ```
 
 ---
@@ -325,6 +334,7 @@ As a reminder, the kernel formula for our GP is
 $$
 k(x_i, x_j) = \sigma^2\text{exp}(-\frac{|x_i-x_j|^2}{2l^2})
 $$
+
 The value $|x_i-x_j|^2$ is the absolute squared distance between two values. That means, the two values estimated in our model are $\sigma$ and $l$. What do each of these mean?
 
 Let's start with $l$: The value of $1/(2\times l^2)$ is equal to $\rho$. So we can rewrite the equation as 
@@ -356,18 +366,14 @@ p1 = tibble(
   mutate(sigsq = sig^2,
          rhosq = 1 / (2 * l^2)) %>% 
   expand_grid(x = seq(from = 0, to = 10, by = .05)) %>% 
-  mutate(covariance = sigsq * exp(-rhosq * x^2)) %>% 
+  mutate(covariance = sigsq * exp(-rhosq * x^2),
+         correlation = exp(-rhosq * x^2)) %>%  
   # plot
-  ggplot(aes(x = x, y = covariance)) +
+  ggplot(aes(x = x, y = correlation)) +
   geom_line(aes(group = .draw),
             linewidth = 1/4, alpha = 1/4, color = "#1c5253") +
-  stat_function(fun = function(x) mean(post$sdgp_a_gpage)^2 *
-                  exp(-(1 / (2 * mean(post$lscale_a_gpage)^2)) * x^2),
-                color = "#0f393a", linewidth = 1) +
   scale_x_continuous("distance (age)", expand = c(0, 0),
                      breaks = 0:5 * 2) +
-  coord_cartesian(xlim = c(0, 10),
-                  ylim = c(0, 20)) +
   labs(subtitle = "Gaussian process prior")
 p1
 ```
@@ -375,7 +381,7 @@ p1
 ---
 
 ```{r}
-m3 %>% spread_draws( sdgp_a_gpage, lscale_a_gpage )
+m3 %>% spread_draws( sdgp_gpage, lscale_gpage )
 ```
 
 ---
@@ -393,23 +399,22 @@ set.seed(14)
 # wrangle
 p2 <-
   post %>% 
-  mutate(sigsq = sdgp_a_gpage^2,
-         rhosq = 1 / (2 * lscale_a_gpage^2)) %>% 
+  mutate(sigsq = sdgp_gpage^2,
+         rhosq = 1 / (2 * lscale_gpage^2)) %>% 
   slice_sample(n = 50) %>% 
   expand_grid(x = seq(from = 0, to = 10, by = .05)) %>% 
-  mutate(covariance = sigsq * exp(-rhosq * x^2)) %>% 
+  mutate(covariance = sigsq * exp(-rhosq * x^2),
+         correlation = exp(-rhosq * x^2)) %>% 
   
   # plot
-  ggplot(aes(x = x, y = covariance)) +
+  ggplot(aes(x = x, y = correlation)) +
   geom_line(aes(group = .draw),
             linewidth = 1/4, alpha = 1/4, color = "#1c5253") +
-  stat_function(fun = function(x) mean(post$sdgp_a_gpage)^2 *
+  stat_function(fun = function(x) 
                   exp(-(1 / (2 * mean(post$lscale_a_gpage)^2)) * x^2),
                 color = "#0f393a", linewidth = 1) +
   scale_x_continuous("distance (age)", expand = c(0, 0),
                      breaks = 0:5 * 2) +
-  coord_cartesian(xlim = c(0, 10),
-                  ylim = c(0, 10)) +
   labs(subtitle = "Gaussian process posterior")
 
 p1 + p2
@@ -422,7 +427,7 @@ p1 + p2
 m1 <- add_criterion(m1, criterion = "loo")
 m2 <- add_criterion(m2, criterion = "loo")
 m3 <- add_criterion(m3, criterion = "loo")
-loo_compare(`m1: intercept only` = m1, m2, `m3: gaussian proces`  = m3)
+loo_compare(`m1: intercept only` = m1, m2, `m3: gaussian process`  = m3)
 ```
 
 ---
@@ -431,16 +436,14 @@ Let's plot the model-predicted values as a function of age for models 2 and 3 to
 
 ```{r}
 #| code-fold: true
-nd = d %>% distinct(age) %>% 
-  mutate(id = "1",
-         wave=1)  # add new id 
+nd = d %>% distinct(age) 
   
 pred_m2 = nd %>% 
-  add_epred_draws(m2, allow_new_levels = T) %>% 
+  add_epred_draws(m2) %>% 
   mutate(model = "m2") 
 
 pred_m3 = nd %>% 
-  add_epred_draws(m3, allow_new_levels = T) %>% 
+  add_epred_draws(m3) %>% 
   mutate(model = "m3")
 
 full_join(pred_m2, pred_m3) %>% 
@@ -448,6 +451,7 @@ full_join(pred_m2, pred_m3) %>%
   mean_qi(.epred) %>% 
   ggplot( aes( x=age, y=.epred, color=model ) ) +
   geom_line() +
+  scale_color_manual(values = c("#1c5253" , "#e07a5f")) +
   facet_wrap(~.category) +
   theme(legend.position = "bottom")
 
@@ -466,8 +470,107 @@ full_join(pred_m2, pred_m3) %>%
   mean_qi(.epred) %>% 
   ggplot( aes( x=age, y=.epred, color=model ) ) +
   geom_line() +
+  scale_color_manual(values = c("#1c5253" , "#e07a5f")) +
   facet_wrap(~.category) +
   theme(legend.position = "bottom")
+```
+
+---
+
+```{r}
+ppd_m2 = nd %>% 
+  add_predicted_draws(m2) %>% 
+  mutate(model = "m2")
+
+ppd_m3 = nd %>% 
+  add_predicted_draws(m3) %>% 
+  mutate(model = "m3")
+  
+full_join(ppd_m2, ppd_m3) |> 
+  ungroup() |> 
+  with_groups( c(model, age), summarise, avg = mean( as.numeric(.prediction) ) ) |> 
+  ggplot( aes( x=age, y=avg, color=model ) ) +
+  geom_line() +
+  scale_color_manual(values = c("#1c5253" , "#e07a5f")) +
+  labs( x="age", y="average response" )
+
+```
+
+---
+
+### model 4: gaussian process with a new kernal
+
+```{r}
+m4 <- brm(
+  data = d,
+  family = cumulative, 
+  def ~ 1 + gp(age, cov = "exponential", scale = F),
+  prior = c( prior(normal(0, 1.5),    class=Intercept),
+             prior(inv_gamma(2.5, 3), class=lscale, coef = gpage),
+             prior(exponential(1),    class=sdgp, coef = gpage)),
+  iter=5000, warmup=1000, seed=3, cores=4,
+  file = here("files/models/m91.4")
+)
+```
+
+---
+
+```{r}
+m4
+```
+
+---
+
+```{r}
+#| code-fold: true
+#| 
+post4 <- as_draws_df(m4)
+
+# for `slice_sample()`
+set.seed(14)
+
+# wrangle
+p3 <-
+  post4 %>% 
+  mutate(sigsq = sdgp_gpage^2,
+         rhosq = 1 / (2 * lscale_gpage^2)) %>% 
+  slice_sample(n = 50) %>% 
+  expand_grid(x = seq(from = 0, to = 10, by = .05)) %>% 
+  mutate(covariance = sigsq * exp(-rhosq * x^2),
+         correlation = exp(-rhosq * x^2)) %>% 
+  
+  # plot
+  ggplot(aes(x = x, y = correlation)) +
+  geom_line(aes(group = .draw),
+            linewidth = 1/4, alpha = 1/4, color = "#1c5253") +
+  stat_function(fun = function(x) 
+                  exp(-(1 / (2 * mean(post4$lscale_a_gpage)^2)) * x^2),
+                color = "#0f393a", linewidth = 1) +
+  scale_x_continuous("distance (age)", expand = c(0, 0),
+                     breaks = 0:5 * 2) +
+  labs(subtitle = "Gaussian process posterior (exponential kernal)")
+
+p2 + p3
+```
+
+
+---
+
+```{r}
+ppd_m4 = nd %>% 
+  add_predicted_draws(m4) %>% 
+  mutate(model = "m4")
+  
+full_join(ppd_m3, ppd_m4) |> 
+  ungroup() |> 
+  with_groups( c(model, age), summarise, 
+               avg = mean( as.numeric(.prediction) ) ) |> 
+  ggplot( aes( x=age, y=avg, color=model ) ) +
+  geom_line() +
+  scale_color_manual(values = c("#1c5253" , "#e07a5f")) +
+  labs( x="age", y="average response" ) +
+  scale_x_continuous(breaks=seq(20,75,5))
+
 ```
 
 ---
@@ -485,7 +588,7 @@ rethinking::precis(d)
 ### estimating carry-over effects
 
 ```{r}
-m4 <- brm(
+m5 <- brm(
   data = d,
   family = gaussian, 
   PA.std ~ 1 + gp(day, cov = "exp_quad", scale = F) + (1|id),
@@ -493,16 +596,24 @@ m4 <- brm(
              prior(inv_gamma(2.5, 3), class = lscale, coef = gpday),
              prior(exponential(1), class = sdgp, coef = gpday)),
   iter=10000, warmup=1000, seed=3, cores=4,
-  file = here("files/models/m91.4")
+  file = here("files/models/m91.5")
 )
 ```
+
+
+---
+
+```{r}
+m5
+```
+
 
 ---
 
 ```{r}
 #| code-fold: true
 #| 
-post <- as_draws_df(m4)
+post <- as_draws_df(m5)
 
 # for `slice_sample()`
 set.seed(14)
@@ -513,14 +624,14 @@ post %>%
          rhosq = 1 / (2 * lscale_gpday^2)) %>% 
   slice_sample(n = 50) %>% 
   expand_grid(x = seq(from = 0, to = 100, by = .05)) %>% 
-  mutate(covariance = sigsq * exp(-rhosq * x^2)) %>% 
+  mutate(covariance = sigsq * exp(-rhosq * x^2),
+         correlation = exp(-rhosq * x^2)) %>% 
   
   # plot
-  ggplot(aes(x = x, y = covariance)) +
+  ggplot(aes(x = x, y = correlation)) +
   geom_line(aes(group = .draw),
             linewidth = 1/4, alpha = 1/4, color = "#1c5253") +
-  stat_function(fun = function(x) mean(post$sdgp_gpday)^2 *
-                  exp(-(1 / (2 * mean(post$lscale_gpday)^2)) * x^2),
+  stat_function(fun = function(x) exp(-(1 / (2 * mean(post$lscale_gpday)^2)) * x^2),
                 color = "#0f393a", linewidth = 1) +
   scale_x_continuous("distance (day)") +
   labs(subtitle = "Gaussian process posterior")

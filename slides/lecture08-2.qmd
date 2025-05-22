@@ -1,6 +1,6 @@
 ---
 title: "week 8: multilevel models"
-subtitle: "MELSM"
+subtitle: "multivariate and MELSM"
 format: 
   revealjs:
     css: xaringan-themer2.css
