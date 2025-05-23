@@ -1,0 +1,169 @@
+---
+title: "week 9: advanced methods"
+subtitle: "measurement"
+format: 
+  revealjs:
+    css: xaringan-themer2.css
+    nature:
+      highlightStyle: solarized-dark
+      highlightLines: true
+      countIncrementalSlides: false
+      mathjax: "default"
+    self-contained: false  # Ensures correct embedding
+    embed-resources: true  # Embeds required assets
+    slide-number: true
+    code-annotations: hover
+execute:
+  echo: true        
+---
+
+
+```{r packages, message = F, warning = F, echo=T}
+library(tidyverse)
+library(psych)
+library(cowplot)
+library(patchwork)
+library(here)
+library(brms) 
+library(tidybayes)
+library(ggdag)
+```
+
+```{r defaults, echo = F}
+knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
+theme_set(theme_cowplot())
+default_palettes <- list(
+  c("#5e8485" , "#0f393a") ,
+  c("#1c5253" , "#5e8485" , "#0f393a") , 
+  # palette with 5 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" ) ,
+  # same palette interpolated to 8 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" ) 
+  
+)
+
+options(ggplot2.discrete.fill = default_palettes, 
+        ggplot2.discrete.colour = default_palettes)
+```
+
+---
+
+## measurement error
+
+Measurement is the principled assignment of numbers to qualitities. And no matter what you measure or how you measure it, you'll have some error. 
+
+Some tools tend to produce very little error (e.g., the length of this table in in inches). Other tools tend to produce more error. In the social sciences, our job is made harder by the fact that we often measure qualities that do not have an objective physical reality, like happiness or well-being. Measurement error is exacerbated when there is [little available data](https://pubmed.ncbi.nlm.nih.gov/24284871/).
+
+Unfortunately, our statistic models will assume your measure has no error... unless you can tell the model how much error there is. 
+
+::: {.notes}
+Citation for 2013 systematic review of prevalence of dysmenorrhea: between 16 and 91% of women of reproductive age.
+:::
+
+---
+
+In measurement theory, we may assume that 
+
+$$
+X_i = T_i + \epsilon_i
+$$
+
+Meaning that for any observation $i$, the observed score $X$ on some measure is the sum of the true score $T$ and error $\epsilon$. Classical test theory assumes that $\epsilon_i$ is randomly distributed, but other theories (IRT) disagree. Regardless, we can move forward with the assumption that observed scores are caused by some true score and some error.
+
+```{r, echo=F}
+# Define coordinates for the DAG nodes
+dag_coords <-
+  tibble(name = c("T", "X", "eX"),
+         x    = c(1, 2, 3),
+         y    = c(1, 1, 1))
+
+# Create the DAG structure
+dagify(X ~ T + eX,
+       coords = dag_coords) %>%
+  tidy_dagitty() %>% 
+  mutate(color = ifelse(name %in% c("X", "eX"), "a", "b")) %>% 
+  
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
+  geom_dag_point(aes(color = color),
+                 size = 20, show.legend = F) +
+  geom_dag_text(parse = T, label = c("T", "X", expression(italic(e)[X]))) +
+  geom_dag_edges() +
+  theme_void()
+
+```
+
+---
+
+## marriage example
+
+```{r load-WaffleDivorce}
+data(WaffleDivorce, package="rethinking")
+d <- WaffleDivorce
+
+rethinking::precis(d) 
+```
+
+---
+
+```{r}
+#| code-fold: true
+dag_coords <-
+  tibble(name = c("A", "M", "D", "Dobs", "eD"),
+         x    = c(1, 2, 2, 3, 4),
+         y    = c(2, 3, 1, 1, 1))
+
+dagify(M    ~ A,
+       D    ~ A + M,
+       Dobs ~ D + eD,
+       coords = dag_coords) %>%
+  tidy_dagitty() %>% 
+  mutate(color = ifelse(name %in% c("D", "eD"), "a", "b")) %>% 
+  
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
+  geom_dag_point(aes(color = color),
+                 size = 10, show.legend = F) +
+  geom_dag_text(parse = T, label = c("A", "D", expression(D[obs]), 
+  "M",expression(italic(e)[D]))) +
+  geom_dag_edges() +
+  theme_void()
+```
+
+---
+
+```{r plot-WD-error}
+#| code-fold: true
+
+p1 <- d %>%
+  ggplot(aes(x = MedianAgeMarriage, 
+             y = Divorce,
+             ymin = Divorce - Divorce.SE, 
+             ymax = Divorce + Divorce.SE)) +
+  geom_pointrange(shape = 20, alpha = 2/3, color="#1c5253") +
+  labs(x = "Median age marriage" , 
+       y = "Divorce rate")
+
+p2 <-
+  d %>%
+  ggplot(aes(x = log(Population), 
+             y = Divorce,
+             ymin = Divorce - Divorce.SE, 
+             ymax = Divorce + Divorce.SE)) +
+  geom_pointrange(shape = 20, alpha = 2/3, color="#e07a5f") +
+  scale_y_continuous(NULL, breaks = NULL) +
+  xlab("log population")
+
+p1 | p2
+```
+
+---
+
+
+
+---
+
+
+## meta analysis
+
+---
+
+## item-response theory

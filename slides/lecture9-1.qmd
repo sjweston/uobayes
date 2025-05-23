@@ -17,7 +17,7 @@ execute:
   echo: true        
 ---
 
-```{r, message = F, warning = F, echo=F}
+```{r, message = F, warning = F, echo=T}
 library(tidyverse)
 library(psych)
 library(cowplot)
