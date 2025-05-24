@@ -27,6 +27,8 @@ library(here)
 library(brms) 
 library(tidybayes)
 library(ggdag)
+library(ggrepel) # for putting labels on figures
+library(broom) #for the tidy functions
 ```
 
 ```{r defaults, echo = F}
@@ -157,12 +159,256 @@ p1 | p2
 
 ---
 
+How do you incorporate the standard error into the model? First, we'll think through this logically, then we'll use the code. 
 
+First, measurement error refers to the amount of variability we would expect to see in statistics across studies. In other words, error is the measure of the spread of a distribution. What's unknown in this case is the mean of the distribution.
+
+$$
+D_{\text{obs},i} \sim \text{Normal}(D_i, D_{\text{SE},i})
+$$
+
+Well hey, isn't that the kind of parameter that Bayesian analysis has been trying to estimate all along?
 
 ---
 
+### mathematical model
+
+\begin{align}
+D_{\text{obs},i} &\sim \text{Normal}(D_i, D_{\text{SE},i}) \\
+D_i &\sim \text{Normal}(\mu_i, \sigma) \\
+\mu_i &= \alpha + \beta_AA_i + \beta_MM_i \\
+\alpha &\sim \text{Normal}(0, 0.2) \\
+\beta_A &\sim \text{Normal}(0, 0.5) \\
+\beta_M &\sim \text{Normal}(0, 0.5) \\
+\sigma &\sim \text{Exponential}(1)
+\end{align}
+
+:::{.notes}
+This is like a linear regression, but with the addition of the top line that connects the observation to the true value. Each $D$ parameter also gets a second role as the mean of another distribution, one that predicts the observed measurement. A cool implication that will arise here is that information flows in both directions—the uncertainty in measurement influences the regression parameters in the linear model, and the regression parameters in the linear model also influence the uncertainty in the measurements. There will be shrinkage.
+:::
+
+---
+
+For the sake of easier priors, we'll standardize all our variables first. Note that standardizing standard errors means keeping them in the same unit as the varible they refer to.
+
+```{r}
+d <-
+  d %>% 
+  mutate(D_obs = (Divorce - mean(Divorce)) / sd(Divorce),
+         D_sd  = Divorce.SE / sd(Divorce),
+         M     = (Marriage - mean(Marriage)) / sd(Marriage),
+         A     = (MedianAgeMarriage - mean(MedianAgeMarriage)) / sd(MedianAgeMarriage),
+         M_obs = M,
+         M_sd  = Marriage.SE / sd(Marriage))
+```
+
+---
+
+```{r}
+m1 <- 
+  brm(data = d, 
+      family = gaussian,
+      D_obs | mi(D_sd) ~ 1 + A + M,
+      prior = c(prior(normal(0, 0.2), class = Intercept),
+                prior(normal(0, 0.5), class = b),
+                prior(exponential(1), class = sigma)),
+      iter = 2000, warmup = 1000, cores = 4, chains = 4,
+      seed = 15,
+      # note this line
+      save_pars = save_pars(latent = TRUE),
+      file = here("files/models/m92.1"))
+```
+
+---
+
+```{r}
+m1
+```
+
+---
+
+```{r}
+posterior_summary(m1)
+```
+
+---
+
+```{r}
+#| code-fold: true
+states <- c("AL", "AR", "ME", "NH", "RI", "DC", "VT", "AK", "SD", "UT", "ID", "ND", "WY")
+
+d_est <-
+  posterior_summary(m1) %>% 
+  data.frame() %>% 
+  rownames_to_column("term") %>% 
+  mutate(D_est = Estimate) %>% 
+  select(term, D_est) %>% 
+  filter(str_detect(term, "Yl")) %>% 
+  bind_cols(d)
+
+
+  d_est %>%
+  ggplot(aes(x = D_sd, y = D_est - D_obs)) +
+  geom_hline(yintercept = 0, linetype = 2) +
+  geom_point(alpha = 2/3) +
+  geom_text_repel(data = . %>% filter(Loc %in% states),  
+                  aes(label = Loc), 
+                  size = 3, seed = 15) 
+```
+
+---
+
+```{r}
+#| code-fold: true
+
+states <- c("AR", "ME", "RI", "ID", "WY", "ND", "MN")
+
+as_draws_df(m1) %>% 
+  expand_grid(A = seq(from = -3.5, to = 3.5, length.out = 50)) %>% 
+  mutate(fitted = b_Intercept + b_A * A) %>% 
+  
+  ggplot(aes(x = A)) +
+  stat_lineribbon(aes(y = fitted),
+                  .width = .95, size = 1/3,
+                  color = "grey20",
+                  fill = "grey80") +
+  geom_segment(data = d_est,
+               aes(xend = A, y = D_obs, yend = D_est),
+               linewidth = 1/5) +
+  geom_point(data = d_est,
+             aes(y = D_obs)) +
+  geom_point(data = d_est,
+             aes(y = D_est),
+             shape = 1, stroke = 1/3) +
+  geom_text_repel(data = d %>% filter(Loc %in% states),  
+                  aes(y = D_obs, label = Loc), 
+                  size = 3, seed = 15) +
+  labs(x = "median age marriage (std)",
+       y = "divorce rate (std)") +
+  coord_cartesian(xlim = range(d$A), 
+                  ylim = range(d$D_obs))
+
+```
+
+---
+
+### Modeling with error
+
+    - incorporating measurement error into your model results in regularization: observations associated with more error are less influential on the model, and the estimated true score of those points can be (but are not necessarily) quite different from the observation. 
+
+    - this will result in a model that is more conservative but one you can have more faith in. 
+
+    - of course, there's an obvious application of this kind of modeling...
+
+---
 
 ## meta analysis
+
+The goal of a meta-analysis is estimating meaningful parameters. A set of studies that are broadly comparable are either...
+
+    1. identical replications of each other in that all studies are identical samples of the same population with the same outcome measures, etc, or 
+
+    2. so different that the results of any one study provide no information about the results of any of the others, or
+    
+    3. the studies as exchangeable but not necessarily either identical or completely unrelated; in other words we allow differences from study to study, but such that the differences are not expected a priori to have predictable effects favoring one study over another.
+
+In other words, you can answer the question with complete pooling, no pooling, or partial pooling. And generally speaking, the third of these is probably the one you want. 
+
+---
+
+Our data come from the second large-scale replication project by the Many Labs team ([Klein et al., 2018](https://journals.sagepub.com/doi/10.1177/2515245918810225)). Of the 28 studies replicated in the study, we will focus on the replication of the trolley experiment from Hauser et al. ([2007](https://onlinelibrary.wiley.com/doi/10.1111/j.1468-0017.2006.00297.x)).
+
+From Klein and colleagues:
+
+> According to the principle of double effect, an act that harms other people is more morally permissible if the act is a foreseen side effect rather than the means to the greater good. Hauser et al. (2007) compared participants’ reactions to two scenarios to test whether their judgments followed this principle. In the foreseen-side-effect scenario, a person on an out-of-control train changed the train’s trajectory so that the train killed one person instead of five. In the greater-good scenario, a person pushed a fat man in front of a train, killing him, to save five people. Whereas 89% of participants judged the action in the foreseen-side-effect scenario as permissible (95% CI = [87%, 91%]), only 11% of participants in the greater-good scenario judged it as permissible  (95% CI = [9%,13%]). The difference between the percentages was significant, $χ2(1, N=2,646) = 1,615.96$, $p<.001$, $w=.78$, $d=2.50$, 95%CI=[2.22,2.86]. Thus, the results provided evidence for the principle of double effect. (p. 459, emphasis in the original)
+
+---
+
+[You can download the data from OSF](https://osf.io/ag2pd). You want the .csv file in Trolley Dilemma 1 > Hauser.1 > By Order > Data > Hauser_1_study_by_order_all_CLEAN_CASE.csv
+
+```{r}
+d <- read_csv(here("files/data/external_data/Hauser_1_study_by_order_all_CLEAN_CASE.csv"))
+```
+
+```{r}
+glimpse(d)
+```
+
+---
+
+```{r}
+d <- d %>% 
+  mutate(y   = ifelse(variable == "Yes", 1, 0),
+         loc = factor(Location,
+                      levels = distinct(d, Location) %>% pull(Location),
+                      labels = 1:59))
+
+```
+
+---
+
+You could pool all the observations into a single model 
+
+```{r}
+glm(data = d, y ~ factor, family = binomial(logit)) |> 
+    summary()
+```
+
+But in a meta-analysis, you don't have all of the data. Let's pretend each of these sites did a separate study and shared only their effect size and standard error. 
+
+---
+
+```{r}
+glms <- d %>% 
+  select(loc, y, factor) %>% 
+  nest(data = c(y, factor)) %>% 
+  mutate(glm = map(data, ~update(glm0, data = .))) %>% 
+  mutate(coef = map(glm, tidy)) %>% 
+  select(-data, -glm) %>% 
+  unnest(coef) %>% 
+  filter(term == "factorSideEffect")
+
+# what did we do?
+glms %>% 
+  mutate_if(is.double, round, digits = 3)
+```
+
+---
+
+```{r}
+#| code-fold: true
+
+glms %>% 
+  ggplot(aes(x = std.error, y = estimate)) +
+  geom_point() +
+  labs(x = expression(sigma[italic(j)]~("log-odds")),
+       y = expression(italic(y[j])~("log-odds")))
+```
+
+---
+
+Given what we've done already, conducting a meta-analysis on this is relatively straight-forward.
+
+\begin{align*}
+\text{estimate}_j &\sim \text{Normal}(\theta_j, \text{std.error}_j) \\
+\theta_j &\sim \text{Normal}(\mu, \tau) \\
+\mu &\sim \text{Normal}(0, 1.5) \\
+\tau &\sim \text{Exponential)(1)
+\end{align*}
+
+---
+
+```{r}
+m2 <- 
+  brm(data = glms, 
+      family = gaussian,
+      estimate | se(std.error) ~ 1 + (1 | loc),
+      prior = c(prior(normal(0, 1.5), class = Intercept),
+                prior(exponential(1), class = sd)),
+      iter = 2000, warmup = 1000, cores = 4, chains = 4,
+      seed = 15,
+      file = here("files/models/m92.2"))
+```
 
 ---
 
