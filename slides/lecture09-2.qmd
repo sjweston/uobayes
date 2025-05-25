@@ -347,16 +347,18 @@ d <- d %>%
 
 ---
 
-You could pool all the observations into a single model 
+You could pool all the observations into a single model. The original study used a chi-square test to compare two percentages, but what we're really talking about is a trial with a binary outcome (yes or no) and predicting that response from a binary predictor (greater good vs side effect). So the better way to model these data is with a binomial regression with a logit link.
 
 ```{r}
-glm(data = d, y ~ factor, family = binomial(logit)) |> 
-    summary()
+glm0 = glm(data = d, y ~ factor, family = binomial(logit)) 
+
+glm0|> summary()
 ```
 
-But in a meta-analysis, you don't have all of the data. Let's pretend each of these sites did a separate study and shared only their effect size and standard error. 
 
 ---
+
+But in a meta-analysis, you don't have all of the data. Let's pretend each of these sites did a separate study and shared only their effect size and standard error. 
 
 ```{r}
 glms <- d %>% 
@@ -366,11 +368,53 @@ glms <- d %>%
   mutate(coef = map(glm, tidy)) %>% 
   select(-data, -glm) %>% 
   unnest(coef) %>% 
-  filter(term == "factorSideEffect")
+  filter(term == "factorSideEffect") %>%
+  mutate(OR = exp(estimate))
+```
 
+---
+
+```
 # what did we do?
 glms %>% 
   mutate_if(is.double, round, digits = 3)
+```
+
+---
+
+```{r}
+#| code-fold: true
+
+glms %>% 
+    arrange(estimate) |> 
+    mutate(
+        rank = row_number()) |> 
+    ggplot(aes(x = rank, y = estimate)) +
+    geom_point() +
+    geom_errorbar( aes(ymin=estimate-1.96*std.error,
+                       ymax=estimate+1.96*std.error),
+                    alpha=.5, width=.5) +
+    coord_flip() +
+    labs(y = expression(italic(y[j])~("log odds")))
+```
+
+---
+
+```{r}
+#| code-fold: true
+
+glms %>% 
+    arrange(estimate) |> 
+    mutate(
+        OR = exp(estimate),
+        rank = row_number()) |> 
+    ggplot(aes(x = rank, y = estimate)) +
+    geom_point() +
+    geom_errorbar( aes(ymin=exp(estimate-1.96*std.error),
+                       ymax=exp(estimate+1.96*std.error)),
+                    alpha=.5, width=.5) +
+    coord_flip() +
+    labs(y = expression(italic(y[j])~("odds ratio")))
 ```
 
 ---
@@ -387,13 +431,13 @@ glms %>%
 
 ---
 
-Given what we've done already, conducting a meta-analysis on this is relatively straight-forward.
+Given what we've done already, conducting a meta-analysis on this is relatively straight-forward. The key here is to recognize that the coefficient estimates are Gaussian distributed. Recall from our lecture on binary outcomes: the distribution on the outcome was Bernoulli, but the prior on the coefficients were normal. So we'll work with the coefficients for the prediction of log odds; we can transform at the end to see how this translates into odds ratios.
 
 \begin{align*}
 \text{estimate}_j &\sim \text{Normal}(\theta_j, \text{std.error}_j) \\
 \theta_j &\sim \text{Normal}(\mu, \tau) \\
 \mu &\sim \text{Normal}(0, 1.5) \\
-\tau &\sim \text{Exponential)(1)
+\tau &\sim \text{Exponential}(1)
 \end{align*}
 
 ---
@@ -412,4 +456,21 @@ m2 <-
 
 ---
 
-## item-response theory
+```{r}
+m2
+```
+
+---
+
+Remember that while our regression coefficients are likely to be gaussian distributed, they're predictors for a logit-link binomial outcome. So to estimate the relative likelihoods, we really need to transform these back. 
+
+These effect sizes represent the difference or relative probability. Relative probabilities are expressed as odds ratios; a coefficient in a binomial regression is the log-odds. To get the odds, just invert the log (i.e., exponentiate).
+
+```{r}
+m2 |> 
+    as_draws_df() |> 
+    mutate(odds_ratio = exp(b_Intercept)) |> 
+    mean_qi(odds_ratio)
+```
+
+For comparison, the replication project found an odds ratio of 11.54.
