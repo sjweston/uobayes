@@ -1,11 +1,9 @@
 {
-  "hash": "de10110f7c7b5a41121cd7f1d333aeec",
+  "hash": "1f989c7797649eedaaf64444ec7767d2",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Problem set 9\"\ndate: \"2025-06-02\"\n---\n\n\n\n\n\n\n## Instructions\n\nPlease use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas. \n\n## Questions\n\nTBD ",
-    "supporting": [
-      "09-problem-set_files"
-    ],
+    "markdown": "---\ntitle: \"Problem set 9\"\ndate: \"2025-06-02\"\n---\n\n\n\n\n\n\n\n## Instructions\n\nPlease use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas. \n\n## Questions\n\n1. For this question, use the data from the study of political attitudes discussed in class. [Download the csv file here](https://osf.io/782ez). You can see the description of the data [here](https://openpsychologydata.metajnl.com/articles/10.5334/jopd.54#3-dataset-description)). Consider the question about healthcare (`health`): Should federal spending on healthcare be increased, decreased, or kept the same?. Model reponses to this variable as a function of wave, using a Gaussian process. Remember that you'll need to clean the data first. Plot the expected response as a function of wave. \n\n2. Categorize each participant as either \"young\" or \"old\" using whatever cut-off you want for old (but being sensitive to the feelings of your instructor). Incorporate this variable into your model. How does it change your interpretation of the findings? (An important note: age is only assessed at baseline.)\n\n\n",
+    "supporting": [],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],

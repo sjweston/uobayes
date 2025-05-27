@@ -1014,7 +1014,7 @@
     "href": "assignment/09-problem-set.html",
     "title": "Problem set 9",
     "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "text": "Due by 11:59 PM on Monday, June 2, 2025",
     "crumbs": [
       "Assignments",
       "Problem sets",
@@ -1025,8 +1025,8 @@
     "objectID": "assignment/09-problem-set.html#instructions",
     "href": "assignment/09-problem-set.html#instructions",
     "title": "Problem set 9",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "section": "Instructions",
+    "text": "Instructions\nPlease use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
@@ -1038,7 +1038,7 @@
     "href": "assignment/09-problem-set.html#questions",
     "title": "Problem set 9",
     "section": "Questions",
-    "text": "Questions\nTBD",
+    "text": "Questions\n\nFor this question, use the data from the study of political attitudes discussed in class. Download the csv file here. You can see the description of the data here). Consider the question about healthcare (health): Should federal spending on healthcare be increased, decreased, or kept the same?. Model reponses to this variable as a function of wave, using a Gaussian process. Remember that you’ll need to clean the data first. Plot the expected response as a function of wave.\nCategorize each participant as either “young” or “old” using whatever cut-off you want for old (but being sensitive to the feelings of your instructor). Incorporate this variable into your model. How does it change your interpretation of the findings? (An important note: age is only assessed at baseline.)",
     "crumbs": [
       "Assignments",
       "Problem sets",
