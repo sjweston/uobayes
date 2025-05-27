@@ -15,4 +15,125 @@ Please use an RMarkdown file to complete this assignment. Make sure you reserve 
 
 1. The data in `data(Oxboys, package="rethinking")` is 234 height measurements on 26 boys from an Oxford Boys Club, at 9 different ages (centered and standardized) per boy. Predict height, using age, clustered by `Subject` (individual boy). Fit a model with varying intercepts and slopes (on `age`), clustered by `Subject.` Present and interpret the parameter estimates. Which varying effect contributes more variation to the heights, the intercept or the slope?
 
+<details>
+<summary>Click to see the answer</summary>
+
+```{r, message=F, warning=F, results='hide'}
+# load packages and data
+library(here)
+library(tidyverse)
+library(brms)
+library(tidybayes)
+
+data(Oxboys, package="rethinking")
+d <- Oxboys
+```
+
+```{r, warning=F, message=F, results='hide'}
+m1 <- brm(
+    data=d, 
+    family=gaussian,
+    height ~ 1 + age + (1 + age | Subject),
+    prior = c( prior(normal(150, 10), class=Intercept),
+               prior(normal(0, 10), class=b),
+               prior(exponential(1), class=sd),
+               prior(exponential(1), class=sigma) ),
+    iter=3000, warmup=1000, cores=4, chains=4, seed=1,
+    file=here("files/models/hw8.1")
+)
+```
+
+We can see the "fixed" effects (coefficients starting with `b_`) and "random" effects (start with `r_Subject`).
+
+```{r}
+posterior_summary(m1)
+```
+
+At the average age in this study, the average boy is about 149.38 cm tall. For each standard deviation increase in age, boys grow an average of 6.52 cm.
+
+Let's visualize the average effect. 
+
+```{r}
+post = as_draws_df(m1)
+
+d |> 
+    ggplot(aes(x=age, y=height)) +
+    geom_blank() +
+    geom_abline( aes(intercept=b_Intercept, slope=b_age),
+                 data=post[1:50,],
+                 color = "#1c5253",
+                 alpha=.3 )
+```
+
+And we can visualize the lines for each of the boys.
+
+```{r}
+post_lines = m1 |> 
+    spread_draws(b_Intercept, b_age, r_Subject[Subject, term]) |> 
+    pivot_wider( names_from=term, values_from=r_Subject ) |> 
+    # calculate intercept and slope for each subject
+    mutate( intercept=b_Intercept+Intercept,
+            slope=b_age+age) |> 
+    # select 50 lines for each subject
+    sample_n(50) 
+
+d |> 
+    ggplot( aes(x=age, y=height) ) +
+    geom_point() +
+    facet_wrap(~Subject) +
+    geom_abline( aes(intercept=intercept, slope=slope),
+                 data =post_lines,
+                 color = "#1c5253",
+                 alpha=.3 )
+```
+
+Now the question remains: which contributes more to variation? Variation in intercepts or variation in slopes?
+
+```{r}
+post |> select(intercepts=sd_Subject__Intercept, slopes=sd_Subject__age) |> 
+    pivot_longer(everything()) |> 
+    ggplot( aes(x=value, fill=name)) +
+    stat_halfeye()
+```
+
+There is more variation in average height than in change in height. 
+
+</details>
+
 2. Now consider the correlation between the varying intercepts and slopes. Can you explain its value? How would this estimated correlation influence your predictions about a new sample of boys?
+
+<details>
+<summary>Click to see the answer</summary>
+
+Let's examine this correlation.
+
+
+```{r}
+post |> select(cor = cor_Subject__Intercept__age) |> 
+    ggplot( aes(x=cor) ) +
+    stat_halfeye()
+```
+
+There's a positive and large correlation between height (at average age) and change in height, meaning taller boys get taller faster. This makes sense to me: in order to be taller at the mid-point in the study, you need to grow faster (assuming the boys all start out at roughly the same height. Let's redo our random effects plot, but with all of the slopes on top of each other.)
+
+
+```{r}
+post_lines_mean = m1 |> 
+    spread_draws(b_Intercept, b_age, r_Subject[Subject, term]) |> 
+    pivot_wider( names_from=term, values_from=r_Subject ) |> 
+    # calculate intercept and slope for each subject
+    mutate( intercept=b_Intercept+Intercept,
+            slope=b_age+age) |> 
+    mean_qi(intercept, slope) 
+
+d |> 
+    ggplot(aes(x=age, y=height)) +
+    geom_blank() +
+    geom_abline( aes(intercept=intercept, slope=slope, group=Subject),
+                 data=post_lines_mean,
+                 alpha=.5)
+```
+
+There's less variation at the beginning of the study, and presumably, if we could extend the graph backwards to their toddlerhood, the variation in heights would be much smaller. 
+
+</details>
