@@ -478,6 +478,7 @@ full_join(pred_m2, pred_m3) %>%
 ---
 
 ```{r}
+#| code-fold: true
 ppd_m2 = nd %>% 
   add_predicted_draws(m2) %>% 
   mutate(model = "m2")
@@ -494,6 +495,28 @@ full_join(ppd_m2, ppd_m3) |>
   scale_color_manual(values = c("#1c5253" , "#e07a5f")) +
   labs( x="age", y="average response" )
 
+```
+
+---
+
+```{r}
+#| code-fold: true
+nd = expand.grid(
+  age=18:72,
+  iter=1:50) 
+  
+plotdata = m3 %>% 
+  predicted_draws(newdata = d) |> 
+  filter(.draw <= 50)
+  
+  plotdata |> 
+    mutate(.prediction = as.numeric(.prediction)) |> 
+  with_groups(
+    c(age, .draw), summarise, m = mean(.prediction, na.rm=T)
+  ) |> 
+    ggplot( aes( x=age, y=m, group=.draw) ) +
+    geom_line(alpha=.4, color = "#1c5253") +
+    geom_vline(aes(xintercept = c(47)), color = "red")
 ```
 
 ---
@@ -557,6 +580,7 @@ p2 + p3
 ---
 
 ```{r}
+#| code-fold: true
 ppd_m4 = nd %>% 
   add_predicted_draws(m4) %>% 
   mutate(model = "m4")
