@@ -1,0 +1,222 @@
+---
+title: "week 10: final countdown"
+subtitle: "missing data"
+format: 
+  revealjs:
+    css: xaringan-themer2.css
+    nature:
+      highlightStyle: solarized-dark
+      highlightLines: true
+      countIncrementalSlides: false
+      mathjax: "default"
+    self-contained: false  # Ensures correct embedding
+    embed-resources: true  # Embeds required assets
+    slide-number: true
+    code-annotations: hover
+execute:
+  echo: true        
+---
+
+
+```{r packages, message = F, warning = F, echo=T}
+library(tidyverse)
+library(psych)
+library(cowplot)
+library(patchwork)
+library(here)
+library(brms) 
+library(tidybayes)
+library(ggdag)
+library(mice) # new package!
+```
+
+```{r defaults, echo = F}
+knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
+theme_set(theme_cowplot())
+default_palettes <- list(
+  c("#5e8485" , "#0f393a") ,
+  c("#1c5253" , "#5e8485" , "#0f393a") , 
+  # palette with 5 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" ) ,
+  # same palette interpolated to 8 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" ) 
+  
+)
+
+options(ggplot2.discrete.fill = default_palettes, 
+        ggplot2.discrete.colour = default_palettes)
+```
+
+---
+
+## missing data as a causal problem
+
+From RM:
+
+> The fact that a variable has an unobserved value is still an observation. It is data, just with a very special value. The meaning of this value depends upon the context. Consider for example a questionnaire on personal income. If some people refuse to fill in their income, this may be associated with low (or high) income. Therefore a model that tries to predict the missing values can be enlightening. In ecology, the absence of an observation of a species is a subtle kind of observation. It could mean the species isn’t there. Or it could mean it is there but you didn’t see it. An entire category of models, occupancy models, exists to take this duality into account. Missing values are always produced by some process, and thinking about that process can sometimes solve big problems.
+
+---
+
+### DAG ate my homework
+
+
+```{r}
+#| code-fold: true
+
+# panel a
+dag_coords <-
+  tibble(name = c("S", "H", "Hs", "D"),
+         x    = c(1, 2, 2, 1),
+         y    = c(2, 2, 1, 1))
+
+p1 <-
+  dagify(H  ~ S,
+         Hs ~ H + D,
+         coords = dag_coords) %>%
+  tidy_dagitty() %>% 
+  mutate(color = ifelse(name == "H", "a", "b")) %>% 
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
+  geom_dag_point(aes(color=color), size = 7, show.legend = F) +
+  geom_dag_text(label = c("D", "H", "H*", "S")) +  # Corrected order
+  geom_dag_edges() +
+  theme(axis.line = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title = element_blank())
+
+# panel b
+p2 <-
+  dagify(H  ~ S,
+         Hs ~ H + D,
+         D  ~ S,
+         coords = dag_coords) %>%
+  tidy_dagitty() %>% 
+  mutate(color = ifelse(name == "H", "a", "b")) %>% 
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
+  geom_dag_point(aes(color=color), size = 7, show.legend = F) +
+  geom_dag_text(label = c("D", "H", "H*", "S")) +  # Corrected order
+  geom_dag_edges() +
+  theme(axis.line = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title = element_blank())
+
+# panel c - coordinates for 5 nodes
+dag_coords_c <-
+  tibble(name = c("S", "H", "Hs", "D", "X"),
+         x    = c(1, 2, 2, 1, 1.5),
+         y    = c(2, 2, 1, 1, 1.5))
+
+p3 <-
+  dagify(H  ~ S + X,
+         Hs ~ H + D,
+         D  ~ X,
+         coords = dag_coords_c) %>%
+  tidy_dagitty() %>% 
+  mutate(color = ifelse(name %in% c("H", "X"), "a", "b")) %>% 
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
+  geom_dag_point(aes(color=color), size = 7, show.legend = F) +
+  geom_dag_text(label = c("D", "H", "H*", "S", "X")) +  # Corrected order
+  geom_dag_edges() +
+  theme(axis.line = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title = element_blank())
+
+# panel d
+p4 <-
+  dagify(H  ~ S,
+         Hs ~ H + D,
+         D  ~ H,
+         coords = dag_coords) %>%
+  tidy_dagitty() %>% 
+  mutate(color = ifelse(name == "H", "a", "b")) %>% 
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
+  geom_dag_point(aes(color=color), size = 7, show.legend = F) +
+  geom_dag_text(label = c("D", "H", "H*", "S")) +  # Corrected order
+  geom_dag_edges() +
+  theme(axis.line = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title = element_blank())
+
+(p1 + p2 + p3 + p4) +
+  plot_annotation(tag_levels = "a", tag_prefix = "(", tag_suffix = ")") &
+  theme(plot.margin = margin(0.15, 0.15, 0.15, 0.15, "in"))
+
+```
+
+:::{.notes}
+(a) Dogs (D) eat homework (H) completely at random. (b) Dogs eat homework of students who study (S) too much. (c)Dogs eat more homework in noisy (X) homes, where the homework is also worse. (d) Dogs prefer to eat bad homework.
+:::
+
+---
+
+## an example: nhanes
+
+  * `age`-- participants’ age
+  * `bmi` -- body mass index[^1]
+  * `hyp` -- hypertensive 
+  * `chl` -- total serum cholesterol
+
+
+```{r}
+data(nhanes, package="mice")
+d <- nhanes
+psych::describe(d, fast=T)
+```
+
+[^1]: caveats about BMI as a measure of anything
+
+---
+
+Let's say we're interested in studying the causal relationship of cholesterol on BMI. 
+
+```{r}
+#| code-fold: true
+
+
+# Define coordinates for the nodes
+dag_coords <- tibble(
+  name = c("age", "chl", "bmi"),
+  x    = c(1, 2, 3),
+  y    = c(2, 2, 1)
+)
+
+# Create the DAG
+dagify(
+  bmi ~ age + chl,
+  chl ~ age,
+  coords = dag_coords
+) %>%
+  tidy_dagitty() %>%
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
+  geom_dag_point(size = 10) +
+  geom_dag_text(size = 4) +
+  geom_dag_edges(arrow_directed = grid::arrow(length = grid::unit(10, "pt"), type = "closed")) +
+  theme_dag() 
+
+```
+
+---
+
+
+```{r}
+m1 <- brm(
+  data = d,
+  family = gaussian,
+  bmi ~ age + chl,
+  prior = c( prior(normal(0,10), class=Intercept),
+             prior(normal(0,10), class=b),
+             prior(exponential(1), class=sigma) ),
+  iter=2000, warmup=500, chains=4, cores=4, seed=1,
+  file = here("files/models/m101.1")           
+)
+```
+
+---
+
+
+```{r}
+m1
+```

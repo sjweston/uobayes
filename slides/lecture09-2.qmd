@@ -386,7 +386,7 @@ full_join(post0, post1) |>
   mutate(estimate = sprintf("%.2f [%.2f, %.2f]", value, .lower, .upper)) |>
   select(model, name, estimate) |>
   pivot_wider(names_from = model, values_from = estimate) |>
-  rename("Model 1" = "1", "Model 2" = "2") |>
+  rename("Model 0" = "0", "Model 1" = "1", "Model 2" = "2") |>
   mutate(name = str_remove(name, "b_")) |>
   knitr::kable(col.names = c("Parameter", "Model 0", "Model 1", "Model 2"),
                caption = "Coefficient estimates [95% CI] for each model")
@@ -605,10 +605,14 @@ m3 <-
       file = here("files/models/m92.3"))
 ```
 
+From Solomon Kurtz:
+
+> `se()` is one of the brms helper functions designed to provide additional information about the criterion variable. Here it informs brm() that each estimate value has an associated measurement error defined in the `std.error` column. Unlike the `mi()` function, which we used earlier in the chapter to accommodate measurement error and the Bayesian imputation of missing data, the `se()` function is specially designed to handle meta-analyses. `se()` contains a sigma argument which is set to `FALSE` by default. This will return a model with no estimate for `sigma`, which is what we want. The uncertainty around the estimate-value for each study, $j$, has already been encoded in the data as `std.error`.
+
 ---
 
 ```{r}
-m2
+m3
 ```
 
 ---
@@ -618,7 +622,7 @@ Remember that while our regression coefficients are likely to be gaussian distri
 These effect sizes represent the difference or relative probability. Relative probabilities are expressed as odds ratios; a coefficient in a binomial regression is the log-odds. To get the odds, just invert the log (i.e., exponentiate).
 
 ```{r}
-m2 |> 
+m3 |> 
     as_draws_df() |> 
     mutate(odds_ratio = exp(b_Intercept)) |> 
     mean_qi(odds_ratio)

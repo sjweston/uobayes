@@ -1869,7 +1869,7 @@ m2 -140.7      65.6 </code></pre>
 <span id="cb20-11"><a href></a>  <span class="fu">mutate</span>(<span class="at">estimate =</span> <span class="fu">sprintf</span>(<span class="st">&quot;%.2f [%.2f, %.2f]&quot;</span>, value, .lower, .upper)) <span class="sc">|&gt;</span></span>
 <span id="cb20-12"><a href></a>  <span class="fu">select</span>(model, name, estimate) <span class="sc">|&gt;</span></span>
 <span id="cb20-13"><a href></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> model, <span class="at">values_from =</span> estimate) <span class="sc">|&gt;</span></span>
-<span id="cb20-14"><a href></a>  <span class="fu">rename</span>(<span class="st">&quot;Model 1&quot;</span> <span class="ot">=</span> <span class="st">&quot;1&quot;</span>, <span class="st">&quot;Model 2&quot;</span> <span class="ot">=</span> <span class="st">&quot;2&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb20-14"><a href></a>  <span class="fu">rename</span>(<span class="st">&quot;Model 0&quot;</span> <span class="ot">=</span> <span class="st">&quot;0&quot;</span>, <span class="st">&quot;Model 1&quot;</span> <span class="ot">=</span> <span class="st">&quot;1&quot;</span>, <span class="st">&quot;Model 2&quot;</span> <span class="ot">=</span> <span class="st">&quot;2&quot;</span>) <span class="sc">|&gt;</span></span>
 <span id="cb20-15"><a href></a>  <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">str_remove</span>(name, <span class="st">&quot;b_&quot;</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb20-16"><a href></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Parameter&quot;</span>, <span class="st">&quot;Model 0&quot;</span>, <span class="st">&quot;Model 1&quot;</span>, <span class="st">&quot;Model 2&quot;</span>),</span>
 <span id="cb20-17"><a href></a>               <span class="at">caption =</span> <span class="st">&quot;Coefficient estimates [95% CI] for each model&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2192,28 +2192,35 @@ Number of Fisher Scoring iterations: 4</code></pre>
 <span id="cb36-8"><a href></a>      <span class="at">seed =</span> <span class="dv">15</span>,</span>
 <span id="cb36-9"><a href></a>      <span class="at">file =</span> <span class="fu">here</span>(<span class="st">&quot;files/models/m92.3&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>From Solomon Kurtz:</p>
+<blockquote>
+<p><code>se()</code> is one of the brms helper functions designed to provide additional information about the criterion variable. Here it informs brm() that each estimate value has an associated measurement error defined in the <code>std.error</code> column. Unlike the <code>mi()</code> function, which we used earlier in the chapter to accommodate measurement error and the Bayesian imputation of missing data, the <code>se()</code> function is specially designed to handle meta-analyses. <code>se()</code> contains a sigma argument which is set to <code>FALSE</code> by default. This will return a model with no estimate for <code>sigma</code>, which is what we want. The uncertainty around the estimate-value for each study, <span class="math inline">\(j\)</span>, has already been encoded in the data as <code>std.error</code>.</p>
+</blockquote>
 </section>
 <section class="slide level2">
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href></a>m2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href></a>m3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> Family: gaussian 
   Links: mu = identity; sigma = identity 
-Formula: D_obs | mi(D_sd) ~ 1 + A + me(M, M_sd) 
-   Data: d (Number of observations: 50) 
+Formula: estimate | se(std.error) ~ 1 + (1 | loc) 
+   Data: glms (Number of observations: 59) 
   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
          total post-warmup draws = 4000
 
+Multilevel Hyperparameters:
+~loc (Number of levels: 59) 
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     0.43      0.09     0.26     0.63 1.00     1665     2474
+
 Regression Coefficients:
           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-Intercept    -0.03      0.10    -0.22     0.17 1.00     2692     2785
-A            -0.52      0.16    -0.84    -0.21 1.00     1800     2492
-meMM_sd       0.27      0.23    -0.17     0.71 1.01     1311     2335
+Intercept     2.55      0.09     2.38     2.72 1.00     3487     2793
 
 Further Distributional Parameters:
       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-sigma     0.55      0.11     0.35     0.79 1.00      969     1345
+sigma     0.00      0.00     0.00     0.00   NA       NA       NA
 
 Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -2226,7 +2233,7 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <p>Remember that while our regression coefficients are likely to be gaussian distributed, they’re predictors for a logit-link binomial outcome. So to estimate the relative likelihoods, we really need to transform these back.</p>
 <p>These effect sizes represent the difference or relative probability. Relative probabilities are expressed as odds ratios; a coefficient in a binomial regression is the log-odds. To get the odds, just invert the log (i.e., exponentiate).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href></a>m2 <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href></a>m3 <span class="sc">|&gt;</span> </span>
 <span id="cb39-2"><a href></a>    <span class="fu">as_draws_df</span>() <span class="sc">|&gt;</span> </span>
 <span id="cb39-3"><a href></a>    <span class="fu">mutate</span>(<span class="at">odds_ratio =</span> <span class="fu">exp</span>(b_Intercept)) <span class="sc">|&gt;</span> </span>
 <span id="cb39-4"><a href></a>    <span class="fu">mean_qi</span>(odds_ratio)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2234,7 +2241,7 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <pre><code># A tibble: 1 × 6
   odds_ratio .lower .upper .width .point .interval
        &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    
-1      0.976  0.804   1.18   0.95 mean   qi       </code></pre>
+1       12.8   10.8   15.2   0.95 mean   qi       </code></pre>
 </div>
 </div>
 <p>For comparison, the replication project found an odds ratio of 11.54.</p>
