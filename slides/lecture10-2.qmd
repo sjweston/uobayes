@@ -1,0 +1,667 @@
+---
+title: "week 10: final countdown"
+subtitle: "general linear madness"
+format: 
+  revealjs:
+    css: xaringan-themer2.css
+    nature:
+      highlightStyle: solarized-dark
+      highlightLines: true
+      countIncrementalSlides: false
+      mathjax: "default"
+    self-contained: false  # Ensures correct embedding
+    embed-resources: true  # Embeds required assets
+    slide-number: true
+    code-annotations: hover
+execute:
+  echo: true        
+---
+
+```{r packages, message = F, warning = F, echo=T}
+library(tidyverse)
+library(psych)
+library(cowplot)
+library(patchwork)
+library(here)
+library(brms) 
+library(tidybayes)
+library(bayesplot)
+library(rstan) # new package!
+```
+
+```{r defaults, echo = F}
+knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
+theme_set(theme_cowplot())
+default_palettes <- list(
+  c("#5e8485" , "#0f393a") ,
+  c("#1c5253" , "#5e8485" , "#0f393a") , 
+  # palette with 5 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" ) ,
+  # same palette interpolated to 8 colours
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" ) 
+  
+)
+
+options(ggplot2.discrete.fill = default_palettes, 
+        ggplot2.discrete.colour = default_palettes)
+```
+
+------------------------------------------------------------------------
+
+## thinking
+
+Today's class is less of a coherent topic and more of a plea to think about your data. Complex statistics are never a substitute for understanding the relationships between your constructs and drawing out the causal model.
+
+It's quite easy to learn about a model or technique and look for a reason to throw it at data. (I'm guilty of that. I'm probably doing that right now.) A problem with that approach is that we typically start with the model or framework and bend the data to fit that, or at least, start by assuming the assumptions of the model.
+
+But the best models are the ones that come from the question and theory. We should start with the assumptions of our questions and theory, then find a model that fits with those.
+
+McElreath provides several examples in this lecture/chapter about how to start from the theory and work towards a model that actually makes sense, instead of throwing a standard model at a problem. Along the way, he uses Stan code, so it's as good a time as any to look at that.
+
+------------------------------------------------------------------------
+
+## hidden minds
+
+Recall the developmental psychology experiment from the lecture. There are 629 children in this dataset between the ages of 4 and 14. The outcome `y` here takes the values 1, 2, and 3. It indicates which of the three options were chosen, where 1 indicates the unchosen color, 2 indicates the majority demonstrated color, and 3 indicates the minority demonstrated color.
+
+```{r}
+data(Boxes, package = "rethinking")
+d <- Boxes
+rm(Boxes)
+
+rethinking::precis(d)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+#| code-fold: true
+
+# wrangle
+d %>% 
+  mutate(color = factor(y,
+                        levels = 1:3,
+                        labels = c("unchosen", "majority", "minority"))) %>%
+  mutate(y = str_c(y, " (", color, ")")) %>% 
+  count(y) %>% 
+  mutate(percent = (100 * n / sum(n))) %>% 
+  mutate(label = str_c(round(percent, digits = 1), "%")) %>% 
+  
+  # plot
+  ggplot(aes(y = y)) +
+  geom_col(aes(x = n)) +
+  geom_text(aes(x = n + 4, label = label), hjust = 0) +
+  scale_x_continuous(expression(italic(n)), expand = expansion(mult = c(0, 0.1))) +
+  labs(title = "The criterion variable y indexes three kinds of color choices",
+       subtitle = "Children tended to prefer the 'majority' color.",
+       y = NULL) +
+  theme(axis.text.y = element_text(hjust = 0),
+        axis.ticks.y = element_blank())
+```
+
+------------------------------------------------------------------------
+
+### a generative model
+
+Consider a group of children in which half of them choose at random and the other half follow the majority. If we simulate choices for these children, we can figure out how often we might see the “2” choice, the one that indicates the majority color.
+
+```{r}
+set.seed(5)
+N <- 30 # number of children
+
+# half are random: sample from 1,2,3 at random for each
+y1 <- sample( 1:3 , size=N/2 , replace=TRUE )
+
+# half follow majority
+y2 <- rep( 2 , N/2 )
+
+# combine and shuffle y1 and y2
+y <- sample( c(y1,y2) )
+
+# count the 2s
+sum(y==2)/N
+```
+
+About two-thirds of the choices are for the majority color, but only half the children are actually following the majority.
+
+------------------------------------------------------------------------
+
+We’ll consider 5 different strategies children might use.
+
+1.  Follow the **Majority**: Copy the majority demonstrated color.
+
+2.  Follow the **Minority**: Copy the minority demonstrated color.
+
+3.  **Maverick**: Choose the color that no demonstrator chose.
+
+4.  **Random**: Choose a color at random, ignoring the demonstrators.
+
+5.  Follow **First**: Copy the color that was demonstrated first. This was either the majority color (when `majority_first` equals 1) or the minority color (when 0).
+
+------------------------------------------------------------------------
+
+An important step here is enumerating the likelihood of each choice (1, 2, 3) for each strategy.
+
+| Strategy     | Choice 1 | Choice 2   | Choice 3   |
+|--------------|----------|------------|------------|
+| Majority     | 0        | 1          | 0          |
+| Minority     | 0        | 0          | 1          |
+| Maverick     | 1        | 0          | 0          |
+| Random       | 1/3      | 1/3        | 1/3        |
+| Follow First | 0\*      | 1 or 0\*\* | 0 or 1\*\* |
+
+**Notes:**
+
+-   \*Follow First strategy for Choice 1: Always 0 (never chooses option 1)
+
+-   \*\*Follow First strategy varies based on `majority_first[i]`:
+
+    -   If `majority_first[i] == 1`: Choice 2 = 1, Choice 3 = 0
+
+    -   If `majority_first[i] != 1`: Choice 2 = 0, Choice 3 = 1
+
+------------------------------------------------------------------------
+
+We can’t directly measure each child’s strategy. It is an unobserved variable. But each strategy has a specific probability of producing each choice. We can use that fact to compute the probability of each choice, given parameters which specify the probability of each strategy. Then we let Bayes loose and get the posterior distribution of each strategy back. Before we can let Bayes loose, we’ll need to enumerate the parameters, assign priors to each, and also figure out some technical issues for coding.
+
+------------------------------------------------------------------------
+
+we can’t directly measure each child’s strategy. It is an unobserved variable. But each strategy has a specific probability of producing each choice. We can use that fact to compute the probability of each choice, given parameters which specify the probability of each strategy. Then we let Bayes loose and get the posterior distribution of each strategy back. Before we can let Bayes loose, we’ll need to enumerate the parameters, assign priors to each, and also figure out some technical issues for coding. We've used these before when studying categorical outcomes.
+
+$$
+p \sim \text{Dirichlet}([4,4,4,4,4])
+$$
+
+------------------------------------------------------------------------
+
+```{r}
+#| code-fold: true
+
+library(gtools)  # for rdirichlet function
+set.seed(123)
+
+# Draw samples from both distributions
+samples_high <- rdirichlet(30, c(4,4,4,4,4))
+samples_low <- rdirichlet(30, c(2,2,2,2,2))
+
+# Convert to data frames and add identifiers
+df_high <- data.frame(samples_high) %>%
+  mutate(sample_id = 1:30, 
+         distribution = "Dirichlet([4,4,4,4,4])") %>%
+  setNames(c(paste0("X", 1:5), "sample_id", "distribution"))
+
+df_low <- data.frame(samples_low) %>%
+  mutate(sample_id = 1:30, 
+         distribution = "Dirichlet([2,2,2,2,2])") %>%
+  setNames(c(paste0("X", 1:5), "sample_id", "distribution"))
+
+# Combine data frames
+df_combined <- rbind(df_high, df_low)
+
+# Reshape to long format for plotting
+df_long <- df_combined %>%
+  pivot_longer(cols = X1:X5, 
+               names_to = "component", 
+               values_to = "probability") %>%
+  mutate(component = as.numeric(gsub("X", "", component)))
+
+# Create the plot
+ggplot(df_long, aes(x = component, y = probability, group = sample_id)) +
+  geom_line(alpha = 0.6, color = "steelblue") +
+  geom_hline(yintercept = 0.2, linetype = "dashed", color = "red", alpha = 0.7) +
+  facet_wrap(~ distribution, ncol = 2) +
+  labs(title = "Comparison of Dirichlet Distribution Samples",
+       subtitle = "30 samples from each distribution (red line shows uniform expectation)",
+       x = "Component",
+       y = "Probability") +
+  scale_x_continuous(breaks = 1:5) +
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank(),
+        strip.text = element_text(size = 12, face = "bold"))
+
+```
+
+------------------------------------------------------------------------
+
+Great, now we need to express the likelihood. For each observed choice $y_i$, each strategy $s$ implies a probability of seeing $y_i$.
+
+$$
+\text{Pr}(y_i) = \sum_{s=1}^5 p_s\text{Pr}(y_i|s)
+$$
+
+Read this as the probability of $y_i$ is the weighted average of the probabilities of $y_i$ conditional on each strategy $s$.This expression is a mixture, as in earlier chapters. Sometimes you’ll read that this marginalizes out the unknown strategy. This just means averaging over the strategies, using some probability of each to get the weight of each in the average. Above, the values in $p$ provide these weights.
+
+------------------------------------------------------------------------
+
+### mathematical model
+
+We can put all these pieces together in a (very simple) statistical model.
+
+\begin{align*}
+y_i &\sim \text{Categorical}(\theta) \\
+\theta &= \sum_{s=1}^5 p_s\text{Pr}(y_i|s) \\
+p \sim \text{Dirichlet}([4,4,4,4,4])
+\end{align*}
+
+On to the Stan code...
+
+------------------------------------------------------------------------
+
+### stan by me, when you're not strong
+
+First, we list the data. Recall our outcome is `y` and we're using the variable `majority_first` to indicate the order in which children saw the two groups of peers. `N` is not part of our data, but Stan uses this to index sample size.
+
+```{tex}
+data{
+    int N;
+    array[N] int y;
+    array[N] int majority_first;
+}
+```
+
+Next, we list our `parameters`. In this case, we're trying to estimate the proportion of children who use each strategy:
+
+```{tex}
+parameters{
+    simplex[5] p;
+}
+```
+
+------------------------------------------------------------------------
+
+Now for the model. This bit is chunky.
+
+```{tex}
+model{
+    vector[5] phi;
+    
+    // prior
+    p ~ dirichlet( rep_vector(4,5) );
+    
+    // probability of data
+    for ( i in 1:N ) {
+        if ( y[i]==2 ) phi[1]=1; else phi[1]=0; // majority
+        if ( y[i]==3 ) phi[2]=1; else phi[2]=0; // minority
+        if ( y[i]==1 ) phi[3]=1; else phi[3]=0; // maverick
+        phi[4]=1.0/3.0;                         // random
+        if ( majority_first[i]==1 )             // follow first
+            if ( y[i]==2 ) phi[5]=1; else phi[5]=0;
+        else
+            if ( y[i]==3 ) phi[5]=1; else phi[5]=0;
+        
+        // compute log( p_s * Pr(y_i|s )
+        for ( j in 1:5 ) phi[j] = log(p[j]) + log(phi[j]);
+        // compute average log-probability of y_i
+        target += log_sum_exp( phi );
+    }
+}
+```
+
+------------------------------------------------------------------------
+
+To add run this code in R, add all of this to a character string. The function `cat()` allows you to see the string with the formatting (line breaks, etc).
+
+```{r}
+boxes_stan = "
+  data{
+    int N;
+    array[N] int y;
+    array[N] int majority_first;
+    }
+  parameters{
+    simplex[5] p;
+    }
+  model{
+    vector[5] phi;
+    
+    // prior
+    p ~ dirichlet( rep_vector(4,5) );
+    
+    // probability of data
+    for ( i in 1:N ) {
+        if ( y[i]==2 ) phi[1]=1; else phi[1]=0; // majority
+        if ( y[i]==3 ) phi[2]=1; else phi[2]=0; // minority
+        if ( y[i]==1 ) phi[3]=1; else phi[3]=0; // maverick
+        phi[4]=1.0/3.0;                         // random
+        if ( majority_first[i]==1 )             // follow first
+            if ( y[i]==2 ) phi[5]=1; else phi[5]=0;
+        else
+            if ( y[i]==3 ) phi[5]=1; else phi[5]=0;
+        
+        // compute log( p_s * Pr(y_i|s )
+        for ( j in 1:5 ) phi[j] = log(p[j]) + log(phi[j]);
+        // compute average log-probability of y_i
+        target += log_sum_exp( phi );
+    }
+  }
+"
+cat(boxes_stan)
+```
+
+------------------------------------------------------------------------
+
+Let's integrate this with `brms` so we can make use of some of the helper functions.
+
+First, we'll create an empty brmsfit object.
+
+```{r}
+# We need to create a dummy model that has similar structure to what we want
+m1 <- brm(
+  y ~ 1,  # Simple intercept model as placeholder
+  data = d,
+  family = categorical(),  # Since you have categorical outcomes
+  chains = 0,  # Don't actually fit
+  silent = 2,
+  refresh = 0
+)
+```
+
+Next, we prepare the data for Stan:
+
+```{r}
+library(rstan)
+stan_data <- list(
+  N = nrow(d),
+  y = d$y,
+  majority_first = d$majority_first
+)
+```
+
+------------------------------------------------------------------------
+
+The function `stan_model` will convert our character string to something that Stan can recognize.
+
+```{r}
+# Compile the custom Stan model
+custom_stan_model <- stan_model(model_code = boxes_stan)
+
+# Fit the custom model
+custom_fit <- sampling(
+  custom_stan_model,
+  data = stan_data,
+  chains = 4, iter = 2000, warmup = 1000, cores = 4
+)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+# Replace the fit slot in the brmsfit object
+m1$fit <- custom_fit
+
+# Also update the model slot to contain the Stan code
+m1$model <- boxes_stan
+
+# Update the data
+m1$data <- d
+```
+
+And that's it! You can now use (some) of the usual functions to evaluate your model.
+
+------------------------------------------------------------------------
+
+Note that some functions will work, but others will not.
+
+```{r}
+posterior_summary(m1)
+```
+
+```{r, eval=F}
+m1 # doesn't work
+```
+
+------------------------------------------------------------------------
+
+```{r}
+mcmc_rank_overlay(m1)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+gather_draws(m1, p[strategy]) |> 
+  ggplot( aes(x=.value, fill=as.factor(strategy) )) +
+  stat_halfeye(alpha=.5) 
+```
+
+::: notes
+1.  Majority
+2.  Minority
+3.  Maverick
+4.  Random
+5.  Follow first
+:::
+
+------------------------------------------------------------------------
+
+## time for a new topic
+
+We've already discussed the phenomenon of time, and we included some models that regressed an outcome (like emotion) on the most recent emotion from the same individual. This is an example of **AUTOREGRESSION**. In an autoregressive model, the value of the outcome in the previous time step is called a lag variable and added as a predictor to the right side of a linear model.
+
+$$
+\text{Positive Emotion}_{\text{today}} = \alpha + \beta(\text{Positive Emotion}_{\text{yesterday}})
+$$
+
+These are extremely common, especially in the social sciences. And, they have some problems.
+
+------------------------------------------------------------------------
+
+### auto-problems
+
+-   that's not really causal
+
+    -   some causal processes act slower than others
+
+-   if the states are measured with error – they probably are – then the model propagates error
+
+-   there is no biological, economic, or physical interpretation of the parameters
+
+What should we do instead? Ordinary Differential Equations (ODE)
+
+------------------------------------------------------------------------
+
+### a hare-y example
+
+```{r}
+data(Lynx_Hare, package = "rethinking")
+glimpse(Lynx_Hare)
+```
+
+Based on example by [Bob Carpenter (2018)](https://mc-stan.org/learn-stan/case-studies/lotka-volterra-predator-prey.html) (worth reading!).
+
+---
+
+```{r}
+#| code-fold: true
+# for annotation
+text <-
+  tibble(name  = c("Hare", "Lynx"),
+         label = c("Lepus", "Lynx"),
+         Year  = c(1913.5, 1915.5),
+         value = c(78, 52))
+
+# wrangle
+Lynx_Hare %>% 
+  pivot_longer(-Year) %>% 
+  
+  # plot!
+  ggplot(aes(x = Year, y = value)) +
+  geom_line(aes(color = name),
+            linewidth = 1/4) +
+  geom_point(aes(fill = name),
+             size = 3, shape = 21, color = "white") +
+  geom_text(data = text,
+            aes(label = label, color = name),
+            hjust = 0) +
+  scale_fill_grey(start = 0, end = .5) +
+  scale_color_grey(start = 0, end = .5) +
+  scale_y_continuous("thousands of pelts", breaks = 0:4 * 20, limits = c(0, 90)) +
+  theme(legend.position = "none")
+```
+
+---
+
+Let's start by modeling hares. You'll be tempted to model the number of hares, $H$, at a given time point, but consider modeling the rate of change in hares instead:
+
+$$
+\frac{\text{d}H}{\text{d}t} = H_t \times (\text{birth rate}) - H_t \times (\text{death rate})
+$$
+
+For the sake of simplicity, let's say the birth and death rates are constants.
+
+$$
+\frac{\text{d}H}{\text{d}t} = H_tb_h - H_tm_h = H_t(b_h-m_h)
+$$
+
+And the presence of the Lynx modifies the mortality rate:
+$$
+\frac{\text{d}H}{\text{d}t} = H_tb_h - H_tm_h = H_t(b_h-L_tm_h)
+$$
+
+---
+
+$$
+\frac{\text{d}H}{\text{d}t} = H_t(b_h-L_tm_h)
+$$
+
+Similar logic gives up the rate of change for Lynxs:
+
+$$
+\frac{\text{d}L}{\text{d}t} = L_t(H_tb_h-m_h)
+$$
+
+Now, this model is powerful because we can learn from it without data!
+
+---
+
+### simulated hares
+
+```{r}
+sim_lynx_hare <- function(n_steps, init, theta, dt = 0.002) { 
+  #empty vectors to hold the lynx and hares
+  L <- rep(NA, n_steps)
+  H <- rep(NA, n_steps)
+  
+  # set initial values
+  L[1] <- init[1]
+  H[1] <- init[2]
+  
+  for (i in 2:n_steps) {
+    H[i] <- H[i - 1] + dt * H[i - 1] * (theta[1] - theta[2] * L[i - 1])
+    L[i] <- L[i - 1] + dt * L[i - 1] * (theta[3] * H[i - 1] - theta[4])
+  }
+
+  # return a tibble
+  tibble(t = 1:n_steps,
+         H = H,
+         L = L)  
+}
+```
+
+---
+
+
+```{r}
+# set the four theta values
+theta <- c(0.5, 0.05, 0.025, 0.5)
+
+# simulate
+z <- sim_lynx_hare(n_steps = 1e4, 
+                   init = c(filter(Lynx_Hare, Year == 1900) %>% pull("Lynx"), 
+                            filter(Lynx_Hare, Year == 1900) %>% pull("Hare")), 
+                   theta = theta)
+
+# what did we do?
+glimpse(z)
+```
+
+---
+
+```{r}
+#| code-fold: true
+
+z %>% 
+  pivot_longer(-t) %>% 
+  
+  ggplot(aes(x = t, y = value, color = name)) +
+  geom_line(linewidth = 1/4) +
+  scale_color_grey(start = 0, end = .5) +
+  scale_x_continuous(expression(time~(italic(t))), breaks = NULL) +
+  scale_y_continuous("number (thousands)", breaks = 0:4 * 10, limits = c(0, 45)) +
+  theme(legend.position = "none")
+```
+
+---
+
+Anyone notice a problem with our data? We don't have the number of hares or lynx -- we have the number of pelts! So we have a different causal model. 
+
+We want a statistical model that can connect $h_t$ to $H_t$ and connect $l_t$ to $L_t$. Part of the model would include the probability a hare was trapped on a given year, $p_h$, and a similar probability for lynx, $p_l$. To make things worse, further imagine the number of pelts for each, in a given year, was rounded to the nearest 100 and divided by 1,000. Those are our values.
+
+---
+
+We can do this though. Suppose for example there is a population of $H_t = 10^4$ hares. Suppose also that the annual trapping rate varies according to a beta distribution $p_h$ ∼ Beta(2, 18). This means the average is 10%, but it is very rarely double that. We get a binomial count of pelts sampled for the population of hares, and then that is rounded to the nearest 100 and divided by 1000. Let’s see what this sort of distribution looks like:
+
+```{r}
+#| code-fold: true
+N <- 1e4
+Ht <- 1e4
+p <- rbeta(N,2,18)
+h <- rbinom(N, size=Ht, prob=p)
+h <- round( h/1000, 2 )
+h |> rethinking::dens(, xlab="thousands of pelts", lwd=2)
+```
+
+---
+
+This is our distribution of number of hares. We should consider what kind of likelihood function approximates this. A Log-Normal does a good job: right constraints (not below 0) and skew (positive).
+
+$$
+h_t \sim \text{Log-Normal}( \text{log}(pH_t), \sigma_H )
+$$
+
+$h_t$ is the expected number of hairs trapped or observed pelts. 
+
+An important fact about this measurement process is that there is no good way to estimate $p$, not without lots of data at least. So we’re going to just fix it with a strong prior. If this makes you uncomfortable, notice that the model has forced us to realize that we cannot do any better than relative population estimates, unless we have a good way to know $p$. A typical time series model would just happily spin on its epicycles, teaching us nothing this useful.
+
+---
+
+### statistical model
+
+**probabilities of observed variables**
+
+\begin{align*}
+h_t &\sim \text{Log-Normal}( \text{log}(p_hH_t), \sigma_H ) \\
+l_t &\sim \text{Log-Normal}( \text{log}(p_lL_t), \sigma_L )
+\end{align*}
+
+**unobserved variables**
+\begin{align*}
+H_1 &\sim \text{Log-Normal}( \text{log}10, 1 ) \\
+L_1 &\sim \text{Log-Normal}( \text{log}10, 1 ) \\
+H_{T>1} &= H_1 + \int_1^TH_t(b_H -L_tm_H)dt \\
+L_{T>1} &= L_1 + \int_1^TL_t(H_tb_L -m_L)dt \\
+\end{align*}
+
+---
+
+**priors**
+
+\begin{align*}
+\sigma_H &\sim \text{Exponential}(1) \\
+\sigma_L &\sim \text{Exponential}(1) \\
+\p_H &\sim \text{Beta}(\alpha_H, \beta_H) \\
+\p_L &\sim \text{Beta}(\alpha_L, \beta_L) \\
+\b_H &\sim \text{Half-Normal}(1, 0.5) \\
+\b_L &\sim \text{Half-Normal}(0.05, 0.05) \\
+\m_H &\sim \text{Half-Normal}(0.05, 0.05) \\
+\m_L &\sim \text{Half-Normal}(1, 0.5) \\
+\end{align*}
+
+---
+
+```{r}
+data(Lynx_Hare_model, package="rethinking")
+cat(Lynx_Hare_model)
+```
+
+

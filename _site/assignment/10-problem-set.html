@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -36,10 +36,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-9e228d6d4d66c12a9d11739da31c2b1c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-3db70490afac06c17de46e30c0e88a0f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -251,10 +251,10 @@ ul.task-list li input[type="checkbox"] {
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../assignment/01-problem-set.html">Problem sets</a></li><li class="breadcrumb-item"><a href="../assignment/10-problem-set.html">Problem set 10</a></li></ol></nav><h1 class="title display-7">Problem set 10</h1></header>
 
 <header id="title-block-header">
-<h1 class="title display-7">Problem set 10</h1>
+
 
 <div class="date-block bg-assignment text-white p-2">
   <p class="date">Due by 11:59 PM on Monday, June 9, 2025</p>
@@ -264,11 +264,22 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="instructions" class="level2">
 <h2 class="anchored" data-anchor-id="instructions">Instructions</h2>
-<p>Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.</p>
+<p>Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explanations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.</p>
 </section>
 <section id="questions" class="level2">
 <h2 class="anchored" data-anchor-id="questions">Questions</h2>
-<p>TBD</p>
+<p>You have a choice this week. You can either:</p>
+<ol type="1">
+<li><p>Redo one of the earlier problem sets from this term. Pick an assignment that you struggled with or didn’t feel like you understood well. Answer the questions from the assignment and consider doing a little more: ask an additional research question, integrate a technique from a different part of the course, or make a publication-worthy figure. Do not copy the answer key and don’t use generative AI. Instead, refer to slides and notes and help pages for <code>brms</code>. This is an opportunity to master a skill.</p></li>
+<li><p>Analyze your own data. You should include the following:</p>
+<ol type="1">
+<li><p>A written statement of the research question</p></li>
+<li><p>A causal model (DAG)</p></li>
+<li><p>A generative simulation</p></li>
+<li><p>The statistical model</p></li>
+<li><p>A figure of the posterior distribution and a figure of the posterior predictive distribution</p></li>
+</ol></li>
+</ol>
 
 
 </section>
@@ -356,8 +367,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -468,7 +477,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

@@ -1,11 +1,9 @@
 {
-  "hash": "ce44a5f387496ee1873368f51f7593ce",
+  "hash": "ff77851d06ab5015f8e72403bffab463",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Problem set 10\"\ndate: \"2025-06-09\"\n---\n\n\n\n\n\n\n## Instructions\n\nPlease use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas. \n\n## Questions\n\nTBD ",
-    "supporting": [
-      "10-problem-set_files"
-    ],
+    "markdown": "---\ntitle: \"Problem set 10\"\ndate: \"2025-06-09\"\n---\n\n\n\n\n\n\n\n## Instructions\n\nPlease use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explanations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.\n\n## Questions\n\nYou have a choice this week. You can either:\n\n1.  Redo one of the earlier problem sets from this term. Pick an assignment that you struggled with or didn't feel like you understood well. Answer the questions from the assignment and consider doing a little more: ask an additional research question, integrate a technique from a different part of the course, or make a publication-worthy figure. Do not copy the answer key and don't use generative AI. Instead, refer to slides and notes and help pages for `brms`. This is an opportunity to master a skill.\n\n2.  Analyze your own data. You should include the following:\n\n    1.  A written statement of the research question\n\n    2.  A causal model (DAG)\n\n    3.  A generative simulation\n\n    4.  The statistical model\n\n    5.  A figure of the posterior distribution and a figure of the posterior predictive distribution",
+    "supporting": [],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],

@@ -17,7 +17,6 @@ execute:
   echo: true        
 ---
 
-
 ```{r packages, message = F, warning = F, echo=T}
 library(tidyverse)
 library(psych)
@@ -47,18 +46,39 @@ options(ggplot2.discrete.fill = default_palettes,
         ggplot2.discrete.colour = default_palettes)
 ```
 
----
+------------------------------------------------------------------------
+
+## missing understandable terms
+
+-   **Missing completely at random (MCAR)**
+
+    -   Pattern of missingness is random.
+
+    -   Think: aliens.
+
+-   **Missing at random (MAR)**
+
+    -   the pattern of missingness on variable A is related to variable.
+
+    -   Think: raccoons.
+
+-   **Missing not at random (MNAR)**
+
+    -   missingness of variable A is related to the values of variable A.
+
+    -   Think: criminal mastermind
+
+------------------------------------------------------------------------
 
 ## missing data as a causal problem
 
 From RM:
 
-> The fact that a variable has an unobserved value is still an observation. It is data, just with a very special value. The meaning of this value depends upon the context. Consider for example a questionnaire on personal income. If some people refuse to fill in their income, this may be associated with low (or high) income. Therefore a model that tries to predict the missing values can be enlightening. In ecology, the absence of an observation of a species is a subtle kind of observation. It could mean the species isn’t there. Or it could mean it is there but you didn’t see it. An entire category of models, occupancy models, exists to take this duality into account. Missing values are always produced by some process, and thinking about that process can sometimes solve big problems.
+> The fact that a variable has an unobserved value is still an observation. It is data, just with a very special value. The meaning of this value depends upon the context. Consider for example a questionnaire on personal income. If some people refuse to fill in their income, this may be associated with low (or high) income. Therefore a model that tries to predict the missing values can be enlightening. In ecology, the absence of an observation of a species is a subtle kind of observation. It could mean the species isn't there. Or it could mean it is there but you didn't see it. An entire category of models, occupancy models, exists to take this duality into account. Missing values are always produced by some process, and thinking about that process can sometimes solve big problems.
 
----
+------------------------------------------------------------------------
 
 ### DAG ate my homework
-
 
 ```{r}
 #| code-fold: true
@@ -146,19 +166,20 @@ p4 <-
 
 ```
 
-:::{.notes}
+::: notes
 (a) Dogs (D) eat homework (H) completely at random. (b) Dogs eat homework of students who study (S) too much. (c)Dogs eat more homework in noisy (X) homes, where the homework is also worse. (d) Dogs prefer to eat bad homework.
 :::
 
----
+------------------------------------------------------------------------
 
 ## an example: nhanes
 
-  * `age`-- participants’ age
-  * `bmi` -- body mass index[^1]
-  * `hyp` -- hypertensive 
-  * `chl` -- total serum cholesterol
+-   `age`-- participants' age
+-   `bmi` -- body mass index[^1]
+-   `hyp` -- hypertensive
+-   `chl` -- total serum cholesterol
 
+[^1]: caveats about BMI as a measure of anything
 
 ```{r}
 data(nhanes, package="mice")
@@ -166,11 +187,15 @@ d <- nhanes
 psych::describe(d, fast=T)
 ```
 
-[^1]: caveats about BMI as a measure of anything
+------------------------------------------------------------------------
 
----
+```{r}
+d
+```
 
-Let's say we're interested in studying the causal relationship of cholesterol on BMI. 
+------------------------------------------------------------------------
+
+Let's say we're interested in studying the causal relationship of cholesterol on BMI.
 
 ```{r}
 #| code-fold: true
@@ -198,14 +223,13 @@ dagify(
 
 ```
 
----
-
+------------------------------------------------------------------------
 
 ```{r}
 m1 <- brm(
   data = d,
   family = gaussian,
-  bmi ~ age + chl,
+  bmi ~ age*chl,
   prior = c( prior(normal(0,10), class=Intercept),
              prior(normal(0,10), class=b),
              prior(exponential(1), class=sigma) ),
@@ -214,9 +238,264 @@ m1 <- brm(
 )
 ```
 
----
-
+------------------------------------------------------------------------
 
 ```{r}
 m1
 ```
+
+------------------------------------------------------------------------
+
+Now we return to the `mi()` function from before. When `brms` sees `mi()`, it really interprets this to mean that there's some value that's missing to impute. We used it in the previous lecture to indicate that the true value for our outcome (divorce rate) was missing but we could impute based on our observation and standard error. Here, we'll be using it to say that some values are missing.
+
+```{r}
+m2 <- brm(
+  data = d,
+  family = gaussian,
+  bf(bmi | mi() ~ age*chl),
+  prior = c( prior(normal(0,10), class=Intercept),
+             prior(normal(0,10), class=b),
+             prior(exponential(1), class=sigma) ),
+  iter=2000, warmup=500, chains=4, cores=4, seed=1,
+  save_pars = save_pars(latent=T),
+  file = here("files/models/m101.2")           
+)
+```
+
+------------------------------------------------------------------------
+
+Note that we imputed values for only two of our participants. That's because we threw out the participants who were also missing values for cholesterol.
+
+```{r}
+posterior_summary(m2)
+```
+
+------------------------------------------------------------------------
+
+But we can estimate those missing cholesterol values as well. Now that we have multiple outcomes, we have to specify which outcome (`resp`) each prior belongs to.
+
+```{r}
+m3 <- brm(
+  data = d,
+  family = gaussian,
+  bf(bmi | mi() ~ age * mi(chl)) + 
+  bf(chl | mi() ~ 1) + 
+  set_rescor(FALSE),
+  prior = c( prior(normal(0,10), class=Intercept, resp=bmi),
+             prior(normal(0,10), class=Intercept, resp=chl),
+             prior(normal(0,10), class=b),
+             prior(exponential(1), class=sigma, resp=bmi),
+             prior(exponential(1), class=sigma, resp=chl) ),
+  iter=2000, warmup=500, chains=4, cores=4, seed=1,
+  save_pars = save_pars(latent=T),
+  file = here("files/models/m101.3")           
+)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+m3
+```
+
+------------------------------------------------------------------------
+
+Hooray! Now we've not only imputed values for cholesterol, but we've also imputed more values for BMI.
+
+```{r}
+posterior_summary(m3)
+```
+
+------------------------------------------------------------------------
+
+And once more, we can improve our model, because we can use information from `age` to better impute cholesterol.
+
+```{r}
+m4 <- brm(
+  data = d,
+  family = gaussian,
+  bf(bmi | mi() ~ age * mi(chl)) + 
+  bf(chl | mi() ~ age) + 
+  set_rescor(FALSE),
+  prior = c( prior(normal(0,10), class=Intercept, resp=bmi),
+             prior(normal(0,10), class=Intercept, resp=chl),
+             prior(normal(0,10), class=b),
+             prior(exponential(1), class=sigma, resp=bmi),
+             prior(exponential(1), class=sigma, resp=chl) ),
+  iter=2000, warmup=500, chains=4, cores=4, seed=1,
+  save_pars = save_pars(latent=T),
+  file = here("files/models/m101.4")           
+)
+```
+
+------------------------------------------------------------------------
+
+```{r}
+post3 = as_draws_df(m3) |> mutate(model="m3")
+post4 = as_draws_df(m4) |> mutate(model="m4")
+
+```
+
+```{r}
+#| code-fold: true
+
+# Extract imputed cholesterol values
+post3_chl = post3 |> 
+  select(starts_with("Ymi_chl")) |> 
+  pivot_longer(everything(), names_to = "imputation", values_to = "value") |>
+  mutate(model = "m3")
+
+post4_chl = post4 |> 
+  select(starts_with("Ymi_chl")) |> 
+  pivot_longer(everything(), names_to = "imputation", values_to = "value") |>
+  mutate(model = "m4")
+
+# Combine the data
+combined_chl = bind_rows(post3_chl, post4_chl) |> 
+  with_groups(c(model, imputation), summarise, value=mean(value)) |> 
+  mutate(row = as.numeric(str_extract(imputation, "[0-9]{1,2}")))
+
+ages = tibble(row = 1:nrow(d), age =d$age)
+
+combined_chl |> 
+  inner_join(ages) |> 
+  ggplot( aes(x=age, y=value, color=model)) +
+  geom_smooth(se=F) +
+  geom_jitter() +
+  scale_color_manual(values = c("m3" = "#5e8485", "m4" = "#0f393a")) +
+  theme(legend.position = "bottom")
+```
+
+------------------------------------------------------------------------
+
+Much like when we incorporated measurement error, we may find that our coefficient estimates change.
+
+```{r, results='asis'} 
+#| code-fold:true
+
+post2 = as_draws_df(m2) |> mutate(model="m2")
+
+extract_coef = function(post){
+  out = post |> 
+    select(starts_with("b"), model) |> 
+    pivot_longer(-model, 
+    names_to = c("prefix", "outcome", "parameter"), 
+    names_sep = "_",
+    values_to = "value") |>
+    mutate(
+      parameter = ifelse(is.na(parameter), outcome, parameter),
+      outcome = ifelse(outcome==parameter, "bmi", outcome),
+      parameter = str_remove(parameter, "mi"),
+      parameter=ifelse(parameter=="age:chl", "chl:age", parameter)
+    ) |> 
+    group_by(model, outcome, parameter) |> 
+    summarise( 
+      mean = mean(value), 
+      lower = quantile(value, 0.025), 
+      upper = quantile(value, 0.975), 
+      .groups = "drop" )
+}
+
+bind_rows( 
+  post2 |> extract_coef(),
+  post3 |> extract_coef(), 
+  post4 |> extract_coef()
+  ) |> 
+  mutate( 
+    estimate = sprintf("%.2f [%.2f, %.2f]", mean, lower, upper) ) |> 
+  select(model, outcome, parameter, estimate) |> 
+  pivot_wider(names_from = model, values_from = estimate) |> 
+  knitr::kable(booktabs=T) |> 
+  kableExtra::kable_styling()
+```
+
+---
+
+## multiple imputation
+
+Multiple imputation is a statistical technique for handling missing data that creates several complete datasets by filling in missing values with plausible estimates. Rather than simply deleting cases with missing data or using a single imputation method, this approach generates multiple versions of the dataset where each missing value is replaced with different reasonable estimates based on the observed data patterns. Traditionally, the number of imputed datasets ranges from 5 to 20, depending on the amount of missing data and the specific analysis requirements. (However, you should plan to do many more than that as a Bayesian.)
+
+Multiple imputation is particularly valuable because it preserves the relationships between variables while acknowledging uncertainty about the true values of missing data. Unlike single imputation methods that can underestimate standard errors and lead to overly confident results, multiple imputation provides more accurate statistical inferences by incorporating the additional uncertainty from not knowing the missing values. This makes it especially useful in research contexts where maintaining statistical power and avoiding bias from missing data are crucial for drawing valid conclusions.
+
+---
+
+### steps of MI
+
+1. **Imputation**: Create multiple complete datasets by filling in missing values with plausible estimates.
+2. **Analysis**: Run the analysis on each of the imputed datasets.
+3. **Pooling**: Combine the results from each analysis to obtain a single set of estimates and their uncertainty.
+
+---
+
+Five imputations is probably too few. Depending on the data, you may need as many as 100 imputations (Zhou & Reiter, 2010)[https://www.tandfonline.com/doi/abs/10.1198/tast.2010.09109].
+
+```{r}
+
+# number of imputations
+m <- 5
+
+imp <- mice(nhanes, m = m, print=F)
+class(imp)
+```
+
+---
+
+For each imputation, we have a full dataset. The guesses for each previously-missing value are informed by the other values in the dataset. 
+
+```{r}
+imp$imp
+```
+
+---
+
+
+```{r}
+m5 <- 
+  brm_multiple(
+    family=gaussian,
+    data=imp,
+    bmi ~ age*chl,
+    prior = c( prior(normal(0,10), class=Intercept),
+             prior(normal(0,10), class=b),
+             prior(exponential(1), class=sigma) ),
+  iter=2000, warmup=500, chains=4, cores=4, seed=1,
+  file = here("files/models/m101.5")
+  )
+```
+
+---
+
+Look at how many draws!
+
+```{r}
+m5
+```
+
+---
+
+```{r, results='asis'} #| code-fold:true
+
+post5 = as_draws_df(m5) |> mutate(model="m5")
+
+bind_rows( 
+  post2 |> extract_coef(),
+  post3 |> extract_coef(), 
+  post4 |> extract_coef(),
+  post5 |> extract_coef()
+  ) |> 
+  mutate( 
+    estimate = sprintf("%.2f [%.2f, %.2f]", mean, lower, upper) ) |> 
+  select(model, outcome, parameter, estimate) |> 
+  pivot_wider(names_from = model, values_from = estimate) |> 
+  knitr::kable(booktabs=T) |> 
+  kableExtra::kable_styling()
+```
+
+---
+
+We've covered two methods of handling missing data:
+
+1. **Causal inference**. We can estimate the values of the missing data using the casual model and observed data. 
+2. **Multiple imputation**. We can create multiple complete datasets by filling in missing values with plausible estimates.
+
+These methods approach the problem of missing data from different angles. At their core, their distinction is between causal inference and prediction. Neither is without its flaws. For the first to work, you must have the correct causal model and the right variables observed in your data. The second one is more flexible, but there's circularity in the imputation/estimation process. Note how our estimates for model 5 were not dissimliar from our estimates with complete cases only. The question is always: what assumptions are you willing to make and what do you want to prioritize?

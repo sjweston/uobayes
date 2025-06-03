@@ -784,7 +784,7 @@
     "href": "assignment/10-problem-set.html",
     "title": "Problem set 10",
     "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "text": "Due by 11:59 PM on Monday, June 9, 2025",
     "crumbs": [
       "Assignments",
       "Problem sets",
@@ -795,8 +795,8 @@
     "objectID": "assignment/10-problem-set.html#instructions",
     "href": "assignment/10-problem-set.html#instructions",
     "title": "Problem set 10",
-    "section": "",
-    "text": "Please use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explainations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
+    "section": "Instructions",
+    "text": "Instructions\nPlease use an RMarkdown file to complete this assignment. Make sure you reserve code chunks for code and write out any interpretations or explanations outside of code chunks. Submit the knitted PDF file containing your code and written answers on Canvas.",
     "crumbs": [
       "Assignments",
       "Problem sets",
@@ -808,7 +808,7 @@
     "href": "assignment/10-problem-set.html#questions",
     "title": "Problem set 10",
     "section": "Questions",
-    "text": "Questions\nTBD",
+    "text": "Questions\nYou have a choice this week. You can either:\n\nRedo one of the earlier problem sets from this term. Pick an assignment that you struggled with or didn’t feel like you understood well. Answer the questions from the assignment and consider doing a little more: ask an additional research question, integrate a technique from a different part of the course, or make a publication-worthy figure. Do not copy the answer key and don’t use generative AI. Instead, refer to slides and notes and help pages for brms. This is an opportunity to master a skill.\nAnalyze your own data. You should include the following:\n\nA written statement of the research question\nA causal model (DAG)\nA generative simulation\nThe statistical model\nA figure of the posterior distribution and a figure of the posterior predictive distribution",
     "crumbs": [
       "Assignments",
       "Problem sets",
