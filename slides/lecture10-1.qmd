@@ -281,14 +281,14 @@ m3 <- brm(
   bf(bmi | mi() ~ age * mi(chl)) + 
   bf(chl | mi() ~ 1) + 
   set_rescor(FALSE),
-  prior = c( prior(normal(0,10), class=Intercept, resp=bmi),
-             prior(normal(0,10), class=Intercept, resp=chl),
+  prior = c( prior(normal(20,10), class=Intercept, resp=bmi, lb=0),
+             prior(normal(100,50), class=Intercept, resp=chl, lb=0),
              prior(normal(0,10), class=b),
              prior(exponential(1), class=sigma, resp=bmi),
              prior(exponential(1), class=sigma, resp=chl) ),
   iter=2000, warmup=500, chains=4, cores=4, seed=1,
   save_pars = save_pars(latent=T),
-  file = here("files/models/m101.3")           
+  file = here("files/models/m101.3b")           
 )
 ```
 
@@ -317,14 +317,14 @@ m4 <- brm(
   bf(bmi | mi() ~ age * mi(chl)) + 
   bf(chl | mi() ~ age) + 
   set_rescor(FALSE),
-  prior = c( prior(normal(0,10), class=Intercept, resp=bmi),
-             prior(normal(0,10), class=Intercept, resp=chl),
+  prior = c( prior(normal(20,10), class=Intercept, resp=bmi, lb=0),
+             prior(normal(100,50), class=Intercept, resp=chl, lb=0),
              prior(normal(0,10), class=b),
              prior(exponential(1), class=sigma, resp=bmi),
              prior(exponential(1), class=sigma, resp=chl) ),
   iter=2000, warmup=500, chains=4, cores=4, seed=1,
   save_pars = save_pars(latent=T),
-  file = here("files/models/m101.4")           
+  file = here("files/models/m101.4b")           
 )
 ```
 
@@ -370,7 +370,7 @@ combined_chl |>
 
 Much like when we incorporated measurement error, we may find that our coefficient estimates change.
 
-```{r, results='asis'} 
+```{r, results='asis'}
 #| code-fold:true
 
 post2 = as_draws_df(m2) |> mutate(model="m2")
@@ -409,7 +409,7 @@ bind_rows(
   kableExtra::kable_styling()
 ```
 
----
+------------------------------------------------------------------------
 
 ## multiple imputation
 
@@ -417,17 +417,17 @@ Multiple imputation is a statistical technique for handling missing data that cr
 
 Multiple imputation is particularly valuable because it preserves the relationships between variables while acknowledging uncertainty about the true values of missing data. Unlike single imputation methods that can underestimate standard errors and lead to overly confident results, multiple imputation provides more accurate statistical inferences by incorporating the additional uncertainty from not knowing the missing values. This makes it especially useful in research contexts where maintaining statistical power and avoiding bias from missing data are crucial for drawing valid conclusions.
 
----
+------------------------------------------------------------------------
 
 ### steps of MI
 
-1. **Imputation**: Create multiple complete datasets by filling in missing values with plausible estimates.
-2. **Analysis**: Run the analysis on each of the imputed datasets.
-3. **Pooling**: Combine the results from each analysis to obtain a single set of estimates and their uncertainty.
+1.  **Imputation**: Create multiple complete datasets by filling in missing values with plausible estimates.
+2.  **Analysis**: Run the analysis on each of the imputed datasets.
+3.  **Pooling**: Combine the results from each analysis to obtain a single set of estimates and their uncertainty.
 
----
+------------------------------------------------------------------------
 
-Five imputations is probably too few. Depending on the data, you may need as many as 100 imputations (Zhou & Reiter, 2010)[https://www.tandfonline.com/doi/abs/10.1198/tast.2010.09109].
+Five imputations is probably too few. Depending on the data, you may need as many as 100 imputations (Zhou & Reiter, 2010)\[https://www.tandfonline.com/doi/abs/10.1198/tast.2010.09109\].
 
 ```{r}
 
@@ -438,16 +438,15 @@ imp <- mice(nhanes, m = m, print=F)
 class(imp)
 ```
 
----
+------------------------------------------------------------------------
 
-For each imputation, we have a full dataset. The guesses for each previously-missing value are informed by the other values in the dataset. 
+For each imputation, we have a full dataset. The guesses for each previously-missing value are informed by the other values in the dataset.
 
 ```{r}
 imp$imp
 ```
 
----
-
+------------------------------------------------------------------------
 
 ```{r}
 m5 <- 
@@ -463,7 +462,7 @@ m5 <-
   )
 ```
 
----
+------------------------------------------------------------------------
 
 Look at how many draws!
 
@@ -471,31 +470,19 @@ Look at how many draws!
 m5
 ```
 
----
+------------------------------------------------------------------------
 
-```{r, results='asis'} #| code-fold:true
-
+```{r}
 post5 = as_draws_df(m5) |> mutate(model="m5")
 
-bind_rows( 
-  post2 |> extract_coef(),
-  post3 |> extract_coef(), 
-  post4 |> extract_coef(),
-  post5 |> extract_coef()
-  ) |> 
-  mutate( 
-    estimate = sprintf("%.2f [%.2f, %.2f]", mean, lower, upper) ) |> 
-  select(model, outcome, parameter, estimate) |> 
-  pivot_wider(names_from = model, values_from = estimate) |> 
-  knitr::kable(booktabs=T) |> 
-  kableExtra::kable_styling()
+bind_rows( post2 |> extract_coef(), post3 |> extract_coef(), post4 |> extract_coef(), post5 |> extract_coef() ) |> mutate( estimate = sprintf("%.2f [%.2f, %.2f]", mean, lower, upper) ) |> select(model, outcome, parameter, estimate) |> pivot_wider(names_from = model, values_from = estimate) |> knitr::kable(booktabs=T) |> kableExtra::kable_styling()
 ```
 
 ---
 
 We've covered two methods of handling missing data:
 
-1. **Causal inference**. We can estimate the values of the missing data using the casual model and observed data. 
-2. **Multiple imputation**. We can create multiple complete datasets by filling in missing values with plausible estimates.
+1.  **Causal inference**. We can estimate the values of the missing data using the casual model and observed data.
+2.  **Multiple imputation**. We can create multiple complete datasets by filling in missing values with plausible estimates.
 
 These methods approach the problem of missing data from different angles. At their core, their distinction is between causal inference and prediction. Neither is without its flaws. For the first to work, you must have the correct causal model and the right variables observed in your data. The second one is more flexible, but there's circularity in the imputation/estimation process. Note how our estimates for model 5 were not dissimliar from our estimates with complete cases only. The question is always: what assumptions are you willing to make and what do you want to prioritize?

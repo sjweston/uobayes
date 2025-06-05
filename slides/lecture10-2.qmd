@@ -52,11 +52,9 @@ options(ggplot2.discrete.fill = default_palettes,
 
 Today's class is less of a coherent topic and more of a plea to think about your data. Complex statistics are never a substitute for understanding the relationships between your constructs and drawing out the causal model.
 
-It's quite easy to learn about a model or technique and look for a reason to throw it at data. (I'm guilty of that. I'm probably doing that right now.) A problem with that approach is that we typically start with the model or framework and bend the data to fit that, or at least, start by assuming the assumptions of the model.
+It's quite easy to learn about a model or technique and look for a reason to throw it at data. (I'm guilty of that. I'm probably doing that right now.) A problem with that approach is that we typically start with the model or framework and bend the data to fit that, or at least, start by assuming the assumptions of the model. But the best models are the ones that come from the question and theory. We should start with the assumptions of our questions and theory, then find a model that fits with those.
 
-But the best models are the ones that come from the question and theory. We should start with the assumptions of our questions and theory, then find a model that fits with those.
-
-McElreath provides several examples in this lecture/chapter about how to start from the theory and work towards a model that actually makes sense, instead of throwing a standard model at a problem. Along the way, he uses Stan code, so it's as good a time as any to look at that.
+McElreath provides several examples in this lecture/chapter about how to start from the theory and work towards a model that actually makes sense, instead of throwing a standard model at a problem. Along the way, he uses Stan code, so it's as good a time as any to look at that. We'll use two ways to integrate Stan with `brms`. 
 
 ------------------------------------------------------------------------
 
@@ -296,6 +294,11 @@ model{
     }
 }
 ```
+
+
+---
+
+### 
 
 ------------------------------------------------------------------------
 
@@ -649,19 +652,208 @@ L_{T>1} &= L_1 + \int_1^TL_t(H_tb_L -m_L)dt \\
 \begin{align*}
 \sigma_H &\sim \text{Exponential}(1) \\
 \sigma_L &\sim \text{Exponential}(1) \\
-\p_H &\sim \text{Beta}(\alpha_H, \beta_H) \\
-\p_L &\sim \text{Beta}(\alpha_L, \beta_L) \\
-\b_H &\sim \text{Half-Normal}(1, 0.5) \\
-\b_L &\sim \text{Half-Normal}(0.05, 0.05) \\
-\m_H &\sim \text{Half-Normal}(0.05, 0.05) \\
-\m_L &\sim \text{Half-Normal}(1, 0.5) \\
+p_H &\sim \text{Beta}(\alpha_H, \beta_H) \\
+p_L &\sim \text{Beta}(\alpha_L, \beta_L) \\
+b_H &\sim \text{Half-Normal}(1, 0.5) \\
+b_L &\sim \text{Half-Normal}(0.05, 0.05) \\
+m_H &\sim \text{Half-Normal}(0.05, 0.05) \\
+m_L &\sim \text{Half-Normal}(1, 0.5) \\
 \end{align*}
 
 ---
 
+For this example, we'll transform our data into a long-format to fit with some constraints on `brms`.
+
 ```{r}
-data(Lynx_Hare_model, package="rethinking")
-cat(Lynx_Hare_model)
+Lynx_Hare_long <-
+  Lynx_Hare %>% 
+  pivot_longer(-Year,
+               names_to = "population", 
+               values_to = "pelts") %>% 
+  mutate(delta = if_else(population == "Lynx", 1, 0),
+         t     = Year - min(Year) + 1) %>% 
+  arrange(delta, Year)
+
+# what did we do?
+Lynx_Hare_long |> arrange(Year) |> head()
 ```
 
+---
+
+### stan in the place where you were
+
+Instead of writing the entire Stan mode, we'll just write the bit that tells Stan how to fit this kind of model, called a Lotka-Volterra.
+
+```{r}
+
+LotkaVolterra <- "
+// Specify dynamical system (ODEs)
+array[] real ode_LV(real t,              // time
+                    array[] real y,      // the system rate
+                    array[] real theta,  // the parameters (i.e., the birth and mortality rates)
+                    array[] real x_r,    // data constant, not used here
+                    array[] int x_i) {   // data constant, not used here
+  // the outcome
+  array[2] real dydt;
+  
+  // differential equations
+  dydt[1] = (theta[1] - theta[2] * y[2]) * y[1]; // Hare process
+  dydt[2] = (theta[3] * y[1] - theta[4]) * y[2]; // Lynx process
+  
+  return dydt;  // return a 2-element array
+}
+
+// Integrate ODEs and prepare output
+real LV(real t, real Hare0, real Lynx0, 
+        real brHare, real mrHare, 
+        real brLynx, real mrLynx,
+        real delta) {
+        
+  array[2] real y0;     // Initial values
+  array[4] real theta;  // Parameters
+  array[1, 2] real y;   // ODE solution
+  
+  // Set initial values
+  y0[1] = Hare0; 
+  y0[2] = Lynx0;
+  
+  // Set parameters
+  theta[1] = brHare; 
+  theta[2] = mrHare;
+  theta[3] = brLynx; 
+  theta[4] = mrLynx;
+  
+  // Solve ODEs
+  y = integrate_ode_rk45(ode_LV, 
+                         y0, 0, rep_array(t, 1), theta,
+                         rep_array(0.0, 0), rep_array(1, 1),
+                         0.001, 0.001, 100); // tolerances, steps
+                         
+  // Return relevant population values based on our dummy-variable coding method
+  return (y[1, 1] * (1 - delta) + 
+          y[1, 2] * delta);
+}
+"
+
+```
+
+---
+
+Now, we can incorporate this function into `brms`. For the sake of making everything fit, we'll do this in pieces. First, we have our formula.
+
+```{r}
+lv_formula <- 
+  bf(pelts ~ log(eta * p), # p is the proportion of creatures trapped
+     nlf(eta ~ LV(t, H1, L1, bh, mh, bl, ml, delta)),
+     H1 ~ 1, L1 ~ 1,
+     bh ~ 1, mh ~ 1,
+     bl ~ 1, ml ~ 1,
+     sigma ~ 0 + population,
+     p ~ 0 + population,
+     nl = TRUE
+  )
+```
+
+---
+
+And our priors:
+
+```{r}
+lv_priors <- c(
+  prior(lognormal(log(10), 1), nlpar = H1, lb = 0),
+  prior(lognormal(log(10), 1), nlpar = L1, lb = 0),
+  prior(normal(1, 0.5),     nlpar = bh, lb = 0),
+  prior(normal(0.05, 0.05), nlpar = bl, lb = 0),
+  prior(normal(0.05, 0.05), nlpar = mh, lb = 0),
+  prior(normal(1, 0.5),     nlpar = ml, lb = 0),
+  prior(exponential(1), dpar = sigma, lb = 0),
+  prior(beta(40, 200), nlpar = p, lb = 0, ub = 1)
+)
+```
+---
+
+And now we fit:
+
+```{r}
+
+m2 <- 
+  brm(data = Lynx_Hare_long, 
+      family = brmsfamily("lognormal", link_sigma = "identity"),
+      formula = lv_formula, 
+      prior = lv_priors, 
+      iter = 2000, warmup = 1000, chains = 4, cores = 4,
+      init = 0,
+      stanvars = stanvar(scode = LotkaVolterra, block = "functions"),
+      file = here("files/models/m102.2"))
+
+```
+
+---
+
+Importantly, each of these parameters has a biological meaning. That's not only cool, it's useful. If only more of our models has meaningful parameters. 
+
+```{r}
+m2
+```
+
+---
+
+The parameters cooperate to produce population dynamics that are not easy to read in the table. Luckily, we can get the posterior predictive distributions.
+
+```{r}
+#| code-fold: true
+expose_functions(m2, vectorize=TRUE)
+
+pred = predicted_draws(m2, newdata=Lynx_Hare_long)
+
+pred |> 
+  filter(.draw <= 20) |> 
+    ggplot(aes(x = Year, y = .prediction)) +
+      geom_line(aes(group = interaction(.draw, population), color = population),
+                linewidth = 1/3, alpha = 1/2) +
+      scale_color_manual(values = c("#1c5253" , "#e07a5f")) +
+      scale_y_continuous("thousands of pelts", breaks = 0:6 * 20) +
+      scale_x_continuous(NULL) +
+      coord_cartesian(ylim = c(0, 120)) +
+  theme(legend.position = "top")
+```
+
+---
+
+If we want to get the population of animals, rather than the number of pelts, we have to work backwards. We have from our predictions the number of pelts, which is:
+
+$$
+\text{pelts} = \text{population} \times p_{\text{trapped}}
+$$
+
+We estimate that value of $p$ for each animal -- albeit with a tight prior -- in the model.
+
+```{r}
+post = 
+  as_draws_df(m2) |> 
+  filter(row_number() <= 20)
+```
+
+---
+
+```{r}
+#| code-fold: true
+post |> 
+  select(starts_with("b_p_")) |> 
+  rowid_to_column(var = ".draw") |> 
+  pivot_longer(
+    -.draw, 
+    names_to = "population", 
+    names_prefix = "b_p_population",
+  values_to = "ptrapped") |> 
+  full_join(pred) |> 
+  mutate(pop_est = .prediction/ptrapped) |> 
+    ggplot(aes(x = Year, y = pop_est)) +
+      geom_line(aes(group = interaction(.draw, population), color = population),
+                linewidth = 1/3, alpha = 1/2) +
+      scale_color_manual(values = c("#1c5253" , "#e07a5f")) +
+      scale_y_continuous("thousands of animals") +
+      scale_x_continuous(NULL) +
+  theme(legend.position = "top")
+```
 
