@@ -728,7 +728,7 @@
     "href": "syllabus.html#course-description",
     "title": "PSY 607 Bayesian Analysis",
     "section": "Course Description",
-    "text": "Course Description\nThis advanced statistics course introduces students to Bayesian methods with a focus on practical application using modern computational tools. Through a combination of theoretical foundations and hands-on programming, students learn to build, interpret, and critique Bayesian models using the R programming language, with particular emphasis on the brms package."
+    "text": "Course Description\nThis advanced statistics course introduces students to Bayesian methods with a focus on practical application using modern computational tools. Through a combination of theoretical foundations and hands-on programming, students learn to build, interpret, and critique Bayesian models using the R programming language, with particular emphasis on the brms package.\nThis course is largely built to supplement an amazing lecture set developed by Richard McElreath. Anyone who wants to learn Bayes should first watch his videos and read his book, preferably multiple times. I also have to give a lot of credit to Solomon Kurz, who wrote a lot of the R code translating the McElreath rethinking models into brms. Finally, I started with Andrew Heiss’s course website as a template for my own. His blog is worth bookmarking."
   },
   {
     "objectID": "syllabus.html#course-structure",
@@ -742,7 +742,7 @@
     "href": "syllabus.html#materials",
     "title": "PSY 607 Bayesian Analysis",
     "section": "Materials",
-    "text": "Materials\nRequired:\n\nR and RStudio (free)\nRequired R packages:\n\nrethinking\nbrms\ntidybase\ntidyverse\n\n\nRecommended:\n\nStatistical Rethinking by Richard McElreath (2nd ed.)\n\nAdditional course materials, including lecture notes and code, will be provided on the course website."
+    "text": "Materials\nRequired:\n\nR and RStudio (free)\nRequired R packages:\n\nrethinking\nbrms\ntidybayes\ntidyverse\n\n\nRecommended:\n\nStatistical Rethinking by Richard McElreath (2nd ed.)\n\nAdditional course materials, including lecture notes and code, will be provided on the course website."
   },
   {
     "objectID": "syllabus.html#assignment-submission",

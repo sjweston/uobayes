@@ -30,6 +30,8 @@ library(pander)
 
 This advanced statistics course introduces students to Bayesian methods with a focus on practical application using modern computational tools. Through a combination of theoretical foundations and hands-on programming, students learn to build, interpret, and critique Bayesian models using the R programming language, with particular emphasis on the brms package.
 
+This course is largely built to supplement [an amazing lecture set developed by Richard McElreath](https://github.com/rmcelreath/stat_rethinking_2024). Anyone who wants to learn Bayes should first watch his videos and read his book, preferably multiple times. I also have to give a lot of credit to [Solomon Kurz](https://bookdown.org/content/4857/), who wrote a lot of the R code translating the McElreath `rethinking` models into `brms`. Finally, I started with Andrew Heiss's course website as a template for my own. [His blog is worth bookmarking](https://www.andrewheiss.com/).
+
 ## Course Structure
 
 This course is a mix of asynchronous lectures, in-class activities, and homework assignments:
@@ -46,10 +48,10 @@ This course is a mix of asynchronous lectures, in-class activities, and homework
 
 - R and RStudio (free)
 - Required R packages:
-  - rethinking
-  - brms
-  - tidybase
-  - tidyverse
+  - `rethinking`
+  - `brms`
+  - `tidybayes`
+  - `tidyverse`
 
 **Recommended:**
 
