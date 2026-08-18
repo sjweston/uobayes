@@ -1,7 +1,7 @@
 ---
 title: "Week 3: Causes, Confounds, and Colliders"
 subtitle: "Elemental confounds"
-format: 
+format:
   revealjs:
     css: xaringan-themer2.css
     nature:
@@ -21,6 +21,7 @@ library(here)
 library(tidyverse)
 library(cowplot)
 library(brms)
+library(rstan)
 library(tidybayes)
 library(patchwork)
 ```
@@ -30,15 +31,15 @@ knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
 theme_set(theme_cowplot())
 default_palettes <- list(
   c("#5e8485" , "#0f393a") ,
-  c("#1c5253" , "#5e8485" , "#0f393a") , 
+  c("#1c5253" , "#5e8485" , "#0f393a") ,
   # palette with 5 colours
  c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" ) ,
   # same palette interpolated to 8 colours
- c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" ) 
-  
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" )
+
 )
 
-options(ggplot2.discrete.fill = default_palettes, 
+options(ggplot2.discrete.fill = default_palettes,
         ggplot2.discrete.colour = default_palettes)
 ```
 
@@ -54,7 +55,7 @@ options(ggplot2.discrete.fill = default_palettes,
 We started by using uniform distributions for our priors on sigma (standard deviation). They do two nice things for us: (1) they're bounded, so we can limit our prior to a positive value, and (2) they're intuitive. However, they're extremely inefficient. There are a couple other distributions that are better suited to priors for variances/standard deviations. We're going to focus on one: the exponential.
 
 
-The exponential distribution models rates (time between discrete events), but time is also a distance, which is what standard deviations are. The parameter for this distribution ($\lambda$) is the inverse of the rate. In other words, if we think the typical deviation is 2, we should use a rate of 1/2 (or .5). This is a very intuitive way of thinking about deviations, so we'll use this function 
+The exponential distribution models rates (time between discrete events), but time is also a distance, which is what standard deviations are. The parameter for this distribution ($\lambda$) is the inverse of the rate. In other words, if we think the typical deviation is 2, we should use a rate of 1/2 (or .5). This is a very intuitive way of thinking about deviations, so we'll use this function
 
 ---
 
@@ -101,7 +102,7 @@ Let me try to clarify the different classes in `brms`. This package uses a set v
 m <- brm(
   data = d,
   family = gaussian,
-  y ~ 1 + x, 
+  y ~ 1 + x,
   prior = c( prior(normal(0, 1),   class = "Intercept"),
              prior(normal(0,.5),   class = "b"),
              prior(exponential(1), class="sigma")),
@@ -222,6 +223,7 @@ m1 <- brm(
   prior = c( prior(normal(0, .2),  class=Intercept),
              prior(normal(0, .5),  class=b),
              prior(exponential(1), class=sigma)),
+  backend = "cmdstanr",
   iter=2000, warmup=1000, seed=2, chains=1,
   file=here("files/models/31.1")
 )
@@ -246,9 +248,9 @@ post = as_draws_df(m1)
 # plot it all
 ggplot(d, aes(x = M, y = D)) +
   geom_point() +
-  geom_abline( aes(intercept = b_Intercept, slope = b_M), 
+  geom_abline( aes(intercept = b_Intercept, slope = b_M),
                data = post[1:20, ],
-               col= "#1c5253", 
+               col= "#1c5253",
                alpha = .3) +
   labs( x="marriage rate",
         y="divorce rate")
@@ -289,7 +291,7 @@ How does this change with a new DAG?
 dag3.3 <- dagitty( "dag{ A -> D; A -> M }" )
 coordinates(dag3.3) <- list( x=c(A=0,D=1,M=2) , y=c(A=0,D=1,M=0) )
 rethinking::drawdag( dag3.3, cex = 3, lwd = 3 )
-impliedConditionalIndependencies( dag3.3 ) 
+impliedConditionalIndependencies( dag3.3 )
 ```
 
 ::: notes
@@ -336,8 +338,8 @@ Let's compare the effect of marriage rate for these two models.
 ```{r}
 post1 = as_draws_df(m1) %>% mutate(model="total effect")
 post2 = as_draws_df(m2) %>% mutate(model="direct effect")
-full_join(post1, post2) %>% 
-  group_by(model) %>% 
+full_join(post1, post2) %>%
+  group_by(model) %>%
   mean_qi(b_M)
 ```
 
@@ -345,8 +347,8 @@ Bonus: a plot
 
 ```{r}
 #| code-fold: true
-full_join(post1, post2) %>% 
-  ggplot( aes(y=model, x=b_M, fill = after_stat(x > 0) ) )  + 
+full_join(post1, post2) %>%
+  ggplot( aes(y=model, x=b_M, fill = after_stat(x > 0) ) )  +
   stat_halfeye() +
   geom_vline(xintercept=0, linetype="dashed") +
   scale_fill_manual(values=c("grey", "#1c5253")) +
@@ -372,15 +374,15 @@ set.seed(9)
 As = sample(d$A, replace=T, size=1000)
 nd0 = data.frame(A = As, M=0)
 nd1 = data.frame(A = As, M=1)
-ppd0 = predicted_draws(m2, newdata = nd0) 
-ppd1 = predicted_draws(m2, newdata = nd1) 
+ppd0 = predicted_draws(m2, newdata = nd0)
+ppd1 = predicted_draws(m2, newdata = nd1)
 
-ppd = full_join(ppd0, ppd1) %>% 
+ppd = full_join(ppd0, ppd1) %>%
   pivot_wider(names_from = M, names_prefix = "M",
-              values_from = .prediction) %>% 
+              values_from = .prediction) %>%
   mutate(diff=M1-M0)
-     
-ppd  %>% 
+
+ppd  %>%
   ggplot(aes(x=diff)) +
   geom_density() +
   labs(title="Implied causal effect of marriage rates on divorce")
@@ -400,16 +402,17 @@ ppd  %>%
 d_model <- bf(D ~ 1 + A + M)
 m_model <- bf(M ~ 1 + A)
 m2c <-
-  brm(data = d, 
+  brm(data = d,
       family = gaussian,
       d_model + m_model + set_rescor(FALSE),
       prior = c(prior(normal(0, 0.2), class = Intercept, resp = D),
                 prior(normal(0, 0.5), class = b,         resp = D),
                 prior(exponential(1), class = sigma,     resp = D),
-                
+
                 prior(normal(0, 0.2), class = Intercept, resp = M),
                 prior(normal(0, 0.5), class = b,         resp = M),
                 prior(exponential(1), class = sigma,     resp = M)),
+      backend = "cmdstanr",
       iter = 2000, warmup = 1000, chains = 1, seed = 5,
       file = here("files/models/m31.2c"))
 ```
@@ -498,6 +501,7 @@ m3 <- brm(
   h1 ~ 0 + h0,
   prior = c( prior(lognormal(0, .25), class=b, lb=0),
              prior(exponential(1),    class=sigma)),
+  backend = "cmdstanr",
   iter=2000, warmup=1000, seed=3, chains=1,
   file=here("files/models/31.3")
 )
@@ -535,6 +539,7 @@ m4 <- brm(
   prior = c( prior(normal(0, .25), nlpar=a),
              prior(normal(0, .50), nlpar=t),
              prior(exponential(1), class=sigma)),
+  backend = "cmdstanr",
   iter=2000, warmup=1000, chains=1, seed=9,
   file = here("files/models/31.4")
 )
@@ -577,6 +582,7 @@ m5 <- brm(
              prior(normal(0, .50), nlpar=t),
              prior(normal(0, .50), nlpar=f),
              prior(exponential(1), class=sigma)),
+  backend = "cmdstanr",
   iter=2000, warmup=1000, chains=1, seed=9,
   file = here("files/models/31.5")
 )
@@ -590,7 +596,7 @@ m5 <- brm(
 #| code-fold: true
 post4 = as_draws_df(m4) %>% mutate(model="without fungus")
 post5 = as_draws_df(m5) %>% mutate(model="with fungus")
-full_join(post4, post5) %>% 
+full_join(post4, post5) %>%
   ggplot( aes(y=model, x=b_t_Intercept, fill = after_stat(x > 0)) ) +
   stat_halfeye() +
   scale_fill_manual(values=c("grey", "#1c5253")) +
@@ -635,8 +641,8 @@ rethinking::precis(d)
 ```{r, fig.width=9, fig.height=5}
 #| code-fold: true
 
-d %>% 
-  mutate(married = factor(married, labels = c("unmarried", "married"))) %>% 
+d %>%
+  mutate(married = factor(married, labels = c("unmarried", "married"))) %>%
   ggplot(aes( x = age, y = happiness)) +
   geom_point( aes( color = married), size = 3) +
   scale_color_manual("",
@@ -665,17 +671,19 @@ d2 <- d[d$age >= 18, ]
 d2$A <- rethinking::standardize(d2$age)
 d2$mid <- as.factor(d2$married + 1)
 
-m6_c <- brm(
-  data=d2, 
-  family=gaussian,
-  bf( happiness ~ a + b*A, 
-      a ~  mid,
-      b ~ mid,
+m6a <- brm(
+  data = d2,
+  family = gaussian,
+  bf( happiness ~ a + b * A,
+      a ~ 0 + mid,
+      b ~ 0 + mid,
       nl = TRUE),
-  prior = c( prior(normal(0, .50), nlpar=a),
-             prior(normal(0, .25), nlpar=b),
-             prior(exponential(1), class=sigma)),
-  iter=2000, warmup=1000, seed=9, chains=1
+  prior = c( prior(normal(0, .50), nlpar = a),
+             prior(normal(0, .25), nlpar = b),
+             prior(exponential(1), class = sigma)),
+  backend = "cmdstanr",
+  iter = 2000, warmup = 1000, seed = 9, chains = 1,
+  file = here("files/models/31.6a")
 )
 ```
 
@@ -689,12 +697,13 @@ d2$A <- rethinking::standardize(d2$age)
 d2$mid <- as.factor(d2$married + 1)
 
 m6b <- brm(
-  data=d2, 
+  data=d2,
   family=gaussian,
   happiness ~ 1 + A + mid,
   prior = c( prior(normal(0, .50), class=Intercept),
              prior(normal(0, .25), class=b),
              prior(exponential(1), class=sigma)),
+  backend = "cmdstanr",
   iter=2000, warmup=1000, seed=9, chains=1,
   file = here("files/models/31.6b")
 )
@@ -706,12 +715,13 @@ m6b <- brm(
 
 ```{r}
 m7 <- brm(
-  data=d2, 
+  data=d2,
   family=gaussian,
   happiness ~ A,
   prior = c( prior(normal(0, .50), class=Intercept),
              prior(normal(0, .25), class=b),
              prior(exponential(1), class=sigma)),
+  backend = "cmdstanr",
   iter=2000, warmup=1000, seed=9, chains=1,
   file = here("files/models/31.7")
 )
@@ -724,29 +734,29 @@ m7 <- brm(
 ```{r}
 #| code-fold: true
 
-post6a = as_draws_df(m6a) 
-post6b = as_draws_df(m6b)
-post7  = as_draws_df(m7)
+post6a <- as_draws_df(m6a)
+post6b <- as_draws_df(m6b)
+post7  <- as_draws_df(m7)
 
 data.frame(
-      b_mid1   = post6a$b_b_mid1, 
-      b_mid2   = post6a$b_b_mid2, 
+      b_mid1   = post6a$b_b_mid1,
+      b_mid2   = post6a$b_b_mid2,
       b_A_avgb = post6b$b_A,
-      b_A      = post7$b_A) %>% 
-  mutate(b_A_avga = (b_mid1 + b_mid2)/2) %>% 
-  select(b_A_avga, b_A_avgb, b_A) %>% 
-  pivot_longer(everything()) %>% 
+      b_A      = post7$b_A) %>%
+  mutate(b_A_avga = (b_mid1 + b_mid2) / 2) %>%
+  select(b_A_avga, b_A_avgb, b_A) %>%
+  pivot_longer(everything()) %>%
   mutate(name = case_when(
     name == "b_A_avga" ~ "Moderated by marriage",
     name == "b_A_avgb" ~ "Controlling for marriage",
     TRUE ~ "Unstratified"
-  )) %>% 
-  ggplot(aes( y=name, x=value, fill = after_stat(x < 0) ) )  + 
+  )) %>%
+  ggplot(aes(y = name, x = value, fill = after_stat(x < 0))) +
   stat_halfeye() +
-  geom_vline(xintercept=0, linetype="dashed") +
-  scale_fill_manual(values=c("grey", "#1c5253")) +
-  guides(fill="none") +
-  labs(x="Age effect", y=NULL)
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  scale_fill_manual(values = c("grey", "#1c5253")) +
+  guides(fill = "none") +
+  labs(x = "Age effect", y = NULL)
 ```
 
 

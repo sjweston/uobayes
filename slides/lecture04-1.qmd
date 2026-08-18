@@ -1,7 +1,7 @@
 ---
 title: "Week 4: Overfitting/MCMC"
 subtitle: "Overfitting"
-format: 
+format:
   revealjs:
     css: xaringan-themer2.css
     nature:
@@ -13,13 +13,14 @@ format:
     embed-resources: true  # Embeds required assets
     slide-number: true
 execute:
-  echo: false  
+  echo: false
 ---
 
 ```{r, message = F, warning = F}
 library(tidyverse)
 library(cowplot)
 library(brms)
+library(rstan)
 library(tidybayes)
 library(patchwork)
 library(here)
@@ -30,15 +31,15 @@ knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
 theme_set(theme_cowplot())
 default_palettes <- list(
   c("#5e8485" , "#0f393a") ,
-  c("#1c5253" , "#5e8485" , "#0f393a") , 
+  c("#1c5253" , "#5e8485" , "#0f393a") ,
   # palette with 5 colours
  c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" ) ,
   # same palette interpolated to 8 colours
- c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" ) 
-  
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" )
+
 )
 
-options(ggplot2.discrete.fill = default_palettes, 
+options(ggplot2.discrete.fill = default_palettes,
         ggplot2.discrete.colour = default_palettes)
 ```
 
@@ -48,7 +49,7 @@ options(ggplot2.discrete.fill = default_palettes,
 
   1. Code first.
   2. Explanation second.
-  
+
 ---
 
 ```{r}
@@ -58,9 +59,9 @@ brainvolcc <- c( 438 , 452 , 612, 521, 752, 871, 1350 )
 masskg <- c( 37.0 , 35.5 , 34.5 , 41.5 , 55.5 , 61.0 , 53.5 )
 d <- data.frame( species=sppnames , brain=brainvolcc , mass=masskg )
 rethinking::precis(d)
-d <- d %>% 
+d <- d %>%
   mutate(across(c(mass, brain),
-                rethinking::standardize, 
+                rethinking::standardize,
                 .names = "{.col}_std"))
 ```
 
@@ -102,11 +103,11 @@ posterior_summary(m2)
 #| code-fold: true
 post1 = as_draws_df(m1) # get posterior distribution
 avg_line = colMeans(post1)
-p1 <- d %>% 
+p1 <- d %>%
   ggplot( aes(x=mass_std, y=brain_std) ) +
   geom_point() +
-  geom_abline( aes(intercept=b_Intercept, slope=b_mass_std), 
-               data=post1[1:20, ], 
+  geom_abline( aes(intercept=b_Intercept, slope=b_mass_std),
+               data=post1[1:20, ],
                alpha=.2) +
   geom_abline( intercept=avg_line["b_Intercept"], slope=avg_line["b_mass_std"],
                color = "#1c5253") +
@@ -118,11 +119,11 @@ p1 <- d %>%
 nd = data.frame(mass_std = seq(min(d$mass_std), max(d$mass_std), length.out=1000))
 post2 = add_epred_draws(m2, newdata = nd) # get predicted vals (expected means)
 avg_line = post2 %>% with_groups(mass_std, summarise, m = mean(.epred))
-p2 <- d %>% 
+p2 <- d %>%
   ggplot( aes(x=mass_std, y=brain_std) ) +
   geom_point() +
-  geom_line( aes(y=.epred, group=.draw), 
-               data=filter(post2, .draw <= 20), 
+  geom_line( aes(y=.epred, group=.draw),
+               data=filter(post2, .draw <= 20),
                color = "black",
                alpha=.2) +
   geom_smooth( aes(y=m), data=avg_line, se=F, colour="#1c5253") +
@@ -138,7 +139,7 @@ p1 + p2
 
 ### Regularization
 
-A benefit of Bayesian methods over frequentist is the ability to regularize your parameter coefficient estimates. This is a pretty extreme example of setting a skeptical prior, but it demonstrates the point. Of course, we don't want our priors to be too skeptical, or we'll miss important (and regular) information. 
+A benefit of Bayesian methods over frequentist is the ability to regularize your parameter coefficient estimates. This is a pretty extreme example of setting a skeptical prior, but it demonstrates the point. Of course, we don't want our priors to be too skeptical, or we'll miss important (and regular) information.
 
 ::::: columns
 ::: {.column width="50%"}
@@ -148,7 +149,7 @@ A benefit of Bayesian methods over frequentist is the ability to regularize your
 m2 <- brm(
   data=d,
   family=gaussian,
-  brain_std ~ mass_std + I(mass_std^2) + I(mass_std^3) + 
+  brain_std ~ mass_std + I(mass_std^2) + I(mass_std^3) +
     I(mass_std^4) + I(mass_std^5),
   prior = c( prior(normal(.5, 1), class=Intercept),
              prior(normal(0, 10), class=b),
@@ -166,7 +167,7 @@ m2 <- brm(
 m2r <- brm(
   data=d,
   family=gaussian,
-  brain_std ~ mass_std + I(mass_std^2) + I(mass_std^3) + 
+  brain_std ~ mass_std + I(mass_std^2) + I(mass_std^3) +
     I(mass_std^4) + I(mass_std^5),
   prior = c( prior(normal(.5, 1), class=Intercept),
              prior(normal(0, 1), class=b),
@@ -186,11 +187,11 @@ m2r <- brm(
 nd = data.frame(mass_std = seq(min(d$mass_std), max(d$mass_std), length.out=1000))
 post2 = add_epred_draws(m2, newdata = nd) # get predicted vals (expected means)
 avg_line = post2 %>% with_groups(mass_std, summarise, m = mean(.epred))
-p2 <- d %>% 
+p2 <- d %>%
   ggplot( aes(x=mass_std, y=brain_std) ) +
   geom_point() +
-  geom_line( aes(y=.epred, group=.draw), 
-               data=filter(post2, .draw <= 20), 
+  geom_line( aes(y=.epred, group=.draw),
+               data=filter(post2, .draw <= 20),
                color = "black",
                alpha=.2) +
   geom_smooth( aes(y=m), data=avg_line, se=F, colour="#1c5253") +
@@ -202,11 +203,11 @@ p2 <- d %>%
 post2r = add_epred_draws(m2r, newdata = nd) # get predicted vals (expected means)
 avg_liner = post2r %>% with_groups(mass_std, summarise, m = mean(.epred))
 
-p2r <- d %>% 
+p2r <- d %>%
   ggplot( aes(x=mass_std, y=brain_std) ) +
   geom_point() +
-  geom_line( aes(y=.epred, group=.draw), 
-               data=filter(post2r, .draw <= 20), 
+  geom_line( aes(y=.epred, group=.draw),
+               data=filter(post2r, .draw <= 20),
                color = "black",
                alpha=.2) +
   geom_smooth( aes(y=m), data=avg_liner, se=F, colour="#1c5253") +
@@ -227,14 +228,14 @@ p2 + p2r
 
 Another option is to compare the out-of-sample prediction of models using cross validation. This will not change the estimates of your coefficients, but it will help you compare models. For **prediction only!**
 
-The `loo` package gives us access to the `loo` function, which stands for Leave-One-Out. Behind the scenes, this function uses PSIS, which doesn't actually compute the cross-validation, but rather estimates it. 
+The `loo` package gives us access to the `loo` function, which stands for Leave-One-Out. Behind the scenes, this function uses PSIS, which doesn't actually compute the cross-validation, but rather estimates it.
 
 ```{r}
 library(loo)
 loo(m1)
 ```
 
-Pointwise value of PSIS is reliable when $k$ is less than .5, ok when $k$ is between .5 and 7., bad when $k$ is between .7 and 1, very bad when $k$ is greater than 1. 
+Pointwise value of PSIS is reliable when $k$ is less than .5, ok when $k$ is between .5 and 7., bad when $k$ is between .7 and 1, very bad when $k$ is greater than 1.
 
 :::{.notes}
 
@@ -246,7 +247,7 @@ Pointwise value of PSIS is reliable when $k$ is less than .5, ok when $k$ is bet
 
 ---
 
-Another option is the Widely Acceptable Information Criteria. 
+Another option is the Widely Acceptable Information Criteria.
 
 ```{r, warning=F}
 m1_waic = waic(m1)
@@ -271,12 +272,12 @@ m1  <- add_criterion(m1,  criterion = c("loo", "waic"))
 m2  <- add_criterion(m2,  criterion = c("loo", "waic"))
 m2r <- add_criterion(m2r, criterion = c("loo", "waic"))
 
-loo_compare( m1, m2, m2r, criterion="loo") 
+loo_compare( m1, m2, m2r, criterion="loo")
 loo_compare( m1, m2, m2r, criterion="waic")
 ```
 
 :::{.notes}
-The filled points are the in-sample deviance values. The open points are the WAIC values. Notice that naturally each model does better in-sample than it is expected to do out-of-sample. The line segments show the standard error of each WAIC. These are the values in the column labeled SE in the table above. 
+The filled points are the in-sample deviance values. The open points are the WAIC values. Notice that naturally each model does better in-sample than it is expected to do out-of-sample. The line segments show the standard error of each WAIC. These are the values in the column labeled SE in the table above.
 :::
 
 ---
@@ -285,13 +286,13 @@ The filled points are the in-sample deviance values. The open points are the WAI
 
 A central tension in our modeling is the one between explanation -- good causal models -- and prediction. In McElreath's lecture, he leads us to the intuition that predictive models are generally those that do a terrible job of representing the causal model. So the tools covered in this lecture should be considered tools for prediction, but *not* for identifying causal models.
 
-When trying to maximize prediction, we need to be wary of **OVERFITTING** -- when the model learns too much from the sample. Methods for avoiding overfitting favor simpler models. However, we must also be wary of **UNDERFITTING** or learning too little. 
+When trying to maximize prediction, we need to be wary of **OVERFITTING** -- when the model learns too much from the sample. Methods for avoiding overfitting favor simpler models. However, we must also be wary of **UNDERFITTING** or learning too little.
 
 There are two common famililes of approches:
 
-  1. Use of a **REGULARIZING** prior, which helps stop the model from becoming too excited about any one data point. 
-  
-  2. Use of a scoring device, like **INFORMATION CRITERIA** and **CROSS-VALIDATION**, to estimate predictive accuracy. 
+  1. Use of a **REGULARIZING** prior, which helps stop the model from becoming too excited about any one data point.
+
+  2. Use of a scoring device, like **INFORMATION CRITERIA** and **CROSS-VALIDATION**, to estimate predictive accuracy.
 
 ------------------------------------------------------------------------
 
@@ -300,7 +301,7 @@ There are two common famililes of approches:
 
 ```{r, out.width='100%'}
 #| code-fold: true
-base = d %>% 
+base = d %>%
   ggplot(aes(x=masskg, y=brainvolcc)) +
   geom_point() +
   geom_text(aes(label=sppnames), hjust=0, nudge_x = 1) +
@@ -310,10 +311,10 @@ p2 = base + geom_smooth(method='lm', se =F, formula=y~poly(x, 6)) +ggtitle("6th 
 (p1 | p2)
 ```
 
-If your goal is simply prediction, not (causal) explanation, why not simply add as many variables into the model as possible? 
+If your goal is simply prediction, not (causal) explanation, why not simply add as many variables into the model as possible?
 
   * Adding parameters nearly always increases measures of model fit, like $R^2$.
-  * More complex models fit the data in-hand better, but often predict new data worse. 
+  * More complex models fit the data in-hand better, but often predict new data worse.
 
 ::: notes
 models = data compression when there are as many parameters as data points, we haven't compressed the data. we've just encoded the raw data into a different form.
@@ -328,7 +329,7 @@ models = data compression when there are as many parameters as data points, we h
 #| code-fold: true
 
 # Set up plotting area
-plot(0, 0, type = "n", xlim = c(-3, 3), ylim = c(0, 2), 
+plot(0, 0, type = "n", xlim = c(-3, 3), ylim = c(0, 2),
      xlab = "parameter value", ylab = "Density",
      main = "")
 
@@ -360,7 +361,7 @@ lines(x, y3, lwd = 1, lty = 2)
 
 ::: {.column width="50%"}
 
-One tool in our toolbelt is regularizing priors. **REGULARIZATION** is a means by which you prevent the model from being "too excited" by the training sample, or to fit too closely to the specific patterns in that sample. There are many tools for regularization (ridge regression, lasso regression), but they all have the effect of downweighting regression parameters towards 0. 
+One tool in our toolbelt is regularizing priors. **REGULARIZATION** is a means by which you prevent the model from being "too excited" by the training sample, or to fit too closely to the specific patterns in that sample. There are many tools for regularization (ridge regression, lasso regression), but they all have the effect of downweighting regression parameters towards 0.
 
 As a Bayesian, you also have the tool of regularizing priors. As your priors become more "skeptical" (usually, closer to 0), your model will adapt less to the data. Be wary of having priors that are too tight, because you risk underfitting. (Of course, the more data you have, the less influence your priors have. But that shouldn't concern you, because overfitting is less of a concern with larger datasets.)
 
@@ -476,15 +477,15 @@ This is satisfied by the **INFORMATION ENTROPY FUNCTION**. If there are $n$ diff
 
 $$
 H(p) = - \text{E log}(p_i) = - \sum^n_{i=1}p_i\text{log}(p_i)
-$$ 
+$$
 
 In words: The uncertainty contained in a probability distribution is the average log-probability of an event.
 
-[^1]: $E$ is mathematical notation for "expected value" or average. 
+[^1]: $E$ is mathematical notation for "expected value" or average.
 
 :::{.notes}
 
-The log of numbers between 0 and 1 are negative. 
+The log of numbers between 0 and 1 are negative.
 
 :::
 
@@ -579,7 +580,7 @@ The divergence between a target $(p)$ and a model $(q)$ is defined as:
 
 $$
 D_{KL}(p,q) = \sum_ip_i(\text{log}(p_i) - \text{log}(q_i)) = \sum_ip_i\text{log}(\frac{p_i}{q_i})
-$$ 
+$$
 
 In plainer language, the divergence is the average difference in log probability between the target and model, or the difference in entropies.
 
@@ -603,7 +604,7 @@ difference = 0
 
 ---
 
-At this point, you're probably thinking, "How can I put this into practice? Divergence is measuring distance from truth, but I don't know the truth." But we won't use divergence to estimate the difference from one model to truth; we're only interested in using it to compare two models (q and r) to each other. All we need to know are each model's average log probability: $\text{E log}(q_i)$ and $\text{E log}(r_i)$. 
+At this point, you're probably thinking, "How can I put this into practice? Divergence is measuring distance from truth, but I don't know the truth." But we won't use divergence to estimate the difference from one model to truth; we're only interested in using it to compare two models (q and r) to each other. All we need to know are each model's average log probability: $\text{E log}(q_i)$ and $\text{E log}(r_i)$.
 
 \begin{align*}
 D_{KL}(p,q) - D_{KL}(p,r) &= \sum_ip_i(\text{log}(p_i)-\text{log}(q_i)) - \sum_ip_i(\text{log}(p_i)-\text{log}(r_i))  \\
@@ -616,7 +617,7 @@ D_{KL}(p,q) - D_{KL}(p,r) &= \sum_ip_i(\text{log}(p_i)-\text{log}(q_i)) - \sum_i
 To do so, we simply sum over all the observations, $i$, yielding a total score for each model:
 
 $$
-S(q) = \sum_i\text{log}(q_i) 
+S(q) = \sum_i\text{log}(q_i)
 $$
 
 
@@ -634,17 +635,17 @@ log_prob %>% round(3)
 
 ---
 
-Let's arrange these by species and convert to probabilities. 
+Let's arrange these by species and convert to probabilities.
 
 
 ```{r}
-prob <- as.data.frame(log_prob) %>% 
+prob <- as.data.frame(log_prob) %>%
   set_names(pull(d, species)) %>%  # add case names, for convenience
   mutate(s = 1:n()) %>% # add an s iteration index, for convenience
   # make it long
   pivot_longer(-s,
                names_to = "species",
-               values_to = "logprob") %>% 
+               values_to = "logprob") %>%
   # compute the probability scores
   mutate(prob = exp(logprob))
 
@@ -656,8 +657,8 @@ prob
 We can then calculate the mean probability and take the log of that value. (Annoying.)
 
 ```{r}
-prob <- prob %>% 
-  group_by(species) %>% 
+prob <- prob %>%
+  group_by(species) %>%
   summarise(log_probability_score = mean(prob) %>% log())
 
 prob
@@ -668,7 +669,7 @@ prob
 The log-pointwise-predictive-density for the entire model is just the sum of these:
 
 ```{r}
-prob %>% 
+prob %>%
   summarise(total_log_probability_score = sum(log_probability_score))
 ```
 
@@ -680,22 +681,22 @@ Sometimes, you'll see people report deviance, which is just this value multiplie
 
 ---
 
-## Slide Title {visibility="hidden"} 
+## Slide Title {visibility="hidden"}
 
 Here's the work in a custom function for your convenience.
 
 ```{r}
 lppd <- function(brms_fit) {
-  
-  log_lik(brms_fit) %>% 
-    data.frame() %>% 
+
+  log_lik(brms_fit) %>%
+    data.frame() %>%
     pivot_longer(everything(),
-                 values_to = "logprob") %>% 
-    mutate(prob = exp(logprob)) %>% 
-    group_by(name) %>% 
-    summarise(log_probability_score = mean(prob) %>% log()) %>% 
+                 values_to = "logprob") %>%
+    mutate(prob = exp(logprob)) %>%
+    group_by(name) %>%
+    summarise(log_probability_score = mean(prob) %>% log()) %>%
     summarise(total_log_probability_score = sum(log_probability_score))
-  
+
 }
 ```
 
@@ -711,9 +712,9 @@ Using out-of-sample prediction doesn't change your model; rather, it changes our
 
 ### cross-validation
 
-One strategy for estimating predictive accuracy is to actually test the model’s predictive accuracy on another sample. This is known as **CROSS-VALIDATION**, leaving out a small chunk of observations from our sample and evaluating the model on the observations that were left out. 
+One strategy for estimating predictive accuracy is to actually test the model’s predictive accuracy on another sample. This is known as **CROSS-VALIDATION**, leaving out a small chunk of observations from our sample and evaluating the model on the observations that were left out.
 
-We're not actually going to leave out data -- imagine! -- so instead we'll divide the data into chunks, or "folds". The model will then predict each fold after being trained on all the other folds. This is known as k-fold validation. 
+We're not actually going to leave out data -- imagine! -- so instead we'll divide the data into chunks, or "folds". The model will then predict each fold after being trained on all the other folds. This is known as k-fold validation.
 
 ```{r, out.width="200%", fig.width = 8, fig.height=4}
 #| code-fold: true
@@ -730,10 +731,10 @@ for (i in 1:k) {
     block = 1:blocks,
     type = rep("Training", blocks)
   )
-  
+
   # Set one block as test data (different block for each fold)
   fold_row$type[i] <- "Test"
-  
+
   # Add to the overall data
   fold_data <- rbind(fold_data, fold_row)
 }
@@ -766,18 +767,18 @@ k_fold_plot <- ggplot(fold_data, aes(x = block, y = fold, fill = type)) +
 print(k_fold_plot)
 ```
 
-The minimum number of folds is 2, and the maximum is your sample size. The latter is referred to as **LEAVE-ONE-OUT-CROSS-VALIDATION**, and this is extremely common. 
+The minimum number of folds is 2, and the maximum is your sample size. The latter is referred to as **LEAVE-ONE-OUT-CROSS-VALIDATION**, and this is extremely common.
 
 ---
 
-The problem with LOOCV is that it's computationally intensive. Luckily, there are some clever maths that we can use to approximate the score we would get from running the model over and over. One approach is to use the _importance_ (or weight) of each observation -- that is, how much does the prior distribution change if we were to remove this observation from our data? (Similar to influence and leverage.) Importantly, observations that are less likely are more important. 
+The problem with LOOCV is that it's computationally intensive. Luckily, there are some clever maths that we can use to approximate the score we would get from running the model over and over. One approach is to use the _importance_ (or weight) of each observation -- that is, how much does the prior distribution change if we were to remove this observation from our data? (Similar to influence and leverage.) Importantly, observations that are less likely are more important.
 
-We can use importance in a strategy called **PARETO-SMOOTHED IMPORTANCE SAMPLING CROSS-VALIDATION** (PSIS) ([see this paper](https://arxiv.org/pdf/1507.02646)). The Pareto part is a smoothing technique that improves the reliability of the importance or weights. By assuming the weights follow a known distribution, the Pareto distribution, we can estimate a reliabile cross-validation score without doing the work of actually cross-validating. We'll get a PSIS score for each observation in our dataset, as well as a standard error for the score for the entire model. 
+We can use importance in a strategy called **PARETO-SMOOTHED IMPORTANCE SAMPLING CROSS-VALIDATION** (PSIS) ([see this paper](https://arxiv.org/pdf/1507.02646)). The Pareto part is a smoothing technique that improves the reliability of the importance or weights. By assuming the weights follow a known distribution, the Pareto distribution, we can estimate a reliabile cross-validation score without doing the work of actually cross-validating. We'll get a PSIS score for each observation in our dataset, as well as a standard error for the score for the entire model.
 
 ---
 
 
-A second approach is to use the information criteria to computed the expected score out-of-sample. If you look back at the training/testing figure, you'll find that the difference between training deviance and testing deviance is almost exactly twice the number of parameters in the model (e.g., 2 for the first model with 1 parameter and about 10 for the last with 5 parameters). This is not random, but a known finding in machine learning. We can exploit this for simple estimates of out-of-sample deviance. 
+A second approach is to use the information criteria to computed the expected score out-of-sample. If you look back at the training/testing figure, you'll find that the difference between training deviance and testing deviance is almost exactly twice the number of parameters in the model (e.g., 2 for the first model with 1 parameter and about 10 for the last with 5 parameters). This is not random, but a known finding in machine learning. We can exploit this for simple estimates of out-of-sample deviance.
 
 A well-known estimate is the **AKAIKE INFORMATION CRITERION (AIC)**:
 
@@ -789,18 +790,18 @@ AIC &= D_{\text{train}} + 2p \\
 where $D$ is the divergence and $p$ is the number of free parameters in the posterior distribution. As the 2 is just there for scaling, what AIC tells us is that the dimensionality of the posterior distribution is a natural measure of the model’s overfitting tendency. More complex models tend to overfit more, directly in proportion to the number of parameters.
 
 AIC isn't commonly used now. Its approximation is only reliable when:
-  
+
   1. Priors are flat or overwhelmed by likelihood (data).
   2. The posterior distribution is approximately multivariate Gaussian.
   3. The sample size $N$ is much greater than the number of parameters $k$.
-  
-Similarly the **DEVIANCE INFORMATION CRITERION (DIC)** doesn't assume flat priors but does make the other assumptions. 
-  
+
+Similarly the **DEVIANCE INFORMATION CRITERION (DIC)** doesn't assume flat priors but does make the other assumptions.
+
 ---
 
 ### widely applicable
 
-Watanabe's **WIDELY APPLICABLE INFORMATION CRITERION (WAIC)** makes no assumption about the shape of the posterior. Its goal is to guess the out-of-sample KL divergence. In a large sample, the approximation converges to the cross-validation approximation, but in finite samples, there may be some disagreement. 
+Watanabe's **WIDELY APPLICABLE INFORMATION CRITERION (WAIC)** makes no assumption about the shape of the posterior. Its goal is to guess the out-of-sample KL divergence. In a large sample, the approximation converges to the cross-validation approximation, but in finite samples, there may be some disagreement.
 
 Its calculation is the log-posterior-predictive-density plus a penalty proportional to the variance in the posterior predictions:
 
@@ -809,15 +810,15 @@ $$
 $$
 where $y$ is the observations and $\Theta$ is the posterior distribution. The penalty term means, "compute the variance in log-probabilities for each observation $i$, and then sum up these variances to get the total penalty." Like PSIS, WAIC is point wise, meaning prediction is considered on a point-by-point basis. So:
 
-  1. WAIC has an approximate standard error. 
+  1. WAIC has an approximate standard error.
   2. Some observations have stronger influence than others, and we can see this.
-  3. it can be hard to define for a single model. 
+  3. it can be hard to define for a single model.
 
 ---
 
 ## comparing PSIS and WAIC
 
-PSIS and WAIC perform very similarly in the context of ordinary linear models. Of course, they may not when our posterior distributions start to get away from Gaussian or when there are highly influential observations. 
+PSIS and WAIC perform very similarly in the context of ordinary linear models. Of course, they may not when our posterior distributions start to get away from Gaussian or when there are highly influential observations.
 
 PSIS have higher variance as estimators of the KL divergence, while WAIC has greater bias. So we should expect each to be slightly better in different contexts. However, in practice any advantage may be much smaller than the expected error. Watanabe recommends computing both WAIC and PSIS and contrasting them. If there are large differences, this implies one or both criteria are unreliable.
 
@@ -844,13 +845,13 @@ How do we choose between several plausible models when seeking to maximize accur
 
   * Calculate a measure of information divergence.
   * Comparing accuracy within-sample is bad: we'll always favor more complex models.
-  
-We can estimate out-of-sample accuracy with any of a number of techniques, but most popularly: 
+
+We can estimate out-of-sample accuracy with any of a number of techniques, but most popularly:
 
   * pareto-smoothed importance sampling cross-validation (PSIS)
   * widely applicable information criteria (WAIC)
-  
-Regularization and predictive criteria are complementary. 
+
+Regularization and predictive criteria are complementary.
 
 
 

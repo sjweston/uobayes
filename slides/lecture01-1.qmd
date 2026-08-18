@@ -1,7 +1,7 @@
 ---
 title: "Week 1: Introduction to Bayesian Analysis"
 subtitle: "An Overview of Bayesian Thinking"
-format: 
+format:
   revealjs:
     css: xaringan-themer2.css
     nature:
@@ -13,16 +13,16 @@ format:
     embed-resources: true  # Embeds required assets
     slide-number: true
 execute:
-  echo: false  
+  echo: false
 ---
 
 ## welcome!
 
 I'm excited to be here.
 
--   At this point in your training, you should be learning how to learn -- that is, you need to develop the skills and the mindset necessary to continue to expand your theoretical and methodological toolboxes without the luxury of fully formed course. 
-    - Eventually, you'll be learning primarily from a combination of preprints and a "break it until you understand how it works" mentality. 
-    - This class is a bridge to that. 
+-   At this point in your training, you should be learning how to learn -- that is, you need to develop the skills and the mindset necessary to continue to expand your theoretical and methodological toolboxes without the luxury of fully formed course.
+    - Eventually, you'll be learning primarily from a combination of preprints and a "break it until you understand how it works" mentality.
+    - This class is a bridge to that.
 
 ::::: columns
 ::: {.column width="50%"}
@@ -50,7 +50,7 @@ Course materials can be found at [uobayes.netlify.app](https://uobayes.netlify.a
 ::: {.column width="50%"}
   - Before class (2x/week)
     - watch video lectures by McElreath
-    
+
   - During class (2x/week)
     - comprehension quiz (5% of grade)
     - review major concepts
@@ -71,21 +71,21 @@ Course materials can be found at [uobayes.netlify.app](https://uobayes.netlify.a
 
 ## AI
 
-I am pro-AI. The tools that have appeared in the last few years can not only help you do your work more quickly, but they can open up projects for you that you'd never be able to do otherwise. That being said, they're a tool like any other, and they need to be learned. 
+I am pro-AI. The tools that have appeared in the last few years can not only help you do your work more quickly, but they can open up projects for you that you'd never be able to do otherwise. That being said, they're a tool like any other, and they need to be learned.
 
 My best AI tips:
 
-- AI doesn't get the first word -- giving AI something to work from will always result in a better outcome. 
-  
-  - Your notes or earlier manuscripts
-  
-  - Talk to text!
-  
-  - You can ask the AI to stick as close as possible to your original wording, but to restructure and polish for a specific purpose. 
-  
-- AI doesn't get the last word -- these models hallucinate a lot less than the early days, but you still need to double check the work. 
+- AI doesn't get the first word -- giving AI something to work from will always result in a better outcome.
 
-- Ask the AI to interview you about the topic you're writing about. 
+  - Your notes or earlier manuscripts
+
+  - Talk to text!
+
+  - You can ask the AI to stick as close as possible to your original wording, but to restructure and polish for a specific purpose.
+
+- AI doesn't get the last word -- these models hallucinate a lot less than the early days, but you still need to double check the work.
+
+- Ask the AI to interview you about the topic you're writing about.
 
 - ChatGPT and Claude are great; have you tried Cursor?
 
@@ -95,12 +95,12 @@ My best AI tips:
 
 ## Slack
 
- - I created a workspace for you. 
+ - I created a workspace for you.
  - Questions, coordination, memes.
  - I'll lurk and step in occasionally or update lectures accordingly
- 
- 
- - Do you want me to discuss a topic from class? Office hours. 
+
+
+ - Do you want me to discuss a topic from class? Office hours.
 
 
 -----
@@ -122,15 +122,15 @@ knitr::opts_chunk$set(fig.retina=3, echo=TRUE)
 theme_set(theme_cowplot())
 default_palettes <- list(
   c("#5e8485" , "#0f393a") ,
-  c("#1c5253" , "#5e8485" , "#0f393a") , 
+  c("#1c5253" , "#5e8485" , "#0f393a") ,
   # palette with 5 colours
  c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" ) ,
   # same palette interpolated to 8 colours
- c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" ) 
-  
+ c( "#1c5253" , "#e07a5f", "#f2cc8f" , "#81b29a" , "#3d405b" , "#a7a844" , "#69306d" )
+
 )
 
-options(ggplot2.discrete.fill = default_palettes, 
+options(ggplot2.discrete.fill = default_palettes,
         ggplot2.discrete.colour = default_palettes)
 ```
 
@@ -153,10 +153,10 @@ I'll draw on an article, [Introduction to Bayesian Inference](../readings/Etz%20
     -   Assumes independence among repetitions.
     -   Can be a valid conceptual interpretation but is rarely ever an operational one.
 
-In the vast majority of cases, psychologists are trying to make statements about singular events: 
+In the vast majority of cases, psychologists are trying to make statements about singular events:
 
-  - *this* theory is true or not. 
-  - *this* effect is positive or negative. 
+  - *this* theory is true or not.
+  - *this* effect is positive or negative.
   - *this* model or *that* model is more likely.
 
 ------------------------------------------------------------------------
@@ -377,7 +377,7 @@ $$
 
 ## {visibility="hidden"}
 
-### Quantifying evidence using Bayes' rule 
+### Quantifying evidence using Bayes' rule
 
 We form a ratio of relative belief in one hypothesis vis-a-vis another by comparing their posterior odds:
 
@@ -657,8 +657,8 @@ $P(-\ < A < a_2) = \int_{a_1}^{a_2}p(a)da$
 ::: {.column width="50%"}
 ```{r, echo = F}
 
-# Define the parameters for the normal distribution 
-mean_iq <- 100 
+# Define the parameters for the normal distribution
+mean_iq <- 100
 sd_iq <- 15
 
 # Create a sequence of IQ scores to evaluate the density
@@ -671,7 +671,7 @@ y <- dnorm(x, mean = mean_iq, sd = sd_iq)
 
 # Define the regions to shade
 
-region1 <- x < 81 # IQ \< 81 
+region1 <- x < 81 # IQ \< 81
 region2 <- x >= 108 & x <= 113 # IQ between 108 and 113
 
 # Create a data frame for plotting
@@ -680,14 +680,14 @@ data <- data.frame(x = x, y = y, region1 = region1, region2 = region2)
 
 # Create the plot
 
-ggplot(data, aes(x, y)) + 
+ggplot(data, aes(x, y)) +
   # Shade region IQ < 81 g
   geom_area(data = subset(data, region1), aes(y = y), fill = "#1C5253", alpha = 0.5) +
-  # Shade region 108 <= IQ <= 113 
-  geom_area(data = subset(data, region2), aes(y = y), fill = "#1C5253", alpha = 0.5) + 
+  # Shade region 108 <= IQ <= 113
+  geom_area(data = subset(data, region2), aes(y = y), fill = "#1C5253", alpha = 0.5) +
   # Normal distribution curve
-  geom_line(color = "orange", linewidth = 1) + 
-  labs( title = "Probability Density Function of IQ", x = "IQ", y = "Density" ) 
+  geom_line(color = "orange", linewidth = 1) +
+  labs( title = "Probability Density Function of IQ", x = "IQ", y = "Density" )
 
 ```
 :::
@@ -826,9 +826,9 @@ expand.grid(lambda = 0:15,
                   rate = c(.05, .4, .6, 1)) %>%
   mutate(probability = dgamma(lambda, shape = shape, rate = rate),
          rate = str_c("rate = ", rate),
-         shape = as.factor(shape)) %>% 
+         shape = as.factor(shape)) %>%
   ggplot(aes(x = lambda, y = probability)) +
-  geom_line(aes(color = shape)) + 
+  geom_line(aes(color = shape)) +
   facet_wrap(~rate, scales = "free") +
   theme_minimal() +
   theme(legend.position = "bottom")
@@ -853,7 +853,7 @@ data_prior <- data.frame(lambda = lambda, density = prior)
 ggplot(data_prior, aes(x = lambda, y = density)) +
   geom_line(color = "#1c5253", size = 1) +
   labs(title = "Prior Distribution of Lambda",
-       x = expression(lambda), 
+       x = expression(lambda),
        y = "Density") +
   theme_minimal(base_size = 15)
 ```
@@ -965,7 +965,7 @@ data_posterior <- data.frame(lambda = lambda, density = posterior)
 ggplot(data_posterior, aes(x = lambda, y = density)) +
   geom_line(color = "#1c5253", size = 1) +
   labs(title = "Posterior Distribution of Lambda",
-       x = expression(lambda), 
+       x = expression(lambda),
        y = "Density") +
   theme_minimal()
 ```

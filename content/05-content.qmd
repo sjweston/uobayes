@@ -21,7 +21,7 @@ embed_youtube("mBEA7PKDmiY")
 
 ## During class
 
-To save these slides as a PDF on your computer, open the menu (three horizontal bars in the bottom left of the slides), then Tools (gear symbol in the top), and PDF export (or ``e''). You can then right-click on the slides, select Print, and save as PDF. 
+To save these slides as a PDF on your computer, open the menu (three horizontal bars in the bottom left of the slides), then Tools (gear symbol in the top), and PDF export (or ``e''). You can then right-click on the slides, select Print, and save as PDF.
 
 ```{r show-slide-tabs, echo=FALSE, results="asis"}
 slide_buttons("/slides/lecture03-1")
@@ -31,4 +31,4 @@ slide_buttons("/slides/lecture03-1")
 
 :::{.callout-tip}
 **Fun fact**: If you type <kbd>?</kbd> (or <kbd>shift</kbd> + <kbd>/</kbd>) while going through the slides, you can see a list of special slide-specific commands.
-::: 
+:::
